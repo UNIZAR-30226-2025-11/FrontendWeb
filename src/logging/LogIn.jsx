@@ -1,0 +1,100 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { ips, routes } from "../.constants";
+
+import "../styles/LogIn.css"
+
+const LogIn = () => {
+    const navigate = useNavigate()
+
+    // Define the variables to use
+    const [formData, setFormData] = useState(
+    {
+        username: "",
+        password: ""
+    });
+
+    // Save the data into the formData variable
+    const handleChange = (e) => {
+        setFormData(
+            {
+                ...formData,
+                [e.target.name]: e.target.value
+            }
+        )
+    }
+
+    // Send data
+    const handleSubmit = async (e) => {
+        e.preventDefault() // Don't reload the page on submit
+        console.log("Data sent:", formData)
+
+        try
+        {
+            // Send the POST request with the user data
+            const response = await fetch(ips.server + routes.login,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            })
+
+            // Check if the response is OK
+            if (response.ok)
+            {
+                navigate(routes.signup)
+            }
+        }
+        catch (error)
+        {
+            console.error("Something went wrong:", error)
+        }
+    }
+
+    // Create the form
+    return (
+        <div className="login-container">
+            <form
+                onSubmit={handleSubmit}
+                className="login-form">
+                    <p>Username:</p>
+
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        required>
+                    </input>
+
+                    <p>Password:</p>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required>
+                    </input>
+
+                    <button
+                        type="submit"
+                        className="login-button">
+                            Log In
+                    </button>
+
+                    <p>
+                        Don&apos;t you have an accout yet?
+                        <a href={routes.signup}>Sign Up</a>
+                    </p>
+            </form>
+        </div>
+    );
+}
+
+export default LogIn;

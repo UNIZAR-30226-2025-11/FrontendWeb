@@ -1,31 +1,20 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
 
-const App = () => {
-  const [messages, setMessages] = useState([]);
+import { routes } from './.constants';
+import LogIn from './logging/LogIn'
+import SignUp from './logging/SignUp'
 
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/messages");
-      const data = await response.json();
-      setMessages(data);
-    } catch (error) {
-      console.error("Error al obtener mensajes:", error);
-    }
-  };
-
-
-  return (
-    <div>
-      <h2>Mensajes</h2>
-      <ul>
-        {messages.map((msg) => (
-          <li key={msg.id}>{msg.text}</li>
-        ))}
-      </ul>
-
-      <button onClick={fetchMessages}>Recibir mensaje</button>
-    </div>
-  );
-};
+function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path={routes.login} element={<LogIn />} />
+                <Route path={routes.signup} element={<SignUp />} />
+                <Route path={routes.home} element={<Navigate to={routes.login} />} />
+            </Routes>
+        </Router>
+    ); 
+}
 
 export default App;
