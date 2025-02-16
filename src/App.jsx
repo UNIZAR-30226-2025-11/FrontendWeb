@@ -5,12 +5,21 @@ import { routes } from './.constants';
 import LogIn from './logging/LogIn'
 import SignUp from './logging/SignUp'
 
+/**
+ * Creates the application, prepares all the routes and loads
+ * the initial page.
+ * 
+ * @returns A Router object with the routes of the application.
+ */
 function App() {
     return (
         <Router>
             <Routes>
+                {/* Routes for all the pages */}
                 <Route path={routes.login} element={<LogIn />} />
                 <Route path={routes.signup} element={<SignUp />} />
+
+                {/* Default route in the \ */}
                 <Route path={routes.home} element={<Navigate to={routes.login} />} />
             </Routes>
         </Router>

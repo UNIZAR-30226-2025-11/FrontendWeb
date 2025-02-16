@@ -5,10 +5,27 @@ import { ips, routes } from "../.constants";
 
 import "../styles/LogIn.css"
 
+/**
+ * Creates the form for the user's sign up process. It
+ * takes all the information inside it and sends it to
+ * the server.
+ * 
+ * The form asks for username, password and password
+ * validation.
+ * 
+ * @returns The form
+ */
 const SignUp = () => {
+    /**
+     * An object to manage the navigation inside
+     * the page.
+     */
     const navigate = useNavigate()
 
-    // Define the variables to use
+    /**
+     * Objects for saving the information inside
+     * the form
+     */
     const [formData, setFormData] = useState(
     {
         username: "",
@@ -16,7 +33,12 @@ const SignUp = () => {
         password2: ""
     })
 
-    // Save the data into the formData variable
+    /**
+     * Saves the information inside the form in the
+     * state of the form.
+     * 
+     * @param {*} e The object that changed.
+     */
     const handleChange = (e) => {
         setFormData(
             {
@@ -26,11 +48,23 @@ const SignUp = () => {
         )
     }
 
-    // Send data
+    /**
+     * Sends the information inside the form to the
+     * server.
+     * 
+     * @param {*} e The form to send.
+     */
     const handleSubmit = async (e) => {
-        e.preventDefault() // Don't reload the page on submit
+        // Don't reload the page on submit
+        e.preventDefault()
+
+        // Print the data
         console.log("Data sent:", formData)
 
+        /**
+         * Response from the server about the information we sent
+         * for the sign up process.
+         */
         const response = await fetch(ips.server + routes.signup,
             {
                 method: "POST",
@@ -41,6 +75,7 @@ const SignUp = () => {
             }
         )
 
+        // If the answer is OK, we navigate to the appropiate page
         if (response.ok)
         {
             console.log("Everything is OK")
@@ -48,12 +83,15 @@ const SignUp = () => {
         }
     }
 
-    // Create the form
+    /**
+     * Create the form for signing up
+     */
     return (
         <div className="login-container">
             <form
                 onSubmit={handleSubmit}
                 className="login-form">
+                    {/* Username */}
                     <p>Username:</p>
 
                     <input
@@ -65,6 +103,7 @@ const SignUp = () => {
                         required>
                     </input>
 
+                    {/* Password */}
                     <p>Password:</p>
 
                     <input
@@ -76,6 +115,7 @@ const SignUp = () => {
                         required>
                     </input>
 
+                    {/* Password validation */}
                     <p>Repeat your password:</p>
 
                     <input
@@ -87,12 +127,14 @@ const SignUp = () => {
                         required>
                     </input>
 
+                    {/* Submit button */}
                     <button
                         type="submit"
                         className="login-button">
                             SIGN UP
                     </button>
 
+                    {/* Link to the loggin page */}
                     <p>
                         Do you already have an accout?
                         <a href={routes.login}>Log In</a>
