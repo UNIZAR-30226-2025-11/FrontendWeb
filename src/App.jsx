@@ -1,30 +1,19 @@
-import { useState, useEffect } from "react";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import GameMenu from './menu/GameMenu';
+import Game from './menu/Game'; 
+import Profile from './menu/Profile';
+import AuthPage from './menu/AuthPage';
+import './App.css';
 
 const App = () => {
-  const [messages, setMessages] = useState([]);
-
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/messages");
-      const data = await response.json();
-      setMessages(data);
-    } catch (error) {
-      console.error("Error al obtener mensajes:", error);
-    }
-  };
-
-
   return (
-    <div>
-      <h2>Mensajes</h2>
-      <ul>
-        {messages.map((msg) => (
-          <li key={msg.id}>{msg.text}</li>
-        ))}
-      </ul>
-
-      <button onClick={fetchMessages}>Recibir mensaje</button>
-    </div>
+    <Routes>
+      <Route path="/" element={<GameMenu />} />
+      <Route path="/game" element={<Game />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/auth" element={<AuthPage />} />
+    </Routes>
   );
 };
 
