@@ -1,0 +1,19 @@
+.screen {
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+
+
+.div-rest-users {
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 5%;
+}

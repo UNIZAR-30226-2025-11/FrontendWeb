@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { routes } from './.constants';
 import LogIn from './logging/LogIn'
 import SignUp from './logging/SignUp'
+import Game from './Game';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -18,9 +19,10 @@ function App() {
                 {/* Routes for all the pages */}
                 <Route path={routes.login} element={<LogIn />} />
                 <Route path={routes.signup} element={<SignUp />} />
+                <Route path={routes.game} element={<Game users={["Pepe", "Juan", "Maria"]}/>} />
 
                 {/* Default route in the \ */}
-                <Route path={routes.home} element={<Navigate to={routes.login} />} />
+                <Route path={routes.home} element={<Navigate to={routes.game} />} />
             </Routes>
         </Router>
     ); 
