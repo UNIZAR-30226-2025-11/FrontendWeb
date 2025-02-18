@@ -3,6 +3,7 @@ import User from "./game/User";
 import PropTypes from "prop-types";
 
 import "./styles/game.css"
+import Deck from "./game/Deck";
 
 /**
  * Creates a form for the user's logging that
@@ -13,7 +14,7 @@ import "./styles/game.css"
  * 
  * @returns The form
  */
-const Game = ({users}) => {
+const Game = ({users, cards}) => {
     
 
     const HTMLUsers = () => {
@@ -22,6 +23,7 @@ const Game = ({users}) => {
             return (
                 <div className="screen">
                     <User name={users[0]} cards={[1,2,3]} />
+                    <Deck cards={cards} />
                 </div>
             )
         }
@@ -31,11 +33,12 @@ const Game = ({users}) => {
                 <div className="screen">
                     <User name={users[0]} cards={[1,2,3,4,5,6]} />
                     <div className="div-rest-users">
-                        {console.log(users.slice(1))}
                         {users.slice(1).map((user,idx) => (
-                            <User key={idx} name={user} cards={[1,2,3,4,5,6]} />
+                            <User key={idx} name={user} cards={[1,2,3]} />
                         ))}  
                     </div>
+
+                    <Deck cards={cards} />
                 </div>
             )
         }
@@ -45,8 +48,8 @@ const Game = ({users}) => {
 }
 
 Game.propTypes = {
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    cards: PropTypes.array.isRequired
 }
-
 
 export default Game;

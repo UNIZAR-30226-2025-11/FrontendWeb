@@ -1,3 +1,9 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 .screen {
     width: 100vw;
     height: 100vh;
@@ -5,10 +11,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    justify-content: space-between;
 }
-
-
 
 .div-rest-users {
     width: 100vw;
@@ -16,4 +20,9 @@
     justify-content: space-between;
     box-sizing: border-box;
     padding: 0 5%;
+}
+
+.cards {
+    display: flex;
+    margin-bottom: 25px;
 }

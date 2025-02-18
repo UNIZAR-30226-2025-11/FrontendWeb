@@ -19,7 +19,10 @@ function App() {
                 {/* Routes for all the pages */}
                 <Route path={routes.login} element={<LogIn />} />
                 <Route path={routes.signup} element={<SignUp />} />
-                <Route path={routes.game} element={<Game users={["Pepe", "Juan", "Maria"]}/>} />
+                <Route path={routes.game} element={
+                    <Game 
+                        users={["Pepe", "Juan", "Maria"]} 
+                        cards={["a", "b", "c", "d", "e"]} /> } />
 
                 {/* Default route in the \ */}
                 <Route path={routes.home} element={<Navigate to={routes.game} />} />
