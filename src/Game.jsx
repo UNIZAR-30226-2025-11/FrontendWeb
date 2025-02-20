@@ -1,9 +1,10 @@
 import "./styles/LogIn.css"
 import User from "./game/User";
-import PropTypes from "prop-types";
 
 import "./styles/game.css"
 import Deck from "./game/Deck";
+import {ips, routes} from "./.constants"
+import { useEffect, useState } from "react";
 
 /**
  * Creates a form for the user's logging that
@@ -14,42 +15,75 @@ import Deck from "./game/Deck";
  * 
  * @returns The form
  */
-const Game = ({users, cards}) => {
-    
+const Game = () => {
+    /**
+     * State of the game: Users in the game and the
+     * cards of the main user.
+     */
+    const [state, setState] = useState({
+        players: [],
+        cards: []
+    })
 
+    /**
+     * Load the board when the game is started
+     */
+    useEffect(() => {
+        fetch(ips.server + routes.game)
+          .then((response) => {
+            if (!response.ok) {
+                throw new Error('HTTP Error: Status ${respone.status}')
+            }
+
+            return response.json()
+          })
+          .then((data) => setState(data))
+          .catch((error) => console.error("Error:", error));
+      }, []);   
+    
+    
+      /**
+       * Defines the HTML for the board, taking into account
+       * the number of users in the game.
+       * @returns The necessary HTML for the board
+       */
     const HTMLUsers = () => {
-        if (users.length == 1)
-        {
+        // Check the number of players
+        if (state.players.length == 1)
+        { // Two players in the game
             return (
                 <div className="screen">
-                    <User name={users[0]} cards={[1,2,3]} />
-                    <Deck cards={cards} />
+                    <User   name={state.players[0]?.username}
+                            numCards={state.players[0]?.numCards} />
+                    <Deck cards={state.cards} />
                 </div>
             )
         }
-        else
+        else // 3 or 4 players in the game
         {
             return (
                 <div className="screen">
-                    <User name={users[0]} cards={[1,2,3,4,5,6]} />
+                    {/* Highest user in the screen */}
+                    <User   name={state.players[0]?.username}
+                            numCards={state.players[0]?.numCards} />
+
+                    {/* The rest of users */}
                     <div className="div-rest-users">
-                        {users.slice(1).map((user,idx) => (
-                            <User key={idx} name={user} cards={[1,2,3]} />
+                        {state.players.slice(1).map((user,idx) => (
+                            <User   key={idx}
+                                    name={state.players[idx+1]?.username}
+                                    numCards={state.players[idx+1]?.numCards} />
                         ))}  
                     </div>
 
-                    <Deck cards={cards} />
+                    {/* My own cards */}
+                    <Deck cards={state.cards} />
                 </div>
             )
         }
     }
 
     return HTMLUsers();
-}
-
-Game.propTypes = {
-    users: PropTypes.array.isRequired,
-    cards: PropTypes.array.isRequired
 }
 
 export default Game;
