@@ -2,6 +2,7 @@ import "./styles/LogIn.css"
 import User from "./game/User";
 
 import "./styles/game.css"
+import "./styles/main.css"
 import Deck from "./game/Deck";
 import {ips, routes} from "./.constants"
 import { useEffect, useState } from "react";
@@ -20,7 +21,7 @@ const Game = () => {
      * State of the game: Users in the game and the
      * cards of the main user.
      */
-    const [state, setState] = useState({
+    const [gameState, setGameState] = useState({
         players: [],
         cards: []
     })
@@ -37,25 +38,24 @@ const Game = () => {
 
             return response.json()
           })
-          .then((data) => setState(data))
+          .then((data) => setGameState(data))
           .catch((error) => console.error("Error:", error));
       }, []);   
-    
-    
-      /**
-       * Defines the HTML for the board, taking into account
-       * the number of users in the game.
-       * @returns The necessary HTML for the board
-       */
+
+    /**
+     * Defines the HTML for the board, taking into account
+     * the number of users in the game.
+     * @returns The necessary HTML for the board
+     */
     const HTMLUsers = () => {
         // Check the number of players
-        if (state.players.length == 1)
+        if (gameState.players.length == 1)
         { // Two players in the game
             return (
                 <div className="screen">
-                    <User   name={state.players[0]?.username}
-                            numCards={state.players[0]?.numCards} />
-                    <Deck cards={state.cards} />
+                    <User   name={gameState.players[0]?.username}
+                            numCards={gameState.players[0]?.numCards} />
+                    <Deck cards={gameState.cards} />
                 </div>
             )
         }
@@ -64,20 +64,21 @@ const Game = () => {
             return (
                 <div className="screen">
                     {/* Highest user in the screen */}
-                    <User   name={state.players[0]?.username}
-                            numCards={state.players[0]?.numCards} />
+                    <User   name={gameState.players[0]?.username}
+                            numCards={gameState.players[0]?.numCards} />
 
                     {/* The rest of users */}
                     <div className="div-rest-users">
-                        {state.players.slice(1).map((user,idx) => (
+                        {gameState.players.slice(1).map((user,idx) => (
                             <User   key={idx}
-                                    name={state.players[idx+1]?.username}
-                                    numCards={state.players[idx+1]?.numCards} />
+                                    name={gameState.players[idx+1]?.username}
+                                    numCards={gameState.players[idx+1]?.numCards} />
                         ))}  
                     </div>
 
+
                     {/* My own cards */}
-                    <Deck cards={state.cards} />
+                    <Deck cards={gameState.cards} />
                 </div>
             )
         }

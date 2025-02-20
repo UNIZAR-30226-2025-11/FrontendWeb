@@ -1,0 +1,8 @@
+.button {
+    cursor: pointer;
+    box-shadow: 5px 4px 10px gray;
+}
+
+p {
+    font-family: 'Times New Roman', Times, serif;
+}

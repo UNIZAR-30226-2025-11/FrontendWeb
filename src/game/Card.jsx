@@ -1,15 +1,22 @@
 import PropTypes from "prop-types"
-import "../styles/Card.css"
 
 /**
  * Define how to display a card
- * @param {*} name The name of the card
+ * @param {*} card The card to show
  * @returns The card.
  */
-const Card = ({name}) => {
+const Card = ({card, isSelected, onClick}) => {
+    let classes = ""
+
+    if (isSelected)
+        classes = "card selected-card"
+    else
+        classes = "card"
+
     return (
-        <div className="card">
-            <p>{name}</p>
+        <div className={classes}
+            onClick={() => onClick(card.id)}>
+            <p>{card.name}</p>
         </div>
     )
 }
@@ -19,7 +26,12 @@ const Card = ({name}) => {
  * of the cards
  */
 Card.propTypes = {
-    name: PropTypes.string
+    card: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired
+    }),
+    isSelected: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired
 }
 
 export default Card
