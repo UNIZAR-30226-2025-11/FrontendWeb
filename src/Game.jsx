@@ -62,7 +62,7 @@ const Game = () => {
         else // 3 or 4 players in the game
         {
             return (
-                <div className="screen">
+                <div className="screen app-container">
                     {/* Highest user in the screen */}
                     <User   name={gameState.players[0]?.username}
                             numCards={gameState.players[0]?.numCards} />
@@ -76,9 +76,9 @@ const Game = () => {
                         ))}  
                     </div>
 
-
                     {/* My own cards */}
                     <Deck cards={gameState.cards} />
+
                 </div>
             )
         }

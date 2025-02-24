@@ -3,12 +3,15 @@ import "../styles/user.css"
 
 const User = ({name="User", numCards=0}) => {    
     return (
-        <div className="div-user">
+        <div className="div-user shadow-game">
+            <img    className="img-user"
+                    src="./assets/user.png">
+            </img>
+            <span className="card-count">
+                {numCards}
+            </span>
             <p className="name-user">
                 {name}
-            </p>
-            <p className="number-cards">
-                {numCards} cards
             </p>
         </div>
     )

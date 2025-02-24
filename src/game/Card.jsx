@@ -6,17 +6,16 @@ import PropTypes from "prop-types"
  * @returns The card.
  */
 const Card = ({card, isSelected, onClick}) => {
-    let classes = ""
+    let classes = "card shadow-game " + card.name
 
     if (isSelected)
-        classes = "card selected-card"
+        classes += " card-selected "
     else
-        classes = "card"
+        classes += ""
 
     return (
         <div className={classes}
             onClick={() => onClick(card.id)}>
-            <p>{card.name}</p>
         </div>
     )
 }

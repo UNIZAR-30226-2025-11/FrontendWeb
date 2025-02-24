@@ -13,15 +13,30 @@ import { ips, routes } from "../.constants"
 const Deck = ({cards = []}) => {
     const [selectedCards, setSelectedCards] = useState([])
 
+    // Basic styles for the main buttons
+    let classesPlayButton = "game-button shadow-game"
+
+    // Define the state of the button
+    if (selectedCards.length == 0)
+        classesPlayButton += " game-button-inactive"
+    else
+        classesPlayButton += " game-button-active"
+
+    /**
+     * Sends the information of the selected cards to the
+     * server for making the movement
+     */
     const handlePlayClick = async () => {
+        // Send the movement
         const response = await fetch(ips.server + routes.play, {
-            method: "POST",
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({id:selectedCards})
         })
 
+        // Check response
         if (response.ok)
             console.log("OK play")
         else
@@ -44,12 +59,24 @@ const Deck = ({cards = []}) => {
 
     return (
         <div className="deck-div">
-            <button className="play-button button"
-                onClick={handlePlayClick}
-                disabled={selectedCards.length == 0}>
-                    Play selected cards
-            </button>
-            {/* Loop in the cards */}
+            {/* Buttons */}
+            <div className="buttons-div">
+
+                {/* Play button */}
+                <button className={classesPlayButton}
+                    onClick={handlePlayClick}
+                    disabled={selectedCards.length == 0}>
+                        PLAY SELECTED CARDS
+                </button>
+
+                {/* Take a card button */}
+                <button className="game-button game-button-active shadow-game">
+                        TAKE A NEW CARD
+                </button>
+
+            </div>
+
+            {/* Cards */}
             <div className="cards">
                 {cards.map((card,idx) => {
                     return <Card key={idx} card={card} isSelected={selectedCards.includes(card.id)} onClick={toggleCardSelection} />
