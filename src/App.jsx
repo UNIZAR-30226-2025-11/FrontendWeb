@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+'react-router-dom'
 import { routes } from './.constants';
 import LogIn from './logging/LogIn'
 import SignUp from './logging/SignUp'
@@ -14,24 +15,25 @@ import Profile from './menu/Profile'
  * @returns A Router object with the routes of the application.
  */
 function App() {
-    return (
-        <Router>
-            <Routes>
-                {/* Routes for all the pages */}
-                <Route path={routes.login} element={<LogIn />} />
-                <Route path={routes.signup} element={<SignUp />} />
-                <Route path={routes.game} element={
-                    <Game /> } />
+  return (
+    <Router>
+      <Routes>
+          {/* Default route */}
+          <Route path={routes.home} element={<GameMenu />} />
 
-                {/* Default route in the \ */}
-                <Route path={routes.home} element={<GameMenu />} />
+          {/* Routes for log in and sign up */}
+          <Route path={routes.login} element={<LogIn />} />
+          <Route path={routes.signup} element={<SignUp />} />
 
-                <Route path="/profile" element={<Profile />} />
-                <Route path={routes.login} element={<LogIn />} />
-                <Route path={routes.signup} element={<SignUp />} />
-            </Routes>
-        </Router>
-    ); 
+          {/* Route for the game screen */}
+          <Route path={routes.game} element={<Game />} />
+
+          {/* Routes for the user profile */}
+          <Route path={routes.profile} element={<Profile />} />
+      </Routes>
+    </Router>
+  ); 
 }
+
 
 export default App;

@@ -3,7 +3,9 @@ const routes = {
     signup: "/signup",
     home: "/",
     game: "/game",
-    play: "/play"
+    play: "/play",
+    profile: "/profile",
+    shop: "/shop"
 }
 
 const ips = {

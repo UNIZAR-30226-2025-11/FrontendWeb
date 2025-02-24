@@ -1,8 +1,8 @@
 // GameMenu.jsx
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../assets/GameMenu.jpg';
-import './GameMenu.css';
+import '../styles/GameMenu.css';
+import {routes} from '../.constants.jsx'
 
 const GameMenu = () => {
   const navigate = useNavigate();
@@ -16,22 +16,21 @@ const GameMenu = () => {
       backgroundRepeat: 'no-repeat',
       height: '100vh',
       width: '100vw',
-      marginLeft: '-80px',
     }}>
       <div className="menu">
-        <button className="button button-white" onClick={() => navigate('/game')}>
+        <button className="button button-white" onClick={() => navigate(routes.game)}>
           Start Game
         </button>
-        <button className="button button-transparent" onClick={() => navigate('/profile')}>
+        <button className="button button-transparent" onClick={() => navigate(routes.profile)}>
           User Profile
         </button>
-        <button className="button button-blue" onClick={() => navigate('/auth?tab=login')}>
+        <button className="button button-blue" onClick={() => navigate(routes.login)}>
           Log In
         </button>
-        <button className="button button-green" onClick={() => navigate('/auth?tab=signup')}>
+        <button className="button button-green" onClick={() => navigate(routes.signup)}>
           Sign Up
         </button>
-        <button className="button button-purple" onClick={() => navigate('/shop')}>
+        <button className="button button-purple" onClick={() => navigate(routes.shop)}>
           Shop
         </button>
       </div>

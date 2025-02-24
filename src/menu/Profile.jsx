@@ -9,7 +9,7 @@ const Profile = () => {
       <h1>User profile</h1>
       <p>Welcome to your profile! Here you can view and modify your personal information.</p>
       <button
-        onClick={() => navigate('/gamemenu')}
+        onClick={() => navigate('/')}
       >
         Back to menu
       </button>
