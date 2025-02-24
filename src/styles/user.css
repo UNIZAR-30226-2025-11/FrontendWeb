@@ -1,0 +1,58 @@
+/*************************************************
+                    USERS
+**************************************************/
+
+/* Div that contains the users information */
+.div-user {
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 2px solid white;
+
+    padding-bottom: 0;
+}
+
+/* Name of the user */
+.name-user {
+    font-weight: bold;
+    font-size: 20px;
+
+    width: 10vh;
+    margin: -40px 0 0 0;
+
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+/* Image of the user */
+.img-user {
+    width: 10vh;
+    height: 10vh;
+    margin: 0;
+}
+
+/* Number of cards that users have */
+.card-count {
+    position: relative;
+    top: -30px;
+    right: -35px;
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.div-user span {
+    margin: 0;
+    padding: 0;
+}

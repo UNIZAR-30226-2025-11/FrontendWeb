@@ -1,20 +1,37 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import GameMenu from './menu/GameMenu';
-import Game from './menu/Game'; 
-import Profile from './menu/Profile';
-import AuthPage from './menu/AuthPage';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { routes } from './.constants';
+import LogIn from './logging/LogIn'
+import SignUp from './logging/SignUp'
+import Game from './Game';
+import GameMenu from './menu/GameMenu'
+import Profile from './menu/Profile'
 
-const App = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<GameMenu />} />
-      <Route path="/game" element={<Game />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/auth" element={<AuthPage />} />
-    </Routes>
-  );
-};
+
+/**
+ * Creates the application, prepares all the routes and loads
+ * the initial page.
+ * 
+ * @returns A Router object with the routes of the application.
+ */
+function App() {
+    return (
+        <Router>
+            <Routes>
+                {/* Routes for all the pages */}
+                <Route path={routes.login} element={<LogIn />} />
+                <Route path={routes.signup} element={<SignUp />} />
+                <Route path={routes.game} element={
+                    <Game /> } />
+
+                {/* Default route in the \ */}
+                <Route path={routes.home} element={<GameMenu />} />
+
+                <Route path="/profile" element={<Profile />} />
+                <Route path={routes.login} element={<LogIn />} />
+                <Route path={routes.signup} element={<SignUp />} />
+            </Routes>
+        </Router>
+    ); 
+}
 
 export default App;
