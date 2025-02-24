@@ -8,12 +8,12 @@ const AuthPage = () => {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    console.log('Connexion effectuée');
+    console.log('connection performed');
   };
 
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
-    console.log('Inscription effectuée');
+    console.log('Registration completed');
   };
 
   return (
@@ -37,7 +37,7 @@ const AuthPage = () => {
               <label>Email</label>
               <input
                 type="email"
-                placeholder="Entrez votre email"
+                placeholder="Enter your email"
                 required
               />
             </div>
@@ -45,7 +45,7 @@ const AuthPage = () => {
               <label>Mot de passe</label>
               <input
                 type="password"
-                placeholder="Entrez votre mot de passe"
+                placeholder="Enter your password"
                 required
               />
             </div>
@@ -59,7 +59,7 @@ const AuthPage = () => {
               <label>Nom d'utilisateur</label>
               <input
                 type="text"
-                placeholder="Choisissez un nom d'utilisateur"
+                placeholder="Choose a user name"
                 required
               />
             </div>
@@ -67,7 +67,7 @@ const AuthPage = () => {
               <label>Email</label>
               <input
                 type="email"
-                placeholder="Entrez votre email"
+                placeholder="Enter your email"
                 required
               />
             </div>
@@ -75,7 +75,7 @@ const AuthPage = () => {
               <label>Mot de passe</label>
               <input
                 type="password"
-                placeholder="Entrez votre mot de passe"
+                placeholder="Enter your password"
                 required
               />
             </div>
@@ -85,8 +85,8 @@ const AuthPage = () => {
           </form>
         )}
       </div>
-      <button onClick={() => navigate('/')}>
-        Retour au Menu
+      <button onClick={() => navigate('/gamemenu')}>
+        Back to menu
       </button>
     </div>
   );

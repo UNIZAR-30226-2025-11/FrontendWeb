@@ -6,12 +6,12 @@ const Game = () => {
 
   return (
     <div>
-      <h1>Page de Jeu</h1>
-      <p>Bienvenue sur la page du jeu ! Ici, vous pourrez jouer et découvrir de nouvelles aventures.</p>
+      <h1>Game page</h1>
+      <p>Welcome to the game page! Here you can play and discover new adventures.</p>
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/gamemenu')}
       >
-        Retour au Menu
+        Back to Menu
       </button>
     </div>
   );

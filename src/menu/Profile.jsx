@@ -6,12 +6,12 @@ const Profile = () => {
 
   return (
     <div>
-      <h1>Profil Utilisateur</h1>
-      <p>Bienvenue sur votre profil ! Ici, vous pouvez consulter et modifier vos informations personnelles.</p>
+      <h1>User profile</h1>
+      <p>Welcome to your profile! Here you can view and modify your personal information.</p>
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/gamemenu')}
       >
-        Retour au Menu
+        Back to menu
       </button>
     </div>
   );
