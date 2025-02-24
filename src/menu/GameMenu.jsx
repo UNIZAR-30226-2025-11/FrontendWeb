@@ -8,7 +8,7 @@ const GameMenu = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="container" 
+    <div className="container"
     style={{
       backgroundImage: `url(${backgroundImage})`,
       backgroundSize: 'cover',

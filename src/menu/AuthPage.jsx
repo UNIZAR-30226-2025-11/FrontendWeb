@@ -18,6 +18,7 @@ const AuthPage = () => {
 
   return (
     <div>
+      <h1>PLACEHOLDER PLACEHOLDER PLACEHOLDER</h1>
       <div>
         <div>
           <button
@@ -56,7 +57,7 @@ const AuthPage = () => {
         ) : (
           <form onSubmit={handleSignUpSubmit}>
             <div>
-              <label>Nom d'utilisateur</label>
+              <label>Username</label>
               <input
                 type="text"
                 placeholder="Choose a user name"
@@ -72,7 +73,7 @@ const AuthPage = () => {
               />
             </div>
             <div>
-              <label>Mot de passe</label>
+              <label>Password</label>
               <input
                 type="password"
                 placeholder="Enter your password"
