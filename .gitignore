@@ -116,6 +116,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-src/AppEjemplo.jsx
-db.json
