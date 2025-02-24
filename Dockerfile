@@ -9,6 +9,8 @@ COPY package.json package-lock.json ./
 
 # Instala las dependencias
 RUN npm install
+RUN npm install @vitejs/plugin-react-swc
+
 
 # Copia todo el código fuente
 COPY . .

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { routes } from './.constants';
 import LogIn from './logging/LogIn'
 import SignUp from './logging/SignUp'
-import Game from './Game';
+import Game from './game/Game';
 import GameMenu from './menu/GameMenu'
 import Profile from './menu/Profile'
 

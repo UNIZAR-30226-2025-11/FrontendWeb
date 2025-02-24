@@ -1,6 +1,6 @@
 // GameMenu.jsx
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from '../assets/GameMenu.jpg';
+import backgroundImage from '../../assets/GameMenu.jpg';
 import '../styles/GameMenu.css';
 import {routes} from '../.constants.jsx'
 

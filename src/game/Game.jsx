@@ -1,11 +1,10 @@
-import "./styles/LogIn.css"
-import User from "./game/User";
-
-import "./styles/game.css"
-import "./styles/main.css"
-import Deck from "./game/Deck";
-import {ips, routes} from "./.constants"
+import {ips, routes} from "../.constants"
 import { useEffect, useState } from "react";
+
+import User from "./User";
+import Deck from "./Deck";
+
+import "../styles/game.css"
 
 /**
  * Creates a form for the user's logging that
