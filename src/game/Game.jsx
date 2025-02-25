@@ -5,6 +5,7 @@ import User from "./User";
 import Deck from "./Deck";
 
 import "../styles/game.css"
+import CardStack from "./CardStack";
 
 /**
  * Creates a form for the user's logging that
@@ -74,6 +75,8 @@ const Game = () => {
                                     numCards={gameState.players[idx+1]?.numCards} />
                         ))}  
                     </div>
+
+                    <CardStack />
 
                     {/* My own cards */}
                     <Deck cards={gameState.cards} />
