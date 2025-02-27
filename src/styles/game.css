@@ -18,9 +18,14 @@ body {
 .div-rest-users {
     width: 100vw;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     box-sizing: border-box;
     padding: 0 5%;
+    height: fit-content;
+}
+
+.card-stack {
 }
 
 .deck-div {

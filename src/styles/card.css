@@ -29,16 +29,6 @@
                     STACK OF CARDS
 **************************************************/
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-
-    margin: 0;
-    padding: 0;
-}
-
 .stack {
     position: relative;
     height: 150px;

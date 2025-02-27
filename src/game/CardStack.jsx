@@ -10,7 +10,6 @@ export default function CardStack() {
   ];
 
   return (
-    <div className="container">
       <div className="stack">
         {emptyCards.map((card, index) => (
           <motion.div
@@ -26,9 +25,6 @@ export default function CardStack() {
             {card.text}
           </motion.div>
         ))}
-
-
       </div>
-    </div>
   );
 }

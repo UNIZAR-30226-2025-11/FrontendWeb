@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import User from "./User";
 import Deck from "./Deck";
+import Timer from "./Timer";
 
 import "../styles/game.css"
 import CardStack from "./CardStack";
@@ -49,40 +50,73 @@ const Game = () => {
      */
     const HTMLUsers = () => {
         // Check the number of players
-        if (gameState.players.length == 1)
-        { // Two players in the game
-            return (
-                <div className="screen">
-                    <User   name={gameState.players[0]?.username}
-                            numCards={gameState.players[0]?.numCards} />
-                    <Deck cards={gameState.cards} />
-                </div>
-            )
-        }
-        else // 3 or 4 players in the game
+        switch (gameState.players.length)
         {
-            return (
-                <div className="screen app-container">
-                    {/* Highest user in the screen */}
-                    <User   name={gameState.players[0]?.username}
-                            numCards={gameState.players[0]?.numCards} />
-
-                    {/* The rest of users */}
-                    <div className="div-rest-users">
-                        {gameState.players.slice(1).map((user,idx) => (
-                            <User   key={idx}
-                                    name={gameState.players[idx+1]?.username}
-                                    numCards={gameState.players[idx+1]?.numCards} />
-                        ))}  
+            case 1:
+                return (
+                    <div className="screen">
+                        <User   name={gameState.players[0]?.username}
+                                numCards={gameState.players[0]?.numCards} />
+                        <Deck cards={gameState.cards} />
                     </div>
+                )
+            case 2:
+            {
+                return (
+                    <div className="screen app-container">
+                        {/* Highest user in the screen */}
+                        <User   name={gameState.players[0]?.username}
+                                numCards={gameState.players[0]?.numCards} />
+    
+                        {/* The rest of users */}
+                        <div className="div-rest-users">
+                            {/* Left user */}
+                            <User   name={gameState.players[1]?.username}
+                                    numCards={gameState.players[1]?.numCards} />
 
-                    <CardStack />
+                            {/* Cards played */}
+                            <CardStack />
 
-                    {/* My own cards */}
-                    <Deck cards={gameState.cards} />
+                            {/* Empty div for centering the stack */}
+                            <div></div>
+                        </div>
 
-                </div>
-            )
+                        {/* My own cards */}
+                        <Deck cards={gameState.cards} />
+    
+                    </div>
+                )
+            }
+            case 3:
+            {
+                return (
+                    <div className="screen app-container">
+                        {/* Highest user in the screen */}
+                        <User   name={gameState.players[0]?.username}
+                                numCards={gameState.players[0]?.numCards} />
+    
+                        {/* The rest of users */}
+                        <div className="div-rest-users">
+                            {/* Left user */}
+                            <User   name={gameState.players[1]?.username}
+                                    numCards={gameState.players[1]?.numCards} />
+
+                            {/* Cards played */}
+                            <CardStack />
+
+                            {/* Right user */}
+                            <User   name={gameState.players[2]?.username}
+                                    numCards={gameState.players[2]?.numCards} />
+                        </div>
+
+                        <Timer />
+
+                        {/* My own cards */}
+                        <Deck cards={gameState.cards} />
+    
+                    </div>
+                )
+            }
         }
     }
 
