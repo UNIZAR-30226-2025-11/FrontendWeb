@@ -109,7 +109,7 @@ const Game = () => {
                                     numCards={gameState.players[2]?.numCards} />
                         </div>
 
-                        <Timer />
+                        <Timer duration={30} onTimeUp={() => {console.log("TIMEEER")}}/>
 
                         {/* My own cards */}
                         <Deck cards={gameState.cards} />
