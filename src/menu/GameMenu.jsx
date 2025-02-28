@@ -1,6 +1,5 @@
 // GameMenu.jsx
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from '../../assets/GameMenu.jpg';
 import '../styles/GameMenu.css';
 import {routes} from '../.constants.jsx'
 
@@ -8,15 +7,7 @@ const GameMenu = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="container"
-    style={{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      height: '100vh',
-      width: '100vw',
-    }}>
+    <div className="container">
       <div className="menu">
         <button className="button button-white" onClick={() => navigate(routes.game)}>
           Start Game
