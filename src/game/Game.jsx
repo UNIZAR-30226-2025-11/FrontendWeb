@@ -2,11 +2,12 @@ import {ips, routes} from "../.constants"
 import { useEffect, useState } from "react";
 
 import User from "./User";
-import Deck from "./Deck";
+import Deck from "./CardHand";
 import Timer from "./Timer";
 
 import "../styles/game.css"
-import CardStack from "./CardStack";
+import PlayedCards from "./CardsPlayed";
+import CardDeck from "./CardDeck";
 
 /**
  * Creates a form for the user's logging that
@@ -75,7 +76,8 @@ const Game = () => {
                                     numCards={gameState.players[1]?.numCards} />
 
                             {/* Cards played */}
-                            <CardStack />
+                            <CardDeck />
+                            <PlayedCards />
 
                             {/* Empty div for centering the stack */}
                             <div></div>
@@ -101,8 +103,10 @@ const Game = () => {
                             <User   name={gameState.players[1]?.username}
                                     numCards={gameState.players[1]?.numCards} />
 
+                            {/* Cards for stealing */}
+
                             {/* Cards played */}
-                            <CardStack />
+                            <PlayedCards />
 
                             {/* Right user */}
                             <User   name={gameState.players[2]?.username}
@@ -113,7 +117,9 @@ const Game = () => {
 
                         {/* My own cards */}
                         <Deck cards={gameState.cards} />
-    
+
+                        <CardDeck />
+
                     </div>
                 )
             }

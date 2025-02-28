@@ -25,9 +25,6 @@ body {
     height: fit-content;
 }
 
-.card-stack {
-}
-
 .deck-div {
     display: flex;
     flex-direction: column;
@@ -50,7 +47,7 @@ body {
 /* Main buttons for the game screen */
 .game-button {
     width: 20vw;
-    min-width: 120px;
+    min-width: 200px;
     height: fit-content;
 
     background-color: #fdea00;

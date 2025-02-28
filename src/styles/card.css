@@ -32,7 +32,10 @@
 **************************************************/
 
 .stack {
-    position: relative;
+    position: absolute;
+    top: 25vh;
+    left: 50vw;
+    transform: translate(-50%,35px);
     height: 150px;
     width: 85px;
 }

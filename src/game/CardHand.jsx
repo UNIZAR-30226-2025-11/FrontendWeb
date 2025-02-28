@@ -67,19 +67,12 @@ const Deck = ({cards = []}) => {
 
             {/* Buttons */}
             <div className="buttons-div">
-
                 {/* Play button */}
                 <button className={classesPlayButton}
                     onClick={handlePlayClick}
                     disabled={selectedCards.length == 0}>
                         PLAY SELECTED CARDS
                 </button>
-
-                {/* Take a card button */}
-                <button className="game-button game-button-active shadow-game">
-                        TAKE A NEW CARD
-                </button>
-
             </div>
 
             {/* Cards */}
