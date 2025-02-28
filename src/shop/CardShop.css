@@ -1,0 +1,106 @@
+/* Global container styles */
+.shop-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  /* Header styles: Title on the left and clickable profile on the right */
+  .shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* User profile button styles */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  .user-profile:focus {
+    outline: none;
+  }
+  
+  /* User avatar styles */
+  .user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* Container for user name and balance */
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* User balance styling */
+  .user-balance {
+    font-size: 0.9em;
+    color: green;
+  }
+  
+  /* Scrollable container for shop items */
+  .shop-scrollable {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+  
+  /* Shop items container displayed as a grid with wrapping */
+  .shop-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  /* Styles for each shop item */
+  .shop-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 250px;
+    text-align: center;
+  }
+  
+  /* Item image styling */
+  .item-image {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+  
+  /* Spacing for item title and description */
+  .item-title,
+  .item-description {
+    margin: 10px 0;
+  }
+  
+  /* Item price styling */
+  .item-price {
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  /* Buy button styling */
+  .buy-button {
+    background-color: #ff6f61;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .buy-button:hover {
+    background-color: #ff3b2e;
+  }  
