@@ -1,0 +1,54 @@
+/*************************************************
+                    CARDS
+**************************************************/
+
+/* Main style for a card */
+.card {
+    border: 3px solid black;
+    padding: 0 10px;
+    margin: 5px;
+    height: 150px;
+    width: 85px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    background-color: black;
+    color: white;
+}
+
+/* Style for a selected card */
+.card-selected {
+    border: 3px solid #fdea00;
+}
+
+/*************************************************
+                    TYPES OF CARDS
+**************************************************/
+
+/* Attack card */
+.attack {
+    background-image: url('/assets/cartaAtaque.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;      
+}
+
+/* Shuffle card */
+.shuffle {
+    background-image: url('/assets/shuffleCard.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Do a favor card */
+.favor {
+    background-image: url('/assets/favorCard.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

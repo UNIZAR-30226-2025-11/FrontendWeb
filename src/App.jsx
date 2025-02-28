@@ -1,31 +1,39 @@
-import { useState, useEffect } from "react";
-
-const App = () => {
-  const [messages, setMessages] = useState([]);
-
-  const fetchMessages = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/messages");
-      const data = await response.json();
-      setMessages(data);
-    } catch (error) {
-      console.error("Error al obtener mensajes:", error);
-    }
-  };
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+'react-router-dom'
+import { routes } from './.constants';
+import LogIn from './logging/LogIn'
+import SignUp from './logging/SignUp'
+import Game from './game/Game';
+import GameMenu from './menu/GameMenu'
+import Profile from './menu/Profile'
 
 
+/**
+ * Creates the application, prepares all the routes and loads
+ * the initial page.
+ * 
+ * @returns A Router object with the routes of the application.
+ */
+function App() {
   return (
-    <div>
-      <h2>Mensajes</h2>
-      <ul>
-        {messages.map((msg) => (
-          <li key={msg.id}>{msg.text}</li>
-        ))}
-      </ul>
+    <Router>
+      <Routes>
+          {/* Default route */}
+          <Route path={routes.home} element={<GameMenu />} />
 
-      <button onClick={fetchMessages}>Recibir mensaje</button>
-    </div>
-  );
-};
+          {/* Routes for log in and sign up */}
+          <Route path={routes.login} element={<LogIn />} />
+          <Route path={routes.signup} element={<SignUp />} />
+
+          {/* Route for the game screen */}
+          <Route path={routes.game} element={<Game />} />
+
+          {/* Routes for the user profile */}
+          <Route path={routes.profile} element={<Profile />} />
+      </Routes>
+    </Router>
+  ); 
+}
+
 
 export default App;

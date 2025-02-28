@@ -1,0 +1,81 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #9d0514;
+}
+
+.screen {
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.div-rest-users {
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 5%;
+}
+
+.deck-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cards {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.shadow-game {
+    box-shadow: 5px 10px 10px #400006;
+}
+
+/*************************************************
+                    PLAY BUTTON
+**************************************************/
+
+/* Main buttons for the game screen */
+.game-button {
+    width: 20vw;
+    min-width: 120px;
+    height: fit-content;
+
+    background-color: #fdea00;
+    color: black;
+    font-weight: bold;
+
+    border: 0;
+    border-radius: 100vh;
+
+    padding: 10px;
+    margin: 0 10px 10px 10px;
+}
+
+/* Style for active buttons */
+.game-button-active {
+    background-color: #fdea00;
+    color: black;
+    cursor: pointer;
+}
+
+.game-button-active:hover {
+    background-color: #d1bf00;
+}
+
+.game-button-active:active {
+    background-color: #8d8100;
+}
+
+/* Style for inactive buttons */
+.game-button-inactive {
+    background-color: #fde80089;
+    color: black;
+}
