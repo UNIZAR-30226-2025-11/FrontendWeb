@@ -9,7 +9,7 @@ import Profile from './menu/Profile'
 import Shop from './shop/CardShop';
 import WinLose from './game/WinLose';
 import AuthPage from './menu/AuthPage';
-
+import Layout from './Layout/Layout';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -21,9 +21,10 @@ function App() {
   return (
     <Router>
       <Routes>
-          {/* Default route */}
-          <Route path={routes.home} element={<AuthPage />} />
-
+        {/* Default route */}
+        <Route path={routes.home} element={<AuthPage />} />
+        
+        <Route path="/" element={<Layout />}>
           {/* Routes for log in and sign up */}
           <Route path={routes.login} element={<LogIn />} />
           <Route path={routes.signup} element={<SignUp />} />
@@ -42,6 +43,7 @@ function App() {
 
           {/* Route for the game menu */}
           <Route path={routes.gamemenu} element={<GameMenu />} />
+        </Route>
       </Routes>
     </Router>
   ); 
