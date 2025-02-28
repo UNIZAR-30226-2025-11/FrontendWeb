@@ -6,6 +6,8 @@ import SignUp from './logging/SignUp'
 import Game from './game/Game';
 import GameMenu from './menu/GameMenu'
 import Profile from './menu/Profile'
+import Shop from './shop/CardShop';
+import WinLose from './game/WinLose';
 
 
 /**
@@ -30,6 +32,11 @@ function App() {
 
           {/* Routes for the user profile */}
           <Route path={routes.profile} element={<Profile />} />
+
+          {/* Route for the shop */}
+          <Route path={routes.shop} element={<Shop />} />
+
+          <Route path={routes.winlose} element={<WinLose />} />
       </Routes>
     </Router>
   ); 
