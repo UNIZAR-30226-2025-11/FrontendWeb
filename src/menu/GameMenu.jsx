@@ -15,12 +15,6 @@ const GameMenu = () => {
         <button className="button button-transparent" onClick={() => navigate(routes.profile)}>
           User Profile
         </button>
-        <button className="button button-blue" onClick={() => navigate(routes.login)}>
-          Log In
-        </button>
-        <button className="button button-green" onClick={() => navigate(routes.signup)}>
-          Sign Up
-        </button>
         <button className="button button-purple" onClick={() => navigate(routes.shop)}>
           Shop
         </button>

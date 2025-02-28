@@ -1,96 +1,38 @@
-// AuthPage.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/AuthPage.css';
+import { routes } from '../.constants';
 
-const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(true);
+/**
+ * MainPage Component
+ * Displays the main page with two buttons for "Log In" and "Sign Up".
+ */
+const MainPage = () => {
   const navigate = useNavigate();
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    console.log('connection performed');
+  // Navigate to the login page
+  const handleLogin = () => {
+    navigate(routes.login);
   };
 
-  const handleSignUpSubmit = (e) => {
-    e.preventDefault();
-    console.log('Registration completed');
+  // Navigate to the signup page
+  const handleSignUp = () => {
+    navigate(routes.signup);
   };
 
   return (
-    <div>
-      <h1>PLACEHOLDER PLACEHOLDER PLACEHOLDER</h1>
-      <div>
-        <div>
-          <button
-            onClick={() => setIsLogin(true)}
-          >
-            Log In
-          </button>
-          <button
-            onClick={() => setIsLogin(false)}
-          >
-            Sign Up
-          </button>
-        </div>
-        {isLogin ? (
-          <form onSubmit={handleLoginSubmit}>
-            <div>
-              <label>Email</label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            <div>
-              <label>Mot de passe</label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                required
-              />
-            </div>
-            <button type="submit">
-              Log In
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleSignUpSubmit}>
-            <div>
-              <label>Username</label>
-              <input
-                type="text"
-                placeholder="Choose a user name"
-                required
-              />
-            </div>
-            <div>
-              <label>Email</label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            <div>
-              <label>Password</label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                required
-              />
-            </div>
-            <button type="submit">
-              Sign Up
-            </button>
-          </form>
-        )}
+    <div className="main-page-container">
+      <h1>Welcome to the Game</h1>
+      <div className="button-container">
+        <button onClick={handleLogin} className="btn">
+          Log In
+        </button>
+        <button onClick={handleSignUp} className="btn">
+          Sign Up
+        </button>
       </div>
-      <button onClick={() => navigate('/gamemenu')}>
-        Back to menu
-      </button>
     </div>
   );
 };
 
-export default AuthPage;
+export default MainPage;
