@@ -1,3 +1,4 @@
+import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 'react-router-dom'
 import { routes } from './.constants';
@@ -14,7 +15,7 @@ import AuthPage from './menu/AuthPage';
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
- * 
+ *
  * @returns A Router object with the routes of the application.
  */
 function App() {
@@ -44,7 +45,7 @@ function App() {
           <Route path={routes.gamemenu} element={<GameMenu />} />
       </Routes>
     </Router>
-  ); 
+  );
 }
 
 

@@ -1,11 +1,12 @@
 // GameMenu.jsx
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../styles/GameMenu.css';
 import {routes} from '../.constants.jsx'
 
 const GameMenu = () => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="container">
       <div className="menu">

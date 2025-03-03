@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,10 +10,10 @@ import "../styles/LogIn.css"
  * Creates the form for the user's sign up process. It
  * takes all the information inside it and sends it to
  * the server.
- * 
+ *
  * The form asks for username, password and password
  * validation.
- * 
+ *
  * @returns The form
  */
 const SignUp = () => {
@@ -30,13 +31,13 @@ const SignUp = () => {
     {
         username: "",
         password: "",
-        password2: ""
+        password2: "",
     })
 
     /**
      * Saves the information inside the form in the
      * state of the form.
-     * 
+     *
      * @param {*} e The object that changed.
      */
     const handleChange = (e) => {
@@ -51,7 +52,7 @@ const SignUp = () => {
     /**
      * Sends the information inside the form to the
      * server.
-     * 
+     *
      * @param {*} e The form to send.
      */
     const handleSubmit = async (e) => {
@@ -59,27 +60,39 @@ const SignUp = () => {
         e.preventDefault()
 
         // Print the data
-        console.log("Data sent:", formData)
+        console.log("Data sent:", {username: formData.username, password: formData.password});
+
+        // Test if both passwords are the same
+        if (formData.password !== formData.password2) {
+            console.log("Passwords are not the same")
+            return;
+        }
 
         /**
          * Response from the server about the information we sent
          * for the sign up process.
          */
-        const response = await fetch(ips.server + routes.signup,
+        const response = await fetch(ips.server + "/register",
             {
+                mode: 'cors',
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({username: formData.username, password:formData.password})
             }
         )
 
+        // TODO: Call /login directly
+
+
         // If the answer is OK, we navigate to the appropiate page
-        if (response.ok)
+        if (response.status === 201)
         {
             console.log("Everything is OK")
             navigate(routes.login)
+        } else {
+            console.log(response.body.message || "Something unexpected happenedt ")
         }
     }
 

@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,9 +10,9 @@ import "../styles/LogIn.css"
  * Creates a form for the user's logging that
  * takes the information inside it and sends it
  * to the server.
- * 
+ *
  * The form asks for username and password.
- * 
+ *
  * @returns The form
  */
 const LogIn = () => {
@@ -34,7 +35,7 @@ const LogIn = () => {
     /**
      * Saves the information in the state of the
      * form.
-     * 
+     *
      * @param {*} e The object of the action
      */
     const handleChange = (e) => {
@@ -51,7 +52,7 @@ const LogIn = () => {
     /**
      * Sends the data of the form to the server and show
      * the response.
-     * 
+     *
      * @param {*} e The object from the action
      */
     const handleSubmit = async (e) => {
@@ -64,8 +65,9 @@ const LogIn = () => {
         try
         {
             // Send the POST request with the user data
-            const response = await fetch(ips.server + routes.login,
+            const response = await fetch(ips.server + "/login",
             {
+                mode:  "cors",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,9 +77,12 @@ const LogIn = () => {
 
             // If there is a good response, navigate to the
             // appropiate page
-            if (response.ok)
+            if (response.status === 200)
             {
-                navigate(routes.signup)
+                navigate(routes.gamemenu)
+            }
+            else {
+                console.log(response.body.message)
             }
         }
         catch (error)
@@ -86,7 +91,7 @@ const LogIn = () => {
         }
     }
 
-    
+
     /**
      * Create the form of the page
      */
