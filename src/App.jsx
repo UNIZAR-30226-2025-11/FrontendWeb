@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 'react-router-dom'
 import { routes } from './.constants';
@@ -9,12 +10,13 @@ import Profile from './menu/Profile'
 import Shop from './shop/CardShop';
 import WinLose from './game/WinLose';
 import AuthPage from './menu/AuthPage';
+import ModUser from './menu/ModUser';
 
 
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
- * 
+ *
  * @returns A Router object with the routes of the application.
  */
 function App() {
@@ -33,6 +35,7 @@ function App() {
 
           {/* Routes for the user profile */}
           <Route path={routes.profile} element={<Profile />} />
+          <Route path={routes.modUser} element={<ModUser />} />
 
           {/* Route for the shop */}
           <Route path={routes.shop} element={<Shop />} />
@@ -44,7 +47,7 @@ function App() {
           <Route path={routes.gamemenu} element={<GameMenu />} />
       </Routes>
     </Router>
-  ); 
+  );
 }
 
 

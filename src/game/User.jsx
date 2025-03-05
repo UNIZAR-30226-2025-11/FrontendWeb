@@ -1,7 +1,8 @@
+import React from "react"
 import PropTypes from "prop-types"
 import "../styles/user.css"
 
-const User = ({name="User", numCards=0}) => {    
+const User = ({name="User", numCards=0}) => {
     return (
         <div className="div-user shadow-game">
             <img    className="img-user"

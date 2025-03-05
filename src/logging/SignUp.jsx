@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,10 +10,10 @@ import "../styles/LogIn.css"
  * Creates the form for the user's sign up process. It
  * takes all the information inside it and sends it to
  * the server.
- * 
+ *
  * The form asks for username, password and password
  * validation.
- * 
+ *
  * @returns The form
  */
 const SignUp = () => {
@@ -36,7 +37,7 @@ const SignUp = () => {
     /**
      * Saves the information inside the form in the
      * state of the form.
-     * 
+     *
      * @param {*} e The object that changed.
      */
     const handleChange = (e) => {
@@ -51,7 +52,7 @@ const SignUp = () => {
     /**
      * Sends the information inside the form to the
      * server.
-     * 
+     *
      * @param {*} e The form to send.
      */
     const handleSubmit = async (e) => {

@@ -1,3 +1,4 @@
+import React from "react";
 import {ips, routes} from "../.constants"
 import { useEffect, useState } from "react";
 
@@ -10,9 +11,9 @@ import "../styles/game.css"
  * Creates a form for the user's logging that
  * takes the information inside it and sends it
  * to the server.
- * 
+ *
  * The form asks for username and password.
- * 
+ *
  * @returns The form
  */
 const Game = () => {
@@ -39,7 +40,7 @@ const Game = () => {
           })
           .then((data) => setGameState(data))
           .catch((error) => console.error("Error:", error));
-      }, []);   
+      }, []);
 
     /**
      * Defines the HTML for the board, taking into account
@@ -72,7 +73,7 @@ const Game = () => {
                             <User   key={idx}
                                     name={gameState.players[idx+1]?.username}
                                     numCards={gameState.players[idx+1]?.numCards} />
-                        ))}  
+                        ))}
                     </div>
 
                     {/* My own cards */}

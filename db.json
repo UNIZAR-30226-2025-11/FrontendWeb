@@ -4,6 +4,51 @@
       "id": "d237",
       "username": "Pepe",
       "password": "1234"
+    },
+    {
+      "id": "6fb3",
+      "username": "test",
+      "password": "test"
+    },
+    {
+      "id": "4d67",
+      "username": "test",
+      "password": "test"
+    },
+    {
+      "id": "be7f",
+      "username": "test",
+      "password": "test"
+    },
+    {
+      "id": "746c",
+      "username": "test",
+      "password": "test"
+    },
+    {
+      "id": "103e",
+      "username": "test",
+      "password": "test"
+    },
+    {
+      "id": "8737",
+      "username": "1234",
+      "password": "1234"
+    },
+    {
+      "id": "550d",
+      "username": "a",
+      "password": "a"
+    },
+    {
+      "id": "1683",
+      "username": "a",
+      "password": "a"
+    },
+    {
+      "id": "9dcc",
+      "username": "hola",
+      "password": "hola"
     }
   ],
   "signup": [
@@ -12,6 +57,36 @@
       "username": "afdfa",
       "password": "asdfasdf",
       "password2": "asdfadsf"
+    },
+    {
+      "id": "c8c2",
+      "username": "test",
+      "password": "test",
+      "password2": "test"
+    },
+    {
+      "id": "82ff",
+      "username": "test",
+      "password": "test",
+      "password2": "test"
+    },
+    {
+      "id": "779f",
+      "username": "1234",
+      "password": "1234",
+      "password2": "1234"
+    },
+    {
+      "id": "a971",
+      "username": "a",
+      "password": "a",
+      "password2": "a"
+    },
+    {
+      "id": "38f7",
+      "username": "hola",
+      "password": "hola",
+      "password2": "hola"
     }
   ],
   "game": {
@@ -48,7 +123,70 @@
       }
     ]
   },
-  "play": [
-
+  "play": [],
+  "profile": [
+    {
+      "id": "d237",
+      "username": "Pepe",
+      "games_played": 8,
+      "games_won": 5,
+      "coins": 150
+    },
+    {
+      "id": "6fb3",
+      "username": "test1",
+      "games_played": 6,
+      "games_won": 2,
+      "coins": 80
+    },
+    {
+      "id": "4d67",
+      "username": "test2",
+      "games_played": 9,
+      "games_won": 7,
+      "coins": 200
+    },
+    {
+      "id": "be7f",
+      "username": "test3",
+      "games_played": 8,
+      "games_won": 3,
+      "coins": 120
+    },
+    {
+      "id": "746c",
+      "username": "test4",
+      "games_played": 8,
+      "games_won": 4,
+      "coins": 100
+    },
+    {
+      "id": "103e",
+      "username": "test5",
+      "games_played": 9,
+      "games_won": 6,
+      "coins": 180
+    },
+    {
+      "id": "550d",
+      "username": "userA1",
+      "games_played": 9,
+      "games_won": 8,
+      "coins": 220
+    },
+    {
+      "id": "1683",
+      "username": "userA2",
+      "games_played": 9,
+      "games_won": 5,
+      "coins": 140
+    },
+    {
+      "id": "9dcc",
+      "username": "hola1",
+      "games_played": 8,
+      "games_won": 2,
+      "coins": 90
+    }
   ]
 }
