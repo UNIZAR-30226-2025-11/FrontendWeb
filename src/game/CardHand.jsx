@@ -12,6 +12,7 @@ import { ips, routes } from "../.constants"
  */
 const Deck = ({cards = []}) => {
     const [selectedCards, setSelectedCards] = useState([])
+    const [hoveredCard, setHoveredCard] = useState(null)
 
     // Basic styles for the main buttons
     let classesPlayButton = "game-button shadow-game"
@@ -59,27 +60,29 @@ const Deck = ({cards = []}) => {
 
     return (
         <div className="deck-div">
+            {/* Hovered card bigger in the center of the screen */}
+            {hoveredCard && (
+                <div className={"big-card shadow-game " + hoveredCard.name} />
+            )}
+
             {/* Buttons */}
             <div className="buttons-div">
-
                 {/* Play button */}
                 <button className={classesPlayButton}
                     onClick={handlePlayClick}
                     disabled={selectedCards.length == 0}>
                         PLAY SELECTED CARDS
                 </button>
-
-                {/* Take a card button */}
-                <button className="game-button game-button-active shadow-game">
-                        TAKE A NEW CARD
-                </button>
-
             </div>
 
             {/* Cards */}
             <div className="cards">
                 {cards.map((card,idx) => {
-                    return <Card key={idx} card={card} isSelected={selectedCards.includes(card.id)} onClick={toggleCardSelection} />
+                    return <Card    key={idx}
+                                    card={card}
+                                    isSelected={selectedCards.includes(card.id)}
+                                    onClick={toggleCardSelection}
+                                    setHoveredCard={setHoveredCard} />
                 })}
             </div>
         </div>
