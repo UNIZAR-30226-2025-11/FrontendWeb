@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/userbar.css';
 import userIcon from '../../assets/Icon.png';
 import coinsIcon from '../../assets/coins.png';

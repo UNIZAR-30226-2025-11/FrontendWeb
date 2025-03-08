@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/winlose.css';
 
 const WinLose = ({ win, onRestart }) => {

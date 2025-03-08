@@ -24,11 +24,11 @@ function App() {
         {/* Default route */}
         <Route path={routes.home} element={<AuthPage />} />
         
-        <Route path="/" element={<Layout />}>
-          {/* Routes for log in and sign up */}
-          <Route path={routes.login} element={<LogIn />} />
-          <Route path={routes.signup} element={<SignUp />} />
+        {/* Routes for log in and sign up */}
+        <Route path={routes.login} element={<LogIn />} />
+        <Route path={routes.signup} element={<SignUp />} />
 
+        <Route path="/" element={<Layout />}>
           {/* Route for the game screen */}
           <Route path={routes.game} element={<Game />} />
 
