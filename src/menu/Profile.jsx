@@ -1,18 +1,12 @@
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../.constants';
-
 const Profile = () => {
-  const navigate = useNavigate();
 
   return (
-    <div>
+    <div style={{ height: `calc(100vh - 40px)`,
+                  marginTop:"40px"}}>
       <h1>User profile</h1>
-      <p>Welcome to your profile! Here you can view and modify your personal information.</p>
-      <button
-        onClick={() => navigate(routes.gamemenu)}
-      >
-        Back to menu
-      </button>
+      <p>
+        Welcome to your profile! Here you can view and modify your personal information.
+      </p>
     </div>
   );
 };

@@ -2,6 +2,7 @@
 .shop-container {
     font-family: Arial, sans-serif;
     padding: 20px;
+    height: calc(100vh-40px);
   }
   
   /* Header styles: Title on the left and clickable profile on the right */

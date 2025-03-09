@@ -1,5 +1,13 @@
 /* GameMenu.css */
 
+.contenedor-fondo {
+  height: calc(100vh - 40px); /* Resta los 40px de la barra */
+  background-image: url('tu-imagen.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
 html, body {
     margin: 0;
     padding: 0;
@@ -10,7 +18,7 @@ html, body {
 
 .container {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 40px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,6 +27,7 @@ html, body {
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
+    margin-top: 40px;
   }
   
   .menu {
