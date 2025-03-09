@@ -1,5 +1,5 @@
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-'react-router-dom'
 import { routes } from './.constants';
 import LogIn from './logging/LogIn'
 import SignUp from './logging/SignUp'
@@ -7,7 +7,7 @@ import Game from './game/Game';
 import GameMenu from './menu/GameMenu'
 import Profile from './menu/Profile'
 import Shop from './shop/CardShop';
-import WinLose from './game/WinLose';
+// import WinLose from './game/WinLose';
 import AuthPage from './menu/AuthPage';
 import Layout from './Layout/Layout';
 
@@ -39,7 +39,7 @@ function App() {
           <Route path={routes.shop} element={<Shop />} />
 
           {/* Route for the win/lose screen */}
-          <Route path={routes.winlose} element={<WinLose />} />
+          {/* <Route path={routes.winlose} element={<WinLose />} /> */}
 
           {/* Route for the game menu */}
           <Route path={routes.gamemenu} element={<GameMenu />} />
@@ -48,6 +48,5 @@ function App() {
     </Router>
   ); 
 }
-
 
 export default App;

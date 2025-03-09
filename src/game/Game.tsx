@@ -1,3 +1,4 @@
+import React from "react";
 import {ips, routes} from "../.constants"
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,27 @@ import Timer from "./Timer";
 import "../styles/game.css"
 import PlayedCards from "./CardsPlayed";
 import CardDeck from "./CardDeck";
+
+type Player = {
+    username: string;
+    numCards: number;
+};
+
+type Card = {
+    name: string;
+    id: number;
+}
+
+type GameState = {
+    players: Player[];
+    cards: Card[];
+};
+
+// const gameState: GameState = {
+//     players: [{ username: "Alice", numCards: 5 }],
+//     cards: [],
+// };
+  
 
 /**
  * Creates a form for the user's logging that
@@ -23,7 +45,7 @@ const Game = () => {
      * State of the game: Users in the game and the
      * cards of the main user.
      */
-    const [gameState, setGameState] = useState({
+    const [gameState, setGameState] = useState<GameState>({
         players: [],
         cards: []
     })
