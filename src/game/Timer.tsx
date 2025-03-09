@@ -1,11 +1,27 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import PropTypes from "prop-types"
 
 import "../styles/Timer.css"
 
-const Timer = ({ duration = 20, onTimeUp }) => {
+type TimerProps = {
+    duration: number;
+    onTimeUp: Function;
+}
+
+/**
+ * Define a Timer with a specific count
+ * 
+ * @param duration The time inside the timer
+ * @param onTimeUp A function that will be executed
+ *    when the timer ends
+ * 
+ * @returns The timer
+ */
+const Timer : React.FC<TimerProps> =
+({  duration = 20,
+    onTimeUp }) => 
+{
   const [timeLeft, setTimeLeft] = useState(duration);
 
   useEffect(() => {
@@ -60,10 +76,5 @@ const Timer = ({ duration = 20, onTimeUp }) => {
     </div>
   );
 };
-
-Timer.propTypes = {
-    duration: PropTypes.number,
-    onTimeUp: PropTypes.bool
-}
 
 export default Timer;

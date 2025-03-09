@@ -4,12 +4,7 @@ import Card from "./Card"
 
 import "../styles/card.css"
 import { useState } from "react"
-import { ips, routes } from "../.constants"
-
-type Card = {
-    name: string;
-    id: number;
-}
+import { ips, routes } from "../utils/constants"
 
 /**
  * Defines the HTML for displying a deck of cards.

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types"
 
 import '../styles/CardShop.css';
 
@@ -103,17 +102,5 @@ const Shop = () => {
     </div>
   );
 };
-
-ShopItem.propTypes = {
-  item: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			description: PropTypes.string.isRequired,
-			image: PropTypes.string.isRequired,
-			price: PropTypes.number.isRequired
-		})
-	)
-}
-
 
 export default Shop;

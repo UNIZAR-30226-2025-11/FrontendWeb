@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { routes } from './.constants';
+import { routes } from './utils/constants';
 import LogIn from './logging/LogIn'
 import SignUp from './logging/SignUp'
 import Game from './game/Game';

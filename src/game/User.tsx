@@ -1,8 +1,25 @@
 import React from "react"
-import PropTypes from "prop-types"
 import "../styles/user.css"
 
-const User = ({name="User", numCards=0}) => {    
+type UserProps = {
+    name: string;
+    numCards: number;
+}
+
+/**
+ * Defines a User with a name and a specific
+ * number of cards.
+ * 
+ * @param name The name of the user
+ * @param numCards The number of cards that the
+ *      user has
+ * 
+ * @returns The user
+ */
+const User:React.FC<UserProps> =
+({  name="User",
+    numCards=0}) =>
+{    
     return (
         <div className="div-user shadow-game">
             <img    className="img-user"
@@ -16,15 +33,6 @@ const User = ({name="User", numCards=0}) => {
             </p>
         </div>
     )
-}
-
-/**
- * Define the properties that the arguments
- * must have.
- */
-User.propTypes = {
-    name: PropTypes.string,
-    numCards: PropTypes.number
 }
 
 export default User

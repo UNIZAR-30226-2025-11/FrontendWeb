@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types"
 
 import '../styles/winlose.css';
 
@@ -23,10 +22,5 @@ const WinLose = ({ win, onRestart }) => {
     </div>
   );
 };
-
-WinLose.propTypes = {
-  win: PropTypes.bool,
-  onRestart: PropTypes.func
-}
 
 export default WinLose;
