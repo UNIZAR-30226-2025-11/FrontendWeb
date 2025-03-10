@@ -2,9 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ips, routes } from "../utils/constants";
+import { ips, routes } from "../../utils/constants";
 
-import "../styles/LogIn.css"
+import "./LogIn.css"
 
 /**
  * Creates the form for the user's sign up process. It

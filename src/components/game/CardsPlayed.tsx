@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-import "../styles/card.css"
+import './Card.css'
 
 export default function PlayedCards() {
   // Definition os some random played cards

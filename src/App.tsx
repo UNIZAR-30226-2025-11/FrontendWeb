@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { routes } from './utils/constants';
-import LogIn from './logging/LogIn'
-import SignUp from './logging/SignUp'
-import Game from './game/Game';
-import GameMenu from './menu/GameMenu'
-import Profile from './menu/Profile'
-import Shop from './shop/CardShop';
+import LogIn from './components/logging/LogIn';
+import SignUp from './components/logging/SignUp';
+import Game from './pages/menu/Game';
+import GameMenu from './pages/menu/menu'
+import Profile from './pages/menu/profile'
+import Shop from './components/shop/CardShop';
 // import WinLose from './game/WinLose';
-import AuthPage from './menu/AuthPage';
+import AuthPage from './pages/menu/authPage';
 import Layout from './Layout/Layout';
 
 /**

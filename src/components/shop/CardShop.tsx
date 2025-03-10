@@ -1,6 +1,6 @@
 import React from "react";
 
-import '../styles/CardShop.css';
+import './CardShop.css';
 
 const ShopItem = ({ item }) => (
   <div className="shop-item">

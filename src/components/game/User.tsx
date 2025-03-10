@@ -1,5 +1,5 @@
 import React from "react"
-import "../styles/user.css"
+import './User.css'
 
 type UserProps = {
     name: string;

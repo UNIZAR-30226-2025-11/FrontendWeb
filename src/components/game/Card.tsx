@@ -1,6 +1,6 @@
 import React from "react"
 
-import "../utils/types"
+import "../../utils/types"
 
 /**
  * Definition of the parameters that the Card

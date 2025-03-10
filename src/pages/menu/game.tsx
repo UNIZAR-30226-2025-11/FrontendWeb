@@ -1,15 +1,14 @@
 import React from "react";
-import {ips, routes} from "../utils/constants"
+import {ips, routes} from "../../utils/constants"
 import { useEffect, useState } from "react";
 
-import User from "./User";
-import Deck from "./CardHand";
-import Timer from "./Timer";
+import User from '../../components/game/User'
+import Deck from '../../components/game/CardHand'
+import Timer from '../../components/game/Timer';
+import PlayedCards from '../../components/game/CardsPlayed';
+import CardDeck from '../../components/game/CardDeck';
 
-import "../styles/game.css"
-import PlayedCards from "./CardsPlayed";
-import CardDeck from "./CardDeck";
-
+import '../../styles/game.css'
 
 /**
  * Creates a form for the user's logging that

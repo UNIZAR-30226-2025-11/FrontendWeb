@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/GameMenu.css';
-import {routes} from '../utils/constants'
+import {routes} from '../../utils/constants';
+
+import './menu.css';
 
 const GameMenu = () => {
   const navigate = useNavigate();

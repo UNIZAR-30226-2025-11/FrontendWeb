@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-import "../styles/Timer.css"
+import './Timer.css';
 
 type TimerProps = {
     duration: number;

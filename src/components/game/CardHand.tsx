@@ -2,9 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 import Card from "./Card"
 
-import "../styles/card.css"
 import { useState } from "react"
-import { ips, routes } from "../utils/constants"
+import { ips, routes } from "../../utils/constants"
+
+import "../../styles/game.css"
 
 /**
  * Defines the HTML for displying a deck of cards.
