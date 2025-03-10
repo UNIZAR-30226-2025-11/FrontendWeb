@@ -4,6 +4,10 @@ import Card from "./Card"
 
 import { useState } from "react"
 import { ips, routes } from "../../utils/constants"
+import { playCard } from "../../services/socketService"
+import { useSocket } from "../../context/SocketContext"
+import { BackendGamePlayedCardsResponseJSON } from "../../api/JSON"
+import { useSocketHandlers } from "../../hooks/useSocket"
 
 import "./CardHand.css"
 
@@ -16,6 +20,8 @@ const Deck = ({ cards = [] } : { cards: Card[] }) => {
     const [selectedCards, setSelectedCards] = useState<number[]>([])
     const [hoveredCard, setHoveredCard] = useState<Card | null>(null)
 
+    const { lobbyStartId } = useSocketHandlers()
+
     // Basic styles for the main buttons
     let classesPlayButton = "game-button shadow-game"
 
@@ -25,11 +31,33 @@ const Deck = ({ cards = [] } : { cards: Card[] }) => {
     else
         classesPlayButton += " game-button-active"
 
+
+    /**
+     * Check if there is an error in the sever answer and
+     * display it on the console
+     * 
+     * @param data The answer of the server
+     */
+    const checkResponse = (data:BackendGamePlayedCardsResponseJSON) => {
+        if (data.error)
+        {
+            console.log("There is an error with the played cards")
+            console.log(data.errorMsg)
+        }
+    }
+
     /**
      * Sends the information of the selected cards to the
      * server for making the movement
      */
     const handlePlayClick = async () => {
+        const socket = useSocket()
+        if (lobbyStartId?.playerId) 
+        {
+            playCard(socket, JSON.stringify(selectedCards), lobbyStartId.lobbyId, checkResponse)
+        }
+
+
         // Send the movement
         const response = await fetch(ips.server + routes.play, {
             method: "DELETE",

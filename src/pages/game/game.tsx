@@ -9,6 +9,7 @@ import PlayedCards from '../../components/game/CardsPlayed';
 import CardDeck from '../../components/game/CardDeck';
 
 import './game.css'
+import { useSocketHandlers } from "../../hooks/useSocket";
 
 /**
  * Creates a form for the user's logging that
@@ -24,26 +25,7 @@ const Game = () => {
      * State of the game: Users in the game and the
      * cards of the main user.
      */
-    const [gameState, setGameState] = useState<GameState>({
-        players: [],
-        cards: []
-    })
-
-    /**
-     * Load the board when the game is started
-     */
-    useEffect(() => {
-        fetch(ips.server + routes.game)
-          .then((response) => {
-            if (!response.ok) {
-                throw new Error('HTTP Error: Status ${respone.status}')
-            }
-
-            return response.json()
-          })
-          .then((data) => setGameState(data))
-          .catch((error) => console.error("Error:", error));
-      }, []);   
+    const { gameState,  } = useSocketHandlers()
 
     /**
      * Defines the HTML for the board, taking into account
@@ -51,15 +33,19 @@ const Game = () => {
      * @returns The necessary HTML for the board
      */
     const HTMLUsers = () => {
+        // Check the game state is not undefined
+        if (!gameState)
+            return <></>
+        
         // Check the number of players
         switch (gameState.players.length)
         {
             case 1:
                 return (
                     <div className="screen">
-                        <User   name={gameState.players[0]?.username}
+                        <User   name={String(gameState.players[0]?.id)}
                                 numCards={gameState.players[0]?.numCards} />
-                        <Deck cards={gameState.cards} />
+                        <Deck cards={JSON.parse(gameState.playerCards)} />
                     </div>
                 )
             case 2:
@@ -67,13 +53,13 @@ const Game = () => {
                 return (
                     <div className="screen app-container">
                         {/* Highest user in the screen */}
-                        <User   name={gameState.players[0]?.username}
+                        <User   name={String(gameState.players[0]?.id)}
                                 numCards={gameState.players[0]?.numCards} />
     
                         {/* The rest of users */}
                         <div className="div-rest-users">
                             {/* Left user */}
-                            <User   name={gameState.players[1]?.username}
+                            <User   name={String(gameState.players[1]?.id)}
                                     numCards={gameState.players[1]?.numCards} />
 
                             {/* Cards played */}
@@ -85,7 +71,7 @@ const Game = () => {
                         </div>
 
                         {/* My own cards */}
-                        <Deck cards={gameState.cards} />
+                        <Deck cards={JSON.parse(gameState.playerCards)} />
     
                     </div>
                 )
@@ -95,13 +81,13 @@ const Game = () => {
                 return (
                     <div className="screen app-container">
                         {/* Highest user in the screen */}
-                        <User   name={gameState.players[0]?.username}
+                        <User   name={String(gameState.players[0]?.id)}
                                 numCards={gameState.players[0]?.numCards} />
     
                         {/* The rest of users */}
                         <div className="div-rest-users">
                             {/* Left user */}
-                            <User   name={gameState.players[1]?.username}
+                            <User   name={String(gameState.players[1]?.id)}
                                     numCards={gameState.players[1]?.numCards} />
 
                             {/* Cards for stealing */}
@@ -110,14 +96,14 @@ const Game = () => {
                             <PlayedCards />
 
                             {/* Right user */}
-                            <User   name={gameState.players[2]?.username}
+                            <User   name={String(gameState.players[2]?.id)}
                                     numCards={gameState.players[2]?.numCards} />
                         </div>
 
                         <Timer duration={30} onTimeUp={() => {console.log("TIMEEER")}}/>
 
                         {/* My own cards */}
-                        <Deck cards={gameState.cards} />
+                        <Deck cards={JSON.parse(gameState.playerCards)} />
 
                         <CardDeck />
 
