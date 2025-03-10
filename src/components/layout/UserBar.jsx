@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
-import userIcon from '../../assets/Icon.png';
-import coinsIcon from '../../assets/coins.png';
+import userIcon from '../../../assets/Icon.png';
+import coinsIcon from '../../../assets/coins.png';
 
-import '../styles/userbar.css';
+import './userbar.css';
 
 /**
  * Defines the HTML for create a user bar with the

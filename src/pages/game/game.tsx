@@ -8,7 +8,7 @@ import Timer from '../../components/game/Timer';
 import PlayedCards from '../../components/game/CardsPlayed';
 import CardDeck from '../../components/game/CardDeck';
 
-import '../../styles/game.css'
+import './game.css'
 
 /**
  * Creates a form for the user's logging that

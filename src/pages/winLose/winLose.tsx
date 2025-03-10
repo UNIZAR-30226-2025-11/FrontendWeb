@@ -1,6 +1,6 @@
 import React from "react";
 
-import '../styles/winlose.css';
+import './winLose.css';
 
 const WinLose = ({ win, onRestart }) => {
   return (

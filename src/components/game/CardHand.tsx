@@ -5,7 +5,7 @@ import Card from "./Card"
 import { useState } from "react"
 import { ips, routes } from "../../utils/constants"
 
-import "../../styles/game.css"
+import "./CardHand.css"
 
 /**
  * Defines the HTML for displying a deck of cards.
