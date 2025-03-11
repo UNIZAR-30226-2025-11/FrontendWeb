@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { routes } from "./utils/constants";
 import LogIn from "./logging/LogIn";
@@ -11,6 +11,8 @@ import Shop from "./shop/CardShop";
 import AuthPage from "./menu/AuthPage";
 import Layout from "./Layout/Layout";
 
+import { socket } from "./utils/socket";
+
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
@@ -18,6 +20,27 @@ import Layout from "./Layout/Layout";
  * @returns A Router object with the routes of the application.
  */
 function App() {
+  // Putting Socket.io stuff here
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Connected!");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected");
+    });
+
+    socket.on("connect_error", (err) => {
+      console.log(err.message);
+    });
+
+    socket.connect();
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   return (
     <Router>
       <Routes>

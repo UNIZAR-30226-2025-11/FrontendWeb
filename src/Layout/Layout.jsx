@@ -1,5 +1,7 @@
-import { Outlet } from 'react-router-dom';
-import UserBar from './UserBar';
+import React from "react";
+
+import { Outlet } from "react-router-dom";
+import UserBar from "./UserBar";
 
 /**
  * Layout Component

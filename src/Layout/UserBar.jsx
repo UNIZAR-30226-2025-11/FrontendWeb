@@ -1,22 +1,23 @@
-import PropTypes from "prop-types"
-import userIcon from '../../assets/Icon.png';
-import coinsIcon from '../../assets/coins.png';
+import React from "react";
 
-import '../styles/userbar.css';
+import PropTypes from "prop-types";
+import userIcon from "../../assets/Icon.png";
+import coinsIcon from "../../assets/coins.png";
+
+import "../styles/userbar.css";
 
 /**
  * Defines the HTML for create a user bar with the
  * name of the user and the coins he has.
- * 
+ *
  * @param {*} username The name of the user
  * @param {*} coins The number of coins he has.
- * 
+ *
  * @returns The user bar
  */
 const UserBar = ({ username, coins }) => {
   return (
     <div className="user-bar">
-
       {/* User information */}
       <div className="user-info">
         {/* User icon */}
@@ -28,7 +29,6 @@ const UserBar = ({ username, coins }) => {
 
       {/* Coins */}
       <div className="coins-info">
-
         {/* Number */}
         <span className="coins">{coins}</span>
 
@@ -45,7 +45,7 @@ const UserBar = ({ username, coins }) => {
  */
 UserBar.propTypes = {
   username: PropTypes.string.isRequired,
-  coins: PropTypes.number.isRequired
-}
+  coins: PropTypes.number.isRequired,
+};
 
 export default UserBar;
