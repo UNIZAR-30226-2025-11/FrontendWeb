@@ -1,19 +1,15 @@
-<<<<<<< HEAD:src/App.jsx
-import React from 'react'
-=======
-import React from 'react';
->>>>>>> main:src/App.tsx
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { routes } from './utils/constants';
-import LogIn from './logging/LogIn'
-import SignUp from './logging/SignUp'
-import Game from './game/Game';
-import GameMenu from './menu/GameMenu'
-import Profile from './menu/Profile'
-import Shop from './shop/CardShop';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { routes } from "./utils/constants";
+import LogIn from "./logging/LogIn";
+import SignUp from "./logging/SignUp";
+import Game from "./game/Game";
+import GameMenu from "./menu/GameMenu";
+import Profile from "./menu/Profile";
+import Shop from "./shop/CardShop";
 // import WinLose from './game/WinLose';
-import AuthPage from './menu/AuthPage';
-import Layout from './Layout/Layout';
+import AuthPage from "./menu/AuthPage";
+import Layout from "./Layout/Layout";
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -27,7 +23,7 @@ function App() {
       <Routes>
         {/* Default route */}
         <Route path={routes.home} element={<AuthPage />} />
-        
+
         {/* Routes for log in and sign up */}
         <Route path={routes.login} element={<LogIn />} />
         <Route path={routes.signup} element={<SignUp />} />
