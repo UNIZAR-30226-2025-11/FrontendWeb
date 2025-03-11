@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app';
+import { SocketProvider } from './context/SocketContext';
 
 
 const rootElement = document.getElementById('root');
@@ -9,7 +10,9 @@ if (rootElement)
 {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <App />
+      <SocketProvider>
+        <App />
+      </SocketProvider>
     </React.StrictMode>
   );
 } else {
