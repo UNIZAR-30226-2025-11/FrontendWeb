@@ -34,7 +34,7 @@ const Game = () => {
      * Load the board when the game is started
      */
     useEffect(() => {
-        fetch(ips.server + routes.game)
+        fetch(ips.serverLocal + routes.game)
           .then((response) => {
             if (!response.ok) {
                 throw new Error('HTTP Error: Status ${respone.status}')

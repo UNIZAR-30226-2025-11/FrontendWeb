@@ -59,14 +59,11 @@ const SignUp = () => {
         // Don't reload the page on submit
         e.preventDefault()
 
-        // Print the data
-        console.log("Data sent:", formData)
-
         /**
          * Response from the server about the information we sent
          * for the sign up process.
          */
-        const response = await fetch(ips.server + routes.signup,
+        const response = await fetch(ips.server + "/register",
             {
                 method: "POST",
                 headers: {
@@ -77,10 +74,12 @@ const SignUp = () => {
         )
 
         // If the answer is OK, we navigate to the appropiate page
-        if (response.ok)
+        if (response.status == 201)
         {
-            console.log("Everything is OK")
-            navigate(routes.login)
+            navigate(routes.gamemenu)
+        } else
+        {
+            console.log("Error creating the account")
         }
     }
 

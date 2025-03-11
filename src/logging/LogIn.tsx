@@ -76,9 +76,13 @@ const LogIn = () => {
 
             // If there is a good response, navigate to the
             // appropiate page
-            if (response.ok)
+            if (response.status == 200)
             {
-                navigate(routes.signup)
+                navigate(routes.gamemenu)
+            }
+            else
+            {
+                console.log("Data error")
             }
         }
         catch (error)

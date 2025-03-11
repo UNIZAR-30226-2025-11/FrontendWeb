@@ -1,5 +1,5 @@
 const routes = {
-    login: "/loggin",
+    login: "/login",
     signup: "/signup",
     home: "/",
     game: "/game",
@@ -11,7 +11,8 @@ const routes = {
 }
 
 const ips = {
-    server: "http://localhost:5000"
+    server: "http://localhost:8000",
+    serverLocal: "http://localhost:5000"
 }
 
 export {routes, ips}
