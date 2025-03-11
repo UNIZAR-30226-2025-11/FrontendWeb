@@ -25,7 +25,7 @@ const Game = () => {
      * State of the game: Users in the game and the
      * cards of the main user.
      */
-    const { gameState,  } = useSocketHandlers()
+    const { gameState } = useSocketHandlers()
 
     /**
      * Defines the HTML for the board, taking into account
