@@ -23,6 +23,10 @@
       {
         "username": "Pedro",
         "numCards": 6
+      },
+      {
+        "username": "María",
+        "numCards": 8
       }
     ],
     "cards": [

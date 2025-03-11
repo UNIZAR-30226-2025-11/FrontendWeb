@@ -7,7 +7,7 @@ const routes = {
     profile: "/profile",
     shop: "/shop",
     winlose: "/winlose",
-    gamemenu: "/gamemenu"
+    gamemenu: "/menu"
 }
 
 const ips = {

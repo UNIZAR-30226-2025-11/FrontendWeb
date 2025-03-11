@@ -4,7 +4,7 @@
 
 /* Main style for a card */
 .card {
-    border: 3px solid black;
+    /* border: 3px solid black; */
     padding: 0 10px;
     margin: 5px;
     height: 150px;
@@ -23,7 +23,52 @@
 /* Style for a selected card */
 .card-selected {
     border: 3px solid #fdea00;
+    height: 144px;
+    width: 79px;
 }
+
+/*************************************************
+                    STACK OF CARDS
+**************************************************/
+
+.stack {
+    position: absolute;
+    top: 25vh;
+    left: 50vw;
+    transform: translate(-50%,35px);
+    height: 150px;
+    width: 85px;
+}
+
+.stack-card {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+    cursor:initial;
+}
+
+/*************************************************
+                    BIG CARD
+**************************************************/
+
+.big-card {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
 
 /*************************************************
                     TYPES OF CARDS
@@ -31,7 +76,7 @@
 
 /* Attack card */
 .attack {
-    background-image: url('/assets/cartaAtaque.png');
+    background-image: url('/assets/cardAttack.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;      
@@ -39,7 +84,7 @@
 
 /* Shuffle card */
 .shuffle {
-    background-image: url('/assets/shuffleCard.png');
+    background-image: url('/assets/cardSuffle.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -47,7 +92,7 @@
 
 /* Do a favor card */
 .favor {
-    background-image: url('/assets/favorCard.png');
+    background-image: url('/assets/cardFavor.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

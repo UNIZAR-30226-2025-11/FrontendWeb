@@ -5,6 +5,9 @@
 /* Div that contains the users information */
 .div-user {
     width: fit-content;
+    height: 10vh;
+    min-height: 50px;
+    min-width: 50px;
 
     display: flex;
     flex-direction: column;
@@ -17,6 +20,7 @@
 
 /* Name of the user */
 .name-user {
+    position: relative;
     font-weight: bold;
     font-size: 20px;
 
@@ -48,8 +52,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 100vh;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
 .div-user span {

@@ -1,19 +1,6 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../styles/CardShop.css';
+import React from "react";
 
-const UserProfile = ({ user }) => {
-  const navigate = useNavigate();
-  return (
-    <button className="user-profile" onClick={() => navigate('/profile')}>
-      <img src={user.avatar} alt="User Avatar" className="user-avatar" />
-      <div className="user-info">
-        <span className="user-name">{user.name}</span>
-        <span className="user-balance">${user.balance}</span>
-      </div>
-    </button>
-  );
-};
+import '../styles/CardShop.css';
 
 const ShopItem = ({ item }) => (
   <div className="shop-item">
@@ -26,13 +13,6 @@ const ShopItem = ({ item }) => (
 );
 
 const Shop = () => {
-  // Example user data with balance
-  const user = {
-    name: 'Name',
-    avatar: 'a',
-    balance: 100
-  };
-
   // Example shop items with prices for testing grid alignment
   const items = [
     {
@@ -111,7 +91,6 @@ const Shop = () => {
     <div className="shop-container">
       <header className="shop-header">
         <h1>Exploding Kittens Shop</h1>
-        <UserProfile user={user} />
       </header>
       <div className="shop-scrollable">
         <main className="shop-items">
