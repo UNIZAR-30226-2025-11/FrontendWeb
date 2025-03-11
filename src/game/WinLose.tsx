@@ -1,11 +1,5 @@
-<<<<<<< HEAD:src/game/WinLose.jsx
-import React from 'react';
-import '../styles/WinLose.css';
-=======
 import React from "react";
-
-import '../styles/winlose.css';
->>>>>>> main:src/game/WinLose.tsx
+import "../styles/WinLose.css";
 
 const WinLose = ({ win, onRestart }) => {
   return (

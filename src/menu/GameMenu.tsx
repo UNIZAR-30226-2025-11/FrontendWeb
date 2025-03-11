@@ -1,12 +1,7 @@
-<<<<<<< HEAD:src/menu/GameMenu.jsx
-// GameMenu.jsx
-import React from 'react'
-=======
-import React from 'react';
->>>>>>> main:src/menu/GameMenu.tsx
-import { useNavigate } from 'react-router-dom';
-import '../styles/GameMenu.css';
-import {routes} from '../utils/constants'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/GameMenu.css";
+import { routes } from "../utils/constants";
 
 const GameMenu = () => {
   const navigate = useNavigate();
@@ -14,13 +9,22 @@ const GameMenu = () => {
   return (
     <div className="container">
       <div className="menu">
-        <button className="button button-white" onClick={() => navigate(routes.game)}>
+        <button
+          className="button button-white"
+          onClick={() => navigate(routes.game)}
+        >
           Start Game
         </button>
-        <button className="button button-transparent" onClick={() => navigate(routes.profile)}>
+        <button
+          className="button button-transparent"
+          onClick={() => navigate(routes.profile)}
+        >
           User Profile
         </button>
-        <button className="button button-purple" onClick={() => navigate(routes.shop)}>
+        <button
+          className="button button-purple"
+          onClick={() => navigate(routes.shop)}
+        >
           Shop
         </button>
       </div>
