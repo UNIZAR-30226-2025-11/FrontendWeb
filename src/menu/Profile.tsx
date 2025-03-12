@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
+import UserStatistics from './Statistics';
 
-const Profile = () => {
+const App: React.FC = () => {
+  const totalGames = 50;
+  const wonGames = 30;
+  const recentResults: ('win' | 'loss')[] = ['win', 'loss', 'win', 'win', 'loss', 'loss', 'win', 'win', 'loss', 'win'];
 
   return (
-    <div style={{ height: `calc(100vh - 40px)`,
-                  marginTop:"40px"}}>
-      <h1>User profile</h1>
-      <p>
-        Welcome to your profile! Here you can view and modify your personal information.
-      </p>
+    <div>
+      <UserStatistics totalGames={totalGames} wonGames={wonGames} recentResults={recentResults} />
     </div>
   );
 };
 
-export default Profile;
+export default App;
