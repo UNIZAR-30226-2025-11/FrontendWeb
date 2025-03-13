@@ -2,7 +2,7 @@ import React from "react";
 
 import './winLose.css';
 
-const WinLose = ({ win, onRestart }) => {
+const WinLose = ({ win, onRestart } : { win:boolean, onRestart:React.MouseEventHandler<HTMLButtonElement>}) => {
   return (
     <div className="win-lose-container">
       {win ? (
