@@ -1,13 +1,14 @@
 import React from "react";
+import * as Objects from "../../utils/types"
 
 import './CardShop.css';
 
-const ShopItem = ({ item }) => (
+const ShopItem = ({ item } : { item:Objects.Item }) => (
   <div className="shop-item">
     <img src={item.image} alt={item.name} className="item-image" />
     <h3 className="item-title">{item.name}</h3>
     <p className="item-description">{item.description}</p>
-    <p className="item-price">Price: ${item.price}</p>
+    <p className="item-price">Price: {String(item.price)}</p>
     <button className="buy-button">Add to Cart</button>
   </div>
 );

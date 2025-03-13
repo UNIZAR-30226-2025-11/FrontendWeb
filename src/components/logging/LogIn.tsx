@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../utils/constants";
 
 import "./LogIn.css"
-import { SERVER_IP } from "../../utils/config";
+import { SERVER } from "../../utils/config";
 
 /**
  * Creates a form for the user's logging that
@@ -39,7 +39,7 @@ const LogIn = () => {
      * 
      * @param {*} e The object of the action
      */
-    const handleChange = (e) => {
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         // Save the value of the field inside the state
         // of the filed.
         setFormData(
@@ -56,7 +56,7 @@ const LogIn = () => {
      * 
      * @param {*} e The object from the action
      */
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         // Don't reload the page on submit
         e.preventDefault()
 
@@ -66,7 +66,7 @@ const LogIn = () => {
         try
         {
             // Send the POST request with the user data
-            const response = await fetch(SERVER_IP + routes.login,
+            const response = await fetch(SERVER + routes.login,
             {
                 method: "POST",
                 headers: {

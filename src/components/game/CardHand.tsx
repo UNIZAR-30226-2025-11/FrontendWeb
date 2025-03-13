@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 import Card from "./Card"
 
 import { useState } from "react"
@@ -7,20 +6,18 @@ import { playCard } from "../../services/socketService"
 import { useSocket } from "../../context/SocketContext"
 import { BackendGamePlayedCardsResponseJSON } from "../../api/JSON"
 import { useSocketHandlers } from "../../hooks/useSocket"
-
-import { routes } from "../../utils/constants"
-import { SERVER_IP } from "../../utils/config"
+import * as Objects from "../../utils/types"
 
 import "./CardHand.css"
 
 /**
  * Defines the HTML for displying a deck of cards.
- * @param {*} cards The array of cards
+ * @param cards The array of cards
  * @returns The Deck
  */
-const Deck = ({ cards = [] } : { cards: Card[] }) => {
+const Deck = ({ cards = [] } : { cards: Objects.Card[] }) => {
     const [selectedCards, setSelectedCards] = useState<number[]>([])
-    const [hoveredCard, setHoveredCard] = useState<Card | null>(null)
+    const [hoveredCard, setHoveredCard] = useState<Objects.Card | null>(null)
 
     const { lobbyStartId } = useSocketHandlers()
 
@@ -58,31 +55,15 @@ const Deck = ({ cards = [] } : { cards: Card[] }) => {
         {
             playCard(socket, JSON.stringify(selectedCards), lobbyStartId.lobbyId, checkResponse)
         }
-
-
-        // Send the movement
-        // const response = await fetch(SERVER_IP + routes.play, {
-        //     method: "DELETE",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({id:selectedCards})
-        // })
-
-        // Check response
-        // if (response.ok)
-        //     console.log("OK play")
-        // else
-        //     console.log("ERROR play")
     }
 
     /**
      * Updates the selected state of a card.
      * If is selected, it will not be.
      * If it is not selected, it will be selected.
-     * @param {*} id The id of the card
+     * @param id The id of the card
      */
-    const toggleCardSelection = (id) => {
+    const toggleCardSelection = (id:number) => {
         setSelectedCards((prevSelectedCards) =>
           prevSelectedCards.includes(id)
             ? prevSelectedCards.filter((cardId) => cardId !== id) // Si ya está, lo quita
@@ -109,7 +90,7 @@ const Deck = ({ cards = [] } : { cards: Card[] }) => {
 
             {/* Cards */}
             <div className="cards">
-                {cards.map((card:Card, idx) => {
+                {cards.map((card:Objects.Card, idx) => {
                     return <Card    key={idx}
                                     card={card}
                                     isSelected={selectedCards.includes(card.id)}
@@ -119,19 +100,6 @@ const Deck = ({ cards = [] } : { cards: Card[] }) => {
             </div>
         </div>
     )
-}
-
-/**
- * Define the propierties that the parameters
- * of the component must have.
- */
-Deck.propTypes = {
-    cards: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            id: PropTypes.number.isRequired
-        })
-    ).isRequired
 }
 
 export default Deck

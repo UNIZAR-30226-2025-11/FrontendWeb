@@ -1,4 +1,5 @@
 import React from "react"
+import * as Objects from "../../utils/types"
 
 import "../../utils/types"
 
@@ -7,10 +8,10 @@ import "../../utils/types"
  * component has
  */
 type CardProps = {
-    card: Card;
+    card: Objects.Card;
     isSelected: boolean;
     onClick: (id: number) => void;
-    setHoveredCard: (card: Card | null) => void;
+    setHoveredCard: (card: Objects.Card | null) => void;
 };
 
 /**

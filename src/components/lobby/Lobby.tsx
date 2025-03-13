@@ -12,7 +12,7 @@ const Lobby = ({setLobbyVisible,
 {
     const [lobbyID, setLobbyID] = useState("")
 
-    const handleChange = (e) => {
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setLobbyID(e.target.value)
     }
 

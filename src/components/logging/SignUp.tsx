@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../utils/constants";
 
 import "./LogIn.css"
-import { SERVER_IP } from "../../utils/config";
+import { SERVER } from "../../utils/config";
 
 /**
  * Creates the form for the user's sign up process. It
@@ -41,7 +41,7 @@ const SignUp = () => {
      * 
      * @param {*} e The object that changed.
      */
-    const handleChange = (e) => {
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setFormData(
             {
                 ...formData,
@@ -56,7 +56,7 @@ const SignUp = () => {
      * 
      * @param {*} e The form to send.
      */
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         // Don't reload the page on submit
         e.preventDefault()
 
@@ -67,7 +67,7 @@ const SignUp = () => {
          * Response from the server about the information we sent
          * for the sign up process.
          */
-        const response = await fetch(SERVER_IP + routes.signup,
+        const response = await fetch(SERVER + routes.signup,
             {
                 method: "POST",
                 headers: {
