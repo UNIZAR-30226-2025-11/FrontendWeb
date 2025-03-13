@@ -5,23 +5,15 @@ import Lobby from '../../components/lobby/Lobby';
 
 import './menu.css';
 import LobbyUsers from '../../components/lobby/LobbyUsers';
+import { useSocketHandlers } from '../../hooks/useSocket';
 
 const GameMenu = () => {
   const navigate = useNavigate();
-
-  const [lobbyVisible, setLobbyVisible] = useState(false);
-  const [lobbyListVisible, setLobbyListVisible] = useState(false);
-
-  const [owner, setOwner] = useState(false)
   
   return (
     <div className="container">
-      {lobbyVisible && <Lobby setLobbyVisible={setLobbyVisible}
-                              setLobbyListVisible={setLobbyListVisible}
-                              setOwner={setOwner} /> }
-      {lobbyListVisible && <LobbyUsers lobbyID='123' owner={owner}/> }
       <div className="menu">
-        <button className="button button-white" onClick={() => setLobbyVisible(true)}>
+        <button className="button button-white" onClick={() => navigate(routes.game)}>
           Start Game
         </button>
         <button className="button button-transparent" onClick={() => navigate(routes.profile)}>

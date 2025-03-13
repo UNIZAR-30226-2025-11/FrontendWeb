@@ -21,6 +21,8 @@ export const createLobby = (socket: Socket,
         maxPlayers: numPlayers
     };
 
+    console.log("ENVIANDO:\n", request)
+
     socket.emit("create-lobby", request);
     socket.once("create-lobby", callback);
 };

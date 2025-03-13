@@ -1,5 +1,7 @@
 .container-lobby {
     position: absolute;
+    top: 15vh;
+    left: 20vw;
     width: 60vw;
     height: 70vh;
 
@@ -51,6 +53,8 @@
     position: absolute;
     width: 60vw;
     height: 70vh;
+    top: 15vh;
+    left: 20vw;
 
     background-color: white;
     border-radius: 50px;

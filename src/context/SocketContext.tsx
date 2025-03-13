@@ -4,7 +4,7 @@ import { io, Socket } from "socket.io-client";
 import { SERVER } from "../utils/config";
 
 // Create the socket
-const socket = io(SERVER);
+const socket = io(SERVER, {withCredentials:true});
 
 // Create the context
 const SocketContext = createContext<Socket | null>(null);

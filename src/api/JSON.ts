@@ -1,3 +1,17 @@
+export enum ActionType {
+    ShuffleDeck,
+    Attack,
+    CardReceived,
+    BombDefused,
+    BombExploded,
+    DrawCard,
+    SkipTurn,
+    FutureSeen,
+    AttackFailed,
+    FavorAttack
+}
+
+
 // -----------------------------------------------------------
 // Message to update the game state
 // Started by: The backend
@@ -5,7 +19,6 @@
 // Ack: None
 // Socket event: "game-state"
 // -----------------------------------------------------------
-
 export type BackendStateUpdateJSON = {
     error: boolean;
     errorMsg: string;
@@ -42,9 +55,7 @@ export type BackendGamePlayedCardsResponseJSON = {
     error: boolean;
     errorMsg: string;
     cardsSeeFuture: string;
-    hasShuffled: boolean;
-    skipTurn: boolean;
-    hasWonAttack: boolean;
+    cardReceived: string;
 }
 
 // -----------------------------------------------------------
@@ -73,6 +84,7 @@ export type BackendWinnerJSON = {
 export type BackendGameSelectPlayerJSON = {
     error: boolean;
     errorMsg: string;
+    lobbyId: string;
 }
 
 export type FrontendGameSelectPlayerResponseJSON = {
@@ -93,6 +105,7 @@ export type FrontendGameSelectPlayerResponseJSON = {
 export type BackendGameSelectCardJSON = {
     error: boolean;
     errorMsg: string;
+    lobbyId: string;
 }
 
 export type FrontendGameSelectCardResponseJSON = {
@@ -114,6 +127,7 @@ export type FrontendGameSelectCardResponseJSON = {
 export type BackendGameSelectCardTypeJSON = {
     error: boolean;
     errorMsg: string;
+    lobbyId: string;
 }
 
 export type FrontendGameSelectCardTypeResponseJSON = {
@@ -162,6 +176,24 @@ export type BackendJoinLobbyResponseJSON = {
 }
 
 // -----------------------------------------------------------
+// Message to update the lobby state
+// Started by: The backend
+// Listened by: Every player in the frontend with the different data.
+// Ack: None
+// Socket event: "lobby-state"
+// -----------------------------------------------------------
+export type BackendLobbyStateUpdateJSON = {
+    error: boolean;
+    errorMsg: string;
+    players: PlayerLobbyJSON[];
+}
+
+export type PlayerLobbyJSON = {
+    name: string;
+    isLeader: boolean;
+}
+
+// -----------------------------------------------------------
 // Message to start a lobby
 // Started by: The frontend
 // Listened by: The backend
@@ -179,21 +211,30 @@ export type BackendStartLobbyResponseJSON = {
     errorMsg: string;
     numPlayers: number;
 }
-// -----------------------------------------------------------
-
 
 // -----------------------------------------------------------
-// Message to assign the id of the player in a game and notify the lobby is started
-// Started by: The backend
-// Listened by: Every player in a lobby in the frontend
-// Ack: None
-// Socket-event: "lobby-started"
+// Message to inform that the game is started
+// started by: The backend
+// Ack: Yes
+// Socket-event: "start-game"
 // -----------------------------------------------------------
-
-export type BackendLobbyStartedJSON = {
+export type BackendStartGameResponseJSON = {
     error: boolean;
     errorMsg: string;
-    playerId: number;
-    lobbyId: string;
 }
+
+
 // -----------------------------------------------------------
+// Message to represent an action
+// Started by: The backend
+// Listened by: The frontend
+// Ack: None
+// Socket-event: "notify-action"
+
+export type BackendNotifyActionJSON = {
+    error: boolean;
+    errorMsg: string;
+    creatorId: number;
+    actionedPlayerId: number;
+    action: ActionType;
+}

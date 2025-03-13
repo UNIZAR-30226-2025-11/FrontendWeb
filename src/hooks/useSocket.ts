@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+
 import { useSocket } from "../context/SocketContext";
-import * as Objects from "../api/JSON";
+
+import * as Objects from "../api/JSON"
+
 
 export const useSocketHandlers = () => {
     // Create the sockets
