@@ -12,7 +12,6 @@ import * as Objects from "../../api/JSON"
  * 
  * @param setLobbyVisible Function for putting this screen visible or not.
  * @param setLobbyListVisible Function for putting the next screen visible.
- * @param setOwner Function for putting lider or not to the user
  * 
  * @returns The Lobby screen.
  */
@@ -21,13 +20,11 @@ const Lobby = (
     setLobbyCreate,
     setLobbyVisible,
     setLobbyListVisible,
-    setOwner,
     setLobbyEnter
     } : {
     setLobbyCreate:React.Dispatch<React.SetStateAction<Objects.BackendCreateLobbyResponseJSON | undefined>>,
     setLobbyVisible:React.Dispatch<React.SetStateAction<boolean>>,
     setLobbyListVisible:React.Dispatch<React.SetStateAction<boolean>>,
-    setOwner:React.Dispatch<React.SetStateAction<boolean>>,
     setLobbyEnter:React.Dispatch<React.SetStateAction<Objects.BackendJoinLobbyResponseJSON | undefined>>
     }) =>
 {
@@ -69,7 +66,6 @@ const Lobby = (
 
         setLobbyVisible(false)
         setLobbyListVisible(true)
-        setOwner(false)
     }
 
     /**
@@ -83,7 +79,6 @@ const Lobby = (
         // Update windows
         setLobbyVisible(false)
         setLobbyListVisible(true)
-        setOwner(true)
     }
 
     return (

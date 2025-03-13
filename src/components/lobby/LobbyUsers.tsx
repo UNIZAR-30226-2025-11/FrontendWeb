@@ -1,12 +1,12 @@
 import React from 'react'
 
-import './Lobby.css'
 import { useNavigate } from 'react-router-dom'
 import { routes } from '../../utils/constants'
 
-import { useSocketHandlers } from '../../hooks/useSocket'
-
 import * as Objects from "../../api/JSON"
+import './Lobby.css'
+import { startLobby } from '../../services/socketService'
+import { useSocket } from '../../context/SocketContext'
 
 
 const LobbyUsers = (
@@ -14,12 +14,26 @@ const LobbyUsers = (
     lobbyEnter,
     lobbyCreate,
     lobbyState,
+    setLobbyStart,
     } : {
     lobbyEnter:Objects.BackendJoinLobbyResponseJSON | undefined,
     lobbyCreate:Objects.BackendCreateLobbyResponseJSON | undefined,
     lobbyState:Objects.BackendLobbyStateUpdateJSON | undefined,
+    setLobbyStart:React.Dispatch<React.SetStateAction<Objects.BackendStartLobbyResponseJSON | undefined>>
     }) =>
 {
+
+    const socket = useSocket();
+
+    const handleClick = () => {
+        let id = "";
+
+        if (lobbyCreate) id = lobbyCreate.lobbyId
+        else if (lobbyEnter) id = lobbyEnter.lobbyId
+
+        startLobby(socket, id, setLobbyStart)
+    }
+
     return (
         <div className='container-lobby-users'>
             {/* Header with lobby identifier */}
@@ -40,9 +54,12 @@ const LobbyUsers = (
             </ol>}
 
             {/* Button for starting the game */}
-            {lobbyCreate && <button className='button-lobby'>
-                Start
-            </button>}
+            {lobbyCreate &&
+                <button className='button-lobby'
+                        onClick={handleClick}>
+                    Start
+                </button>
+            }
         </div>
     )
 }

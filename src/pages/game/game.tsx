@@ -29,11 +29,12 @@ const Game = () => {
     const { gameState,
             lobbyCreate, setLobbyCreate,
             lobbyEnter, setLobbyEnter,
-            lobbyState } = useSocketHandlers()
+            lobbyState,
+            lobbyStart, setLobbyStart,
+            lobbyStarted } = useSocketHandlers()
 
     const [lobbyVisible, setLobbyVisible] = useState(true);
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
-    const [owner, setOwner] = useState(false)
 
     /**
      * Defines the HTML for the board, taking into account
@@ -43,21 +44,21 @@ const Game = () => {
     const HTMLUsers = () => {
 
         // Check if the user has to decide the lobby
-        if (lobbyVisible)
+        if (!lobbyStart && !lobbyStarted && lobbyVisible)
         {
             return <Lobby   setLobbyVisible={setLobbyVisible}
                             setLobbyListVisible={setLobbyListVisible}
-                            setOwner={setOwner}
                             setLobbyCreate={setLobbyCreate}
                             setLobbyEnter={setLobbyEnter} />
         }
 
         // Check if the user is waiting for the start of the game
-        if (lobbyListVisible)
+        if (!lobbyStart && !lobbyStarted && lobbyListVisible)
         {
             return <LobbyUsers  lobbyCreate={lobbyCreate}
                                 lobbyEnter={lobbyEnter}
-                                lobbyState={lobbyState}/>
+                                lobbyState={lobbyState}
+                                setLobbyStart={setLobbyStart}/>
         }
 
         // Check the game state is not undefined
