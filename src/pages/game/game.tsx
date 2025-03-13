@@ -1,6 +1,4 @@
 import React from "react";
-import {ips, routes} from "../../utils/constants"
-import { useEffect, useState } from "react";
 
 import User from '../../components/game/User'
 import Deck from '../../components/game/CardHand'

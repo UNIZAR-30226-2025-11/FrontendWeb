@@ -2,9 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ips, routes } from "../../utils/constants";
+import { routes } from "../../utils/constants";
 
 import "./LogIn.css"
+import { SERVER_IP } from "../../utils/config";
 
 /**
  * Creates the form for the user's sign up process. It
@@ -66,7 +67,7 @@ const SignUp = () => {
          * Response from the server about the information we sent
          * for the sign up process.
          */
-        const response = await fetch(ips.server + routes.signup,
+        const response = await fetch(SERVER_IP + routes.signup,
             {
                 method: "POST",
                 headers: {

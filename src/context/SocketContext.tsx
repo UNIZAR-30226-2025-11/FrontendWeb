@@ -1,9 +1,10 @@
 import React, { createContext, useContext } from "react";
 import { io, Socket } from "socket.io-client";
-import { ips } from "../utils/constants"; 
+
+import { SERVER_IP } from "../utils/config";
 
 // Create the socket
-const socket = io(ips.server);
+const socket = io(SERVER_IP);
 
 // Create the context
 const SocketContext = createContext<Socket | null>(null);

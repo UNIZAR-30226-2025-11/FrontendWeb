@@ -3,11 +3,13 @@ import PropTypes from "prop-types"
 import Card from "./Card"
 
 import { useState } from "react"
-import { ips, routes } from "../../utils/constants"
 import { playCard } from "../../services/socketService"
 import { useSocket } from "../../context/SocketContext"
 import { BackendGamePlayedCardsResponseJSON } from "../../api/JSON"
 import { useSocketHandlers } from "../../hooks/useSocket"
+
+import { routes } from "../../utils/constants"
+import { SERVER_IP } from "../../utils/config"
 
 import "./CardHand.css"
 
@@ -59,19 +61,19 @@ const Deck = ({ cards = [] } : { cards: Card[] }) => {
 
 
         // Send the movement
-        const response = await fetch(ips.server + routes.play, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({id:selectedCards})
-        })
+        // const response = await fetch(SERVER_IP + routes.play, {
+        //     method: "DELETE",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({id:selectedCards})
+        // })
 
         // Check response
-        if (response.ok)
-            console.log("OK play")
-        else
-            console.log("ERROR play")
+        // if (response.ok)
+        //     console.log("OK play")
+        // else
+        //     console.log("ERROR play")
     }
 
     /**

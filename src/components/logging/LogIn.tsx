@@ -2,9 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ips, routes } from "../../utils/constants";
+import { routes } from "../../utils/constants";
 
 import "./LogIn.css"
+import { SERVER_IP } from "../../utils/config";
 
 /**
  * Creates a form for the user's logging that
@@ -65,7 +66,7 @@ const LogIn = () => {
         try
         {
             // Send the POST request with the user data
-            const response = await fetch(ips.server + routes.login,
+            const response = await fetch(SERVER_IP + routes.login,
             {
                 method: "POST",
                 headers: {

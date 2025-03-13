@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import './Lobby.css'
 import { useNavigate } from 'react-router-dom'
-import { ips, routes } from '../../utils/constants'
+import { routes } from '../../utils/constants'
 
 
 const LobbyUsers = ({lobbyID, owner} : {lobbyID:string, owner:boolean}) =>
