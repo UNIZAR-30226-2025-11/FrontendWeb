@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import './Lobby.css'
-import { createLobby } from '../../services/socketService'
+import { createLobby, joinLobby } from '../../services/socketService'
 import { useSocket } from '../../context/SocketContext'
 
 import * as Objects from "../../api/JSON"
@@ -16,14 +16,20 @@ import * as Objects from "../../api/JSON"
  * 
  * @returns The Lobby screen.
  */
-const Lobby = ({setLobbyCreate,
-                setLobbyVisible,
-                setLobbyListVisible,
-                setOwner} : {
-                setLobbyCreate:React.Dispatch<React.SetStateAction<Objects.BackendCreateLobbyResponseJSON | undefined>>,
-                setLobbyVisible:React.Dispatch<React.SetStateAction<boolean>>,
-                setLobbyListVisible:React.Dispatch<React.SetStateAction<boolean>>,
-                setOwner:React.Dispatch<React.SetStateAction<boolean>>}) =>
+const Lobby = (
+    {
+    setLobbyCreate,
+    setLobbyVisible,
+    setLobbyListVisible,
+    setOwner,
+    setLobbyEnter
+    } : {
+    setLobbyCreate:React.Dispatch<React.SetStateAction<Objects.BackendCreateLobbyResponseJSON | undefined>>,
+    setLobbyVisible:React.Dispatch<React.SetStateAction<boolean>>,
+    setLobbyListVisible:React.Dispatch<React.SetStateAction<boolean>>,
+    setOwner:React.Dispatch<React.SetStateAction<boolean>>,
+    setLobbyEnter:React.Dispatch<React.SetStateAction<Objects.BackendJoinLobbyResponseJSON | undefined>>
+    }) =>
 {
     // Id of the lobby to join
     const [ lobbyID, setLobbyID ] = useState("");
@@ -59,28 +65,22 @@ const Lobby = ({setLobbyCreate,
      * joins an existent Lobby
      */
     const handleJoin = () => {
+        joinLobby(socket, lobbyID, setLobbyEnter)
+
         setLobbyVisible(false)
         setLobbyListVisible(true)
         setOwner(false)
     }
-
-    // const f = (data: Objects.BackendCreateLobbyResponseJSON) => {
-    //     console.log("Hola")
-    //     console.log(data)
-    //     setLobbyCreate(data)
-    //     console.log("A")
-    //     console.log(data)
-    //     console.log("B")
-    //     console.log(lobbyCreate)
-    // }
 
     /**
      * Defines the actions to do if the user
      * creates a new Lobby
      */
     const handleCreate = () => {
+        // Send to the backend the information
         createLobby(socket, numPlayers, setLobbyCreate)
 
+        // Update windows
         setLobbyVisible(false)
         setLobbyListVisible(true)
         setOwner(true)
@@ -95,22 +95,20 @@ const Lobby = ({setLobbyCreate,
 
             {/* Join a lobby */}
             <div className='semi-container'>
-                <form>
-                    <input
-                        type='text'
-                        name='lobby-id'
-                        placeholder='Insert the lobby identifier'
-                        value={lobbyID}
-                        onChange={handleChange}
-                        required>
-                    </input>
+                <input
+                    type='text'
+                    name='lobby-id'
+                    placeholder='Insert the lobby identifier'
+                    value={lobbyID}
+                    onChange={handleChange}
+                    required>
+                </input>
 
-                    <button type='submit'
-                        className='button-lobby'
-                        onClick={handleJoin}>
-                        Join
-                    </button>
-                </form>
+                <button type='submit'
+                    className='button-lobby'
+                    onClick={handleJoin}>
+                    Join
+                </button>
             </div>
 
             {/* Create a lobby */}

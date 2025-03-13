@@ -17,7 +17,13 @@ import { SERVER } from "../../utils/config";
  *
  * @returns The form
  */
-const SignUp = () => {
+const SignUp = (
+    {
+        setUsername
+    } : {
+        setUsername:React.Dispatch<React.SetStateAction<string>>
+    }
+) => {
     /**
      * An object to manage the navigation inside
      * the page.
@@ -60,9 +66,6 @@ const SignUp = () => {
         // Don't reload the page on submit
         e.preventDefault()
 
-        // Print the data
-        console.log("Data sent:", {username: formData.username, password: formData.password});
-
         // Test if both passwords are the same
         if (formData.password !== formData.password2) {
             console.log("Passwords are not the same")
@@ -84,14 +87,11 @@ const SignUp = () => {
             }
         )
 
-        // TODO: Call /login directly
-
-
         // If the answer is OK, we navigate to the appropiate page
         if (response.status === 201)
         {
-            console.log("Everything is OK")
-            navigate(routes.login)
+            setUsername(formData.username)
+            navigate(routes.gamemenu)
         } else {
             console.log(response.body || "Something unexpected happenedt ")
         }

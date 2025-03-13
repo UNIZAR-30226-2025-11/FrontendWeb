@@ -16,7 +16,12 @@ import { SERVER } from "../../utils/config";
  *
  * @returns The form
  */
-const LogIn = () => {
+const LogIn = (
+    {
+        setUsername
+    } : {
+        setUsername:React.Dispatch<React.SetStateAction<string>>
+    }) => {
     /**
      * Object to manage the navigation inside the
      * application
@@ -60,9 +65,6 @@ const LogIn = () => {
         // Don't reload the page on submit
         e.preventDefault()
 
-        // Write the data read from the form
-        console.log("Data sent:", formData)
-
         try
         {
             // Send the POST request with the user data
@@ -80,6 +82,7 @@ const LogIn = () => {
             // appropiate page
             if (response.status === 200)
             {
+                setUsername(formData.username)
                 navigate(routes.gamemenu)
             }
             else {

@@ -26,7 +26,10 @@ const Game = () => {
      * State of the game: Users in the game and the
      * cards of the main user.
      */
-    const { gameState, lobbyCreate, setLobbyCreate } = useSocketHandlers()
+    const { gameState,
+            lobbyCreate, setLobbyCreate,
+            lobbyEnter, setLobbyEnter,
+            lobbyState } = useSocketHandlers()
 
     const [lobbyVisible, setLobbyVisible] = useState(true);
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
@@ -45,13 +48,16 @@ const Game = () => {
             return <Lobby   setLobbyVisible={setLobbyVisible}
                             setLobbyListVisible={setLobbyListVisible}
                             setOwner={setOwner}
-                            setLobbyCreate={setLobbyCreate} />
+                            setLobbyCreate={setLobbyCreate}
+                            setLobbyEnter={setLobbyEnter} />
         }
 
         // Check if the user is waiting for the start of the game
         if (lobbyListVisible)
         {
-            return <LobbyUsers lobbyCreate={lobbyCreate} owner={owner}/>
+            return <LobbyUsers  lobbyCreate={lobbyCreate}
+                                lobbyEnter={lobbyEnter}
+                                lobbyState={lobbyState}/>
         }
 
         // Check the game state is not undefined
@@ -129,7 +135,6 @@ const Game = () => {
         }
     }
 
-    console.log(lobbyCreate)
     return HTMLUsers();
 }
 

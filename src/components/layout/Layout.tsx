@@ -6,15 +6,17 @@ import UserBar from './UserBar';
  * Layout Component
  * Wraps all pages with the common UserBar.
  */
-const Layout = () => {
-  const user = {
-    username: "Name",
-    coins: 100,
-  };
+const Layout = (
+  {
+    username
+  } : {
+    username:string
+  }
+) => {
 
   return (
     <div>
-      <UserBar username={user.username} coins={user.coins} />
+      <UserBar username={username} coins={100} />
       <Outlet />
     </div>
   );

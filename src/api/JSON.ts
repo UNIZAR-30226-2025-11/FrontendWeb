@@ -173,6 +173,7 @@ export type FrontendJoinLobbyJSON = {
 export type BackendJoinLobbyResponseJSON = {
     error: boolean;
     errorMsg: string;
+    lobbyId: string;
 }
 
 // -----------------------------------------------------------

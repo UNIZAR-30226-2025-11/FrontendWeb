@@ -14,18 +14,21 @@ export const useSocketHandlers = () => {
     const [lobbyEnter, setLobbyEnter] = useState<Objects.BackendJoinLobbyResponseJSON | undefined>(undefined);
     const [lobbyStart, setLobbyStart] = useState<Objects.BackendStartLobbyResponseJSON | undefined>(undefined);
     const [gameState, setGameState] = useState<Objects.BackendStateUpdateJSON | undefined>(undefined);
-    const [lobbyStartId, setLobbyStartId] = useState<Objects.BackendLobbyStartedJSON | undefined>(undefined);
+    // const [lobbyStartId, setLobbyStartId] = useState<Objects.BackendLobbyStartedJSON | undefined>(undefined);
+    const [lobbyState, setLobbyState] = useState<Objects.BackendLobbyStateUpdateJSON | undefined>(undefined);
 
     // Specify where to hear for information
     useEffect(() => {
         socket.on("game-state", setGameState);
-        socket.on("lobby-started", setLobbyStartId);
+        socket.on("lobby-state", setLobbyState);
+        // socket.on("lobby-started", setLobbyStartId);
 
         return () => {
             socket.off("game-state", setGameState);
-            socket.off("lobby-started", setLobbyStartId);
+            socket.off("lobby-state", setLobbyState);
+            // socket.off("lobby-started", setLobbyStartId);
         };
     }, [socket]);
 
-    return { lobbyCreate, setLobbyCreate, lobbyEnter, setLobbyEnter, lobbyStart, setLobbyStart, gameState, lobbyStartId };
+    return { lobbyCreate, setLobbyCreate, lobbyEnter, setLobbyEnter, lobbyStart, setLobbyStart, gameState, lobbyState, setLobbyState };
 };

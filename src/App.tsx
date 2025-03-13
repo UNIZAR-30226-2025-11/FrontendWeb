@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { routes } from './utils/constants';
 import LogIn from './components/logging/LogIn';
@@ -18,6 +18,8 @@ import Layout from './components/layout/Layout';
  * @returns A Router object with the routes of the application.
  */
 function App() {
+  const [username, setUsername] = useState("")
+
   return (
     <Router>
       <Routes>
@@ -25,10 +27,10 @@ function App() {
         <Route path={routes.home} element={<AuthPage />} />
         
         {/* Routes for log in and sign up */}
-        <Route path={routes.login} element={<LogIn />} />
-        <Route path={routes.signup} element={<SignUp />} />
+        <Route path={routes.login} element={<LogIn setUsername={setUsername}/>} />
+        <Route path={routes.signup} element={<SignUp setUsername={setUsername}/>} />
 
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout username={username}/>}>
           {/* Route for the game screen */}
           <Route path={routes.game} element={<Game />} />
 

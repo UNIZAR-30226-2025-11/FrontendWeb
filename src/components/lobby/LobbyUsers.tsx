@@ -9,38 +9,38 @@ import { useSocketHandlers } from '../../hooks/useSocket'
 import * as Objects from "../../api/JSON"
 
 
-const LobbyUsers = ({lobbyCreate, owner} : {lobbyCreate:Objects.BackendCreateLobbyResponseJSON | undefined, owner:boolean}) =>
+const LobbyUsers = (
+    {
+    lobbyEnter,
+    lobbyCreate,
+    lobbyState,
+    } : {
+    lobbyEnter:Objects.BackendJoinLobbyResponseJSON | undefined,
+    lobbyCreate:Objects.BackendCreateLobbyResponseJSON | undefined,
+    lobbyState:Objects.BackendLobbyStateUpdateJSON | undefined,
+    }) =>
 {
-    const navigate = useNavigate()
-
-    const handleClick = () => {
-        // navigate(routes.game)
-        // console.log(lobbyID)
-    }
-
     return (
         <div className='container-lobby-users'>
-            {
-                lobbyCreate === undefined &&
-                <p>
-                    Lobby Identifier: Loading...
-                </p>
-            }
+            {/* Header with lobby identifier */}
+            <p>
+                Lobby Identifier: { lobbyCreate?.lobbyId ||
+                                    lobbyEnter?.lobbyId ||
+                                    lobbyEnter?.errorMsg ||
+                                    "Loading..." }
+            </p>
 
-            {
-                lobbyCreate &&
-                <p>
-                    Lobby Identifier: {lobbyCreate.lobbyId}
-                </p>
-            }
-
+            {/* List of users */}
+            {lobbyState?.players.map((user) => (
+                <li key={user.name}>{user.name}</li>
+            )) ||
             <ol>
-                <li>One user</li>
-                <li>Another user</li>
-            </ol>
+                <li>User 1</li>
+                <li>User 2</li>
+            </ol>}
 
-            {owner && <button className='button-lobby'
-                onClick={handleClick}>
+            {/* Button for starting the game */}
+            {lobbyCreate && <button className='button-lobby'>
                 Start
             </button>}
         </div>

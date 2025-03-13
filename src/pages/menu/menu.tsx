@@ -1,11 +1,8 @@
-import React, { use, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
-import Lobby from '../../components/lobby/Lobby';
 
 import './menu.css';
-import LobbyUsers from '../../components/lobby/LobbyUsers';
-import { useSocketHandlers } from '../../hooks/useSocket';
 
 const GameMenu = () => {
   const navigate = useNavigate();
