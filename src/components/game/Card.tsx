@@ -25,14 +25,21 @@ type CardProps = {
  * 
  * @returns The card
  */
-const Card:React.FC<CardProps> =
-({  card,
+const Card = (
+    {
+    card,
     isSelected,
-    onClick,
-    setHoveredCard}) =>
+    // onClick,
+    // setHoveredCard
+    } : {
+    card:string,
+    isSelected:boolean,
+    // onClick:React.Dispatch<React.SetStateAction<Number | null>>,
+    // setHoveredCard:React.Dispatch<React.SetStateAction<Objects.Card | null>>
+    }) =>
 {
     // Classes that define a card
-    let classes = "card shadow-game " + card.name
+    let classes = "card shadow-game "
 
     // Check if selected
     if (isSelected)
@@ -42,20 +49,22 @@ const Card:React.FC<CardProps> =
 
     return (
         // The card
-        <div className={classes}
+        <img src={"assets/cards/" + card + ".jpg"}
+            alt={card}
+            className={classes}
             onClick={() => {
-                onClick(card.id)
-                setHoveredCard(null)
+                // onClick(0)
+                // setHoveredCard(null)
             }}
 
             onMouseEnter={() => {
-                setHoveredCard(card)
+                // setHoveredCard()
             }}
             
             onMouseLeave={() => {
-                setHoveredCard(null)
+                // setHoveredCard(null)
             }}>
-        </div>
+        </img>
     )
 }
 

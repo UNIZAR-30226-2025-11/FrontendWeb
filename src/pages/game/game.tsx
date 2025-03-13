@@ -65,6 +65,8 @@ const Game = () => {
         if (!gameState)
             return <></>
 
+        console.log(gameState)
+
         // Check the number of players
         switch (gameState.players.length)
         {
@@ -122,8 +124,7 @@ const Game = () => {
                             <User   name={String(gameState.players[2]?.id)}
                                     numCards={gameState.players[2]?.numCards} />
                         </div>
-                        
-                        
+
                         <Timer duration={30} onTimeUp={() => {console.log("TIMEEER")}}/>
                         
                         {/* My own cards */}

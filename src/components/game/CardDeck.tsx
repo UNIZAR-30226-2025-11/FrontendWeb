@@ -6,7 +6,7 @@ import "./CardDeck.css"
 const deckSize = 10;
 const cards = Array.from({ length: deckSize }, (_, i) => ({
   id: i + 1,
-  image: "assets/cardAttack.jpg",
+  image: "assets/cards/Attack.jpg",
 }));
 
 const CardDeck = () => {

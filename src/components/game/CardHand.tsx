@@ -5,7 +5,6 @@ import { useState } from "react"
 import { playCard } from "../../services/socketService"
 import { useSocket } from "../../context/SocketContext"
 import { BackendGamePlayedCardsResponseJSON } from "../../api/JSON"
-import { useSocketHandlers } from "../../hooks/useSocket"
 import * as Objects from "../../utils/types"
 
 import "./CardHand.css"
@@ -15,11 +14,9 @@ import "./CardHand.css"
  * @param cards The array of cards
  * @returns The Deck
  */
-const Deck = ({ cards = [] } : { cards: Objects.Card[] }) => {
+const Deck = ({ cards = [] } : { cards: string[] }) => {
     const [selectedCards, setSelectedCards] = useState<number[]>([])
     const [hoveredCard, setHoveredCard] = useState<Objects.Card | null>(null)
-
-    const { lobbyStartId } = useSocketHandlers()
 
     // Basic styles for the main buttons
     let classesPlayButton = "game-button shadow-game"
@@ -32,29 +29,11 @@ const Deck = ({ cards = [] } : { cards: Objects.Card[] }) => {
 
 
     /**
-     * Check if there is an error in the sever answer and
-     * display it on the console
-     * 
-     * @param data The answer of the server
-     */
-    const checkResponse = (data:BackendGamePlayedCardsResponseJSON) => {
-        if (data.error)
-        {
-            console.log("There is an error with the played cards")
-            console.log(data.errorMsg)
-        }
-    }
-
-    /**
      * Sends the information of the selected cards to the
      * server for making the movement
      */
     const handlePlayClick = async () => {
-        const socket = useSocket()
-        if (lobbyStartId?.playerId) 
-        {
-            playCard(socket, JSON.stringify(selectedCards), lobbyStartId.lobbyId, checkResponse)
-        }
+
     }
 
     /**
@@ -70,6 +49,8 @@ const Deck = ({ cards = [] } : { cards: Objects.Card[] }) => {
             : [...prevSelectedCards, id] // Si no está, lo añade
         )
     }
+
+    console.log(cards)
 
     return (
         <div className="deck-div">
@@ -90,12 +71,13 @@ const Deck = ({ cards = [] } : { cards: Objects.Card[] }) => {
 
             {/* Cards */}
             <div className="cards">
-                {cards.map((card:Objects.Card, idx) => {
+                {cards.map((card, idx) => {
                     return <Card    key={idx}
                                     card={card}
-                                    isSelected={selectedCards.includes(card.id)}
-                                    onClick={toggleCardSelection}
-                                    setHoveredCard={setHoveredCard} />
+                                    isSelected={selectedCards.includes(0)}
+                                    // onClick={toggleCardSelection}
+                                    // setHoveredCard={setHoveredCard}
+                                    />
                 })}
             </div>
         </div>

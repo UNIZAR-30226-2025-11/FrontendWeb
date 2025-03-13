@@ -7,8 +7,8 @@
     /* border: 3px solid black; */
     padding: 0 10px;
     margin: 5px;
-    height: 150px;
-    width: 85px;
+    height: 200px;
+    width: 144px;
 
     display: flex;
     align-items: center;
@@ -18,13 +18,13 @@
 
     background-color: black;
     color: white;
+
+    padding: 0;
 }
 
 /* Style for a selected card */
 .card-selected {
     border: 3px solid #fdea00;
-    height: 144px;
-    width: 79px;
 }
 
 /*************************************************
@@ -49,6 +49,9 @@
     color: white;
     font-weight: bold;
     cursor:initial;
+
+    width: 100px;
+    
 }
 
 /*************************************************
@@ -67,33 +70,4 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-}
-
-
-/*************************************************
-                    TYPES OF CARDS
-**************************************************/
-
-/* Attack card */
-.attack {
-    background-image: url('/assets/cardAttack.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;      
-}
-
-/* Shuffle card */
-.shuffle {
-    background-image: url('/assets/cardSuffle.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* Do a favor card */
-.favor {
-    background-image: url('/assets/cardFavor.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
