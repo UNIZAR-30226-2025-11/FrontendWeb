@@ -10,11 +10,12 @@ import Shop from './shop/CardShop';
 // import WinLose from './game/WinLose';
 import AuthPage from './menu/AuthPage';
 import Layout from './Layout/Layout';
+import ModifyUser from './menu/ModifyUser';
 
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
- * 
+ *
  * @returns A Router object with the routes of the application.
  */
 function App() {
@@ -23,7 +24,7 @@ function App() {
       <Routes>
         {/* Default route */}
         <Route path={routes.home} element={<AuthPage />} />
-        
+
         {/* Routes for log in and sign up */}
         <Route path={routes.login} element={<LogIn />} />
         <Route path={routes.signup} element={<SignUp />} />
@@ -34,6 +35,7 @@ function App() {
 
           {/* Routes for the user profile */}
           <Route path={routes.profile} element={<Profile />} />
+          <Route path={routes.usermod} element={<ModifyUser />} />
 
           {/* Route for the shop */}
           <Route path={routes.shop} element={<Shop />} />
@@ -46,7 +48,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
-  ); 
+  );
 }
 
 export default App;

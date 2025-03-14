@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-import "../styles/CardDeck.css"
+import "../styles/cardDeck.css"
 
 const deckSize = 10;
 const cards = Array.from({ length: deckSize }, (_, i) => ({

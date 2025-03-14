@@ -5,6 +5,7 @@ const routes = {
     game: "/game",
     play: "/play",
     profile: "/profile",
+    usermod: "/usermod",
     shop: "/shop",
     winlose: "/winlose",
     gamemenu: "/menu"
