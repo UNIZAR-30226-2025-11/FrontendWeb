@@ -13,14 +13,10 @@ type UserStatisticsProps = {
 const UserStatistics: React.FC<UserStatisticsProps> = ({ totalGames, wonGames, recentResults }) => {
   const winPercentage = totalGames > 0 ? Math.round((wonGames / totalGames) * 100) : 0;
 
-  const cumulativeData = recentResults.map((result, index) => {
-    const previousWins = index === 0 ? 0 : recentResults.slice(0, index).filter(r => r === 'win').length;
-    const currentWin = result === 'win' ? 1 : 0;
-    return {
+  const cumulativeData = recentResults.map((result, index) => ({
       gameNumber: index + 1,
-      cumulativeWins: previousWins + currentWin,
-    };
-  });
+      cumulativeWins: recentResults.slice(0, index+1).filter(r => r === 'win').length
+  }));
 
   return (
     <div className="user-statistics">
