@@ -15,8 +15,8 @@ import "./CardHand.css"
  * @returns The Deck
  */
 const Deck = ({ cards = [] } : { cards: string[] }) => {
-    const [selectedCards, setSelectedCards] = useState<number[]>([])
-    const [hoveredCard, setHoveredCard] = useState<Objects.Card | null>(null)
+    const [selectedCards, setSelectedCards] = useState<Number[]>([])
+    const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
     // Basic styles for the main buttons
     let classesPlayButton = "game-button shadow-game"
@@ -42,7 +42,7 @@ const Deck = ({ cards = [] } : { cards: string[] }) => {
      * If it is not selected, it will be selected.
      * @param id The id of the card
      */
-    const toggleCardSelection = (id:number) => {
+    const toggleCardSelection = (id:Number) => {
         setSelectedCards((prevSelectedCards) =>
           prevSelectedCards.includes(id)
             ? prevSelectedCards.filter((cardId) => cardId !== id) // Si ya está, lo quita
@@ -50,13 +50,12 @@ const Deck = ({ cards = [] } : { cards: string[] }) => {
         )
     }
 
-    console.log(cards)
-
     return (
         <div className="deck-div">
             {/* Hovered card bigger in the center of the screen */}
-            {hoveredCard && hoveredCard.id != -1 && (
-                <div className={"big-card shadow-game " + hoveredCard.name} />
+            {hoveredCard && (
+                <img    src={"assets/cards/" + hoveredCard + ".jpg"}
+                        className={"big-card shadow-game"} />
             )}
 
             {/* Buttons */}
@@ -74,9 +73,10 @@ const Deck = ({ cards = [] } : { cards: string[] }) => {
                 {cards.map((card, idx) => {
                     return <Card    key={idx}
                                     card={card}
-                                    isSelected={selectedCards.includes(0)}
-                                    // onClick={toggleCardSelection}
-                                    // setHoveredCard={setHoveredCard}
+                                    id={idx}
+                                    isSelected={selectedCards.includes(idx)}
+                                    onClick={toggleCardSelection}
+                                    setHoveredCard={setHoveredCard}
                                     />
                 })}
             </div>

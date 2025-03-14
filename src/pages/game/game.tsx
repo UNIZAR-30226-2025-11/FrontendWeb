@@ -11,6 +11,7 @@ import { useSocketHandlers } from "../../hooks/useSocket";
 import Lobby from "../../components/lobby/Lobby";
 import LobbyUsers from "../../components/lobby/LobbyUsers";
 import { createLobby } from "../../services/socketService";
+import { PlayerJSON } from "../../api/JSON";
 
 /**
  * Creates a form for the user's logging that
@@ -65,76 +66,40 @@ const Game = () => {
         if (!gameState)
             return <></>
 
-        console.log(gameState)
+        // Compute the rest of players who are not the user
+        const players = gameState.players.filter(player => player.id != gameState.playerId)
 
-        // Check the number of players
-        switch (gameState.players.length)
-        {
-            case 1:
-                return (
-                    <div className="screen">
-                        <User   name={String(gameState.players[0]?.id)}
-                            numCards={gameState.players[0]?.numCards} />
+        // Print the screen
+        return (
+            <div className="screen">
+                <User   player={players[0]} />
+
+                <div className="div-rest-users">
+                    {/* Left user */}
+                    { players[1]
+                        ? <User player={players[1]}/>
+                        : <></>
+                    }
+
+                    {/* Cards played */}
+                    <PlayedCards />
+
+                    {/* Right user */}
+                    { players[2]
+                        ? <User player={players[2]}/>
+                        : <></>
+                    }
+                </div>
+
+                <Timer duration={30} onTimeUp={() => {console.log("TIMEEER")}}/>
                         
-                        <Deck cards={JSON.parse(gameState.playerCards)} />
-                    </div>
-                )
-            case 2:
-            {
-                return (
-                    <div className="screen app-container">
-                        {/* Highest user in the screen */}
-                        <User   name={String(gameState.players[0]?.id)}
-                                numCards={gameState.players[0]?.numCards} />
-                        <div className="div-rest-users">
-                            {/* Left user */}
-                            <User   name={String(gameState.players[1]?.id)}
-                                    numCards={gameState.players[1]?.numCards} />
+                {/* My own cards */}
+                <Deck cards={JSON.parse(gameState.playerCards)} />
+                
+                <CardDeck />
+            </div>
+        )
 
-                            {/* Cards played */}
-                            <CardDeck />
-                            <PlayedCards />
-
-                            {/* Empty div for centering the stack */}
-                            <div></div>
-                        </div>
-                        
-                        <Deck cards={JSON.parse(gameState.playerCards)} />
-                    </div>
-                )
-            }
-            case 3:
-            {
-                return (
-                    <div className="screen app-container">
-                        <User   name={String(gameState.players[0]?.id)}
-                            numCards={gameState.players[0]?.numCards} />
-                        
-                        <div className="div-rest-users">
-                            {/* Left user */}
-                            <User   name={String(gameState.players[1]?.id)}
-                                    numCards={gameState.players[1]?.numCards} />
-
-                            {/* Cards for stealing */}
-
-                            {/* Cards played */}
-                            <PlayedCards />
-
-                            {/* Right user */}
-                            <User   name={String(gameState.players[2]?.id)}
-                                    numCards={gameState.players[2]?.numCards} />
-                        </div>
-
-                        <Timer duration={30} onTimeUp={() => {console.log("TIMEEER")}}/>
-                        
-                        {/* My own cards */}
-                        <Deck cards={JSON.parse(gameState.playerCards)} />
-                        
-                        <CardDeck />
-                    </div>
-                )
-            }
-        }
     }
 
     return HTMLUsers();

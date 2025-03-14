@@ -4,17 +4,6 @@ import * as Objects from "../../utils/types"
 import "../../utils/types"
 
 /**
- * Definition of the parameters that the Card
- * component has
- */
-type CardProps = {
-    card: Objects.Card;
-    isSelected: boolean;
-    onClick: (id: number) => void;
-    setHoveredCard: (card: Objects.Card | null) => void;
-};
-
-/**
  * Define how to display a card
  * 
  * @param card The card to show
@@ -29,13 +18,15 @@ const Card = (
     {
     card,
     isSelected,
-    // onClick,
-    // setHoveredCard
+    id,
+    onClick,
+    setHoveredCard
     } : {
     card:string,
     isSelected:boolean,
-    // onClick:React.Dispatch<React.SetStateAction<Number | null>>,
-    // setHoveredCard:React.Dispatch<React.SetStateAction<Objects.Card | null>>
+    id:Number
+    onClick:(id: Number) => void,
+    setHoveredCard:React.Dispatch<React.SetStateAction<string | null>>
     }) =>
 {
     // Classes that define a card
@@ -53,16 +44,16 @@ const Card = (
             alt={card}
             className={classes}
             onClick={() => {
-                // onClick(0)
-                // setHoveredCard(null)
+                onClick(id)
+                setHoveredCard(null)
             }}
 
             onMouseEnter={() => {
-                // setHoveredCard()
+                setHoveredCard(card)
             }}
             
             onMouseLeave={() => {
-                // setHoveredCard(null)
+                setHoveredCard(null)
             }}>
         </img>
     )

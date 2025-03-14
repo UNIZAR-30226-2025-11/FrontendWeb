@@ -1,5 +1,6 @@
 import React from "react"
 import './User.css'
+import { PlayerJSON } from "../../api/JSON";
 
 type UserProps = {
     name: string;
@@ -16,9 +17,12 @@ type UserProps = {
  * 
  * @returns The user
  */
-const User:React.FC<UserProps> =
-({  name="User",
-    numCards=0}) =>
+const User = (
+    {  
+    player
+    } : {
+    player:PlayerJSON
+    }) =>
 {    
     return (
         <div className="div-user shadow-game">
@@ -26,10 +30,10 @@ const User:React.FC<UserProps> =
                     src="./assets/user.png">
             </img>
             <span className="card-count">
-                {numCards}
+                {player.numCards}
             </span>
             <p className="name-user">
-                {name}
+                {player.id}
             </p>
         </div>
     )
