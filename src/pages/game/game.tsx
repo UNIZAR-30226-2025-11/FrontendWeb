@@ -32,7 +32,8 @@ const Game = () => {
             lobbyEnter, setLobbyEnter,
             lobbyState,
             lobbyStart, setLobbyStart,
-            lobbyStarted } = useSocketHandlers()
+            lobbyStarted,
+            cardPlayedResult, setCardPlayedResult } = useSocketHandlers()
 
     const [lobbyVisible, setLobbyVisible] = useState(true);
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
@@ -56,6 +57,7 @@ const Game = () => {
         // Check if the user is waiting for the start of the game
         if (!lobbyStart && !lobbyStarted && lobbyListVisible)
         {
+            console.log("LOBBY ENTER:", lobbyEnter)
             return <LobbyUsers  lobbyCreate={lobbyCreate}
                                 lobbyEnter={lobbyEnter}
                                 lobbyState={lobbyState}
@@ -68,6 +70,10 @@ const Game = () => {
 
         // Compute the rest of players who are not the user
         const players = gameState.players.filter(player => player.id != gameState.playerId)
+    
+        const lobbyId = lobbyCreate?.lobbyId || 
+                        lobbyEnter?.lobbyId ||
+                        ""
 
         // Print the screen
         return (
@@ -94,9 +100,12 @@ const Game = () => {
                 <Timer duration={30} onTimeUp={() => {console.log("TIMEEER")}}/>
                         
                 {/* My own cards */}
-                <Deck cards={JSON.parse(gameState.playerCards)} />
+                <Deck cards={JSON.parse(gameState.playerCards)}
+                        lobbyID={lobbyId}
+                        setCardPlayedResult={setCardPlayedResult} />
                 
-                <CardDeck />
+                <CardDeck   lobbyID={lobbyId}
+                            setCardPlayedResult={setCardPlayedResult}/>
             </div>
         )
 

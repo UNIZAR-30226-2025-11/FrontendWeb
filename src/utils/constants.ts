@@ -1,4 +1,4 @@
-const routes = {
+export const routes = {
     login: "/login",
     signup: "/signup",
     home: "/",
@@ -10,4 +10,7 @@ const routes = {
     gamemenu: "/menu"
 }
 
-export {routes}
+export const routesRequest = {
+    login: "/login",
+    signup: "/register"
+}

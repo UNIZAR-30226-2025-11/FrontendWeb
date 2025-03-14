@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { routes } from "../../utils/constants";
+import { routes, routesRequest } from "../../utils/constants";
 
 import "./LogIn.css"
 import { SERVER } from "../../utils/config";
@@ -76,7 +76,7 @@ const SignUp = (
          * Response from the server about the information we sent
          * for the sign up process.
          */
-        const response = await fetch(SERVER + routes.signup,
+        const response = await fetch(SERVER + routesRequest.signup,
             {
                 mode: 'cors',
                 method: "POST",

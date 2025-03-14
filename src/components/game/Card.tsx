@@ -24,8 +24,8 @@ const Card = (
     } : {
     card:string,
     isSelected:boolean,
-    id:Number
-    onClick:(id: Number) => void,
+    id:number
+    onClick:(id: number) => void,
     setHoveredCard:React.Dispatch<React.SetStateAction<string | null>>
     }) =>
 {

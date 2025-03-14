@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { routes } from "../../utils/constants";
+import { routes, routesRequest } from "../../utils/constants";
 
 import "./LogIn.css"
 import { SERVER } from "../../utils/config";
@@ -68,7 +68,7 @@ const LogIn = (
         try
         {
             // Send the POST request with the user data
-            const response = await fetch(SERVER + routes.login,
+            const response = await fetch(SERVER + routesRequest.login,
             {
                 mode:  "cors",
                 method: "POST",

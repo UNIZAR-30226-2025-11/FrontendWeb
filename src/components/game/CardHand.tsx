@@ -1,11 +1,10 @@
-import React from "react"
+import React, { use } from "react"
 import Card from "./Card"
 
 import { useState } from "react"
-import { playCard } from "../../services/socketService"
+import { playCards } from "../../services/socketService"
 import { useSocket } from "../../context/SocketContext"
-import { BackendGamePlayedCardsResponseJSON } from "../../api/JSON"
-import * as Objects from "../../utils/types"
+import * as Objects from "../../api/JSON"
 
 import "./CardHand.css"
 
@@ -14,9 +13,20 @@ import "./CardHand.css"
  * @param cards The array of cards
  * @returns The Deck
  */
-const Deck = ({ cards = [] } : { cards: string[] }) => {
-    const [selectedCards, setSelectedCards] = useState<Number[]>([])
+const Deck = (
+    {
+    cards = [],
+    lobbyID,
+    setCardPlayedResult
+    } : {
+    cards: string[],
+    lobbyID:string,
+    setCardPlayedResult:React.Dispatch<React.SetStateAction<Objects.BackendGamePlayedCardsResponseJSON | undefined>>
+}) => {
+    const [selectedCards, setSelectedCards] = useState<number[]>([])
     const [hoveredCard, setHoveredCard] = useState<string | null>(null)
+    const socket = useSocket();
+
 
     // Basic styles for the main buttons
     let classesPlayButton = "game-button shadow-game"
@@ -33,7 +43,10 @@ const Deck = ({ cards = [] } : { cards: string[] }) => {
      * server for making the movement
      */
     const handlePlayClick = async () => {
-
+        playCards(  socket,
+                    JSON.stringify(selectedCards.map(id => cards[id])),
+                    lobbyID,
+                    setCardPlayedResult)
     }
 
     /**
@@ -42,7 +55,7 @@ const Deck = ({ cards = [] } : { cards: string[] }) => {
      * If it is not selected, it will be selected.
      * @param id The id of the card
      */
-    const toggleCardSelection = (id:Number) => {
+    const toggleCardSelection = (id:number) => {
         setSelectedCards((prevSelectedCards) =>
           prevSelectedCards.includes(id)
             ? prevSelectedCards.filter((cardId) => cardId !== id) // Si ya está, lo quita

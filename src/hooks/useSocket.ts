@@ -18,6 +18,8 @@ export const useSocketHandlers = () => {
     const [lobbyState, setLobbyState] = useState<Objects.BackendLobbyStateUpdateJSON | undefined>(undefined);
     const [lobbyStarted, setLobbyStarted] = useState<Objects.BackendStartGameResponseJSON | undefined>(undefined)
 
+    const [cardPlayedResult, setCardPlayedResult] = useState<Objects.BackendGamePlayedCardsResponseJSON | undefined>(undefined)
+
     // Specify where to hear for information
     useEffect(() => {
         socket.on("game-state", setGameState);
@@ -33,5 +35,5 @@ export const useSocketHandlers = () => {
         };
     }, [socket]);
 
-    return { lobbyCreate, setLobbyCreate, lobbyEnter, setLobbyEnter, lobbyStart, setLobbyStart, gameState, lobbyState, setLobbyState, lobbyStarted };
+    return { lobbyCreate, setLobbyCreate, lobbyEnter, setLobbyEnter, lobbyStart, setLobbyStart, gameState, lobbyState, setLobbyState, lobbyStarted, cardPlayedResult, setCardPlayedResult };
 };

@@ -86,7 +86,7 @@ export const startLobby = ( socket: Socket,
  * @param callback The function that will be executed
  *      when the server answers
  */
-export const playCard = (   socket: Socket,
+export const playCards = (  socket: Socket,
                             playedCards: string,
                             lobbyID: string,
                             callback: (data: Objects.BackendGamePlayedCardsResponseJSON) => void) =>
@@ -95,9 +95,12 @@ export const playCard = (   socket: Socket,
     {
         error: false,
         errorMsg: "",
-        playedCards: JSON.stringify(playedCards),
+        playedCards: playedCards,
         lobbyId: lobbyID
     };
+
+    console.log("Enviando:\n")
+    console.log(request)
 
     socket.emit("game-played-cards", request);
     socket.once("game-played-cards", callback);
