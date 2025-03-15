@@ -10,6 +10,7 @@ import Shop from './shop/CardShop';
 // import WinLose from './game/WinLose';
 import AuthPage from './menu/AuthPage';
 import Layout from './Layout/Layout';
+import UserStatistics from './menu/Statistics';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -43,6 +44,9 @@ function App() {
 
           {/* Route for the game menu */}
           <Route path={routes.gamemenu} element={<GameMenu />} />
+
+          {/* Route for the user's statistics page */}
+          {<Route path={routes.statistics} element={<UserStatistics totalGames={50} wonGames={30} recentResults={['win', 'loss', 'win', 'win', 'loss', 'loss', 'win', 'win', 'loss', 'win']} />} /> }
         </Route>
       </Routes>
     </Router>
