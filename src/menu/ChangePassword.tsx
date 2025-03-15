@@ -28,7 +28,6 @@ const ChangePasswordPage: React.FC<ChangePasswordProps> = ({ username }) => {
     <div className="container">
       <div className="form-container">
         <h1 className="title">Change Password</h1>
-        <p className="username">Username: <strong>{username}</strong></p>
         <div className="input-container">
           <label htmlFor="newPassword">New Password:</label>
           <input

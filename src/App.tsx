@@ -4,13 +4,13 @@ import { routes } from './utils/constants';
 import LogIn from './logging/LogIn'
 import SignUp from './logging/SignUp'
 import Game from './game/Game';
-import GameMenu from './menu/GameMenu'
-import Profile from './menu/Profile'
+import GameMenu from './menu/GameMenu';
 import Shop from './shop/CardShop';
 // import WinLose from './game/WinLose';
 import AuthPage from './menu/AuthPage';
 import Layout from './Layout/Layout';
 import ChangePasswordPage from './menu/ChangePassword';
+import Statistics from './menu/Statistics';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -33,9 +33,6 @@ function App() {
           {/* Route for the game screen */}
           <Route path={routes.game} element={<Game />} />
 
-          {/* Routes for the user profile */}
-          <Route path={routes.profile} element={<Profile />} />
-
           {/* Route for the shop */}
           <Route path={routes.shop} element={<Shop />} />
 
@@ -46,7 +43,10 @@ function App() {
           <Route path={routes.gamemenu} element={<GameMenu />} />
 
           {/* Route for the change password page */}
-          <Route path={routes.changepassword} element={<ChangePasswordPage />} />
+          <Route path={routes.chgpassw} element={<ChangePasswordPage />} />
+
+          {/* Route for statistics */}
+          <Route path={routes.statistics} element={<Statistics totalGames={60} wonGames={30} recentResults={['win', 'loss', 'win', 'win', 'loss', 'loss', 'win', 'win', 'loss', 'win']}/>} />
         </Route>
       </Routes>
     </Router>

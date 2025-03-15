@@ -4,11 +4,11 @@ const routes = {
     home: "/",
     game: "/game",
     play: "/play",
-    profile: "/profile",
     shop: "/shop",
     winlose: "/winlose",
     gamemenu: "/menu",
-    changepassword: "/changepassword"
+    chgpassw: "/changepassword",
+    statistics: "/statistics"
 }
 
 const ips = {

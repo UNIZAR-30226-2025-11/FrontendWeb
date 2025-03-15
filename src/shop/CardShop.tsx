@@ -1,5 +1,6 @@
 import React from "react";
-
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../utils/constants';
 import '../styles/CardShop.css';
 
 const ShopItem = ({ item }) => (
@@ -13,6 +14,8 @@ const ShopItem = ({ item }) => (
 );
 
 const Shop = () => {
+  const navigate = useNavigate();
+
   // Example shop items with prices for testing grid alignment
   const items = [
     {
