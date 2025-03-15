@@ -54,11 +54,12 @@ const LobbyUsers = (
             </ol>}
 
             {/* Button for starting the game */}
-            {lobbyCreate &&
-                <button className='button-lobby'
+            {lobbyCreate
+            ?   <button className='button-lobby'
                         onClick={handleClick}>
                     Start
                 </button>
+            : <></>
             }
         </div>
     )

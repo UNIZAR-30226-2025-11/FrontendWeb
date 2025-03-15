@@ -10,8 +10,8 @@ import './game.css'
 import { useSocketHandlers } from "../../hooks/useSocket";
 import Lobby from "../../components/lobby/Lobby";
 import LobbyUsers from "../../components/lobby/LobbyUsers";
-import { createLobby } from "../../services/socketService";
-import { PlayerJSON } from "../../api/JSON";
+import { useNavigate } from "react-router-dom";
+import WinLose from "../../components/game/WinLose";
 
 /**
  * Creates a form for the user's logging that
@@ -33,10 +33,13 @@ const Game = () => {
             lobbyState,
             lobbyStart, setLobbyStart,
             lobbyStarted,
-            cardPlayedResult, setCardPlayedResult } = useSocketHandlers()
+            cardPlayedResult, setCardPlayedResult,
+            winner } = useSocketHandlers()
 
     const [lobbyVisible, setLobbyVisible] = useState(true);
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
+    const navegate = useNavigate()
+
 
     /**
      * Defines the HTML for the board, taking into account
@@ -68,6 +71,11 @@ const Game = () => {
         if (!gameState)
             return <></>
 
+        if (!gameState?.players[gameState.playerId].active)
+            return <WinLose win={false}/>
+        else if (winner)
+            return <WinLose win={true}/>
+
         // Compute the rest of players who are not the user
         const players = gameState.players.filter(player => player.id != gameState.playerId)
     
@@ -97,7 +105,8 @@ const Game = () => {
                     }
                 </div>
 
-                <Timer duration={30} onTimeUp={() => {console.log("TIMEEER")}}/>
+                { gameState.turn == gameState.playerId &&
+                <Timer duration={gameState.timeOut} onTimeUp={() => {console.log("TIMEEER")}}/>}
                         
                 {/* My own cards */}
                 <Deck cards={JSON.parse(gameState.playerCards)}

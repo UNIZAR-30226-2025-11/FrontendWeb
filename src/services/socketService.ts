@@ -21,8 +21,6 @@ export const createLobby = (socket: Socket,
         maxPlayers: numPlayers
     };
 
-    console.log("ENVIANDO:\n", request)
-
     socket.emit("create-lobby", request);
     socket.once("create-lobby", callback);
 };
@@ -46,6 +44,7 @@ export const joinLobby = (  socket: Socket,
         errorMsg: "",
         lobbyId: lobbyId
     };
+
     socket.emit("join-lobby", request);
     socket.once("join-lobby", callback);
 };
@@ -99,9 +98,31 @@ export const playCards = (  socket: Socket,
         lobbyId: lobbyID
     };
 
-    console.log("Enviando:\n")
-    console.log(request)
-
     socket.emit("game-played-cards", request);
     socket.once("game-played-cards", callback);
+}
+
+
+
+/**
+ * Send a message to the backend with the selected user
+ * 
+ * @param socket The socket connection.
+ * @param userID The id of the selected user.
+ * @param lobbyID The id of the lobby.
+ */
+export const selectPlayer = (   socket: Socket,
+                                userID: number,
+                                lobbyID: string
+) => {
+    const request: Objects.FrontendGameSelectPlayerResponseJSON =
+    {
+        error: false,
+        errorMsg: "",
+        userId: userID,
+        lobbyId: lobbyID
+    };
+
+    socket.emit("game-select-player", request);
+    // socket.once("game-select-player")
 }

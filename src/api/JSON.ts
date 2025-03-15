@@ -1,17 +1,3 @@
-export enum ActionType {
-    ShuffleDeck,
-    Attack,
-    CardReceived,
-    BombDefused,
-    BombExploded,
-    DrawCard,
-    SkipTurn,
-    FutureSeen,
-    AttackFailed,
-    FavorAttack
-}
-
-
 // -----------------------------------------------------------
 // Message to update the game state
 // Started by: The backend
@@ -19,6 +5,7 @@ export enum ActionType {
 // Ack: None
 // Socket event: "game-state"
 // -----------------------------------------------------------
+
 export type BackendStateUpdateJSON = {
     error: boolean;
     errorMsg: string;
@@ -187,6 +174,7 @@ export type BackendLobbyStateUpdateJSON = {
     error: boolean;
     errorMsg: string;
     players: PlayerLobbyJSON[];
+    disband: boolean;
 }
 
 export type PlayerLobbyJSON = {
@@ -237,5 +225,21 @@ export type BackendNotifyActionJSON = {
     errorMsg: string;
     creatorId: number;
     actionedPlayerId: number;
-    action: ActionType;
+    action: string;
 }
+
+
+// -----------------------------------------------------------
+// Message to notify a player disconnected
+// Started by: The backend
+// Listened by: The frontend
+// Ack: None
+// Socket-event: "player-disconnected"
+// -----------------------------------------------------------
+
+export type BackendPlayerDisconnectedJSON = {
+    error: boolean;
+    errorMsg: string;
+    playerId: number;
+}
+// -----------------------------------------------------------

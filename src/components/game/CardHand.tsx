@@ -47,6 +47,7 @@ const Deck = (
                     JSON.stringify(selectedCards.map(id => cards[id])),
                     lobbyID,
                     setCardPlayedResult)
+        setSelectedCards([])
     }
 
     /**
