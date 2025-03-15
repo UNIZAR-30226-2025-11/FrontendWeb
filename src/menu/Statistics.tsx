@@ -8,7 +8,7 @@ type UserStatisticsProps = {
     totalGames: number;
     wonGames: number;
     recentResults: GameResult[];
-  };
+};
 
 const UserStatistics: React.FC<UserStatisticsProps> = ({ totalGames, wonGames, recentResults }) => {
   const winPercentage = totalGames > 0 ? Math.round((wonGames / totalGames) * 100) : 0;

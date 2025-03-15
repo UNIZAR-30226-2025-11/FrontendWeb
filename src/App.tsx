@@ -10,6 +10,7 @@ import Shop from './shop/CardShop';
 // import WinLose from './game/WinLose';
 import AuthPage from './menu/AuthPage';
 import Layout from './Layout/Layout';
+import ChangePasswordPage from './menu/ChangePassword';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -43,6 +44,9 @@ function App() {
 
           {/* Route for the game menu */}
           <Route path={routes.gamemenu} element={<GameMenu />} />
+
+          {/* Route for the change password page */}
+          <Route path={routes.changepassword} element={<ChangePasswordPage />} />
         </Route>
       </Routes>
     </Router>
