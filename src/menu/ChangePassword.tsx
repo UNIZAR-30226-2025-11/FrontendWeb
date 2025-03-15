@@ -14,8 +14,14 @@ const ChangePasswordPage: React.FC<ChangePasswordProps> = ({ username }) => {
       alert("Passwords do not match!");
       return;
     }
-    // Add logic here to update the password
+    // Add logic here
     alert("Password successfully changed!");
+  };
+
+  const handleDelete = () => {
+    // Add logic here
+    alert("Profile deleted!");
+
   };
 
   return (
@@ -41,8 +47,13 @@ const ChangePasswordPage: React.FC<ChangePasswordProps> = ({ username }) => {
             onChange={(e) => setRepeatPassword(e.target.value)}
           />
         </div>
-        <button className="button button-primary" onClick={handleConfirmChange}>
-          Confirm Change
+        <button className="button-container">
+          <button className="button confirm" onClick={handleConfirmChange}>
+            Confirm Change
+          </button>
+          <button className="button delete" onClick={handleDelete}>
+            Delete Profile
+          </button>
         </button>
       </div>
     </div>
