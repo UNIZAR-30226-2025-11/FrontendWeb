@@ -36,7 +36,8 @@ const Game = () => {
             lobbyStarted,
             cardPlayedResult, setCardPlayedResult,
             winner,
-            selectPlayer, setSelectPlayer } = useSocketHandlers()
+            selectPlayer, setSelectPlayer,
+            selectCardType, setSelectCardType } = useSocketHandlers()
 
     const [lobbyVisible, setLobbyVisible] = useState(true);
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
@@ -118,13 +119,16 @@ const Game = () => {
                 
                 {/* Played cards */}
                 <CardDeck   lobbyID={lobbyId}
-                            setCardPlayedResult={setCardPlayedResult}/>
+                            setCardPlayedResult={setCardPlayedResult}
+                            active={gameState.turn == gameState.playerId}/>
 
                 {/* Users selection */}
-                { selectPlayer &&
+                { (selectPlayer || selectCardType) &&
                     <SelectUser gameState={gameState}
                                 lobbyID={lobbyId}
-                                setSelectPlayer={setSelectPlayer}/> }
+                                setSelectPlayer={setSelectPlayer}
+                                setSelectCardType={setSelectCardType}
+                                isPlayers={selectPlayer != undefined}/> }
             </div>
         )
 

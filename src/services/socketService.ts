@@ -123,8 +123,34 @@ export const selectPlayer = (   socket: Socket,
         lobbyId: lobbyID
     };
 
-    console.log(request)
-
     socket.emit("game-select-player", request);
     socket.once("game-select-player", () => {});
+}
+
+
+/**
+ * Sends to the server the selected card type.
+ * 
+ * @param socket The socket for the connection with the server
+ * @param cardType The card type selected by the user
+ * @param lobbyID The id of the lobby
+ */
+export const selectTypeOfCard = (   socket: Socket,
+                                    cardType: string,
+                                    lobbyID: string
+) => {
+
+    const request: Objects.FrontendGameSelectCardTypeResponseJSON =
+    {
+        error: false,
+        errorMsg: "",
+        cardType: cardType,
+        lobbyId: lobbyID
+    }
+
+    console.log("AAAAAa")
+    console.log(request)
+
+    socket.emit("game-select-card-type", request)
+    socket.emit("game-select-card-type", () => {})
 }

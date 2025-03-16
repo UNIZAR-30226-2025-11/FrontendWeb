@@ -91,7 +91,7 @@ export const useSocketHandlers = () => {
                 cardPlayedResult, setCardPlayedResult,
                 winner,
                 selectPlayer, setSelectPlayer,
-                selectCardType,
+                selectCardType, setSelectCardType,
                 lobbyCreate, setLobbyCreate,
                 lobbyEnter, setLobbyEnter,
                 lobbyState, setLobbyState,

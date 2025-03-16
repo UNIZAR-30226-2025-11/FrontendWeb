@@ -6,7 +6,7 @@ import { playCards } from "../../services/socketService";
 import { useSocket } from "../../context/SocketContext";
 import * as Objects from "../../api/JSON"
 
-const deckSize = 10;
+const deckSize = 20;
 const cards = Array.from({ length: deckSize }, (_, i) => ({
   id: i + 1,
   image: "assets/cards/Attack.jpg",
@@ -15,17 +15,19 @@ const cards = Array.from({ length: deckSize }, (_, i) => ({
 const CardDeck = (
 	{
 	lobbyID,
-	setCardPlayedResult
+	setCardPlayedResult,
+	active
 	} : {
 	lobbyID:string,
-	setCardPlayedResult:React.Dispatch<React.SetStateAction<Objects.BackendGamePlayedCardsResponseJSON | undefined>>
+	setCardPlayedResult:React.Dispatch<React.SetStateAction<Objects.BackendGamePlayedCardsResponseJSON | undefined>>,
+	active:boolean
 	}
 ) => {
 	const [deck, setDeck] = useState(cards);
 	const socket = useSocket()
 
 	const drawCard = () => {
-		if (deck.length === 0) return;
+		if (deck.length === 0 || !active) return;
 		setDeck(deck.slice(1));
 
 		playCards(  socket,
