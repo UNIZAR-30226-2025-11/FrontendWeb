@@ -4,6 +4,7 @@ import coinsIcon from '../../../assets/coins.png';
 import './userbar.css';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
+import { SERVER } from "../../utils/config";
 
 /**
  * Defines the HTML for create a user bar with the
@@ -30,9 +31,24 @@ const UserBar = (
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = () => {
-    // add logic
-    navigate(routes.login);
+  const handleLogout = async () => {
+
+    const response = await fetch(SERVER + routes.logout,
+      {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }
+    )
+
+    console.log(response)
+
+    if (response.status == 200)
+      navigate(routes.login);
+    else
+      console.log("Something didn't work...")
   }
 
   useEffect(() => {

@@ -93,7 +93,7 @@ const SignUp = (
             setUsername(formData.username)
             navigate(routes.gamemenu)
         } else {
-            console.log(response.body || "Something unexpected happenedt ")
+            console.log(response.body || "Something unexpected happened ")
         }
     }
 
