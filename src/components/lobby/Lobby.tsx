@@ -5,6 +5,8 @@ import { createLobby, joinLobby } from '../../services/socketService'
 import { useSocket } from '../../context/SocketContext'
 
 import * as Objects from "../../api/JSON"
+import { useNavigate } from 'react-router-dom'
+import { routes } from '../../utils/constants'
 
 /**
  * Creates the Lobby screen, in which the user can join a created lobby
@@ -35,6 +37,7 @@ const Lobby = (
     const [numPlayers, setNumPlayers] = useState(2);
 
     const socket = useSocket();
+    const navegate = useNavigate();
 
     /**
      * Save the information inside the text filed
@@ -55,6 +58,7 @@ const Lobby = (
      */
     const handleClose = () => {
         setLobbyVisible(false)
+        navegate(routes.gamemenu)
     }
 
     /**
@@ -121,13 +125,6 @@ const Lobby = (
                         onClick={handleCreate}>
                     Create a new lobby
                 </button>
-
-            {/* {
-                lobbyCreate &&
-                <p>
-                    Texto: {lobbyCreate.lobbyId}
-                </p>
-            } */}
             </div>
         </div>
     )

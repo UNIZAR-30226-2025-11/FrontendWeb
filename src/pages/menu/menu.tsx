@@ -12,10 +12,7 @@ const GameMenu = () => {
     <div className="container">
       <div className="menu">
         <button className="button button-white" onClick={() => navigate(routes.game)}>
-          New Game
-        </button>
-        <button className="button button-white" onClick={() => navigate(routes.game)}>
-          Join Game
+          Start a game
         </button>
         <button className="button button-white" onClick={() => navigate(routes.shop)}>
           Shop

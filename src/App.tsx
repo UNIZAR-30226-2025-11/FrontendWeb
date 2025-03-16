@@ -5,7 +5,6 @@ import LogIn from './components/logging/LogIn';
 import SignUp from './components/logging/SignUp';
 import Game from './pages/game/game';
 import GameMenu from './pages/menu/menu'
-import Profile from './pages/profile/profile'
 import Shop from './components/shop/CardShop';
 import AuthPage from './pages/profile/authPage';
 import Layout from './components/layout/Layout';
