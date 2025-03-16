@@ -90,7 +90,7 @@ export const useSocketHandlers = () => {
     return {    gameState,
                 cardPlayedResult, setCardPlayedResult,
                 winner,
-                selectPlayer,
+                selectPlayer, setSelectPlayer,
                 selectCardType,
                 lobbyCreate, setLobbyCreate,
                 lobbyEnter, setLobbyEnter,

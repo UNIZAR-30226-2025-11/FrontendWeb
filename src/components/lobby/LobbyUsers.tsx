@@ -59,7 +59,7 @@ const LobbyUsers = (
                         onClick={handleClick}>
                     Start
                 </button>
-            : <></>
+            : <div></div>
             }
         </div>
     )

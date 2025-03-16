@@ -2,11 +2,6 @@ import React from "react"
 import './User.css'
 import { PlayerJSON } from "../../api/JSON";
 
-type UserProps = {
-    name: string;
-    numCards: number;
-}
-
 /**
  * Defines a User with a name and a specific
  * number of cards.

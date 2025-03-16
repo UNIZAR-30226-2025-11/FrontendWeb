@@ -12,6 +12,7 @@ import Lobby from "../../components/lobby/Lobby";
 import LobbyUsers from "../../components/lobby/LobbyUsers";
 import { useNavigate } from "react-router-dom";
 import WinLose from "../../components/game/WinLose";
+import SelectUser from "../../components/game/SelectUser";
 
 /**
  * Creates a form for the user's logging that
@@ -34,7 +35,8 @@ const Game = () => {
             lobbyStart, setLobbyStart,
             lobbyStarted,
             cardPlayedResult, setCardPlayedResult,
-            winner } = useSocketHandlers()
+            winner,
+            selectPlayer, setSelectPlayer } = useSocketHandlers()
 
     const [lobbyVisible, setLobbyVisible] = useState(true);
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
@@ -105,6 +107,7 @@ const Game = () => {
                     }
                 </div>
 
+                {/* Timer */}
                 { gameState.turn == gameState.playerId &&
                 <Timer duration={gameState.timeOut} onTimeUp={() => {console.log("TIMEEER")}}/>}
                         
@@ -113,8 +116,15 @@ const Game = () => {
                         lobbyID={lobbyId}
                         setCardPlayedResult={setCardPlayedResult} />
                 
+                {/* Played cards */}
                 <CardDeck   lobbyID={lobbyId}
                             setCardPlayedResult={setCardPlayedResult}/>
+
+                {/* Users selection */}
+                { selectPlayer &&
+                    <SelectUser gameState={gameState}
+                                lobbyID={lobbyId}
+                                setSelectPlayer={setSelectPlayer}/> }
             </div>
         )
 

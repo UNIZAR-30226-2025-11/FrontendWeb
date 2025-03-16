@@ -1,0 +1,41 @@
+.container-selection-big-user {
+    position: absolute;
+    top: 15vh;
+    left: 20vw;
+    width: 60vw;
+    height: 70vh;
+
+    background-color: white;
+    border-radius: 50px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.div-user {
+    box-shadow: 5px 10px 10px gray;
+}
+
+.users {
+    width: 70%;
+
+    margin: 0 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.div-big-user {
+    cursor: pointer;
+}
+
+.div-big-user:hover {
+    background-color: gray;
+}
+
+.div-big-user:active {
+    background-color: darkgray;
+}

@@ -123,6 +123,8 @@ export const selectPlayer = (   socket: Socket,
         lobbyId: lobbyID
     };
 
+    console.log(request)
+
     socket.emit("game-select-player", request);
-    // socket.once("game-select-player")
+    socket.once("game-select-player", () => {});
 }
