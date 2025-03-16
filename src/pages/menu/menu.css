@@ -1,0 +1,53 @@
+/* GameMenu.css */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.container {
+  width: 100vw;
+  height: calc(100vh - 40px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../../../assets/GameMenu.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin-top: 40px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 450px;
+}
+
+.button {
+  width: 100%;
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Bouton "New Game" */
+.button-white {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.button-white:hover {
+  background-color: #f3e8ff;
+}

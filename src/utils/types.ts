@@ -1,14 +1,11 @@
-type Card = {
+export type Card = {
     name: string;
     id: number;
 }
 
-type Player = {
-    username: string;
-    numCards: number;
-};
-
-type GameState = {
-    players: Player[];
-    cards: Card[];
-};
+export type Item = {
+    name: string;
+    description: string;
+    price: Number;
+    image: string;
+}

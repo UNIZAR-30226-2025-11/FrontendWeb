@@ -1,0 +1,76 @@
+/*************************************************
+                    CARDS
+**************************************************/
+
+/* Main style for a card */
+.card {
+    /* border: 3px solid black; */
+    padding: 0 10px;
+    margin: 5px;
+    height: 200px;
+    width: 144px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    background-color: black;
+    color: white;
+
+    padding: 0;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+/* Style for a selected card */
+.card-selected {
+    border-radius: 10px;
+    border: 3px solid #fdea00;
+}
+
+/*************************************************
+                    STACK OF CARDS
+**************************************************/
+
+.stack {
+    position: absolute;
+    top: 25vh;
+    left: 50vw;
+    transform: translate(-50%,35px);
+    height: 150px;
+    width: 85px;
+}
+
+.stack-card {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+    cursor:initial;
+
+    width: 100px;
+    
+}
+
+/*************************************************
+                    BIG CARD
+**************************************************/
+
+.big-card {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
