@@ -2,51 +2,113 @@
 
 /* Fixed thin user bar at the top */
 .user-bar {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: grey;
-    color: #fff;
-    width: 100vw;
-    top : 0;
-    position: fixed;
-    height: 40px;           /* Hauteur fixe de 40px */
-  }
-  
-  /* Container for user icon and username */
-  .user-info {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  color: #000000;
+  width: 100vw;
+  top: 0;
+  position: fixed;
+  height: 40px;
+  padding: 0 15px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 1000;
+}
 
-  }
-  
-  /* User icon styling */
-  .user-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-  
-  /* Username text styling */
-  .username {
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  /* Coins information styling */
-  .coins-info {
-    font-size: 14px;
-    margin-left: auto;
-  }
+/* Coins information styling */
+.coins-info {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
 
-  .coins-icon {
-    width: 15px;
-    height: 15px;
-    margin-left: 5px;
-    margin-right: 10px;
-  }
-  
+.coins {
+  color: #f39c12;
+  margin-right: 5px;
+}
+
+.coins-icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* Container for user icon and username */
+.user-info {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+/* User icon styling */
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect on icon */
+.user-bar:hover .user-icon {
+  transform: scale(1.1);
+}
+
+/* Username text styling */
+.username {
+  font-size: 14px;
+  font-weight: bold;
+  padding-right: auto;
+  flex-grow: 1;
+  min-width: fit-content;
+  padding-right: 30px;
+}
+
+/* Side Menu Styling */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background: #942626;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+  transition: right 0.3s ease-in-out;
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Menu opening animation */
+.side-menu.open {
+  right: 0;
+}
+
+/* Style of menu buttons */
+.menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 12px;
+  width: 80%;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border-radius: 5px;
+}
+
+.menu-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Disconnect button */
+.logout {
+  color: #ff2a12;
+  font-weight: bold;
+}

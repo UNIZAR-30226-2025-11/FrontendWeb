@@ -4,10 +4,11 @@ export const routes = {
     home: "/",
     game: "/game",
     play: "/play",
-    profile: "/profile",
     shop: "/shop",
     winlose: "/winlose",
-    gamemenu: "/menu"
+    gamemenu: "/menu",
+    chgpassw: "/changepassword",
+    statistics: "/statistics"
 }
 
 export const routesRequest = {

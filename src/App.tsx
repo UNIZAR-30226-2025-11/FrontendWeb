@@ -9,6 +9,8 @@ import Profile from './pages/profile/profile'
 import Shop from './components/shop/CardShop';
 import AuthPage from './pages/profile/authPage';
 import Layout from './components/layout/Layout';
+import ChangePasswordPage from './pages/profile/ChangePassword';
+import Statistics from './pages/profile/Statistics'
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -33,14 +35,17 @@ function App() {
           {/* Route for the game screen */}
           <Route path={routes.game} element={<Game />} />
 
-          {/* Routes for the user profile */}
-          <Route path={routes.profile} element={<Profile />} />
-
           {/* Route for the shop */}
           <Route path={routes.shop} element={<Shop />} />
 
           {/* Route for the game menu */}
           <Route path={routes.gamemenu} element={<GameMenu />} />
+
+          {/* Route for the change password page */}
+          <Route path={routes.chgpassw} element={<ChangePasswordPage />} />
+
+          {/* Route for statistics */}
+          <Route path={routes.statistics} element={<Statistics totalGames={60} wonGames={30} recentResults={['win', 'loss', 'win', 'win', 'loss', 'loss', 'win', 'win', 'loss', 'win']}/>} />
         </Route>
       </Routes>
     </Router>

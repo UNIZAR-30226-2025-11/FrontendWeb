@@ -42,54 +42,12 @@ html, body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Bouton "Start Game" */
+/* Bouton "New Game" */
 .button-white {
   background-color: #ffffff;
-  color: #6b46c1;
+  color: #000000;
 }
 
 .button-white:hover {
   background-color: #f3e8ff;
-}
-
-/* Bouton "User Profile" */
-.button-transparent {
-  background-color: transparent;
-  color: #ffffff;
-  border: 2px solid #ffffff;
-}
-
-.button-transparent:hover {
-  background-color: #ffffff;
-  color: #6b46c1;
-}
-
-/* Bouton "Log In" */
-.button-blue {
-  background-color: #4299e1;
-  color: #ffffff;
-}
-
-.button-blue:hover {
-  background-color: #2b6cb0;
-}
-
-/* Bouton "Sign Up" */
-.button-green {
-  background-color: #48bb78;
-  color: #ffffff;
-}
-
-.button-green:hover {
-  background-color: #2f855a;
-}
-
-/* Bouton "Shop" */
-.button-purple {
-  background-color: #5948bb;
-  color: #ffffff;
-}
-
-.button-purple:hover {
-  background-color: #361ebe;
 }

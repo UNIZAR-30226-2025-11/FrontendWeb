@@ -14,6 +14,7 @@ const ShopItem = ({ item } : { item:Objects.Item }) => (
 );
 
 const Shop = () => {
+
   // Example shop items with prices for testing grid alignment
   const items = [
     {
