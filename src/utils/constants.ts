@@ -14,5 +14,6 @@ export const routes = {
 
 export const routesRequest = {
     login: "/login",
-    signup: "/register"
+    signup: "/register",
+    users: "/users"
 }

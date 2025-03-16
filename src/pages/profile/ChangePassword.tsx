@@ -1,26 +1,66 @@
 import React, { useState } from 'react';
 import './ChangePassword.css';
+import { SERVER } from '../../utils/config';
+import { routesRequest } from '../../utils/constants';
 
-interface ChangePasswordProps {
-  username?: string;
-}
 
-const ChangePasswordPage: React.FC<ChangePasswordProps> = ({ username }) => {
+const ChangePasswordPage = (
+  {
+  username
+  } : {
+  username:string
+  }) => {
   const [newPassword, setNewPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
 
-  const handleConfirmChange = () => {
+  const handleConfirmChange = async () => {
     if (newPassword !== repeatPassword) {
       alert("Passwords do not match!");
       return;
     }
-    // Add logic here
-    alert("Password successfully changed!");
+
+    const response = await fetch(SERVER + routesRequest.users + "/:" + username,
+      {
+        mode: "cors",
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: newPassword
+        }),
+      }
+    )
+
+    console.log(response)
+
+    if (response.status == 200)
+      alert("Password successfully changed!");
+    else if (response.status == 401)
+      alert("Something went wrong with JWT")
+    else
+      alert("Something went wrong...")
   };
 
-  const handleDelete = () => {
-    // Add logic here
-    alert("Profile deleted!");
+  const handleDelete = async () => {
+
+    const response = await fetch(SERVER + routesRequest.users + "/:" + username,
+      {
+        mode: "cors",
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        }
+      }
+    )
+
+    if (response.status == 200)
+      alert("Profile deleted!");
+    else if (response.status == 401)
+      alert("Something went wrong with JWT");
+    else
+      alert("Something went wrong...")
 
   };
 
@@ -46,14 +86,14 @@ const ChangePasswordPage: React.FC<ChangePasswordProps> = ({ username }) => {
             onChange={(e) => setRepeatPassword(e.target.value)}
           />
         </div>
-        <button className="button-container">
+        <div className="button-container">
           <button className="button confirm" onClick={handleConfirmChange}>
             Confirm Change
           </button>
           <button className="button delete" onClick={handleDelete}>
             Delete Profile
           </button>
-        </button>
+        </div>
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ function App() {
           <Route path={routes.gamemenu} element={<GameMenu />} />
 
           {/* Route for the change password page */}
-          <Route path={routes.chgpassw} element={<ChangePasswordPage />} />
+          <Route path={routes.chgpassw} element={<ChangePasswordPage username={username}/>} />
 
           {/* Route for statistics */}
           <Route path={routes.statistics} element={<Statistics totalGames={60} wonGames={30} recentResults={['win', 'loss', 'win', 'win', 'loss', 'loss', 'win', 'win', 'loss', 'win']}/>} />
