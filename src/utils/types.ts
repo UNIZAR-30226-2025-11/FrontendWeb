@@ -25,3 +25,9 @@ export enum CardType {
     Cattermelon, // Wild card
     BeardCat // Wild card
 }
+
+export enum SelectionType {
+    User,
+    Card,
+    CardType
+}

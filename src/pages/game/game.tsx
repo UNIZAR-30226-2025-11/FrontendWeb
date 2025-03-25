@@ -11,8 +11,9 @@ import { useSocketHandlers } from "../../hooks/useSocket";
 import Lobby from "../../components/lobby/Lobby";
 import LobbyUsers from "../../components/lobby/LobbyUsers";
 import WinLose from "../../components/game/WinLose";
-import SelectUser from "../../components/game/SelectUser";
+import Selection from "../../components/game/SelectUser";
 import FutureCards from "../../components/game/FutureCards";
+import { SelectionType } from "../../utils/types";
 
 /**
  * Creates a form for the user's logging that
@@ -118,6 +119,14 @@ const Game = () => {
                         lobbyEnter?.lobbyId ||
                         ""
 
+        let selection = undefined;
+        if (selectPlayer)
+            selection = SelectionType.User;
+        else if (selectCardType)
+            selection = SelectionType.CardType;
+        else
+            selection = SelectionType.Card;
+
         // Print the screen
         return (
             <div className="screen">
@@ -156,12 +165,13 @@ const Game = () => {
                             active={gameState.turnUsername == gameState.playerUsername}/>
 
                 {/* Users selection */}
-                { (selectPlayer || selectCardType) &&
-                    <SelectUser gameState={gameState}
+                { (selectPlayer || selectCardType || selectCard) &&
+                    <Selection gameState={gameState}
                                 lobbyID={lobbyId}
                                 setSelectPlayer={setSelectPlayer}
                                 setSelectCardType={setSelectCardType}
-                                isPlayers={selectPlayer != undefined}/> }
+                                setSelectCard={setSelectCard}
+                                typeOfSelection={selection}/> }
             </div>
         )
 

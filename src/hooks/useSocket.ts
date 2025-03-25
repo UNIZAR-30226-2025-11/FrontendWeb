@@ -6,56 +6,56 @@ export const useSocketHandlers = () => {
     // Create the socket
     const socket = useSocket();
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // GAME STATE
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const [gameState, setGameState] = useState<Objects.BackendStateUpdateJSON | undefined>(undefined);
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // PLAY A CARD
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const [cardPlayedResult, setCardPlayedResult] = useState<Objects.BackendGamePlayedCardsResponseJSON | undefined>(undefined);
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // DEFINE WINNER
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const [winner, setWinner] = useState<Objects.BackendWinnerJSON | undefined>(undefined);
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // SELECT CARDS AND PLAYERS
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const [selectPlayer, setSelectPlayer] = useState<Objects.BackendGameSelectPlayerJSON | undefined>(undefined);
     const [selectCardType, setSelectCardType] = useState<Objects.BackendGameSelectCardTypeJSON | undefined>(undefined);
     const [selectCard, setSelectCard] = useState<Objects.BackendGameSelectCardJSON | undefined>(undefined);
     const [selectNope, setSelectNope] = useState<Objects.BackendGameSelectNopeJSON | undefined>(undefined);
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // LOBBIES
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const [lobbyCreate, setLobbyCreate] = useState<Objects.BackendCreateLobbyResponseJSON | undefined>(undefined);
     const [lobbyEnter, setLobbyEnter] = useState<Objects.BackendJoinLobbyResponseJSON | undefined>(undefined);
     const [lobbyState, setLobbyState] = useState<Objects.BackendLobbyStateUpdateJSON | undefined>(undefined);
     const [lobbyStart, setLobbyStart] = useState<Objects.BackendStartLobbyResponseJSON | undefined>(undefined);
     const [lobbyStarted, setLobbyStarted] = useState<Objects.BackendStartGameResponseJSON | undefined>(undefined);
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // ACTIONS
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const [actions, setActions] = useState<Objects.BackendNotifyActionJSON | undefined>(undefined);
 
-    // -------------------------------------------------------------------------    
+    // -----------------------------------------------------------------    
     // DISCONNECT
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const [disconnect, setDisconnect] = useState<Objects.BackendPlayerStatusJSON | undefined>(undefined);
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // CHAT
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const [messagesChat, setMessagesChat] = useState<Objects.BackendGetMessagesJSON | undefined>(undefined);
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // HANDLERS (Using useCallback for stability)
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     const handleGameState = useCallback((data: Objects.BackendStateUpdateJSON) => {
         setGameState(data);
     }, []);
@@ -116,9 +116,9 @@ export const useSocketHandlers = () => {
         setMessagesChat(data);
     }, []);
 
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     // SOCKET EVENT LISTENERS
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------
     useEffect(() => {
         // Lobby
         socket.on("lobby-state", handleLobbyStateUpdate);
