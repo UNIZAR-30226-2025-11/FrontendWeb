@@ -86,7 +86,7 @@ export const startLobby = ( socket: Socket,
  *      when the server answers
  */
 export const playCards = (  socket: Socket,
-                            playedCards: string,
+                            playedCards: Objects.CardJSON[],
                             lobbyID: string,
                             callback: (data: Objects.BackendGamePlayedCardsResponseJSON) => void) =>
 {
@@ -112,14 +112,14 @@ export const playCards = (  socket: Socket,
  * @param lobbyID The id of the lobby.
  */
 export const selectPlayer = (   socket: Socket,
-                                userID: number,
+                                username: string,
                                 lobbyID: string
 ) => {
     const request: Objects.FrontendGameSelectPlayerResponseJSON =
     {
         error: false,
         errorMsg: "",
-        userId: userID,
+        playerUsername: username,
         lobbyId: lobbyID
     };
 
@@ -148,7 +148,6 @@ export const selectTypeOfCard = (   socket: Socket,
         lobbyId: lobbyID
     }
 
-    console.log("AAAAAa")
     console.log(request)
 
     socket.emit("game-select-card-type", request)

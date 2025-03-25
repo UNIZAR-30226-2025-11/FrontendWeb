@@ -9,15 +9,21 @@
 export type BackendStateUpdateJSON = {
     error: boolean;
     errorMsg: string;
-    playerCards: string;
+    lobbyId: string;
+    playerCards: CardJSON[];
     players: PlayerJSON[];
-    turn: number;
+    turnUsername: string;
     timeOut: number;
-    playerId: number;
+    playerUsername: string;
+}
+
+export type CardJSON = {
+    id: number;
+    type: string;
 }
 
 export type PlayerJSON = {
-    id: number;
+    playerUsername: string;
     numCards: number;
     active: boolean;
 }
@@ -33,7 +39,7 @@ export type PlayerJSON = {
 export type FrontendGamePlayedCardsJSON = {
     error: boolean;
     errorMsg: string;
-    playedCards: string;
+    playedCards: CardJSON[];
     lobbyId: string;
 }
 
@@ -41,23 +47,32 @@ export type FrontendGamePlayedCardsJSON = {
 export type BackendGamePlayedCardsResponseJSON = {
     error: boolean;
     errorMsg: string;
-    cardsSeeFuture: string;
-    cardReceived: string;
+    cardsSeeFuture: CardJSON[];
+    cardReceived: CardJSON;
 }
 
 // -----------------------------------------------------------
 // Message to send the winner of the game
 // Started by: The backend
 // Listened by: Every player in the frontend
-// Ack: None
+// Ack: Yes. Only the winner will send the ack
 // Socket-event: "winner"
 // -----------------------------------------------------------
 
 export type BackendWinnerJSON = {
     error: boolean;
     errorMsg: string;
-    userId: number;
+    winnerUsername: string;
     coinsEarned: number;
+    lobbyId: string;
+}
+
+export type FrontendWinnerResponseJSON = {
+    error: boolean;
+    errorMsg: string;
+    winnerUsername: string;
+    coinsEarned: number;
+    lobbyId: string;
 }
 
 // -----------------------------------------------------------
@@ -77,7 +92,7 @@ export type BackendGameSelectPlayerJSON = {
 export type FrontendGameSelectPlayerResponseJSON = {
     error: boolean;
     errorMsg: string;
-    userId: number;
+    playerUsername: string;
     lobbyId: string;
 }
 
@@ -98,7 +113,7 @@ export type BackendGameSelectCardJSON = {
 export type FrontendGameSelectCardResponseJSON = {
     error: boolean;
     errorMsg: string;
-    card: string;
+    card: CardJSON;
     lobbyId: string;
 }
 
@@ -123,6 +138,28 @@ export type FrontendGameSelectCardTypeResponseJSON = {
     cardType: string;
     lobbyId: string;
 }
+
+// -----------------------------------------------------------
+// Message to send a petition to use or not a Nope card
+// Started by: The backend
+// Listened by: One player in the frontend
+// Ack: Yes, a response of the usage of the Nope card
+// Socket-event: "game-select-nope"
+// -----------------------------------------------------------
+export type BackendGameSelectNopeJSON = {
+    error: boolean;
+    errorMsg: string;
+    lobbyId: string;
+}
+
+export type FrontendGameSelectNopeResponseJSON = {
+    error: boolean;
+    errorMsg: string;
+    useNope: boolean;
+    lobbyId: string;
+}
+
+
 
 
 // -----------------------------------------------------------
@@ -175,6 +212,7 @@ export type BackendLobbyStateUpdateJSON = {
     errorMsg: string;
     players: PlayerLobbyJSON[];
     disband: boolean;
+    lobbyId: string;
 }
 
 export type PlayerLobbyJSON = {
@@ -223,23 +261,63 @@ export type BackendStartGameResponseJSON = {
 export type BackendNotifyActionJSON = {
     error: boolean;
     errorMsg: string;
-    creatorId: number;
-    actionedPlayerId: number;
+    triggerUser: string;
+    targetUser: string;
     action: string;
 }
 
 
 // -----------------------------------------------------------
-// Message to notify a player disconnected
+// Message to notify a player connection or disconnection
 // Started by: The backend
 // Listened by: The frontend
 // Ack: None
-// Socket-event: "player-disconnected"
+// Socket-event: "player-status"
 // -----------------------------------------------------------
 
-export type BackendPlayerDisconnectedJSON = {
+export type BackendPlayerStatusJSON = {
     error: boolean;
     errorMsg: string;
-    playerId: number;
+    playerUsername: string;
+    connected: boolean;
 }
 // -----------------------------------------------------------
+
+
+// -----------------------------------------------------------
+// Message to post a message in the chat
+// Started by: The frontend
+// Listened by: The backend
+// Ack: None
+// Socket-event: "post-message"
+// -----------------------------------------------------------
+
+export type FrontendPostMsgJSON = {
+    error: boolean;
+    errorMsg: string;
+    msg: string;
+    lobbyId: string;
+}
+
+// -----------------------------------------------------------
+// Message to send all chat messages
+// Started by: The backend
+// Listened by: The frontend
+// Ack: None
+// Socket-event: "get-messages"
+// -----------------------------------------------------------
+
+export type BackendGetMessagesJSON = {
+
+    error: boolean;
+    errorMsg: string;
+    messages: MsgJSON[];
+    lobbyId: string;
+}
+
+
+export type MsgJSON = {
+    msg: string;
+    username: string;
+    date: string;
+}

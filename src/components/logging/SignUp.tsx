@@ -92,6 +92,7 @@ const SignUp = (
         {
             setUsername(formData.username)
             navigate(routes.gamemenu)
+            window.location.reload();
         } else {
             console.log(response.body || "Something unexpected happened ")
         }

@@ -17,11 +17,13 @@ const Deck = (
     {
     cards = [],
     lobbyID,
-    setCardPlayedResult
+    setCardPlayedResult,
+    turn
     } : {
-    cards: string[],
+    cards: Objects.CardJSON[],
     lobbyID:string,
-    setCardPlayedResult:React.Dispatch<React.SetStateAction<Objects.BackendGamePlayedCardsResponseJSON | undefined>>
+    setCardPlayedResult:React.Dispatch<React.SetStateAction<Objects.BackendGamePlayedCardsResponseJSON | undefined>>,
+    turn:boolean
 }) => {
     const [selectedCards, setSelectedCards] = useState<number[]>([])
     const [hoveredCard, setHoveredCard] = useState<string | null>(null)
@@ -32,7 +34,7 @@ const Deck = (
     let classesPlayButton = "game-button shadow-game"
 
     // Define the state of the button
-    if (selectedCards.length == 0)
+    if (selectedCards.length == 0 || !turn)
         classesPlayButton += " game-button-inactive"
     else
         classesPlayButton += " game-button-active"
@@ -44,7 +46,7 @@ const Deck = (
      */
     const handlePlayClick = async () => {
         playCards(  socket,
-                    JSON.stringify(selectedCards.map(id => cards[id])),
+                    selectedCards.map(id => cards[id]),
                     lobbyID,
                     setCardPlayedResult)
         setSelectedCards([])
@@ -77,7 +79,7 @@ const Deck = (
                 {/* Play button */}
                 <button className={classesPlayButton}
                     onClick={handlePlayClick}
-                    disabled={selectedCards.length == 0}>
+                    disabled={!turn || selectedCards.length == 0}>
                         PLAY SELECTED CARDS
                 </button>
             </div>

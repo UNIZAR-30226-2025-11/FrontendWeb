@@ -19,9 +19,9 @@ const BigUser = (
 
     const socket = useSocket();
 
-    const handleClick = (playerID:number) => {
+    const handleClick = (username:string) => {
         selectPlayer(   socket,
-                        playerID,
+                        username,
                         lobbyID,
         )
         setSelectPlayer(undefined)
@@ -29,7 +29,7 @@ const BigUser = (
 
     return (
         <div className="div-user div-big-user"
-                onClick={() => {handleClick(player.id)}}>
+                onClick={() => {handleClick(player.playerUsername)}}>
             <img    className="img-user"
                     src="./assets/user.png">
             </img>
@@ -37,7 +37,7 @@ const BigUser = (
                 {player.numCards}
             </span>
             <p className="name-user">
-                {player.id}
+                {player.playerUsername}
             </p>
         </div>
     )

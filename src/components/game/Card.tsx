@@ -1,6 +1,5 @@
 import React from "react"
-import * as Objects from "../../utils/types"
-
+import * as Objects from "../../api/JSON"
 import "../../utils/types"
 
 /**
@@ -22,7 +21,7 @@ const Card = (
     onClick,
     setHoveredCard
     } : {
-    card:string,
+    card:Objects.CardJSON,
     isSelected:boolean,
     id:number
     onClick:(id: number) => void,
@@ -40,8 +39,8 @@ const Card = (
 
     return (
         // The card
-        <img src={"assets/cards/" + card + ".jpg"}
-            alt={card}
+        <img src={"assets/cards/" + card.type + ".jpg"}
+            alt={card.type}
             className={classes}
             onClick={() => {
                 onClick(id)
@@ -49,7 +48,7 @@ const Card = (
             }}
 
             onMouseEnter={() => {
-                setHoveredCard(card)
+                setHoveredCard(card.type)
             }}
             
             onMouseLeave={() => {

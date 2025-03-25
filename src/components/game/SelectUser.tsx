@@ -27,7 +27,7 @@ const SelectUser = (
         return <></>
 
     const socket = useSocket()
-    const players = gameState.players.filter((player) => player.id != gameState.playerId && player.active)
+    const players = gameState.players.filter((player) => player.playerUsername != gameState.playerUsername && player.active)
     const [selectedCard, setSelectedCard] = useState("")
     const cardOptions = Object.keys(CardType).filter((key) => isNaN(Number(key))) as (keyof typeof CardType)[];
 

@@ -31,7 +31,7 @@ const CardDeck = (
 		setDeck(deck.slice(1));
 
 		playCards(  socket,
-					"[]",
+					[],
 					lobbyID,
 					setCardPlayedResult)
 	};

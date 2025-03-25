@@ -24,10 +24,8 @@ import SelectUser from "../../components/game/SelectUser";
  * @returns The form
  */
 const Game = () => {
-    /**
-     * State of the game: Users in the game and the
-     * cards of the main user.
-     */
+
+    // Import the state of the game
     const { gameState,
             lobbyCreate, setLobbyCreate,
             lobbyEnter, setLobbyEnter,
@@ -39,10 +37,9 @@ const Game = () => {
             selectPlayer, setSelectPlayer,
             selectCardType, setSelectCardType } = useSocketHandlers()
 
+    // Define variables for lobbies
     const [lobbyVisible, setLobbyVisible] = useState(true);
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
-    const navegate = useNavigate()
-
 
     /**
      * Defines the HTML for the board, taking into account
@@ -74,13 +71,14 @@ const Game = () => {
         if (!gameState)
             return <></>
 
-        if (!gameState?.players[gameState.playerId].active)
-            return <WinLose win={false}/>
-        else if (winner)
+        if (winner)
+        if (winner.winnerUsername == gameState.playerUsername)
             return <WinLose win={true}/>
+        else if (winner.winnerUsername != gameState.playerUsername)
+            return <WinLose win={false}/>
 
         // Compute the rest of players who are not the user
-        const players = gameState.players.filter(player => player.id != gameState.playerId)
+        const players = gameState.players.filter(player => player.playerUsername != gameState.playerUsername)
     
         const lobbyId = lobbyCreate?.lobbyId || 
                         lobbyEnter?.lobbyId ||
@@ -109,18 +107,19 @@ const Game = () => {
                 </div>
 
                 {/* Timer */}
-                { gameState.turn == gameState.playerId &&
+                { gameState.turnUsername == gameState.playerUsername &&
                 <Timer duration={gameState.timeOut} onTimeUp={() => {console.log("TIMEEER")}}/>}
                         
                 {/* My own cards */}
-                <Deck cards={JSON.parse(gameState.playerCards)}
+                <Deck   cards={gameState.playerCards}
                         lobbyID={lobbyId}
-                        setCardPlayedResult={setCardPlayedResult} />
+                        setCardPlayedResult={setCardPlayedResult}
+                        turn={gameState.playerUsername == gameState.turnUsername} />
                 
                 {/* Played cards */}
                 <CardDeck   lobbyID={lobbyId}
                             setCardPlayedResult={setCardPlayedResult}
-                            active={gameState.turn == gameState.playerId}/>
+                            active={gameState.turnUsername == gameState.playerUsername}/>
 
                 {/* Users selection */}
                 { (selectPlayer || selectCardType) &&

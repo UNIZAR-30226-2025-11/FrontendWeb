@@ -72,6 +72,7 @@ const LogIn = (
             {
                 mode:  "cors",
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -84,6 +85,7 @@ const LogIn = (
             {
                 setUsername(formData.username)
                 navigate(routes.gamemenu)
+                window.location.reload();
             }
             else {
                 console.log(response)
