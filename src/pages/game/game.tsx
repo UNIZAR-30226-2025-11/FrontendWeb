@@ -10,9 +10,9 @@ import './game.css'
 import { useSocketHandlers } from "../../hooks/useSocket";
 import Lobby from "../../components/lobby/Lobby";
 import LobbyUsers from "../../components/lobby/LobbyUsers";
-import { useNavigate } from "react-router-dom";
 import WinLose from "../../components/game/WinLose";
 import SelectUser from "../../components/game/SelectUser";
+import FutureCards from "../../components/game/FutureCards";
 
 /**
  * Creates a form for the user's logging that
@@ -42,40 +42,67 @@ const Game = () => {
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
 
     /**
+     * HTML for render the lobby page in which the
+     * user is asked for Joining a lobby or Creating
+     * a new one.
+     * 
+     * @returns The HTML code for lobby selection.
+     */
+    const lobbyType = () => {
+        return <Lobby   setLobbyVisible={setLobbyVisible}
+                        setLobbyListVisible={setLobbyListVisible}
+                        setLobbyCreate={setLobbyCreate}
+                        setLobbyEnter={setLobbyEnter} />
+    }
+
+    /**
+     * HTML for render the lobby information with
+     * the users that are already in one lobby.
+     * 
+     * @returns The HTML code for lobby information.
+     */
+    const lobbyUsers = () => {
+        return <LobbyUsers  lobbyCreate={lobbyCreate}
+                            lobbyEnter={lobbyEnter}
+                            lobbyState={lobbyState}
+                            setLobbyStart={setLobbyStart}/>
+    }
+
+    /**
+     * HTML for render the page in which the user is
+     * informed about the winner of the game.
+     * 
+     * @returns The HTML code for winner information.
+     */
+    const winnerPage = () => {
+        if (winner?.winnerUsername == gameState?.playerUsername)
+            return <WinLose win={true}/>
+        else
+            return <WinLose win={false}/>
+    }
+
+    /**
+     * HTML for render the page that shows the
+     * following cards that are in the Deck after
+     * using a See Future card.
+     * 
+     * @returns The HTML code for See Future card.
+     */
+    const seeFuture = () => {
+        if (cardPlayedResult?.cardsSeeFuture)
+            return <FutureCards cards={cardPlayedResult.cardsSeeFuture}
+                                setCardPlayedResult={setCardPlayedResult}/>
+    }
+
+    /**
      * Defines the HTML for the board, taking into account
      * the number of users in the game.
      * @returns The necessary HTML for the board
      */
-    const HTMLUsers = () => {
-
-        // Check if the user has to decide the lobby
-        if (!lobbyStart && !lobbyStarted && lobbyVisible)
-        {
-            return <Lobby   setLobbyVisible={setLobbyVisible}
-                            setLobbyListVisible={setLobbyListVisible}
-                            setLobbyCreate={setLobbyCreate}
-                            setLobbyEnter={setLobbyEnter} />
-        }
-
-        // Check if the user is waiting for the start of the game
-        if (!lobbyStart && !lobbyStarted && lobbyListVisible)
-        {
-            console.log("LOBBY ENTER:", lobbyEnter)
-            return <LobbyUsers  lobbyCreate={lobbyCreate}
-                                lobbyEnter={lobbyEnter}
-                                lobbyState={lobbyState}
-                                setLobbyStart={setLobbyStart}/>
-        }
-
+    const HTMLGame = () => {
         // Check the game state is not undefined
         if (!gameState)
             return <></>
-
-        if (winner)
-        if (winner.winnerUsername == gameState.playerUsername)
-            return <WinLose win={true}/>
-        else if (winner.winnerUsername != gameState.playerUsername)
-            return <WinLose win={false}/>
 
         // Compute the rest of players who are not the user
         const players = gameState.players.filter(player => player.playerUsername != gameState.playerUsername)
@@ -133,7 +160,30 @@ const Game = () => {
 
     }
 
-    return HTMLUsers();
+    const HTML = () => {
+        // Check if the user has to decide the lobby
+        if (!lobbyStart && !lobbyStarted && lobbyVisible)
+            return lobbyType();
+
+        // Check if the user is waiting for the start of the game
+        if (!lobbyStart && !lobbyStarted && lobbyListVisible)
+            return lobbyUsers();
+
+        // See Future response
+        if (cardPlayedResult?.cardsSeeFuture != undefined &&
+            cardPlayedResult.cardsSeeFuture.length > 0
+        )
+            return seeFuture();
+
+        // Check if exsits a winner in the game
+        if (winner)
+            return winnerPage();
+
+        // Default: Show the game state
+        return HTMLGame();
+    }
+
+    return HTML();
 }
 
 export default Game;

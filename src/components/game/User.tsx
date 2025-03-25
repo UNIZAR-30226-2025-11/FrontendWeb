@@ -28,7 +28,7 @@ const User = (
                 {player.numCards}
             </span>
             <p className="name-user">
-                {player.id}
+                {player.playerUsername}
             </p>
         </div>
     )
