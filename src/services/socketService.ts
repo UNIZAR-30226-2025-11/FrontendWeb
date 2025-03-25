@@ -124,7 +124,6 @@ export const selectPlayer = (   socket: Socket,
     };
 
     socket.emit("game-select-player", request);
-    socket.once("game-select-player", () => {});
 }
 
 
@@ -148,8 +147,65 @@ export const selectTypeOfCard = (   socket: Socket,
         lobbyId: lobbyID
     }
 
+    console.log(request);
+
+    socket.emit("game-select-card-type", request);
+}
+
+export const selectCard = ( socket: Socket,
+                            card: Objects.CardJSON,
+                            lobbyID: string
+) => {
+    const request: Objects.FrontendGameSelectCardResponseJSON =
+    {
+        error: false,
+        errorMsg: "",
+        card: card,
+        lobbyId: lobbyID
+    }
+
     console.log(request)
 
-    socket.emit("game-select-card-type", request)
-    socket.emit("game-select-card-type", () => {})
+    socket.emit("game-select-card", request);
+}
+
+export const selectNopeUsage = (    socket: Socket,
+                                    isUsed: boolean,
+                                    lobbyID: string
+) => {
+
+    const request:  Objects.FrontendGameSelectNopeResponseJSON =
+    {
+        error: false,
+        errorMsg: "",
+        useNope: isUsed,
+        lobbyId: lobbyID
+    }
+
+    console.log(request)
+
+    socket.emit("game-select-nope", request);
+
+}
+                                 
+
+/**
+ * Sends to the server a message to post in the chat
+ * 
+ * @param socket The socket for the connection with the server
+ * @param msg The message to be sent
+ * @param lobbyId The id of the lobby
+ */
+export const postMessage = async (  socket: Socket, 
+                                    msg: string, 
+                                    lobbyId: string
+) => {
+
+    const msg_: Objects.FrontendPostMsgJSON = {
+        error: false,
+        errorMsg: "",
+        lobbyId: lobbyId,
+        msg: msg,
+    }
+    socket.emit("post-message", msg_);
 }

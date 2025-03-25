@@ -26,16 +26,23 @@ import SelectUser from "../../components/game/SelectUser";
 const Game = () => {
 
     // Import the state of the game
-    const { gameState,
-            lobbyCreate, setLobbyCreate,
-            lobbyEnter, setLobbyEnter,
-            lobbyState,
-            lobbyStart, setLobbyStart,
-            lobbyStarted,
-            cardPlayedResult, setCardPlayedResult,
-            winner,
-            selectPlayer, setSelectPlayer,
-            selectCardType, setSelectCardType } = useSocketHandlers()
+    const { 
+        lobbyCreate, setLobbyCreate,
+        lobbyEnter, setLobbyEnter,
+        lobbyStart, setLobbyStart,
+        lobbyState,
+        lobbyStarted,
+        gameState,
+        cardPlayedResult, setCardPlayedResult,
+        selectPlayer, setSelectPlayer,
+        selectCardType, setSelectCardType,
+        selectCard, setSelectCard,
+        selectNope, setSelectNope,
+        winner,
+        disconnect,
+        messagesChat,
+        actions
+    } = useSocketHandlers();
 
     // Define variables for lobbies
     const [lobbyVisible, setLobbyVisible] = useState(true);
