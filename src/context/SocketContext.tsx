@@ -10,6 +10,7 @@ const socket = io(SERVER, {withCredentials:true});
 const SocketContext = createContext<Socket | null>(null);
 
 export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
     return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate, Outlet } from 'react-router-dom';
 import { routes } from './utils/constants';
 import LogIn from './components/logging/LogIn';
 import SignUp from './components/logging/SignUp';
@@ -10,6 +10,8 @@ import AuthPage from './pages/profile/authPage';
 import Layout from './components/layout/Layout';
 import ChangePasswordPage from './pages/profile/ChangePassword';
 import Statistics from './pages/profile/Statistics'
+import { SocketProvider } from './context/SocketContext';
+import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -18,19 +20,29 @@ import Statistics from './pages/profile/Statistics'
  * @returns A Router object with the routes of the application.
  */
 function App() {
-  const [username, setUsername] = useState("")
 
   return (
     <Router>
       <Routes>
-        {/* Default route */}
-        <Route path={routes.home} element={<AuthPage />} />
-        
-        {/* Routes for log in and sign up */}
-        <Route path={routes.login} element={<LogIn setUsername={setUsername}/>} />
-        <Route path={routes.signup} element={<SignUp setUsername={setUsername}/>} />
+        <Route
+          element={
+            <ProtectedLogin> {/* Redirects to /gamemenu if user is logged in */}
+              <Outlet /> {/* ← This is the magic line! */}
+            </ProtectedLogin>
+          }
+        >
+          <Route path={routes.home} element={<AuthPage />} />
+          <Route path={routes.login} element={<LogIn />} />
+          <Route path={routes.signup} element={<SignUp />} />
+        </Route>
 
-        <Route path="/" element={<Layout username={username}/>}>
+        <Route path="/" element={
+          <SocketProvider>
+            <ProtectedNotLogin>
+              <Layout />
+            </ProtectedNotLogin>
+          </SocketProvider>}>
+          
           {/* Route for the game screen */}
           <Route path={routes.game} element={<Game />} />
 
@@ -41,10 +53,10 @@ function App() {
           <Route path={routes.gamemenu} element={<GameMenu />} />
 
           {/* Route for the change password page */}
-          <Route path={routes.chgpassw} element={<ChangePasswordPage username={username}/>} />
+          <Route path={routes.chgpassw} element={<ChangePasswordPage />} />
 
           {/* Route for statistics */}
-          <Route path={routes.statistics} element={<Statistics totalGames={60} wonGames={30} recentResults={['win', 'loss', 'win', 'win', 'loss', 'loss', 'win', 'win', 'loss', 'win']}/>} />
+          <Route path={routes.statistics} element={<Statistics />} />
         </Route>
       </Routes>
     </Router>

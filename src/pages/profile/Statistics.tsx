@@ -1,22 +1,18 @@
 import React from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import './UserStatistics.css';
+import { UserContextType, useUser } from '../../context/UserContext';
 
-type GameResult = 'win' | 'loss'; 
 
-type UserStatisticsProps = {
-    totalGames: number;
-    wonGames: number;
-    recentResults: GameResult[];
-};
+const UserStatistics: React.FC = () => {
 
-const UserStatistics: React.FC<UserStatisticsProps> = ({ totalGames, wonGames, recentResults }) => {
-  const winPercentage = totalGames > 0 ? Math.round((wonGames / totalGames) * 100) : 0;
+  const userContext: UserContextType = useUser();
 
-  const cumulativeData = recentResults.map((result, index) => ({
-      gameNumber: index + 1,
-      cumulativeWins: recentResults.slice(0, index+1).filter(r => r === 'win').length
-  }));
+  const gamesWon = userContext.user?.games_won!;
+  const gamesPlayed = userContext.user?.games_played!;
+
+
+  const winPercentage = gamesPlayed > 0 ? Math.round((gamesWon / gamesPlayed) * 100) : 0;
 
   return (
     <div className="user-statistics">
@@ -24,13 +20,13 @@ const UserStatistics: React.FC<UserStatisticsProps> = ({ totalGames, wonGames, r
       <div className="stats-container">
         {/* Text information */}
         <div className="stats-info">
-          <p><strong>Total games:</strong> {totalGames}</p>
-          <p><strong>Games won:</strong> {wonGames}</p>
+          <p><strong>Total games:</strong> {gamesPlayed}</p>
+          <p><strong>Games won:</strong> {gamesWon}</p>
           <p><strong>Win rate:</strong> {winPercentage}%</p>
         </div>
         {/* Chart */}
-        <div className="chart-container">
-          <LineChart width={500} height={300} data={cumulativeData}>
+        {/* <div className="chart-container">
+          <LineChart width={500} height={300} data={}>
           <CartesianGrid stroke="#ccc" />
           <XAxis 
             dataKey="gameNumber" 
@@ -43,7 +39,7 @@ const UserStatistics: React.FC<UserStatisticsProps> = ({ totalGames, wonGames, r
           <Legend />
           <Line type="monotone" dataKey="cumulativeWins" stroke="#0088FE" />
         </LineChart>
-        </div>
+        </div> */}
       </div>
     </div>
   );

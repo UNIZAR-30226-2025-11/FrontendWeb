@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/constants';
 
 import './authPage.css';
-
 /**
  * MainPage Component
  * Displays the main page with two buttons for "Log In" and "Sign Up".
