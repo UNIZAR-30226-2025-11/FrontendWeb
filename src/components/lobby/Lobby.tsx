@@ -4,7 +4,6 @@ import './Lobby.css'
 import { createLobby, joinLobby } from '../../services/socketService'
 import { useSocket } from '../../context/SocketContext'
 
-import * as Objects from "../../api/JSON"
 import { useNavigate } from 'react-router-dom'
 import { routes } from '../../utils/constants'
 
@@ -19,15 +18,11 @@ import { routes } from '../../utils/constants'
  */
 const Lobby = (
     {
-    setLobbyCreate,
-    setLobbyVisible,
-    setLobbyListVisible,
-    setLobbyEnter
+        setLobbyVisible,
+        setLobbyListVisible,
     } : {
-    setLobbyCreate:React.Dispatch<React.SetStateAction<Objects.BackendCreateLobbyResponseJSON | undefined>>,
-    setLobbyVisible:React.Dispatch<React.SetStateAction<boolean>>,
-    setLobbyListVisible:React.Dispatch<React.SetStateAction<boolean>>,
-    setLobbyEnter:React.Dispatch<React.SetStateAction<Objects.BackendJoinLobbyResponseJSON | undefined>>
+        setLobbyVisible:React.Dispatch<React.SetStateAction<boolean>>,
+        setLobbyListVisible:React.Dispatch<React.SetStateAction<boolean>>,
     }) =>
 {
     // Id of the lobby to join
@@ -66,7 +61,7 @@ const Lobby = (
      * joins an existent Lobby
      */
     const handleJoin = () => {
-        joinLobby(socket, lobbyID, setLobbyEnter)
+        joinLobby(socket.socket, lobbyID, socket.setLobbyEnter)
 
         setLobbyVisible(false)
         setLobbyListVisible(true)
@@ -78,7 +73,7 @@ const Lobby = (
      */
     const handleCreate = () => {
         // Send to the backend the information
-        createLobby(socket, numPlayers, setLobbyCreate)
+        createLobby(socket.socket, numPlayers, socket.setLobbyCreate)
 
         // Update windows
         setLobbyVisible(false)

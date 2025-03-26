@@ -30,7 +30,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (response.ok) {
           const data = await response.json();
-          console.log("Gato muerto.")
           setUser(data);
         } else {
           setUser(undefined);

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import "./CardDeck.css"
 import { playCards } from "../../services/socketService";
-import { useSocket } from "../../context/SocketContext";
+import { SocketContextType, useSocket } from "../../context/SocketContext";
 import * as Objects from "../../api/JSON"
 
 const deckSize = 20;
@@ -13,27 +13,22 @@ const cards = Array.from({ length: deckSize }, (_, i) => ({
 }));
 
 const CardDeck = (
-	{
-	lobbyID,
-	setCardPlayedResult,
-	active
-	} : {
-	lobbyID:string,
-	setCardPlayedResult:React.Dispatch<React.SetStateAction<Objects.BackendGamePlayedCardsResponseJSON | undefined>>,
-	active:boolean
-	}
+	{} : {}
 ) => {
 	const [deck, setDeck] = useState(cards);
-	const socket = useSocket()
+	const socket:SocketContextType = useSocket()
+
+	const active:boolean = socket.gameState?.turnUsername == socket.gameState?.playerUsername
+	const lobbyID:string = socket.gameState?.lobbyId!
 
 	const drawCard = () => {
 		if (deck.length === 0 || !active) return;
 		setDeck(deck.slice(1));
 
-		playCards(  socket,
+		playCards(  socket.socket,
 					[],
 					lobbyID,
-					setCardPlayedResult)
+					socket.setCardPlayedResult)
 	};
 
 	return (

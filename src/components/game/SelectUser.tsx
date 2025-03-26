@@ -5,29 +5,18 @@ import "./Select.css"
 import BigUser from "./BigUser";
 import { CardType } from "../../utils/types";
 import { selectTypeOfCard } from "../../services/socketService";
-import { useSocket } from "../../context/SocketContext";
+import { SocketContextType, useSocket } from "../../context/SocketContext";
 
 const SelectUser = (
-    {
-    gameState,
-    lobbyID,
-    setSelectPlayer,
-    setSelectCardType,
-    isPlayers
-    } : {
-    gameState:Objects.BackendStateUpdateJSON,
-    lobbyID:string,
-    setSelectPlayer:React.Dispatch<React.SetStateAction<Objects.BackendGameSelectPlayerJSON | undefined>>,
-    setSelectCardType:React.Dispatch<React.SetStateAction<Objects.BackendGameSelectCardTypeJSON | undefined>>,
-    isPlayers:boolean
-    }
+    {} : {}
 ) => {
 
-    if (!gameState)
+    const socket:SocketContextType = useSocket()
+
+    if (socket.gameState === undefined)
         return <></>
 
-    const socket = useSocket()
-    const players = gameState.players.filter((player) => player.playerUsername != gameState.playerUsername && player.active)
+    const players = socket.gameState.players.filter((player) => player.playerUsername != socket.gameState!.playerUsername && player.active)
     const [selectedCard, setSelectedCard] = useState("")
     const cardOptions = Object.keys(CardType).filter((key) => isNaN(Number(key))) as (keyof typeof CardType)[];
 
@@ -35,15 +24,19 @@ const SelectUser = (
         setSelectedCard(e.target.value as keyof typeof CardType)
     }
 
+    const isPlayers:boolean = socket.selectPlayer !== undefined;
+    const lobbyID:string = socket.gameState.lobbyId;
+
     const handleClick = () => {
-        selectTypeOfCard(   socket,
+        selectTypeOfCard(   socket.socket,
                             selectedCard,
-                            lobbyID
+                            lobbyID,
         )
 
-        setSelectCardType(undefined)
-
+        socket.setSelectCardType(undefined)
     }
+
+    
 
     return (
         <div className="container-selection-big-user shadow-game">
@@ -55,7 +48,7 @@ const SelectUser = (
                             return <BigUser key={idx}
                                             player={player}
                                             lobbyID={lobbyID}
-                                            setSelectPlayer={setSelectPlayer}/>
+                                            />
                         })
                     }
                 </div>

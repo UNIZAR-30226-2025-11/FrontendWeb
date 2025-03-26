@@ -3,7 +3,7 @@ import Card from "./Card"
 
 import { useState } from "react"
 import { playCards } from "../../services/socketService"
-import { useSocket } from "../../context/SocketContext"
+import { SocketContextType, useSocket } from "../../context/SocketContext"
 import * as Objects from "../../api/JSON"
 
 import "./CardHand.css"
@@ -14,21 +14,16 @@ import "./CardHand.css"
  * @returns The Deck
  */
 const Deck = (
-    {
-    cards = [],
-    lobbyID,
-    setCardPlayedResult,
-    turn
-    } : {
-    cards: Objects.CardJSON[],
-    lobbyID:string,
-    setCardPlayedResult:React.Dispatch<React.SetStateAction<Objects.BackendGamePlayedCardsResponseJSON | undefined>>,
-    turn:boolean
-}) => {
+    {} : {}
+) => {
+    
     const [selectedCards, setSelectedCards] = useState<number[]>([])
     const [hoveredCard, setHoveredCard] = useState<string | null>(null)
-    const socket = useSocket();
+    const socket:SocketContextType = useSocket();
 
+    const turn:boolean = socket.gameState?.playerUsername === socket.gameState?.turnUsername
+    const lobbyID:string = socket.gameState?.lobbyId!
+    const cards = socket.gameState?.playerCards || [];
 
     // Basic styles for the main buttons
     let classesPlayButton = "game-button shadow-game"
@@ -45,10 +40,10 @@ const Deck = (
      * server for making the movement
      */
     const handlePlayClick = async () => {
-        playCards(  socket,
+        playCards(  socket.socket,
                     selectedCards.map(id => cards[id]),
                     lobbyID,
-                    setCardPlayedResult)
+                    socket.setCardPlayedResult)
         setSelectedCards([])
     }
 

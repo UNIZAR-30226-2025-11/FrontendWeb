@@ -9,22 +9,21 @@ const BigUser = (
     {
     player,
     lobbyID,
-    setSelectPlayer
     } : {
     player:Objects.PlayerJSON,
-    lobbyID:string,
-    setSelectPlayer:React.Dispatch<React.SetStateAction<Objects.BackendGameSelectPlayerJSON | undefined>>
+    lobbyID:string
     }
 ) => {
 
     const socket = useSocket();
 
     const handleClick = (username:string) => {
-        selectPlayer(   socket,
+        selectPlayer(   socket.socket,
                         username,
                         lobbyID,
         )
-        setSelectPlayer(undefined)
+
+        socket.setSelectPlayer(undefined);
     }
 
     return (
