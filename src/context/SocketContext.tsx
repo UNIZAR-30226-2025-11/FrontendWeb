@@ -28,6 +28,7 @@ export interface SocketContextType {
     lobbyEnter: Objects.BackendJoinLobbyResponseJSON | undefined;
     setLobbyEnter: React.Dispatch<React.SetStateAction<Objects.BackendJoinLobbyResponseJSON | undefined>>;
     lobbyState: Objects.BackendLobbyStateUpdateJSON | undefined;
+    setLobbyState: React.Dispatch<React.SetStateAction<Objects.BackendLobbyStateUpdateJSON | undefined>>;
     lobbyStart: Objects.BackendStartLobbyResponseJSON | undefined;
     setLobbyStart: React.Dispatch<React.SetStateAction<Objects.BackendStartLobbyResponseJSON | undefined>>;
     lobbyStarted: Objects.BackendStartGameResponseJSON | undefined;
@@ -240,6 +241,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             lobbyEnter,
             setLobbyEnter,
             lobbyState,
+            setLobbyState,
             lobbyStart,
             setLobbyStart,
             lobbyStarted,

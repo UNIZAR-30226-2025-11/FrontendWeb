@@ -16,14 +16,7 @@ import { routes } from '../../utils/constants'
  * 
  * @returns The Lobby screen.
  */
-const Lobby = (
-    {
-        setLobbyVisible,
-        setLobbyListVisible,
-    } : {
-        setLobbyVisible:React.Dispatch<React.SetStateAction<boolean>>,
-        setLobbyListVisible:React.Dispatch<React.SetStateAction<boolean>>,
-    }) =>
+const Lobby = () =>
 {
     // Id of the lobby to join
     const [ lobbyID, setLobbyID ] = useState("");
@@ -52,7 +45,6 @@ const Lobby = (
      * Close this window
      */
     const handleClose = () => {
-        setLobbyVisible(false)
         navegate(routes.gamemenu)
     }
 
@@ -61,10 +53,8 @@ const Lobby = (
      * joins an existent Lobby
      */
     const handleJoin = () => {
+        console.log("Enviando join...")
         joinLobby(socket.socket, lobbyID, socket.setLobbyEnter)
-
-        setLobbyVisible(false)
-        setLobbyListVisible(true)
     }
 
     /**
@@ -74,10 +64,6 @@ const Lobby = (
     const handleCreate = () => {
         // Send to the backend the information
         createLobby(socket.socket, numPlayers, socket.setLobbyCreate)
-
-        // Update windows
-        setLobbyVisible(false)
-        setLobbyListVisible(true)
     }
 
     return (

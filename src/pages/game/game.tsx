@@ -34,28 +34,6 @@ const Game = () => {
     const [lobbyListVisible, setLobbyListVisible] = useState(false);
 
     /**
-     * HTML for render the lobby page in which the
-     * user is asked for Joining a lobby or Creating
-     * a new one.
-     * 
-     * @returns The HTML code for lobby selection.
-     */
-    const lobbyType = () => {
-        return <Lobby   setLobbyVisible={setLobbyVisible}
-                        setLobbyListVisible={setLobbyListVisible} />
-    }
-
-    /**
-     * HTML for render the lobby information with
-     * the users that are already in one lobby.
-     * 
-     * @returns The HTML code for lobby information.
-     */
-    const lobbyUsers = () => {
-        return <LobbyUsers/>
-    }
-
-    /**
      * HTML for render the page in which the user is
      * informed about the winner of the game.
      * 
@@ -145,13 +123,14 @@ const Game = () => {
     }
 
     const HTML = () => {
-        // Check if the user has to decide the lobby
-        if (!socket.lobbyStart && !socket.lobbyStarted && lobbyVisible)
-            return lobbyType();
 
-        // Check if the user is waiting for the start of the game
-        if (!socket.lobbyStart && !socket.lobbyStarted && lobbyListVisible)
-            return lobbyUsers();
+        if (!socket.gameState)
+        {
+            if (!socket.lobbyCreate && !socket.lobbyEnter)
+                return <Lobby />
+            else
+                return <LobbyUsers />
+        }
 
         // See Future response
         if (socket.cardPlayedResult?.cardsSeeFuture &&
