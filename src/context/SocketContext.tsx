@@ -10,9 +10,11 @@ const socket = io(SERVER, { withCredentials: true });
 export interface SocketContextType {
     socket: Socket;
     gameState: Objects.BackendStateUpdateJSON | undefined;
+    setGameState:React.Dispatch<React.SetStateAction<Objects.BackendStateUpdateJSON | undefined>>;
     cardPlayedResult: Objects.BackendGamePlayedCardsResponseJSON | undefined;
     setCardPlayedResult: React.Dispatch<React.SetStateAction<Objects.BackendGamePlayedCardsResponseJSON | undefined>>;
     winner: Objects.BackendWinnerJSON | undefined;
+    setWinner:React.Dispatch<React.SetStateAction<Objects.BackendWinnerJSON | undefined>>;
     selectPlayer: Objects.BackendGameSelectPlayerJSON | undefined;
     setSelectPlayer: React.Dispatch<React.SetStateAction<Objects.BackendGameSelectPlayerJSON | undefined>>;
     selectCardType: Objects.BackendGameSelectCardTypeJSON | undefined;
@@ -220,9 +222,11 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         <SocketContext.Provider value={{
             socket,
             gameState,
+            setGameState,
             cardPlayedResult,
             setCardPlayedResult,
             winner,
+            setWinner,
             selectPlayer,
             setSelectPlayer,
             selectCardType,

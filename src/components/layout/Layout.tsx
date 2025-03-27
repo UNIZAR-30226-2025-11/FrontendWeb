@@ -18,7 +18,8 @@ const Layout = (
   
   return (
     <div>
-      <UserBar username={userContext.user?.username!} coins={userContext.user?.coins!} />
+      <UserBar  username={userContext.user?.username!}
+                coins={userContext.user?.coins!} />
       <Outlet />
     </div>
   );

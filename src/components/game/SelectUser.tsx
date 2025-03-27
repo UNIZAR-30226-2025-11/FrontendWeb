@@ -4,7 +4,7 @@ import * as Objects from "../../api/JSON"
 import "./Select.css"
 import BigUser from "./BigUser";
 import { CardType } from "../../utils/types";
-import { selectCard, selectTypeOfCard } from "../../services/socketService";
+import { playCards, selectCard, selectNopeUsage, selectTypeOfCard } from "../../services/socketService";
 import { SocketContextType, useSocket } from "../../context/SocketContext";
 import Card from "./Card";
 
@@ -128,6 +128,42 @@ const Selection = (
         )
     }
 
+    const handlePlayNOPE = (e:React.MouseEvent<HTMLDivElement>) => {
+        selectNopeUsage(socket.socket,
+                        e.currentTarget.id=="NOPE-YES",
+                        socket.gameState?.lobbyId!
+        )
+        socket.setSelectNope(undefined)
+    }
+
+    const selectNope = () => {
+        return (
+            <div className="container-selection-big-user shadow-game">
+                <h1>You have a NOPE card. Do you want to use it?:</h1>
+
+                <div className="users">
+                    <div className="option"
+                         id="NOPE-YES"
+                         onClick={handlePlayNOPE}>
+                        <p>
+                            Yes
+                        </p>
+                    </div>
+
+                    <div className="option"
+                         id="NOPE-NO"
+                         onClick={handlePlayNOPE}>
+                        <p>
+                            No
+                        </p>
+                    </div>
+                </div>
+                
+                <div></div>
+            </div>
+        )
+    }
+
     const selection = () =>  {
         if (socket.selectPlayer)
             return selectPlayer();
@@ -135,6 +171,8 @@ const Selection = (
             return selectCardType();
         else if (socket.selectCard)
             return cardSelection();
+        else if (socket.selectNope)
+            return selectNope();
         else
             return <></>
     }

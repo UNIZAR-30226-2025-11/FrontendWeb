@@ -3,6 +3,7 @@ import { routes } from "../../utils/constants"
 import { useNavigate } from "react-router-dom";
 
 import "./WinLose.css"
+import { useSocket } from "../../context/SocketContext";
 
 const WinLose = (
     {
@@ -12,9 +13,15 @@ const WinLose = (
     }
 ) => {
     const navegate = useNavigate();
+    const socket = useSocket();
 
     const handleClick = () => {
-        navegate(routes.gamemenu)
+        socket.setWinner(undefined);
+        socket.setGameState(undefined);
+        socket.setLobbyStart(undefined);
+        socket.setLobbyCreate(undefined);
+        socket.setLobbyEnter(undefined);
+        navegate(routes.gamemenu);
     }
 
     return (

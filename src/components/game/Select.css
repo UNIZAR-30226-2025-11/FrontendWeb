@@ -39,3 +39,7 @@
 .div-big-user:active {
     background-color: darkgray;
 }
+
+.option {
+    background-color: lightblue;
+}

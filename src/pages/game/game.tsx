@@ -137,7 +137,7 @@ const Game = () => {
                 <CardDeck/>
 
                 {/* Users selection */}
-                { (socket.selectPlayer || socket.selectCardType || socket.selectCard) &&
+                { (socket.selectPlayer || socket.selectCardType || socket.selectCard || socket.selectNope) &&
                     <Selection /> }
             </div>
         )
