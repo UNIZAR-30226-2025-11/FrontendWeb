@@ -1,8 +1,8 @@
 // components/ProtectedRoute.tsx
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../context/UserContext"; // Adjust the import path
-import { routes } from "../../utils/constants";
+import { useUser } from "../context/UserContext"; // Adjust the import path
+import { routes } from "../utils/constants";
 
 export const ProtectedLogin = ({ children }: { children: React.ReactNode }) => {
   const userContext = useUser();

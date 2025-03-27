@@ -11,7 +11,7 @@ import Layout from './components/layout/Layout';
 import ChangePasswordPage from './pages/profile/ChangePassword';
 import Statistics from './pages/profile/Statistics'
 import { SocketProvider } from './context/SocketContext';
-import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
+import { ProtectedLogin, ProtectedNotLogin } from './middleware/protectedRoute';
 
 /**
  * Creates the application, prepares all the routes and loads

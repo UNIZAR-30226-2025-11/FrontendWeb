@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import './Lobby.css'
 import { createLobby, joinLobby } from '../../services/socketService'
-import { useSocket } from '../../context/SocketContext'
+import { SocketContextType, useSocket } from '../../context/SocketContext'
 
 import { useNavigate } from 'react-router-dom'
 import { routes } from '../../utils/constants'
@@ -31,7 +31,7 @@ const Lobby = (
     // Number of players for the game
     const [numPlayers, setNumPlayers] = useState(2);
 
-    const socket = useSocket();
+    const  socket:SocketContextType = useSocket();
     const navegate = useNavigate();
 
     /**
