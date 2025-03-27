@@ -15,6 +15,7 @@ export type BackendStateUpdateJSON = {
     turnUsername: string;
     timeOut: number;
     playerUsername: string;
+    cardsLeftInDeck: number;
 }
 
 export type CardJSON = {

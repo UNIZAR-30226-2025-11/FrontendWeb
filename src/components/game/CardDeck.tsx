@@ -12,8 +12,8 @@ const CardDeck = (
 
 	const socket:SocketContextType = useSocket()
 
-	const deckSize = 50;
-	const cards = Array.from({ length: deckSize }, (_, i) => ({
+	const deckSize = socket.gameState?.cardsLeftInDeck!;
+	const cards = Array.from({ length: deckSize < 20 ? deckSize : 20 }, (_, i) => ({
 	id: i + 1,
 	image: "assets/cards/Attack.jpg",
 	}));
@@ -58,7 +58,7 @@ const CardDeck = (
 
 		{/* Information of the deck */}
 		<p className="p-deck">
-			Remaining cards: {deck.length}
+			Remaining cards: {deckSize}
 		</p>
 	</div>
 	);

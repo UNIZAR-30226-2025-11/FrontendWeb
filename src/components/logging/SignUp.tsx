@@ -1,11 +1,14 @@
+// Code from: https://github.com/cooljasonmelton/cool-sign-up
+
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { routes, routesRequest } from "../../utils/constants";
 
-import "./LogIn.css"
 import { SERVER } from "../../utils/config";
+
+import './Container.css';
 
 /**
  * Creates the form for the user's sign up process. It
@@ -17,9 +20,7 @@ import { SERVER } from "../../utils/config";
  *
  * @returns The form
  */
-const SignUp = (
-    {} : {}
-) => {
+export const SignUp = () => {
     /**
      * An object to manage the navigation inside
      * the page.
@@ -64,7 +65,7 @@ const SignUp = (
 
         // Test if both passwords are the same
         if (formData.password !== formData.password2) {
-            console.log("Passwords are not the same")
+            alert("Passwords are not the same")
             return;
         }
 
@@ -86,72 +87,73 @@ const SignUp = (
         // If the answer is OK, we navigate to the appropiate page
         if (response.status === 201)
         {
-            navigate(routes.gamemenu)
+            navigate(routes.gamemenu);
             window.location.reload();
-        } else {
-            console.log(response.body || "Something unexpected happened ")
-        }
+        } else if (response.status == 400)
+          alert("The username already exists!");
+        else
+          alert("Something has fail in the server...");
     }
 
     /**
      * Create the form for signing up
      */
-    return (
-        <div className="login-container">
-            <form
-                onSubmit={handleSubmit}
-                className="login-form">
-                    {/* Username */}
-                    <p>Username:</p>
 
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        required>
-                    </input>
+  return (
+    <div className="form-comp cfb">
+      <h1>Create an Account!</h1>
+        <form
+          className="sign-up-form cfb"
+          onSubmit={handleSubmit}>
+            {/* Username */}
+            <label>
+              Username:
+              <br/>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+                required>
+              </input>
+            </label>
 
-                    {/* Password */}
-                    <p>Password:</p>
+            {/* Password */}
+            <label>
+              Password:
+              <br/>
+              <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required>
+              </input>
+            </label>
 
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required>
-                    </input>
+            {/* Password validation */}
+            <label>
+              Repeat password:
+              <br/>
+              <input
+                  type="password"
+                  name="password2"
+                  placeholder="Repeat password"
+                  value={formData.password2}
+                  onChange={handleChange}
+                  required>
+              </input>
+            </label>
+            <br/>
 
-                    {/* Password validation */}
-                    <p>Repeat your password:</p>
-
-                    <input
-                        type="password"
-                        name="password2"
-                        placeholder="Password"
-                        value={formData.password2}
-                        onChange={handleChange}
-                        required>
-                    </input>
-
-                    {/* Submit button */}
-                    <button
-                        type="submit"
-                        className="login-button">
-                            SIGN UP
-                    </button>
-
-                    {/* Link to the loggin page */}
-                    <p>
-                        Do you already have an accout?
-                        <a href={routes.login}>Log In</a>
-                    </p>
+              {/* Submit button */}
+              <button
+                  type="submit">
+                      Sign Up!
+              </button>
             </form>
         </div>
-    );
+  );
 }
-
-export default SignUp;

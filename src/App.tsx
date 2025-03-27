@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, Outlet } from 'react-router-dom';
 import { routes } from './utils/constants';
-import LogIn from './components/logging/LogIn';
-import SignUp from './components/logging/SignUp';
 import Game from './pages/game/game';
 import GameMenu from './pages/menu/menu'
 import Shop from './components/shop/CardShop';
@@ -12,6 +10,7 @@ import ChangePasswordPage from './pages/profile/ChangePassword';
 import Statistics from './pages/profile/Statistics'
 import { SocketProvider } from './context/SocketContext';
 import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
+import Container from './components/logging/Container';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -32,8 +31,10 @@ function App() {
           }
         >
           <Route path={routes.home} element={<AuthPage />} />
-          <Route path={routes.login} element={<LogIn />} />
-          <Route path={routes.signup} element={<SignUp />} />
+          <Route path={routes.login} element={
+            <div className='App cfb'>
+              <Container logIn={true}/>
+            </div>} />
         </Route>
 
         <Route path="/" element={

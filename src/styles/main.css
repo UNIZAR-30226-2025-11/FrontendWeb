@@ -1,3 +1,10 @@
 p {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif
+}
+
+body {
+    background-image: url('assets/AuthPage.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
