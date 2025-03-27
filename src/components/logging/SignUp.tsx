@@ -18,11 +18,7 @@ import { SERVER } from "../../utils/config";
  * @returns The form
  */
 const SignUp = (
-    {
-        setUsername
-    } : {
-        setUsername:React.Dispatch<React.SetStateAction<string>>
-    }
+    {} : {}
 ) => {
     /**
      * An object to manage the navigation inside
@@ -90,7 +86,6 @@ const SignUp = (
         // If the answer is OK, we navigate to the appropiate page
         if (response.status === 201)
         {
-            setUsername(formData.username)
             navigate(routes.gamemenu)
             window.location.reload();
         } else {

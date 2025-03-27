@@ -6,46 +6,37 @@ import { routes } from '../../utils/constants'
 import * as Objects from "../../api/JSON"
 import './Lobby.css'
 import { startLobby } from '../../services/socketService'
-import { useSocket } from '../../context/SocketContext'
+import { SocketContextType, useSocket } from '../../context/SocketContext'
 
 
 const LobbyUsers = (
-    {
-    lobbyEnter,
-    lobbyCreate,
-    lobbyState,
-    setLobbyStart,
-    } : {
-    lobbyEnter:Objects.BackendJoinLobbyResponseJSON | undefined,
-    lobbyCreate:Objects.BackendCreateLobbyResponseJSON | undefined,
-    lobbyState:Objects.BackendLobbyStateUpdateJSON | undefined,
-    setLobbyStart:React.Dispatch<React.SetStateAction<Objects.BackendStartLobbyResponseJSON | undefined>>
-    }) =>
+    {} : {}
+) =>
 {
 
-    const socket = useSocket();
+    const socket: SocketContextType = useSocket();
 
     const handleClick = () => {
         let id = "";
 
-        if (lobbyCreate) id = lobbyCreate.lobbyId
-        else if (lobbyEnter) id = lobbyEnter.lobbyId
+        if (socket.lobbyCreate) id = socket.lobbyCreate.lobbyId
+        else if (socket.lobbyEnter) id = socket.lobbyEnter.lobbyId
 
-        startLobby(socket, id, setLobbyStart)
+        startLobby(socket.socket, id, socket.setLobbyStart)
     }
 
     return (
         <div className='container-lobby-users'>
             {/* Header with lobby identifier */}
             <p>
-                Lobby Identifier: { lobbyCreate?.lobbyId ||
-                                    lobbyEnter?.lobbyId ||
-                                    lobbyEnter?.errorMsg ||
+                Lobby Identifier: { socket.lobbyCreate?.lobbyId ||
+                                    socket.lobbyEnter?.lobbyId ||
+                                    socket.lobbyEnter?.errorMsg ||
                                     "Loading..." }
             </p>
 
             {/* List of users */}
-            {lobbyState?.players.map((user) => (
+            {socket.lobbyState?.players.map((user) => (
                 <li key={user.name}>{user.name}</li>
             )) ||
             <ol>
@@ -54,7 +45,7 @@ const LobbyUsers = (
             </ol>}
 
             {/* Button for starting the game */}
-            {lobbyCreate
+            {socket.lobbyCreate
             ?   <button className='button-lobby'
                         onClick={handleClick}>
                     Start

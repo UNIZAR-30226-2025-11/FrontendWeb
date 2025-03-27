@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
 
 import './menu.css';
-import SelectUser from '../../components/game/SelectUser';
-
 const GameMenu = () => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="container">
       <div className="menu">

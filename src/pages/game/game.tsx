@@ -7,13 +7,13 @@ import PlayedCards from '../../components/game/CardsPlayed';
 import CardDeck from '../../components/game/CardDeck';
 
 import './game.css'
-import { useSocketHandlers } from "../../hooks/useSocket";
 import Lobby from "../../components/lobby/Lobby";
 import LobbyUsers from "../../components/lobby/LobbyUsers";
 import WinLose from "../../components/game/WinLose";
 import Selection from "../../components/game/SelectUser";
 import FutureCards from "../../components/game/FutureCards";
 import { SelectionType } from "../../utils/types";
+import { SocketContextType, useSocket } from "../../context/SocketContext";
 
 /**
  * Creates a form for the user's logging that
@@ -27,23 +27,7 @@ import { SelectionType } from "../../utils/types";
 const Game = () => {
 
     // Import the state of the game
-    const { 
-        lobbyCreate, setLobbyCreate,
-        lobbyEnter, setLobbyEnter,
-        lobbyStart, setLobbyStart,
-        lobbyState,
-        lobbyStarted,
-        gameState,
-        cardPlayedResult, setCardPlayedResult,
-        selectPlayer, setSelectPlayer,
-        selectCardType, setSelectCardType,
-        selectCard, setSelectCard,
-        selectNope, setSelectNope,
-        winner,
-        disconnect,
-        messagesChat,
-        actions
-    } = useSocketHandlers();
+    const socket:SocketContextType = useSocket();
 
     // Define variables for lobbies
     const [lobbyVisible, setLobbyVisible] = useState(true);
@@ -58,9 +42,7 @@ const Game = () => {
      */
     const lobbyType = () => {
         return <Lobby   setLobbyVisible={setLobbyVisible}
-                        setLobbyListVisible={setLobbyListVisible}
-                        setLobbyCreate={setLobbyCreate}
-                        setLobbyEnter={setLobbyEnter} />
+                        setLobbyListVisible={setLobbyListVisible} />
     }
 
     /**
@@ -70,10 +52,7 @@ const Game = () => {
      * @returns The HTML code for lobby information.
      */
     const lobbyUsers = () => {
-        return <LobbyUsers  lobbyCreate={lobbyCreate}
-                            lobbyEnter={lobbyEnter}
-                            lobbyState={lobbyState}
-                            setLobbyStart={setLobbyStart}/>
+        return <LobbyUsers/>
     }
 
     /**
@@ -83,7 +62,7 @@ const Game = () => {
      * @returns The HTML code for winner information.
      */
     const winnerPage = () => {
-        if (winner?.winnerUsername == gameState?.playerUsername)
+        if (socket.winner?.winnerUsername == socket.gameState?.playerUsername)
             return <WinLose win={true}/>
         else
             return <WinLose win={false}/>
@@ -97,9 +76,9 @@ const Game = () => {
      * @returns The HTML code for See Future card.
      */
     const seeFuture = () => {
-        if (cardPlayedResult?.cardsSeeFuture)
-            return <FutureCards cards={cardPlayedResult.cardsSeeFuture}
-                                setCardPlayedResult={setCardPlayedResult}/>
+        if (socket.cardPlayedResult?.cardsSeeFuture)
+            return <FutureCards cards={socket.cardPlayedResult.cardsSeeFuture}
+                                setCardPlayedResult={socket.setCardPlayedResult}/>
     }
 
     /**
@@ -109,20 +88,18 @@ const Game = () => {
      */
     const HTMLGame = () => {
         // Check the game state is not undefined
-        if (!gameState)
+        if (socket.gameState === undefined)
             return <></>
 
         // Compute the rest of players who are not the user
-        const players = gameState.players.filter(player => player.playerUsername != gameState.playerUsername)
-    
-        const lobbyId = lobbyCreate?.lobbyId || 
-                        lobbyEnter?.lobbyId ||
-                        ""
+        const players = socket.gameState.players.filter(player => player.playerUsername != socket.gameState!.playerUsername)
+
+        const turn: boolean = socket.gameState.turnUsername == socket.gameState.playerUsername
 
         let selection = undefined;
-        if (selectPlayer)
+        if (socket.selectPlayer)
             selection = SelectionType.User;
-        else if (selectCardType)
+        else if (socket.selectCardType)
             selection = SelectionType.CardType;
         else
             selection = SelectionType.Card;
@@ -150,28 +127,18 @@ const Game = () => {
                 </div>
 
                 {/* Timer */}
-                { gameState.turnUsername == gameState.playerUsername &&
-                <Timer duration={gameState.timeOut} onTimeUp={() => {console.log("TIMEEER")}}/>}
+                {turn &&
+                <Timer duration={socket.gameState.timeOut} onTimeUp={() => {console.log("TIMEEER")}}/>}
                         
                 {/* My own cards */}
-                <Deck   cards={gameState.playerCards}
-                        lobbyID={lobbyId}
-                        setCardPlayedResult={setCardPlayedResult}
-                        turn={gameState.playerUsername == gameState.turnUsername} />
+                <Deck/>
                 
                 {/* Played cards */}
-                <CardDeck   lobbyID={lobbyId}
-                            setCardPlayedResult={setCardPlayedResult}
-                            active={gameState.turnUsername == gameState.playerUsername}/>
+                <CardDeck/>
 
                 {/* Users selection */}
-                { (selectPlayer || selectCardType || selectCard) &&
-                    <Selection gameState={gameState}
-                                lobbyID={lobbyId}
-                                setSelectPlayer={setSelectPlayer}
-                                setSelectCardType={setSelectCardType}
-                                setSelectCard={setSelectCard}
-                                typeOfSelection={selection}/> }
+                { (socket.selectPlayer || socket.selectCardType || socket.selectCard) &&
+                    <Selection /> }
             </div>
         )
 
@@ -179,21 +146,21 @@ const Game = () => {
 
     const HTML = () => {
         // Check if the user has to decide the lobby
-        if (!lobbyStart && !lobbyStarted && lobbyVisible)
+        if (!socket.lobbyStart && !socket.lobbyStarted && lobbyVisible)
             return lobbyType();
 
         // Check if the user is waiting for the start of the game
-        if (!lobbyStart && !lobbyStarted && lobbyListVisible)
+        if (!socket.lobbyStart && !socket.lobbyStarted && lobbyListVisible)
             return lobbyUsers();
 
         // See Future response
-        if (cardPlayedResult?.cardsSeeFuture != undefined &&
-            cardPlayedResult.cardsSeeFuture.length > 0
+        if (socket.cardPlayedResult?.cardsSeeFuture &&
+            socket.cardPlayedResult.cardsSeeFuture.length > 0
         )
             return seeFuture();
 
         // Check if exsits a winner in the game
-        if (winner)
+        if (socket.winner)
             return winnerPage();
 
         // Default: Show the game state

@@ -3,37 +3,23 @@ import * as Objects from "../../api/JSON"
 
 import "./Select.css"
 import BigUser from "./BigUser";
-import { CardType, SelectionType } from "../../utils/types";
+import { CardType } from "../../utils/types";
 import { selectCard, selectTypeOfCard } from "../../services/socketService";
-import { useSocket } from "../../context/SocketContext";
+import { SocketContextType, useSocket } from "../../context/SocketContext";
 import Card from "./Card";
 
 const Selection = (
-    {
-    gameState,
-    lobbyID,
-    setSelectPlayer,
-    setSelectCardType,
-    setSelectCard,
-    typeOfSelection
-    } : {
-    gameState:Objects.BackendStateUpdateJSON,
-    lobbyID:string,
-    setSelectPlayer:React.Dispatch<React.SetStateAction<Objects.BackendGameSelectPlayerJSON | undefined>>,
-    setSelectCardType:React.Dispatch<React.SetStateAction<Objects.BackendGameSelectCardTypeJSON | undefined>>,
-    setSelectCard:React.Dispatch<React.SetStateAction<Objects.BackendGameSelectCardJSON | undefined>>,
-    typeOfSelection:SelectionType
-    }
+    {} : {}
 ) => {
+    // Recover the socket
+    const socket:SocketContextType = useSocket()
+
     // Check if the game is undefined
-    if (!gameState)
+    if (socket.gameState === undefined)
         return <></>
 
-    // Recover the socket
-    const socket = useSocket()
-
     // Define posible players to apply actions
-    const players = gameState.players.filter((player) => player.playerUsername != gameState.playerUsername && player.active)
+    const players = socket.gameState.players.filter((player) => player.playerUsername != socket.gameState!.playerUsername && player.active)
 
     // Define variables for storing the selected information
     const [selectedCardType, setSelectedCardType] = useState("")
@@ -46,14 +32,16 @@ const Selection = (
         setSelectedCardType(e.target.value as keyof typeof CardType)
     }
 
+    const isPlayers:boolean = socket.selectPlayer !== undefined;
+    const lobbyID:string = socket.gameState.lobbyId;
+
     const handleClick = () => {
-        selectTypeOfCard(   socket,
+        selectTypeOfCard(   socket.socket,
                             selectedCardType,
-                            lobbyID
+                            lobbyID,
         )
 
-        setSelectCardType(undefined)
-
+        socket.setSelectCardType(undefined)
     }
 
     const selectPlayer = () => {
@@ -65,7 +53,7 @@ const Selection = (
                             return <BigUser key={idx}
                                             player={player}
                                             lobbyID={lobbyID}
-                                            setSelectPlayer={setSelectPlayer}/>
+                                            />
                         })
                     }
                 </div>
@@ -106,13 +94,14 @@ const Selection = (
     }
 
     const handleCardSelection = () => {
-        if (selectedCard == -1)
+        if (selectedCard == -1 || !socket.gameState)
             return
 
-        selectCard( socket,
-                    gameState.playerCards.filter(card => card.id == selectedCard)[0],
-                    gameState.lobbyId)
-        setSelectCard(undefined);
+        selectCard( socket.socket,
+                    socket.gameState.playerCards.filter(card => card.id == selectedCard)[0],
+                    socket.gameState.lobbyId)
+                    
+        socket.setSelectCard(undefined);
     }
 
     const cardSelection = () => {
@@ -122,13 +111,13 @@ const Selection = (
                 <h1>Select the card for doing the favor:</h1>
 
                 <div className="users">
-                    {gameState.playerCards.map((card) => {
-                        return <Card    key={card.id}
-                                        card={card}
-                                        isSelected={selectedCard==card.id}
-                                        id={card.id}
-                                        onClick={setSelectedCard}
-                                        setHoveredCard={()=>{}} />
+                    {   socket.gameState?.playerCards.map((card) => {
+                            return <Card    key={card.id}
+                                            card={card}
+                                            isSelected={selectedCard==card.id}
+                                            id={card.id}
+                                            onClick={setSelectedCard}
+                                            setHoveredCard={()=>{}} />
                     })}
                 </div>
                 
@@ -140,16 +129,14 @@ const Selection = (
     }
 
     const selection = () =>  {
-        switch (typeOfSelection) {
-            case SelectionType.User:
-                return selectPlayer();
-            case SelectionType.CardType:
-                return selectCardType();
-            case SelectionType.Card:
-                return cardSelection();
-            default:
-                return <></>
-        }
+        if (socket.selectPlayer)
+            return selectPlayer();
+        else if (socket.selectCardType)
+            return selectCardType();
+        else if (socket.selectCard)
+            return cardSelection();
+        else
+            return <></>
     }
 
     return selection();

@@ -6,6 +6,7 @@ import { routes, routesRequest } from "../../utils/constants";
 
 import "./LogIn.css"
 import { SERVER } from "../../utils/config";
+import { useUser } from "../../context/UserContext";
 
 /**
  * Creates a form for the user's logging that
@@ -17,11 +18,8 @@ import { SERVER } from "../../utils/config";
  * @returns The form
  */
 const LogIn = (
-    {
-        setUsername
-    } : {
-        setUsername:React.Dispatch<React.SetStateAction<string>>
-    }) => {
+    {} : {}) => {
+
     /**
      * Object to manage the navigation inside the
      * application
@@ -83,7 +81,6 @@ const LogIn = (
             // appropiate page
             if (response.status === 200)
             {
-                setUsername(formData.username)
                 navigate(routes.gamemenu)
                 window.location.reload();
             }

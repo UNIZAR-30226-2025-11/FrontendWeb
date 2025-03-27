@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import './ChangePassword.css';
 import { SERVER } from '../../utils/config';
 import { routesRequest } from '../../utils/constants';
+import { UserContextType, useUser } from '../../context/UserContext';
 
 
 const ChangePasswordPage = (
-  {
-  username
-  } : {
-  username:string
-  }) => {
+  {} : {}) => {
   const [newPassword, setNewPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+
+  const userContext: UserContextType = useUser();
+  const username = userContext.user?.username!;
 
   const handleConfirmChange = async () => {
     if (newPassword !== repeatPassword) {
@@ -26,6 +26,7 @@ const ChangePasswordPage = (
         headers: {
             "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify({
           username: username,
           password: newPassword

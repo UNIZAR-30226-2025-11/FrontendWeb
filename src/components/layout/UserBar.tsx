@@ -37,16 +37,17 @@ const UserBar = (
       {
         mode: "cors",
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         }
       }
     )
 
-    console.log(response)
-
     if (response.status == 200)
-      navigate(routes.login);
+    {
+      window.location.reload();
+    }
     else
       console.log("Something didn't work...")
   }
