@@ -1,79 +1,169 @@
-.container-lobby {
-    position: absolute;
-    top: 15vh;
-    left: 20vw;
-    width: 60vw;
-    height: 70vh;
-
-    background-color: white;
-    border-radius: 50px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+/* Color Palette inspired by Exploding Kittens */
+:root {
+    --primary-bg: #000000;
+    --secondary-bg: rgba(240, 240, 240, 0.05);
+    --accent-color: #ff1e1e;
+    --highlight-color: #ffe100;
+    --text-light: #ffffff;
+    --text-dark: #000000;
+    --gray: rgba(224, 224, 224, 0.1);
+    --menu-bg: rgba(153, 0, 0, 0.85);
 }
 
-.semi-container{
+.lobby-container {
+    position: absolute;
+    top: 30vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70vw;
+    max-width: 800px;
+    min-width: 350px;
+    height: auto;
+    background-color: var(--menu-bg);
+    border-radius: 20px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    padding: 30px 20px;
+    gap: 10px;
+    z-index: 1;
+}
+
+.lobby-container-users {
     display: flex;
     flex-direction: column;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
     align-items: center;
     justify-content: center;
-
-    height: 70vh;
-    width: 100vw;
+    transition: background-color 0.3s, transform 0.2s, color 0.3s;
 }
 
-.semi-container form {
+.close-button:hover {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+    transform: scale(1.1);
+}
+
+.lobby-section {
+    flex: 1;
     display: flex;
     flex-direction: column;
-}
-
-.semi-container button {
-    margin-top: 30px;
-}
-
-.button-lobby {
-    width: 250px;
-    height: 50px;
-    border-radius: 20px;
-
-    cursor: pointer;
-}
-
-#close-button-lobby {
-    position: absolute;
-
-    top: 20px;
-    right: 40px;
-}
-
-
-.container-lobby-users {
-    position: absolute;
-    width: 60vw;
-    height: 70vh;
-    top: 15vh;
-    left: 20vw;
-
-    background-color: white;
-    border-radius: 50px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
-.container-lobby-users p {
-    font-size: 50px;
+.lobby-section h1 {
+    color: white;
 }
 
-.container-lobby-users button {
-    margin-bottom: 50px;
+.left, .right {
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 20px 10px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
-.container-lobby-users ol {
-    height: 30vh;
+.section-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--text-light);
 }
 
+.section-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.input-field {
+    width: 80%;
+    height: 45px;
+    font-size: 14pt;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    padding: 0;
+}
+
+.action-button {
+    width: 80%;
+    height: 45px;
+    font-size: 14pt;
+    border-radius: 10px;
+    border: none;
+    background-color: white;
+    color: var(--primary-bg);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.action-button:hover {
+    transform: scale(1.05);
+}
+
+.players-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.players-button {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14pt;
+    background-color: white;
+    color: var(--primary-bg);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.players-button:hover {
+    transform: scale(1.05);
+}
+
+.selected {
+    background-color: var(--highlight-color);
+    color: var(--primary-bg);
+}
+
+.section-footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .lobby-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .lobby-section {
+        width: 100%;
+    }
+}

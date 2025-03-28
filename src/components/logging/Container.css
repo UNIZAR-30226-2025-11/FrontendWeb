@@ -1,132 +1,184 @@
 /* App */
-.App{
-    background-color: #9d0514;
+.App {
     background-image: url('../../assets/AuthPage.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* Quikly Center Everything In Div */
-.cfb{
+.App::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 0;
+}
+
+/* Center Flex Box */
+.cfb {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 /* Container Styling */
-.Container{
-    position: relative; 
-
-    width: 50%;
-    height: 60%;
-
-    box-shadow: 1px 2px 2px #592941;
-    border: 0.1em solid #592941;
-    border-radius: 0.5em;
-
-    background-image: url('./shapes.jpg'); 
+.Container {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    height: 70%;
+    display: flex;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border: 1px solid #592941;
+    border-radius: 1em;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
 }
 
-/* Banner Side of Container */
-.banner-side{
+/* Banner Side */
+.banner-side {
     position: absolute;
     z-index: 2;
     right: 65%;
-
-    border: 0.1em solid #592941;
-    border-radius: 0.5em;
-
     width: 35%;
     height: 100%;
-
+    display: flex;
     flex-direction: column;
-
-    background-color: black;
-    opacity: 1;
-
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(89, 41, 65, 0.8);
     color: #EEFCF8;
     text-align: center;
-
-    transition: 2s;
+    border-right: 1px solid #592941;
+    border-radius: 1em 0 0 1em;
+    transition: right 0.6s ease;
+    padding: 1em;
 }
 
-/* Form Side of Container */
-.form-side{
+/* Form Side */
+.form-side {
     position: absolute;
     z-index: 1;
     right: 0;
-
-    border: 0.1em solid #592941;
-    border-radius: 0.5em;
-
     width: 65%;
     height: 100%;
-
-    background-color: lightgray;
-    opacity: 1;
-
+    background-color: rgba(157, 5, 20, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
     font-weight: bold;
-    color: #035E7B;
-
-    transition: 2s;
+    border-left: 1px solid #592941;
+    border-radius: 0 1em 1em 0;
+    transition: right 0.6s ease;
 }
 
-.send-right{
+/* Animation Classes */
+.send-right {
     right: 0;
 }
 
-.send-left{
+.send-left {
     right: 35%;
 }
 
-
-/* Layout styling of forms, labels, inputs */
-.form-comp{
+/* Form Layout */
+.form-comp {
+    display: flex;
     flex-direction: column;
+    gap: 1em;
+    width: 80%;
+    max-width: 350px;
 }
 
-.sign-up-form{
-    width: 50%;
+.sign-up-form {
+    display: flex;
     flex-direction: column;
+    gap: 1em;
 }
 
-.sign-up-form > label{
-    padding: 0.5em;
-    width: 100%
+.sign-up-form > label {
+    display: flex;
+    flex-direction: column;
+    color: #EEFCF8;
+    font-size: 0.9em;
 }
 
-.sign-up-form > label > input{
-    width: 100%
+.sign-up-form > label > input {
+    width: 100%;
+    padding: 0.75em;
+    border: 1px solid #035E7B;
+    border-radius: 0.5em;
+    background-color: #fff;
+    color: #333;
+    font-size: 1em;
 }
 
-
-/* All Buttons Styling */
+/* Buttons */
 button {
-    padding: 1em;
-
-    border: 1px solid #EEFCF8;
-    border-radius: 5em;
-    
-    background-color: white;
-
-    color: black;
+    padding: 0.8em 1.5em;
+    border: none;
+    border-radius: 2em;
+    background-color: #EEFCF8;
+    color: #592941;
     font-weight: bold;
-    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 button:focus {
-    outline: 0;
+    outline: none;
 }
 
-button:hover{
-    opacity: 0.9;
+button:hover {
+    transform: scale(1.05);
+    opacity: 0.95;
 }
 
-/* All Inputs Styling */
+/* Inputs */
 input {
-    padding: 0.5em;
     border: 1px solid #035E7B;
+    padding: 0.75em;
+    border-radius: 0.5em;
+    font-size: 1em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .Container {
+        flex-direction: column;
+        height: 90%;
+    }
+
+    .banner-side {
+        position: relative;
+        width: 100%;
+        height: 30%;
+        border-radius: 1em 1em 0 0;
+        right: 0;
+        border-right: none;
+        border-bottom: 1px solid #592941;
+    }
+
+    .form-side {
+        position: relative;
+        width: 100%;
+        height: 70%;
+        right: 0;
+        border-left: none;
+        border-radius: 0 0 1em 1em;
+    }
+
+    .send-left, .send-right {
+        right: 0;
+    }
 }

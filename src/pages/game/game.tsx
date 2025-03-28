@@ -6,7 +6,6 @@ import Timer from '../../components/game/Timer';
 import PlayedCards from '../../components/game/CardsPlayed';
 import CardDeck from '../../components/game/CardDeck';
 
-import './game.css'
 import Lobby from "../../components/lobby/Lobby";
 import LobbyUsers from "../../components/lobby/LobbyUsers";
 import WinLose from "../../components/game/WinLose";
@@ -14,6 +13,8 @@ import Selection from "../../components/game/SelectUser";
 import FutureCards from "../../components/game/FutureCards";
 import { SelectionType } from "../../utils/types";
 import { SocketContextType, useSocket } from "../../context/SocketContext";
+
+import './game.css'
 
 /**
  * Creates a form for the user's logging that
@@ -28,10 +29,6 @@ const Game = () => {
 
     // Import the state of the game
     const socket:SocketContextType = useSocket();
-
-    // Define variables for lobbies
-    const [lobbyVisible, setLobbyVisible] = useState(true);
-    const [lobbyListVisible, setLobbyListVisible] = useState(false);
 
     /**
      * HTML for render the page in which the user is
@@ -126,10 +123,19 @@ const Game = () => {
 
         if (!socket.gameState)
         {
-            if (!socket.lobbyCreate && !socket.lobbyEnter)
-                return <Lobby />
-            else
+            if (socket.lobbyState && !socket.lobbyState.error)
                 return <LobbyUsers />
+            else
+            {
+                if (socket.lobbyCreate && socket.lobbyCreate.error)
+                    alert(socket.lobbyCreate.errorMsg);
+                else if (socket.lobbyEnter && socket.lobbyEnter.error)
+                    alert(socket.lobbyEnter.errorMsg);
+                else if (socket.lobbyState && socket.lobbyState.error)
+                    alert(socket.lobbyState.errorMsg);
+
+                return <Lobby />
+            }
         }
 
         // See Future response

@@ -1,0 +1,63 @@
+/* Lobby.css */
+
+/* Title for the lobby identifier */
+.lobby-container p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFF; /* White text */
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.lobby-container li {
+    font-size: 16px;
+    color: #FFF; /* White text */
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Styling for when there are no players yet */
+.lobby-container ol li {
+    font-style: italic;
+    color: #bbb; /* Light grey for default message */
+}
+
+/* Button for starting the game */
+.button-lobby {
+    background-color: #FFFFFF; /* White button */
+    color: #8B0000; /* Dark Red text */
+    border: 2px solid #8B0000; /* Dark Red border */
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.button-lobby:disabled {
+    background-color: #A9A9A9; /* Grey for disabled button */
+    cursor: not-allowed;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 480px) {
+    .lobby-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .lobby-container p {
+        font-size: 18px;
+    }
+
+    .lobby-container li {
+        font-size: 14px;
+    }
+
+    .button-lobby {
+        font-size: 14px;
+    }
+}

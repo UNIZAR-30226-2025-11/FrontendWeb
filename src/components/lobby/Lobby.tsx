@@ -1,114 +1,87 @@
-import React, { useState } from 'react'
-
-import './Lobby.css'
-import { createLobby, joinLobby } from '../../services/socketService'
-import { useSocket } from '../../context/SocketContext'
-
-import { useNavigate } from 'react-router-dom'
-import { routes } from '../../utils/constants'
+import React, { useState } from 'react';
+import './Lobby.css';
+import { createLobby, joinLobby } from '../../services/socketService';
+import { useSocket } from '../../context/SocketContext';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../utils/constants';
 
 /**
- * Creates the Lobby screen, in which the user can join a created lobby
- * or create his own.
- * 
- * @param setLobbyVisible Function for putting this screen visible or not.
- * @param setLobbyListVisible Function for putting the next screen visible.
- * 
- * @returns The Lobby screen.
+ * Lobby screen to join or create a lobby.
  */
-const Lobby = () =>
-{
-    // Id of the lobby to join
-    const [ lobbyID, setLobbyID ] = useState("");
-
-    // Number of players for the game
-    const [numPlayers, setNumPlayers] = useState(2);
+const Lobby = () => {
+    const [lobbyID, setLobbyID] = useState('');
+    const [selectedPlayers, setSelectedPlayers] = useState(2);
 
     const socket = useSocket();
-    const navegate = useNavigate();
+    const navigate = useNavigate();
 
-    /**
-     * Save the information inside the text filed
-     */
-    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setLobbyID(e.target.value)
-    }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLobbyID(e.target.value);
+    };
 
-    /**
-     * Save the information inside the text filed
-     */
-    const handleChangeNumPlayers = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setNumPlayers(Number(e.target.value))
-    }
-
-    /**
-     * Close this window
-     */
     const handleClose = () => {
-        navegate(routes.gamemenu)
-    }
+        navigate(routes.gamemenu);
+    };
 
-    /**
-     * Defines the actios to do if the user
-     * joins an existent Lobby
-     */
     const handleJoin = () => {
-        console.log("Enviando join...")
-        joinLobby(socket.socket, lobbyID, socket.setLobbyEnter)
-    }
+        if (!lobbyID.trim()) {
+            alert('Lobby ID cannot be empty');
+            setLobbyID('');
+            return;
+        }
+        joinLobby(socket.socket, lobbyID, socket.setLobbyEnter);
+    };
 
-    /**
-     * Defines the actions to do if the user
-     * creates a new Lobby
-     */
     const handleCreate = () => {
-        // Send to the backend the information
-        createLobby(socket.socket, numPlayers, socket.setLobbyCreate)
-    }
+        createLobby(socket.socket, selectedPlayers, socket.setLobbyCreate);
+    };
+
+    const buttonClass = (num: number) =>
+        `players-button ${num === selectedPlayers ? 'selected' : ''}`;
 
     return (
-        <div className='container-lobby'>
-            <button id='close-button-lobby'
-                onClick={handleClose}>
-                Close
+        <div className="lobby-container shadow-game">
+            <button className="close-button" onClick={handleClose}>
+                ×
             </button>
 
-            {/* Join a lobby */}
-            <div className='semi-container'>
-                <input
-                    type='text'
-                    name='lobby-id'
-                    placeholder='Insert the lobby identifier'
-                    value={lobbyID}
-                    onChange={handleChange}
-                    required>
-                </input>
-
-                <button type='submit'
-                    className='button-lobby'
-                    onClick={handleJoin}>
-                    Join
-                </button>
+            <div className="lobby-section left">
+                <h1>Join</h1>
+                <div className="section-content">
+                    <input
+                        type="text"
+                        placeholder="Lobby ID"
+                        value={lobbyID}
+                        onChange={handleChange}
+                        className="input-field"
+                    />
+                    <button className="action-button" onClick={handleJoin}>
+                        Join
+                    </button>
+                </div>
             </div>
 
-            {/* Create a lobby */}
-            <div className='semi-container'>
-                <input  name='num-players'
-                        type='number'
-                        placeholder='Number of max players'
-                        min={2}
-                        max={4}
-                        required
-                        value={numPlayers}
-                        onChange={handleChangeNumPlayers}>
-                </input>
-                <button className='button-lobby'
-                        onClick={handleCreate}>
-                    Create a new lobby
-                </button>
+            <div className="lobby-section right">
+                <h1>Create</h1>
+                <div className="section-content">
+                    <div className="players-buttons">
+                        {[2, 3, 4].map((num) => (
+                            <button
+                                key={num}
+                                className={buttonClass(num)}
+                                onClick={() => setSelectedPlayers(num)}
+                            >
+                                {num}
+                            </button>
+                        ))}
+                    </div>
+                    <button className="action-button" onClick={handleCreate}>
+                        Create
+                    </button>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Lobby;

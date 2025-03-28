@@ -8,6 +8,7 @@ import './Lobby.css'
 import { startLobby } from '../../services/socketService'
 import { SocketContextType, useSocket } from '../../context/SocketContext'
 
+import './LobbyUsers.css'
 
 const LobbyUsers = (
     {} : {}
@@ -25,24 +26,29 @@ const LobbyUsers = (
         startLobby(socket.socket, id, socket.setLobbyStart)
     }
 
+    const handleLeave = () => {
+        window.location.reload();
+    }
+
     return (
-        <div className='container-lobby-users'>
+        <div className='lobby-container lobby-container-users'>
             {/* Header with lobby identifier */}
             <p>
-                Lobby Identifier: { socket.lobbyCreate?.lobbyId ||
+                Curren state of the lobby
+            </p>
+            <p>
+                ID: { socket.lobbyCreate?.lobbyId ||
                                     socket.lobbyEnter?.lobbyId ||
                                     socket.lobbyEnter?.errorMsg ||
                                     "Loading..." }
             </p>
 
-            {/* List of users */}
-            {socket.lobbyState?.players.map((user) => (
-                <li key={user.name}>{user.name}</li>
-            )) ||
             <ol>
-                <li>User 1</li>
-                <li>User 2</li>
-            </ol>}
+            {/* List of users */}
+            {socket.lobbyState?.players.map((user) => {
+                return <li key={user.name}>{user.name}</li>
+            })}
+            </ol>
 
             {/* Button for starting the game */}
             {socket.lobbyCreate
@@ -50,7 +56,10 @@ const LobbyUsers = (
                         onClick={handleClick}>
                     Start
                 </button>
-            : <div></div>
+            :   <button className='button-lobby'
+                        onClick={handleLeave}>
+                    Leave the lobby
+                </button>
             }
         </div>
     )
