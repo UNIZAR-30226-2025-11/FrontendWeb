@@ -33,9 +33,9 @@ const LobbyUsers = (
     return (
         <div className='lobby-container lobby-container-users'>
             {/* Header with lobby identifier */}
-            <p>
-                Curren state of the lobby
-            </p>
+            <h1>
+                Current state of the lobby
+            </h1>
             <p>
                 ID: { socket.lobbyCreate?.lobbyId ||
                                     socket.lobbyEnter?.lobbyId ||

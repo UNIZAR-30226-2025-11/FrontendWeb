@@ -1,0 +1,89 @@
+/* WelcomePage.css */
+
+/* Global container for the welcome page */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('path_to_your_image.jpg'); /* Set your background image */
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-position: center center; /* Center the image */
+    color: #FFFFFF; /* White text to contrast the background */
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+}
+
+/* Floating container for the content (title and buttons) */
+.content-container {
+    position: relative;
+    padding: 40px;
+    background-color: rgba(157, 5, 20, 0.9); /* Slightly transparent white */
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow for the floating effect */
+    backdrop-filter: blur(10px); /* Blur effect behind the container */
+    max-width: 350px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center; /* Center text inside the floating window */
+}
+
+/* Title styling */
+.welcome-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: white; /* Dark Red */
+    margin-bottom: 20px; /* Adjust space between title and buttons */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Added shadow for text clarity */
+}
+
+/* Container for the buttons */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Styling for the buttons */
+.welcome-button {
+    background-color: #FFFFFF; /* White button */
+    color: #8B0000; /* Dark Red text */
+    border: 2px solid #8B0000; /* Dark Red border */
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+button:hover {
+    transform: scale(1.05);
+    opacity: 0.95;
+}
+
+.welcome-button:active {
+    background-color: #FF4500; /* Orange Red when clicked */
+    border: 2px solid #FF4500;
+    transform: translateY(2px); /* Slight push when clicked */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 480px) {
+    .welcome-container {
+        padding: 20px;
+    }
+
+    .welcome-title {
+        font-size: 28px;
+    }
+
+    .welcome-button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}

@@ -4,7 +4,7 @@ import { routes } from './utils/constants';
 import Game from './pages/game/game';
 import GameMenu from './pages/menu/menu'
 import Shop from './components/shop/CardShop';
-import AuthPage from './pages/profile/authPage';
+import AuthPage from './pages/profile/welcomePage';
 import Layout from './components/layout/Layout';
 import ChangePasswordPage from './pages/profile/ChangePassword';
 import Statistics from './pages/profile/Statistics'
