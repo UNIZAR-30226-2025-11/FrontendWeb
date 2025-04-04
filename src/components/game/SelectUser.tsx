@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import * as Objects from "../../api/JSON"
 
 import "./Select.css"
 import BigUser from "./BigUser";
 import { CardType } from "../../utils/types";
-import { playCards, selectCard, selectNopeUsage, selectTypeOfCard } from "../../services/socketService";
+import { selectCard, selectNopeUsage, selectTypeOfCard } from "../../services/socketService";
 import { SocketContextType, useSocket } from "../../context/SocketContext";
 import Card from "./Card";
 

@@ -1,45 +1,94 @@
+/* General Selection Container */
 .container-selection-big-user {
     position: absolute;
     top: 15vh;
     left: 20vw;
     width: 60vw;
     height: 70vh;
-
-    background-color: white;
-    border-radius: 50px;
-
+    background-color: #1E1E1E;
+    border-radius: 30px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    color: white;
 }
 
-.div-user {
-    box-shadow: 5px 10px 10px gray;
-}
-
+/* Players and Cards List */
 .users {
-    width: 70%;
-
-    margin: 0 15%;
+    width: 80%;
+    margin: 20px 0;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
 }
 
+/* Individual Player/Card */
 .div-big-user {
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #FF4500;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0px 2px 10px rgba(255, 69, 0, 0.6);
 }
 
 .div-big-user:hover {
-    background-color: gray;
+    background-color: #FF6347;
+    transform: scale(1.05);
 }
 
 .div-big-user:active {
-    background-color: darkgray;
+    background-color: #CC3700;
 }
 
+/* Buttons */
+button {
+    background-color: #FF4500;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #FF6347;
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+/* Selection Options */
 .option {
-    background-color: lightblue;
+    background-color: #FF4500;
+    padding: 15px 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+    text-align: center;
+    box-shadow: 0px 3px 10px rgba(255, 69, 0, 0.6);
+}
+
+.option:hover {
+    background-color: #FF6347;
+    transform: scale(1.05);
+}
+
+.option:active {
+    background-color: #CC3700;
 }

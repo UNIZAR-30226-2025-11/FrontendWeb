@@ -131,7 +131,7 @@
 }
 
 .players-button {
-    width: 45px;
+    width: 40%;
     height: 45px;
     border-radius: 10px;
     border: none;
@@ -140,6 +140,7 @@
     color: var(--primary-bg);
     cursor: pointer;
     transition: transform 0.2s, background-color 0.3s;
+    font-size: 13px;
 }
 
 .players-button:hover {

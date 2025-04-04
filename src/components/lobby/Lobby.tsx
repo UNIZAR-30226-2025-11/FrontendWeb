@@ -71,7 +71,7 @@ const Lobby = () => {
                                 className={buttonClass(num)}
                                 onClick={() => setSelectedPlayers(num)}
                             >
-                                {num}
+                                {num} players
                             </button>
                         ))}
                     </div>
