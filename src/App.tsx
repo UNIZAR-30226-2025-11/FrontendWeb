@@ -35,6 +35,10 @@ function App() {
             <div className='App cfb'>
               <Container logIn={true}/>
             </div>} />
+          <Route path={routes.signup} element={
+            <div className='App cfb'>
+              <Container logIn={false}/>
+            </div>} />
         </Route>
 
         <Route path="/" element={
