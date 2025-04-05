@@ -19,7 +19,7 @@ const ChangePasswordPage = (
       return;
     }
 
-    const response = await fetch(SERVER + routesRequest.users + "/:" + username,
+    const response = await fetch(SERVER + routesRequest.user,
       {
         mode: "cors",
         method: "PUT",
@@ -28,7 +28,6 @@ const ChangePasswordPage = (
         },
         credentials: 'include',
         body: JSON.stringify({
-          username: username,
           password: newPassword
         }),
       }
@@ -46,18 +45,23 @@ const ChangePasswordPage = (
 
   const handleDelete = async () => {
 
-    const response = await fetch(SERVER + routesRequest.users + "/:" + username,
+    const response = await fetch(SERVER + routesRequest.user,
       {
         mode: "cors",
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-        }
+        },
+        credentials: 'include',
       }
     )
 
     if (response.status == 200)
+    {
       alert("Profile deleted!");
+      window.location.reload();
+    }
+      
     else if (response.status == 401)
       alert("Something went wrong with JWT");
     else
