@@ -13,7 +13,7 @@ const GameMenu = () => {
         <button className="button" onClick={() => navigate(routes.game)}>
           Start a Game
         </button>
-        <button className="button" onClick={() => navigate(routes.shop)}>
+        <button className="button" onClick={(() => navigate(routes.shop))}>
           Shop
         </button>
       </div>
