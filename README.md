@@ -2,32 +2,49 @@
 
 Here we show how to launch the json-server and the web application.
 
-## Server
+## Local Deployment
 
-For running the server, first you have to install the json server with the following command.
+First of all, download the packages using 
 
-```
-npm install json-server
-```
-
-Then, you can run the following command.
-
-```
-json-server --watch db.json --port 5000
+```sh
+npm install
 ```
 
-## Web page
+You need to create a .env file at the root directory, using .env.example as a reference:
 
-For running the web application, you should build the docker container with the following command.
-
-```
-docker build -t frontend-web .
+```sh
+cp .env.example .env
 ```
 
-Once you have done this, you should do the following command for running the image of the container.
+Make sure to update the .env file with your specific configuration values before proceeding.
 
-```
-docker run -p 5173:5173 frontend-web
+Once it is installed, one can deploy it using
+```sh
+npm run dev
 ```
 
-A link should appear in the terminal that redirects to the web page.
+## Docker Deployment
+
+### Build the Docker Image
+
+To build the frontend container, run:
+
+```sh
+npm run compose:build
+```
+
+### Start the Frontend Container
+
+To start the container, run:
+
+```sh
+npm run compose:up
+```
+
+### Stop & Remove the Container
+
+To stop and remove the running container, run:
+
+```sh
+npm run compose:down
+```

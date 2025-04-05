@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "compose:build": "docker compose --env-file .env -p frontend-web -f docker/docker-compose.yml build",
+    "compose:up": "docker compose --env-file .env -p frontend-web -f docker/docker-compose.yml up",
+    "compose:down": "docker compose --env-file .env -p frontend-web -f docker/docker-compose.yml down"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
