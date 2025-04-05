@@ -1,73 +1,12 @@
 import React, { useState } from 'react';
 import './ChangePassword.css';
-import { SERVER } from '../../utils/config';
-import { routesRequest } from '../../utils/constants';
-import { UserContextType, useUser } from '../../context/UserContext';
+import { handleConfirmChange, handleDeleteAccout } from '../../services/apiService';
 
 
 const ChangePasswordPage = (
   {} : {}) => {
-  const [newPassword, setNewPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-
-  const userContext: UserContextType = useUser();
-  const username = userContext.user?.username!;
-
-  const handleConfirmChange = async () => {
-    if (newPassword !== repeatPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-
-    const response = await fetch(SERVER + routesRequest.user,
-      {
-        mode: "cors",
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          password: newPassword
-        }),
-      }
-    )
-
-    console.log(response)
-
-    if (response.status == 200)
-      alert("Password successfully changed!");
-    else if (response.status == 401)
-      alert("Something went wrong with JWT")
-    else
-      alert("Something went wrong...")
-  };
-
-  const handleDelete = async () => {
-
-    const response = await fetch(SERVER + routesRequest.user,
-      {
-        mode: "cors",
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: 'include',
-      }
-    )
-
-    if (response.status == 200)
-    {
-      alert("Profile deleted!");
-      window.location.reload();
-    }
-      
-    else if (response.status == 401)
-      alert("Something went wrong with JWT");
-    else
-      alert("Something went wrong...")
-
-  };
+  const [newPassword, setNewPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
 
   return (
     <div className="container">
@@ -92,10 +31,10 @@ const ChangePasswordPage = (
           />
         </div>
         <div className="button-container">
-          <button className="button confirm" onClick={handleConfirmChange}>
+          <button className="button confirm" onClick={() => handleConfirmChange(newPassword, repeatPassword)}>
             Confirm Change
           </button>
-          <button className="button delete" onClick={handleDelete}>
+          <button className="button delete" onClick={handleDeleteAccout}>
             Delete Profile
           </button>
         </div>

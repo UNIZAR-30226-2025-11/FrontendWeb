@@ -5,6 +5,7 @@ import './userbar.css';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
 import { SERVER } from "../../utils/config";
+import { handleLogout } from "../../services/apiService";
 
 /**
  * Defines the HTML for create a user bar with the
@@ -30,27 +31,6 @@ const UserBar = (
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  const handleLogout = async () => {
-
-    const response = await fetch(SERVER + routes.logout,
-      {
-        mode: "cors",
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        }
-      }
-    )
-
-    if (response.status == 200)
-    {
-      window.location.reload();
-    }
-    else
-      console.log("Something didn't work...")
-  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

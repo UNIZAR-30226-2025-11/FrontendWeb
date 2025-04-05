@@ -1,12 +1,12 @@
-// Code from: https://github.com/cooljasonmelton/cool-sign-up
+// Code from:
+// https://github.com/cooljasonmelton/cool-sign-up
 import React, { useState } from 'react';
 
 // styling
 import { useNavigate } from 'react-router-dom';
-import { SERVER } from '../../utils/config';
-import { routes, routesRequest } from '../../utils/constants';
 
 import './Container.css';
+import { handleLogIn } from '../../services/apiService';
 
 export const SignIn = () => {
 
@@ -43,55 +43,16 @@ export const SignIn = () => {
       )
   }
 
-  /**
-   * Sends the data of the form to the server and show
-   * the response.
-   *
-   * @param {*} e The object from the action
-   */
-  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
-      // Don't reload the page on submit
-      e.preventDefault()
-
-      try
-      {
-        // Send the POST request with the user data
-        const response = await fetch(SERVER + routesRequest.login,
-        {
-            mode:  "cors",
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        })
-
-        // If there is a good response, navigate to the
-        // appropiate page
-        if (response.status === 200)
-        {
-            navigate(routes.gamemenu);
-            window.location.reload();
-        }
-        else if (response.status == 401)
-          alert("Username or password are incorrect!")
-        else
-          alert("There is some problems with the server...")
-
-      }
-      catch (error)
-      {
-          console.error("Something went wrong:", error)
-      }
-  }
-
-
   return (
     <div className="form-comp cfb">
       <h1>Log In!</h1>
       <form className="sign-up-form cfb"
-            onSubmit={handleSubmit}>
+            onSubmit={(e) => {
+              e.preventDefault(),
+              handleLogIn(
+                formData.username,
+                formData.password,
+                navigate)}}>
 
         {/* Username */}
         <label>
