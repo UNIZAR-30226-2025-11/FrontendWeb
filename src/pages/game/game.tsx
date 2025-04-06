@@ -44,19 +44,6 @@ const Game = () => {
     }
 
     /**
-     * HTML for render the page that shows the
-     * following cards that are in the Deck after
-     * using a See Future card.
-     * 
-     * @returns The HTML code for See Future card.
-     */
-    const seeFuture = () => {
-        if (socket.cardPlayedResult?.cardsSeeFuture)
-            return <FutureCards cards={socket.cardPlayedResult.cardsSeeFuture}
-                                setCardPlayedResult={socket.setCardPlayedResult}/>
-    }
-
-    /**
      * Defines the HTML for the board, taking into account
      * the number of users in the game.
      * @returns The necessary HTML for the board
@@ -66,11 +53,11 @@ const Game = () => {
         if (socket.gameState === undefined)
             return <></>
 
-        // Compute the rest of players who are not the user
+        // Compute the rest of players who are not the user and the turn
         const players = socket.gameState.players.filter(player => player.playerUsername != socket.gameState!.playerUsername)
-
         const turn: boolean = socket.gameState.turnUsername == socket.gameState.playerUsername
 
+        // Check if we have to do a selection
         let selection = undefined;
         if (socket.selectPlayer)
             selection = SelectionType.User;
@@ -103,7 +90,7 @@ const Game = () => {
 
                 {/* Timer */}
                 {turn &&
-                <Timer duration={socket.gameState.timeOut} onTimeUp={() => {console.log("TIMEEER")}}/>}
+                <Timer duration={socket.gameState.timeOut/1000} onTimeUp={() => {console.log("TIMEEER")}}/>}
                         
                 {/* My own cards */}
                 <Deck/>
@@ -114,6 +101,12 @@ const Game = () => {
                 {/* Users selection */}
                 { (socket.selectPlayer || socket.selectCardType || socket.selectCard || socket.selectNope) &&
                     <Selection /> }
+
+                {/* See Future */}
+                { ( socket.cardPlayedResult?.cardsSeeFuture &&
+                    socket.cardPlayedResult.cardsSeeFuture.length > 0) &&
+                        <FutureCards    cards={socket.cardPlayedResult.cardsSeeFuture}
+                                        setCardPlayedResult={socket.setCardPlayedResult}/> }
             </div>
         )
 
@@ -137,12 +130,6 @@ const Game = () => {
                 return <Lobby />
             }
         }
-
-        // See Future response
-        if (socket.cardPlayedResult?.cardsSeeFuture &&
-            socket.cardPlayedResult.cardsSeeFuture.length > 0
-        )
-            return seeFuture();
 
         // Check if exsits a winner in the game
         if (socket.winner)

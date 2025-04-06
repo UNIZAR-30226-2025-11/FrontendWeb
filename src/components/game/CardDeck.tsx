@@ -4,7 +4,8 @@ import { useState } from "react";
 import "./CardDeck.css"
 import { playCards } from "../../services/socketService";
 import { SocketContextType, useSocket } from "../../context/SocketContext";
-import * as Objects from "../../api/JSON"
+
+const MAX_CARDS_TO_SHOW = 20;
 
 const CardDeck = (
 	{} : {}
@@ -13,9 +14,9 @@ const CardDeck = (
 	const socket:SocketContextType = useSocket()
 
 	const deckSize = socket.gameState?.cardsLeftInDeck!;
-	const cards = Array.from({ length: deckSize < 20 ? deckSize : 20 }, (_, i) => ({
-	id: i + 1,
-	image: "assets/cards/Attack.jpg",
+	const cards = Array.from({ length: deckSize < MAX_CARDS_TO_SHOW ? deckSize : MAX_CARDS_TO_SHOW }, (_, i) => ({
+		id: i + 1,
+		image: "assets/cards/Attack.jpg",
 	}));
 
 	const [deck, setDeck] = useState(cards);
@@ -24,9 +25,14 @@ const CardDeck = (
 	const lobbyID:string = socket.gameState?.lobbyId!
 
 	const drawCard = () => {
+		// Check if there are cards and it's your turn
 		if (deck.length === 0 || !active) return;
-		setDeck(deck.slice(1));
 
+		// Remove the card and visual effect
+		if (socket.gameState?.cardsLeftInDeck! <= cards.length)
+			setDeck(deck.slice(0, socket.gameState?.cardsLeftInDeck));
+
+		// Send the message to the backend
 		playCards(  socket.socket,
 					[],
 					lobbyID,
