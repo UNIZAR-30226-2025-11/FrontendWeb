@@ -4,6 +4,7 @@ import coinsIcon from '../../assets/coins.png';
 import '../styles/userbar.css';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../utils/constants';
+import FriendsList from "./FriendsList";
 
 /**
  * Defines the HTML for create a user bar with the
@@ -17,6 +18,7 @@ import {routes} from '../utils/constants';
 const UserBar = ({ username, coins }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isFriendsListOpen, setIsFriendsListOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -26,6 +28,14 @@ const UserBar = ({ username, coins }) => {
     // add logic
     navigate(routes.login);
   }
+
+  const openFriendsList = () => {
+    setIsFriendsListOpen(true);
+    setIsOpen(false);
+  };
+  const closeFriendsList = () => {
+    setIsFriendsListOpen(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,12 +86,21 @@ const UserBar = ({ username, coins }) => {
         </button>
         <button className="menu-btn" onClick={() => navigate(routes.chgpassw)}>
           Edit Profile
-          </button>
+        </button>
+        <button className="menu-btn" onClick={openFriendsList}>
+          Friends
+        </button>
         <button className="menu-btn logout" onClick={handleLogout}>
           Log Out
           </button>
       </ul>
     </div>
+    {isFriendsListOpen && (
+        <FriendsList
+          friends={["Test1", "Test2", "Test3"]}
+          onClose={closeFriendsList}
+        />
+      )}
   </>
   );
 };

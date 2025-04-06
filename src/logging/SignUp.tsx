@@ -66,7 +66,7 @@ const SignUp = () => {
          * Response from the server about the information we sent
          * for the sign up process.
          */
-        const response = await fetch(ips.server + routes.signup,
+        const response = await fetch(ips.server + "/register",
             {
                 method: "POST",
                 headers: {

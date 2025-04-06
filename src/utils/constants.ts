@@ -12,7 +12,7 @@ const routes = {
 }
 
 const ips = {
-    server: "http://localhost:5000"
+    server: "http://localhost:8000"
 }
 
 export {routes, ips}

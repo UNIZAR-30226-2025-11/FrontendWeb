@@ -65,9 +65,10 @@ const LogIn = () => {
         try
         {
             // Send the POST request with the user data
-            const response = await fetch(ips.server + routes.login,
+            const response = await fetch("http://localhost:8000/login",
             {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -78,7 +79,7 @@ const LogIn = () => {
             // appropiate page
             if (response.ok)
             {
-                navigate(routes.signup)
+                navigate(routes.gamemenu)
             }
         }
         catch (error)

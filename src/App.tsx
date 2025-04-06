@@ -8,7 +8,7 @@ import GameMenu from './menu/GameMenu';
 import Shop from './shop/CardShop';
 // import WinLose from './game/WinLose';
 import AuthPage from './menu/AuthPage';
-import Layout from './Layout/Layout';
+import Layout from './Overlay/Overlay';
 import ChangePasswordPage from './menu/ChangePassword';
 import Statistics from './menu/Statistics';
 
