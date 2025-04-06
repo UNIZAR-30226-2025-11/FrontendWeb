@@ -12,6 +12,7 @@ type Message = {
 export const Chat = () => {
     const socket = useSocket();
   const [input, setInput] = useState("");
+  const [lastUser, setLastUser] = useState("");
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -25,8 +26,10 @@ export const Chat = () => {
   };
 
   useEffect(() => {
+    setLastUser(socket.messagesChat?.messages[socket.messagesChat.messages.length-1].username!)
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [socket.messagesChat]);
+
 
   return (
     <div className="chat-container">
@@ -34,11 +37,13 @@ export const Chat = () => {
 
         {/* Show messages */}
         {socket.messagesChat?.messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`chat-bubble ${msg.username === socket.gameState?.playerUsername ? "chat-me" : "chat-other"}`}
-          >
-            {msg.msg}
+            <div className={`chat-bubble ${msg.username === socket.gameState?.playerUsername ? "chat-me" : "chat-other"}`}>  
+                <p>
+                    {msg.username}
+                </p>
+                <div key={index}>
+                    {msg.msg}
+                </div>
           </div>
         ))}
         <div ref={bottomRef} />
