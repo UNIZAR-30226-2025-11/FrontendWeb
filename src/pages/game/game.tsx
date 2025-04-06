@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 
 import User from '../../components/game/User'
 import Deck from '../../components/game/CardHand'
@@ -11,10 +11,11 @@ import LobbyUsers from "../../components/lobby/LobbyUsers";
 import WinLose from "../../components/game/WinLose";
 import Selection from "../../components/game/SelectUser";
 import FutureCards from "../../components/game/FutureCards";
-import { SelectionType } from "../../utils/types";
+import { CardDeckHandle, SelectionType } from "../../utils/types";
 import { SocketContextType, useSocket } from "../../context/SocketContext";
 
 import './game.css'
+import toast, { Toaster } from "react-hot-toast";
 
 /**
  * Creates a form for the user's logging that
@@ -29,6 +30,9 @@ const Game = () => {
 
     // Import the state of the game
     const socket:SocketContextType = useSocket();
+
+    // For effects in the deck
+    const cardDeckRef = useRef<CardDeckHandle>(null);
 
     /**
      * HTML for render the page in which the user is
@@ -95,8 +99,8 @@ const Game = () => {
                 {/* My own cards */}
                 <Deck/>
                 
-                {/* Played cards */}
-                <CardDeck/>
+                {/* Cards for stealing */}
+                <CardDeck ref={cardDeckRef}/>
 
                 {/* Users selection */}
                 { (socket.selectPlayer || socket.selectCardType || socket.selectCard || socket.selectNope) &&
@@ -107,13 +111,20 @@ const Game = () => {
                     socket.cardPlayedResult.cardsSeeFuture.length > 0) &&
                         <FutureCards    cards={socket.cardPlayedResult.cardsSeeFuture}
                                         setCardPlayedResult={socket.setCardPlayedResult}/> }
+                                        
+                {/* For notifications */}
+                <Toaster />
             </div>
         )
 
     }
 
     const HTML = () => {
+        // Check if exsits a winner in the game
+        if (socket.winner)
+            return winnerPage();
 
+        // If there is not a gameState, we should display the lobbies
         if (!socket.gameState)
         {
             if (socket.lobbyState && !socket.lobbyState.error)
@@ -131,9 +142,54 @@ const Game = () => {
             }
         }
 
-        // Check if exsits a winner in the game
-        if (socket.winner)
-            return winnerPage();
+        // Notify actions of other players
+        if (socket.actions &&
+            !socket.actions.error)
+        {
+            // Apply effects to the deck
+            if (socket.actions.action == "DrawCard")
+                cardDeckRef.current?.stealCard();
+            else if (socket.actions.action == "ShuffleDeck")
+                cardDeckRef.current?.shuffleDeck();
+
+            // Show messages if they are not known by the user
+            if (socket.actions.triggerUser !=
+                socket.gameState.playerUsername)
+            {
+                if (socket.actions.targetUser)
+                    toast(  socket.actions.triggerUser +
+                            " has done the action " +
+                            socket.actions.action + 
+                            " to " + socket.actions.targetUser);
+                else
+                    toast(  socket.actions.triggerUser +
+                            " has done the action " +
+                            socket.actions.action);
+            }
+
+            socket.setActions(undefined);
+        }
+
+        // See Future response
+        if (socket.cardPlayedResult)
+        {
+            // Check if there is an error
+            if (socket.cardPlayedResult.error)
+            {
+                toast(socket.cardPlayedResult.errorMsg);
+                socket.setCardPlayedResult(undefined);
+            }
+            else
+            {
+                // Check if you have received a card
+                if (socket.cardPlayedResult.cardReceived.id != -1)
+                {
+                    toast(  "You have received: " +
+                            socket.cardPlayedResult.cardReceived.type);
+                    socket.setCardPlayedResult(undefined);
+                }
+            }
+        }
 
         // Default: Show the game state
         return HTMLGame();

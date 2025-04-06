@@ -31,3 +31,8 @@ export enum SelectionType {
     Card,
     CardType
 }
+
+export type CardDeckHandle = {
+    shuffleDeck: () => void;
+    stealCard: () => void;
+  };
