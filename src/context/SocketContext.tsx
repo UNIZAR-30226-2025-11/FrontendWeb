@@ -36,6 +36,7 @@ export interface SocketContextType {
     setActions: React.Dispatch<React.SetStateAction<Objects.BackendNotifyActionJSON | undefined>>;
     disconnect: Objects.BackendPlayerStatusJSON | undefined;
     messagesChat: Objects.BackendGetMessagesJSON | undefined;
+    setMessagesChat: React.Dispatch<React.SetStateAction<Objects.BackendGetMessagesJSON | undefined>>;
 }
 
 // Create the context
@@ -249,7 +250,8 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             actions,
             setActions,
             disconnect,
-            messagesChat
+            messagesChat,
+            setMessagesChat
         }}>
             {children}
         </SocketContext.Provider>

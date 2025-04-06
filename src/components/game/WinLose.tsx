@@ -22,6 +22,7 @@ const WinLose = (
         socket.setLobbyCreate(undefined);
         socket.setLobbyEnter(undefined);
         socket.setLobbyState(undefined);
+        socket.setMessagesChat(undefined);
         navegate(routes.gamemenu);
     }
 
