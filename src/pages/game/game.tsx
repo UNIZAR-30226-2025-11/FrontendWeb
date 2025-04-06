@@ -16,6 +16,7 @@ import { SocketContextType, useSocket } from "../../context/SocketContext";
 
 import './game.css'
 import toast, { Toaster } from "react-hot-toast";
+import { Chat } from "../../components/game/Chat";
 
 /**
  * Creates a form for the user's logging that
@@ -114,6 +115,9 @@ const Game = () => {
                                         
                 {/* For notifications */}
                 <Toaster />
+
+                {/* Chat of messages */}
+                <Chat />
             </div>
         )
 

@@ -14,6 +14,7 @@ export const createLobby = (socket: Socket,
                             numPlayers: number,
                             callback: (data: Objects.BackendCreateLobbyResponseJSON) => void) =>
 {
+    // Create the request
     const request: Objects.FrontendCreateLobbyJSON =
     {
         error: false,
@@ -21,6 +22,7 @@ export const createLobby = (socket: Socket,
         maxPlayers: numPlayers
     };
 
+    // Send the request and wait the answer
     socket.emit("create-lobby", request);
     socket.once("create-lobby", callback);
 };
@@ -38,6 +40,7 @@ export const joinLobby = (  socket: Socket,
                             lobbyId: string,
                             callback: (data: Objects.BackendJoinLobbyResponseJSON) => void) =>
 {
+    // Create the request
     const request: Objects.FrontendJoinLobbyJSON =
     {
         error: false,
@@ -45,6 +48,7 @@ export const joinLobby = (  socket: Socket,
         lobbyId: lobbyId
     };
 
+    // Send the request and wait the answer
     socket.emit("join-lobby", request);
     socket.once("join-lobby", callback);
 };
@@ -63,6 +67,7 @@ export const startLobby = ( socket: Socket,
                             lobbyId: string,
                             callback: (data: Objects.BackendStartLobbyResponseJSON) => void) =>
 {
+    // Create the request
     const request: Objects.FrontendStartLobbyJSON =
     {
         error: false,
@@ -70,6 +75,7 @@ export const startLobby = ( socket: Socket,
         lobbyId: lobbyId
     };
 
+    // Send the request and wait the answer
     socket.emit("start-lobby", request);
     socket.once("start-lobby", callback);
 };
@@ -90,6 +96,7 @@ export const playCards = (  socket: Socket,
                             lobbyID: string,
                             callback: (data: Objects.BackendGamePlayedCardsResponseJSON) => void) =>
 {
+    // Create the request
     const request: Objects.FrontendGamePlayedCardsJSON =
     {
         error: false,
@@ -98,6 +105,7 @@ export const playCards = (  socket: Socket,
         lobbyId: lobbyID
     };
 
+    // Send the request and wait the answer
     socket.emit("game-played-cards", request);
     socket.once("game-played-cards", callback);
 }
@@ -115,6 +123,7 @@ export const selectPlayer = (   socket: Socket,
                                 username: string,
                                 lobbyID: string
 ) => {
+    // Create the request
     const request: Objects.FrontendGameSelectPlayerResponseJSON =
     {
         error: false,
@@ -123,6 +132,7 @@ export const selectPlayer = (   socket: Socket,
         lobbyId: lobbyID
     };
 
+    // Send the request
     socket.emit("game-select-player", request);
 }
 
@@ -138,7 +148,7 @@ export const selectTypeOfCard = (   socket: Socket,
                                     cardType: string,
                                     lobbyID: string
 ) => {
-
+    // Create the request
     const request: Objects.FrontendGameSelectCardTypeResponseJSON =
     {
         error: false,
@@ -147,15 +157,21 @@ export const selectTypeOfCard = (   socket: Socket,
         lobbyId: lobbyID
     }
 
-    console.log(request);
-
+    // Send the request
     socket.emit("game-select-card-type", request);
 }
 
+/**
+ * Select the card that the user wants to give to another user
+ * @param socket    The socket with the server
+ * @param card      The card selected by the user
+ * @param lobbyID   The lobby identifier
+ */
 export const selectCard = ( socket: Socket,
                             card: Objects.CardJSON,
                             lobbyID: string
 ) => {
+    // Create the request
     const request: Objects.FrontendGameSelectCardResponseJSON =
     {
         error: false,
@@ -164,16 +180,23 @@ export const selectCard = ( socket: Socket,
         lobbyId: lobbyID
     }
 
-    console.log(request)
-
+    // Send the request
     socket.emit("game-select-card", request);
 }
 
+
+/**
+ * Send if the user wants to use a 'Nope' card
+ * @param socket    The socket with the server
+ * @param isUsed    True if the user uses the card
+ * @param lobbyID   The lobby identifier
+ */
 export const selectNopeUsage = (    socket: Socket,
                                     isUsed: boolean,
                                     lobbyID: string
 ) => {
 
+    // Create the request
     const request:  Objects.FrontendGameSelectNopeResponseJSON =
     {
         error: false,
@@ -182,10 +205,8 @@ export const selectNopeUsage = (    socket: Socket,
         lobbyId: lobbyID
     }
 
-    console.log(request)
-
+    // Send the request
     socket.emit("game-select-nope", request);
-
 }
                                  
 
