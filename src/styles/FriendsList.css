@@ -70,3 +70,22 @@
   .modal-btn.close-btn:hover {
     background-color: #5a6268;
   }
+
+  .remove-friend-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+  
+  .remove-friend-btn:hover {
+    background-color: #c82333;
+  }
+  
+  .remove-friend-btn:focus {
+    outline: none;
+  }

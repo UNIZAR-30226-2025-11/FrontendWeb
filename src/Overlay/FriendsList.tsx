@@ -99,6 +99,22 @@ const FriendsList: React.FC<FriendsListProps> = ({ onClose }) => {
     }
   };
 
+  const handleRemoveFriend = async (username: string) => {
+    try {
+      await fetch(ips.server + "/friends", {
+        method: "DELETE",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          resp: { username },
+        }),
+      });
+      setFriends((prev) => prev.filter((friend) => friend !== username));
+    } catch (err) {
+      console.error("Erreur remove friend", err);
+    }
+  };
+
   return (
     <>
       <div className="modal-overlay">
@@ -117,6 +133,12 @@ const FriendsList: React.FC<FriendsListProps> = ({ onClose }) => {
               friends.map((friend, index) => (
                 <li key={index} className="friend-item">
                   {friend}
+                  <button 
+                    className="remove-friend-btn"
+                    onClick={() => handleRemoveFriend(friend)}
+                  >
+                    Remove
+                  </button>
                 </li>
               ))
             ) : (
