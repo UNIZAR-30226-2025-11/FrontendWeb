@@ -17,4 +17,5 @@ export const routesRequest = {
     logout: "/logout",
     users: "/users",
     user: "/user",
+    shop: "/shop",
 }
