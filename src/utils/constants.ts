@@ -1,5 +1,5 @@
-const routes = {
-    login: "/loggin",
+export const routes = {
+    login: "/login",
     signup: "/signup",
     home: "/",
     game: "/game",
@@ -11,8 +11,14 @@ const routes = {
     statistics: "/statistics"
 }
 
-const ips = {
-    server: "http://localhost:8000"
+export const routesRequest = {
+    login: "/login",
+    signup: "/register",
+    logout: "/logout",
+    users: "/users",
+    user: "/user",
+    shop: "/shop",
+    friends: "/friends",
+    friendRequest: "/friends/request",
+    allusers: "/userss",
 }
-
-export {routes, ips}

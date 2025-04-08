@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import "../styles/FriendsRequestsModal.css";
-import { ips } from "../utils/constants";
+import "./FriendsRequestsModal.css";
 
 interface FriendRequestsModalProps {
   requests: string[];

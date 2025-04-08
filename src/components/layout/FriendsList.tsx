@@ -1,8 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
-import "../styles/FriendsList.css";
+import "./FriendsList.css";
 import AddFriendModal from "./AddFriendModal";
 import FriendRequestsModal from "./FriendRequestsModal";
-import { ips } from "../utils/constants";
+import {
+  fetchFriends,
+  fetchFriendRequests,
+  fetchAllUsers,
+  respondToFriendRequest,
+  removeFriend
+} from "../../services/friendService";
 
 interface FriendsListProps {
   onClose: () => void;
@@ -16,102 +22,62 @@ const FriendsList: React.FC<FriendsListProps> = ({ onClose }) => {
   const [isRequestOpen, setIsRequestOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const fetchFriends = async () => {
-    try {
-      const res = await fetch(ips.server + "/friends", {
-        method: "GET",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
-      setFriends(data.users.map((user: any) => user.username));
-    } catch (error) {
-      console.error("Erreur fetch friends", error);
-    }
-  };
-
-  const fetchRequests = async () => {
-    try {
-      const res = await fetch(ips.server + "/friends/request", {
-        method: "GET",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
-      console.log("friends requests:", data);
-      setRequests(data.map((user: any) => user.username));
-    } catch (error) {
-      console.error("Erreur fetch requests", error);
-    }
-  };
-
-  const fetchAllUsers = async () => {
-    try {
-      const res = await fetch(ips.server + "/userss", {
-        method: "GET",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
-      console.log("res", res);
-      const data = await res.json();
-      setAllUsers(data.users.map((user: any) => user.username));
-    } catch (error) {
-      console.error("Erreur fetch all users", error);
-    }
-  };
-
+  // Fetch data on component mount
   useEffect(() => {
-    fetchFriends();
-    fetchRequests();
-    fetchAllUsers();
+    const fetchData = async () => {
+      try {
+        const [friendsData, requestsData, allUsersData] = await Promise.all([
+          fetchFriends(),
+          fetchFriendRequests(),
+          fetchAllUsers()
+        ]);
+        setFriends(friendsData);
+        setRequests(requestsData);
+        setAllUsers(allUsersData);
+      } catch (error) {
+        console.error("Error loading friends data:", error);
+      }
+    };
+    fetchData();
   }, []);
 
+  /**
+   * Accept a friend request and update the UI.
+   * @param username The username of the friend to accept
+   */
   const handleAccept = async (username: string) => {
     try {
-      await fetch(ips.server + "/friends/request", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          resp: { username, accept: true },
-        }),
-      });
-      setRequests((prev) => prev.filter((u) => u !== username));
-      setFriends((prev) => [...prev, username]);
+      await respondToFriendRequest(username, true);
+      setRequests(prev => prev.filter(u => u !== username));
+      setFriends(prev => [...prev, username]);
     } catch (err) {
-      console.error("Erreur accept friend", err);
+      console.error("Error accepting friend request:", err);
     }
   };
 
+  /**
+   * Reject a friend request and update the UI.
+   * @param username The username of the friend to reject
+   */
   const handleReject = async (username: string) => {
     try {
-      await fetch(ips.server + "/friends/request", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          resp: { username, accept: false },
-        }),
-      });
-      setRequests((prev) => prev.filter((u) => u !== username));
+      await respondToFriendRequest(username, false);
+      setRequests(prev => prev.filter(u => u !== username));
     } catch (err) {
-      console.error("Erreur reject friend", err);
+      console.error("Error rejecting friend request:", err);
     }
   };
 
+  /**
+   * Remove a friend and update the UI.
+   * @param username The friend's username
+   */
   const handleRemoveFriend = async (username: string) => {
     try {
-      await fetch(ips.server + "/friends", {
-        method: "DELETE",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          resp: { username },
-        }),
-      });
-      setFriends((prev) => prev.filter((friend) => friend !== username));
+      await removeFriend(username);
+      setFriends(prev => prev.filter(friend => friend !== username));
     } catch (err) {
-      console.error("Erreur remove friend", err);
+      console.error("Error removing friend:", err);
     }
   };
 
@@ -120,14 +86,19 @@ const FriendsList: React.FC<FriendsListProps> = ({ onClose }) => {
       <div className="modal-overlay">
         <div className="friend-modal" ref={modalRef}>
           <div className="modal-actions">
+            {/* Open add friend modal */}
             <button className="modal-btn" onClick={() => setIsAddFriendOpen(true)}>
               Add
             </button>
+            {/* Open friend requests modal */}
             <button className="modal-btn" onClick={() => setIsRequestOpen(true)}>
               Requests
             </button>
           </div>
+
           <h2 className="modal-title">Your Friends</h2>
+
+          {/* List of friends */}
           <ul className="friend-list">
             {friends.length > 0 ? (
               friends.map((friend, index) => (
@@ -145,12 +116,15 @@ const FriendsList: React.FC<FriendsListProps> = ({ onClose }) => {
               <li className="no-friends">You have no friends yet.</li>
             )}
           </ul>
+
+          {/* Close button */}
           <button className="modal-btn close-btn" onClick={onClose}>
             Close
           </button>
         </div>
       </div>
 
+      {/* Add friend modal */}
       {isAddFriendOpen && (
         <AddFriendModal
           allUsers={allUsers}
@@ -161,6 +135,7 @@ const FriendsList: React.FC<FriendsListProps> = ({ onClose }) => {
         />
       )}
 
+      {/* Friend requests modal */}
       {isRequestOpen && (
         <FriendRequestsModal
           requests={requests}

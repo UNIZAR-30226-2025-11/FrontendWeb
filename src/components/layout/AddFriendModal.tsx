@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import "../styles/AddFriendModal.css";
-import { ips } from "../utils/constants";
+import "./AddFriendModal.css";
+import { sendFriendRequest } from "../../services/apiFriends";
 
 interface AddFriendModalProps {
   allUsers: string[];
@@ -15,26 +15,21 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
   const [addedFriends, setAddedFriends] = useState<string[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Filters the list of users based on the search input.
+   */
   const filteredUsers = allUsers.filter((user) =>
     user.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  /**
+   * Sends a friend request to a selected user.
+   * Updates local state to mark request as "sent".
+   */
   const handleAddFriend = async (username: string) => {
     if (!addedFriends.includes(username)) {
       try {
-        const response = await fetch(ips.server + "/friends", {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            resp: { username },
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Friend request failed");
-        }
-
+        await sendFriendRequest(username);
         setAddedFriends((prev) => [...prev, username]);
         console.log(`Friend request sent to ${username}`);
       } catch (err) {
@@ -44,6 +39,9 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
     }
   };
 
+  /**
+   * Closes modal if user clicks outside of it.
+   */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -60,6 +58,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
       <div className="add-friend-modal" ref={modalRef}>
         <h2 className="modal-title">Add a Friend</h2>
 
+        {/* Search input */}
         <input
           type="text"
           placeholder="Search by username..."
@@ -68,6 +67,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
           className="search-bar"
         />
 
+        {/* List of users filtered by search term */}
         <ul className="friend-list">
           {filteredUsers.length > 0 ? (
             filteredUsers.map((user, index) => (
@@ -87,6 +87,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
           )}
         </ul>
 
+        {/* Close modal */}
         <button className="modal-btn close-btn" onClick={onClose}>
           Close
         </button>
