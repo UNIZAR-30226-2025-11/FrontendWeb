@@ -1,0 +1,98 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .friend-requests-modal {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .modal-title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .friend-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  .friend-item,
+  .request-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .no-friends {
+    font-style: italic;
+    color: #777;
+  }
+  
+  .request-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .modal-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .modal-btn.accept {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .modal-btn.accept:hover {
+    background-color: #218838;
+  }
+  
+  .modal-btn.reject {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .modal-btn.reject:hover {
+    background-color: #c82333;
+  }
+  
+  .modal-btn.close-btn {
+    background-color: #6c757d;
+    color: #fff;
+    margin-top: 10px;
+  }
+  
+  .modal-btn.close-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  .modal-btn.status {
+    background-color: #e0e0e0;
+    color: #555;
+    cursor: default;
+    pointer-events: none;
+  }

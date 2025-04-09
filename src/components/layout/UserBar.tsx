@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
 import { SERVER } from "../../utils/config";
 import { handleLogout } from "../../services/apiService";
+import FriendsList from "./FriendsList";
 
 /**
  * Defines the HTML for create a user bar with the
@@ -27,9 +28,18 @@ const UserBar = (
 {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isFriendsListOpen, setIsFriendsListOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const openFriendsList = () => {
+    setIsFriendsListOpen(true);
+    setIsOpen(false);
+  };
+  const closeFriendsList = () => {
+    setIsFriendsListOpen(false);
   };
 
   useEffect(() => {
@@ -81,12 +91,20 @@ const UserBar = (
         </button>
         <button className="menu-btn" onClick={() => navigate(routes.chgpassw)}>
           Edit Profile
-          </button>
+        </button>
+        <button className="menu-btn" onClick={openFriendsList}>
+          Friends
+        </button>
         <button className="menu-btn logout" onClick={handleLogout}>
           Log Out
-          </button>
+        </button>
       </ul>
     </div>
+    {isFriendsListOpen && (
+        <FriendsList
+          onClose={closeFriendsList}
+        />
+      )}
   </>
   );
 };
