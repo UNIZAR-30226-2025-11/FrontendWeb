@@ -17,5 +17,8 @@ export const routesRequest = {
     logout: "/logout",
     users: "/users",
     user: "/user",
+    friends: "/friends",
+    friendRequest: "/friends/request",
+    allusers: "/userss",
     shop: "/shop",
 }
