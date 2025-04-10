@@ -1,93 +1,50 @@
-import React from "react";
-import * as Objects from "../../utils/types"
-
+import React, { useEffect, useState } from "react";
 import './CardShop.css';
+import { fetchShopItems, buyItem, Product } from "../../services/apiShop";
 
-const ShopItem = ({ item } : { item:Objects.Item }) => (
+type ShopItemProps = {
+  item: Product;
+  onBuy: () => void;
+};
+
+const ShopItem: React.FC<ShopItemProps> = ({ item, onBuy }) => (
   <div className="shop-item">
-    <img src={item.image} alt={item.name} className="item-image" />
     <h3 className="item-title">{item.name}</h3>
-    <p className="item-description">{item.description}</p>
-    <p className="item-price">Price: {String(item.price)}</p>
-    <button className="buy-button">Add to Cart</button>
+    <p className="item-price">Price: ${item.price}</p>
+    <button className="buy-button" disabled={item.isBought} onClick={onBuy}>
+      {item.isBought ? "Already Purchased" : "Buy"}
+    </button>
   </div>
 );
 
-const Shop = () => {
+const Shop: React.FC = () => {
+  const [shopData, setShopData] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // Example shop items with prices for testing grid alignment
-  const items = [
-    {
-      id: 1,
-      name: 'A',
-      description: 'A description of the item',
-      image: 'i',
-      price: 9.99
-    },
-    {
-      id: 2,
-      name: 'B',
-      description: 'A description of the item',
-      image: 'i',
-      price: 2.99
-    },
-    {
-      id: 3,
-      name: 'C',
-      description: 'A description of the item',
-      image: 'i',
-      price: 1.99
-    },
-    {
-      id: 4,
-      name: 'D',
-      description: 'A description of the item',
-      image: 'i',
-      price: 3.99
-    },
-    {
-      id: 5,
-      name: 'E',
-      description: 'A description of the item',
-      image: 'i',
-      price: 1.49
-    },
-    {
-      id: 6,
-      name: 'F',
-      description: 'A description of the item',
-      image: 'i',
-      price: 4.99
-    },
-    {
-      id: 7,
-      name: 'G',
-      description: 'A description of the item',
-      image: 'i',
-      price: 0.99
-    },
-    {
-      id: 8,
-      name: 'H',
-      description: 'A description of the item',
-      image: 'i',
-      price: 1.29
-    },
-    {
-      id: 9,
-      name: 'I',
-      description: 'A description of the item',
-      image: 'i',
-      price: 0.79
-    },
-    {
-      id: 10,
-      name: 'J',
-      description: 'A description of the item',
-      image: 'i',
-      price: 5.99
-    },
-  ];
+  const loadShopItems = async () => {
+    try {
+      const items = await fetchShopItems();
+      setShopData(items);
+    } catch (error) {
+      alert((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBuy = async (item: Product) => {
+    try {
+      await buyItem(item);
+      alert("Item purchased!");
+      loadShopItems();
+    } catch (error) {
+      alert((error as Error).message);
+    }
+  };
+
+  useEffect(() => {
+    loadShopItems();
+  }, []);
 
   return (
     <div className="shop-container">
@@ -95,11 +52,15 @@ const Shop = () => {
         <h1>Exploding Kittens Shop</h1>
       </header>
       <div className="shop-scrollable">
-        <main className="shop-items">
-          {items.map(item => (
-            <ShopItem key={item.id} item={item} />
-          ))}
-        </main>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <main className="shop-items">
+            {shopData.map((item, idx) => (
+              <ShopItem key={idx} item={item} onBuy={() => handleBuy(item)} />
+            ))}
+          </main>
+        )}
       </div>
     </div>
   );
