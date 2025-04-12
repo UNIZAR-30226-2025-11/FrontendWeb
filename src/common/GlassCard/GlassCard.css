@@ -205,6 +205,54 @@
     box-shadow: 0 4px 15px rgba(91, 134, 229, 0.4);
 }
 
+
+/* Form styling */
+.GC-form-comp {
+    width: 100%;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.GC-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.GC-input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.GC-input-group label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.GC-input-group input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.GC-input-group input:focus {
+    outline: none;
+    border-color: rgba(255, 154, 68, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 154, 68, 0.2);
+}
+
+.GC-input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
 /* Responsive design */
 @media (max-width: 768px) {
     .glass-card {

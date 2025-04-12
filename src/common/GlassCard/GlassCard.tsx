@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactNode } from 'react';
+import React, { useEffect, useState, ReactNode, useRef } from 'react';
 import './GlassCard.css';
 
 interface GlassCardProps {
@@ -9,7 +9,8 @@ interface GlassCardProps {
   maxwidth?: string | number;
   showPaws?: boolean;
   animationDelay?: number;
-  maxHeight?: string | number; // Add maxHeight prop
+  maxHeight?: string | number;
+  autoFit?: boolean; // Whether to automatically fit content or use scroll
 }
 
 const GlassCard: React.FC<GlassCardProps> = ({
@@ -20,10 +21,13 @@ const GlassCard: React.FC<GlassCardProps> = ({
   minwidth = '300px',
   showPaws = true,
   animationDelay = 100,
-  maxHeight = '80vh' // Default max height
+  maxHeight = '90vh',
+  autoFit = true // Default to true for backwards compatibility
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
+  // Handle animation visibility
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -31,11 +35,45 @@ const GlassCard: React.FC<GlassCardProps> = ({
     
     return () => clearTimeout(timer);
   }, [animationDelay]);
+  
+  // Check if card needs to scroll after initial render and animations
+  useEffect(() => {
+    if (!contentRef.current || !autoFit) return;
+    
+    const checkOverflow = () => {
+      const element = contentRef.current;
+      if (!element) return;
+      
+      // Check if content needs scrolling
+      const needsScroll = element.scrollHeight > element.clientHeight;
+      
+      // Add a class if scrolling is needed
+      if (needsScroll) {
+        element.classList.add('needs-scroll');
+      } else {
+        element.classList.remove('needs-scroll');
+      }
+    };
+    
+    // Check after animations complete
+    const timer = setTimeout(checkOverflow, animationDelay + 500);
+    
+    // Also add resize observer to handle window size changes
+    const resizeObserver = new ResizeObserver(checkOverflow);
+    if (contentRef.current) {
+      resizeObserver.observe(contentRef.current);
+    }
+    
+    return () => {
+      clearTimeout(timer);
+      resizeObserver.disconnect();
+    };
+  }, [isVisible, animationDelay, autoFit]);
 
   const style = {
     maxWidth: typeof maxwidth === 'number' ? `${maxwidth}px` : maxwidth,
     minWidth: typeof minwidth === 'number' ? `${minwidth}px` : minwidth,
-    maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight
+    maxHeight: autoFit ? typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight : undefined
   };
 
   return (
@@ -49,7 +87,10 @@ const GlassCard: React.FC<GlassCardProps> = ({
         </div>
       )}
       
-      <div className="glass-card-content">
+      <div 
+        ref={contentRef}
+        className={`glass-card-content`}
+      >
         {children}
       </div>
       

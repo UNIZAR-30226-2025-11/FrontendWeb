@@ -10,7 +10,6 @@ import Statistics from './pages/profile/Statistics'
 import { SocketProvider } from './context/SocketContext';
 import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
 import Container from './components/logging/Container';
-import UserBar from './components/layout/UserBar';
 import { AnimatedBackground } from './common/AnimatedBackground/AnimatedBackground';
 /**
  * Creates the application, prepares all the routes and loads

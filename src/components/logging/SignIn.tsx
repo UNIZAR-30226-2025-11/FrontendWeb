@@ -17,9 +17,9 @@ export const SignIn = () => {
   };
 
   return (
-    <div className="form-comp">
+    <div className="GC-form-comp">
       <form 
-        className="auth-form"
+        className="GC-auth-form"
         onSubmit={(e) => {
           e.preventDefault();
           handleLogIn(
@@ -29,7 +29,7 @@ export const SignIn = () => {
           );
         }}
       >
-        <div className="input-group">
+        <div className="GC-input-group">
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -42,7 +42,7 @@ export const SignIn = () => {
           />
         </div>
 
-        <div className="input-group">
+        <div className="GC-input-group">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -57,7 +57,7 @@ export const SignIn = () => {
 
         <button
           type="submit"
-          className="GC-button GC-blue-btn"
+          className="GC-button GC-red-btn"
         >
           <span className="GC-button-text">Log In</span>
         </button>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
-import './Container.css';
 import GlassCard from '../../common/GlassCard/GlassCard';
 
 const Container = ({ logIn }: { logIn: boolean }) => {
@@ -18,7 +17,7 @@ const Container = ({ logIn }: { logIn: boolean }) => {
 
   return (
     <div className="login-page">
-      <GlassCard title= {welcome ? "Create Account" : "Welcome Back"} minwidth={400}>
+      <GlassCard title= {welcome ? "Create an Account" : "Welcome Back"} minwidth={500}>
         {welcome ? <SignUp /> : <SignIn />}
 
         <div className="GC-button-container">
