@@ -15,27 +15,6 @@
     100% { opacity: 0; transform: translate(5px, 5px); }
 }
 
-.auth-container {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("../../../assets/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-.auth-container::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 0;
-}
-
 /* Main content container */
 .content-container {
     position: relative;

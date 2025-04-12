@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import './AnimatedBackground.css';
+import UserBar from '../../components/layout/UserBar';
+import '../../components/layout/userbar.css'
 
 const positions = [
   { x: 10, y: 15 },
@@ -14,7 +16,11 @@ const positions = [
   { x: 70, y: 10 },
 ];
 
-export const AnimatedBackground = () => {
+interface AnimatedBackgroundProps {
+  children: ReactNode;
+}
+
+export const AnimatedBackground = ({ children }: AnimatedBackgroundProps) => {
   useEffect(() => {
     // Initialize floating particles
     const particlesContainer = document.querySelector('.particles-container');
@@ -78,10 +84,16 @@ export const AnimatedBackground = () => {
   }, []);
 
   return (
-    <>
-      <div className="background-cats"></div>
-      <div className="particles-container"></div>
-      <div className="gradient-overlay"></div>
-    </>
-  );
+    <div className="animated-background-container">
+      <UserBar />
+      <div className="animated-background">
+        <div className="background-cats"></div>
+        <div className="particles-container"></div>
+        <div className="gradient-overlay"></div>
+        <div className="content">
+          {children}
+        </div>
+      </div>
+    </div>
+  );  
 };

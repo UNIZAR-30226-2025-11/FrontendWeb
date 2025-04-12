@@ -1,34 +1,28 @@
-import React, { useState, useEffect } from "react";
-import userIcon from '../../../assets/Icon.png';
-import coinsIcon from '../../../assets/coins.png';
-import './userbar.css';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
-import { SERVER } from "../../utils/config";
 import { handleLogout } from "../../services/apiService";
 import FriendsList from "./FriendsList";
+import { UserContextType, useUser } from '../../context/UserContext';
 
 /**
- * Defines the HTML for create a user bar with the
- * name of the user and the coins he has.
+ * Defines the HTML for creating a user bar with the
+ * name of the user and the coins they have.
  * 
- * @param {*} username The name of the user
- * @param {*} coins The number of coins he has.
+ * @param {string} username The name of the user
+ * @param {number} coins The number of coins they have.
  * 
- * @returns The user bar
+ * @returns The user bar component
  */
-const UserBar = (
-  {
-  username,
-  coins
-  } : {
-  username:string,
-  coins:number
-  }) =>
-{
+const UserBar = ({}: {}) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isFriendsListOpen, setIsFriendsListOpen] = useState(false);
+
+  const userContext: UserContextType = useUser();
+
+  const coins = userContext.user?.coins;
+  const username = userContext.user?.username;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -38,6 +32,7 @@ const UserBar = (
     setIsFriendsListOpen(true);
     setIsOpen(false);
   };
+
   const closeFriendsList = () => {
     setIsFriendsListOpen(false);
   };
@@ -45,9 +40,10 @@ const UserBar = (
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const menu = document.querySelector(".side-menu");
-      const icon = document.querySelector(".user-icon");
+      const userInfo = document.querySelector(".user-info");
 
-      if (menu && !menu.contains(event.target as Node) && icon !== event.target) {
+      if (menu && !menu.contains(event.target as Node) && 
+          userInfo && !userInfo.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -58,54 +54,75 @@ const UserBar = (
   
   return (
     <>
-    <div className="user-bar">
+      <div className="user-bar">
+        {/* Coins */}
+        <div className="coins-container">
+          <div className="coins-info">
+            <span className="coins">{coins}</span>
+            <div className="coins-icon-wrapper">
+              <img alt="User coins" className="coins-icon" />
+            </div>
+          </div>
+        </div>
 
-      {/* Coins */}
-      <div className="coins-info">
-
-        {/* Number */}
-        <span className="coins">{coins}</span>
-
-        {/* Icon */}
-        <img src={coinsIcon} alt="User coins" className="coins-icon" />
+        {/* User information */}
+        <div className="user-info" onClick={toggleMenu}>
+          <div className="user-avatar">
+            <img alt="User Icon" className="user-icon" />
+          </div>
+          <span className="username">{username}</span>
+          <div className="dropdown-arrow"></div>
+        </div>
       </div>
 
-      {/* User information */}
-      <div className="user-info" onClick={toggleMenu}>
-        {/* User icon */}
-        <img src={userIcon} alt="User Icon" className="user-icon" />
-
-        {/* Username */}
-        <span className="username">{username}</span>
+      {/* Side Menu */}
+      <div className={`side-menu ${isOpen ? "open" : ""}`}>
+        <div className="menu-header">
+          <div className="user-avatar menu-avatar">
+            <img alt="User Icon" className="user-icon" />
+          </div>
+          <h3 className="menu-username">{username}</h3>
+        </div>
+        
+        <ul className="menu-items">
+          <li>
+            <button className="menu-btn home-btn" onClick={() => navigate(routes.gamemenu)}>
+              <span className="btn-icon">🏠</span>
+              <span className="btn-text">Back to Menu</span>
+            </button>
+          </li>
+          <li>
+            <button className="menu-btn stats-btn" onClick={() => navigate(routes.statistics)}>
+              <span className="btn-icon">📊</span>
+              <span className="btn-text">Statistics</span>
+            </button>
+          </li>
+          <li>
+            <button className="menu-btn profile-btn" onClick={() => navigate(routes.chgpassw)}>
+              <span className="btn-icon">✏️</span>
+              <span className="btn-text">Edit Profile</span>
+            </button>
+          </li>
+          <li>
+            <button className="menu-btn friends-btn" onClick={openFriendsList}>
+              <span className="btn-icon">👥</span>
+              <span className="btn-text">Friends</span>
+            </button>
+          </li>
+          <li className="menu-divider"></li>
+          <li>
+            <button className="menu-btn logout-btn" onClick={handleLogout}>
+              <span className="btn-icon">🚪</span>
+              <span className="btn-text">Log Out</span>
+            </button>
+          </li>
+        </ul>
       </div>
-    </div>
 
-    {/* Side Menu */}
-    <div className={`side-menu ${isOpen ? "open" : ""}`}>
-      <ul>
-        <button className="menu-btn" onClick={() => navigate(routes.gamemenu)}>
-          Back to menu
-        </button>
-        <button className="menu-btn" onClick={() => navigate(routes.statistics)}>
-          Statistics
-        </button>
-        <button className="menu-btn" onClick={() => navigate(routes.chgpassw)}>
-          Edit Profile
-        </button>
-        <button className="menu-btn" onClick={openFriendsList}>
-          Friends
-        </button>
-        <button className="menu-btn logout" onClick={handleLogout}>
-          Log Out
-        </button>
-      </ul>
-    </div>
-    {isFriendsListOpen && (
-        <FriendsList
-          onClose={closeFriendsList}
-        />
+      {isFriendsListOpen && (
+        <FriendsList onClose={closeFriendsList} />
       )}
-  </>
+    </>
   );
 };
 
