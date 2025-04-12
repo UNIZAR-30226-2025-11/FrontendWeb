@@ -23,7 +23,7 @@ const Container = ({ logIn }: { logIn: boolean }) => {
 
         <div className="GC-button-container">
           <button 
-            className="GC-button signup-btn"
+            className="GC-button GC-blue-btn"
             onClick={() => setWelcome(!welcome)}
           >
             <span className="GC-button-text">

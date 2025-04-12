@@ -72,7 +72,7 @@ export const SignUp = () => {
 
         <button
           type="submit"
-          className="GC-button signup-btn"
+          className="GC-button GC-blue-btn"
         >
           <span className="GC-button-text">Create Account</span>
         </button>

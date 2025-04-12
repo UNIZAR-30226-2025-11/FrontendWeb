@@ -32,7 +32,6 @@
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #2a0845, #6b0b3d, #8e4700);
-    font-family: 'Segoe UI', 'Roboto', sans-serif;
     padding-top: 70px; /* Make space for the fixed UserBar */
 }
 

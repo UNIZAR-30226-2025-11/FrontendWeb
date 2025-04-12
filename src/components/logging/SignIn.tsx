@@ -57,7 +57,7 @@ export const SignIn = () => {
 
         <button
           type="submit"
-          className="GC-button login-btn"
+          className="GC-button GC-blue-btn"
         >
           <span className="GC-button-text">Log In</span>
         </button>
