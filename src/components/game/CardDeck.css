@@ -1,31 +1,172 @@
-.div-deck
-{
+.card-deck-wrapper {
     position: absolute;
     top: 25vh;
     left: 25vw;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-}
-
-.deck {
+    transform: translate(-50%, -50%);
+  }
+  
+  .deck-container {
     position: relative;
-    width: 160px;
-    height: 220px;
+    width: 110px;
+    height: 150px;
     cursor: pointer;
-}
-
-.card-in-deck {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .deck-active {
+    box-shadow: 0 0 15px rgba(255, 154, 68, 0.5);
+  }
+  
+  .deck-inactive {
+    opacity: 0.8;
+    filter: saturate(0.8);
+  }
+  
+  /* Empty deck styling */
+  .empty-deck {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    background-color: rgba(26, 24, 30, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+  }
+  
+  .empty-deck-text {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    font-size: 16px;
+  }
+  
+  /* Cards visualization */
+  .deck-visualization {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .card-base {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/cards/back.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+  
+  /* Card top layers for depth effect */
+  .card-layer {
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.p-deck {
-    margin-top: 10px;
-    font-size: 18px;
+    border-radius: 12px;
+    background-image: url('/assets/cards/back.png');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Card being drawn animation */
+  .drawn-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/cards/back.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  }
+  
+  /* Card counter indicator */
+  .card-count-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    min-width: 24px;
+    height: 24px;
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    border-radius: 12px;
+    color: white;
     font-weight: bold;
-}
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 0 6px;
+    z-index: 20;
+  }
+  
+  .card-count-indicator::after {
+    content: attr(data-count);
+  }
+  
+  /* Deck info text */
+  .deck-info {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+  }
+  
+  .cards-remaining {
+    font-size: 22px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffffff, #ff9a44);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  
+  .cards-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .card-deck-wrapper {
+      transform: scale(0.8) translate(-50%, -60%);
+    }
+  }
+  
+  @media (max-height: 600px) {
+    .card-deck-wrapper {
+      top: 22vh;
+    }
+    
+    .deck-container {
+      width: 90px;
+      height: 120px;
+    }
+    
+    .cards-remaining {
+      font-size: 18px;
+    }
+    
+    .cards-label {
+      font-size: 12px;
+    }
+  }
+  
+  /* For landscape on small devices */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .card-deck-wrapper {
+      transform: scale(0.7) translate(-70%, -60%);
+    }
+  }
