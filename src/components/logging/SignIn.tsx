@@ -1,96 +1,67 @@
-// Code from:
-// https://github.com/cooljasonmelton/cool-sign-up
 import React, { useState } from 'react';
-
-// styling
 import { useNavigate } from 'react-router-dom';
-
-import './Container.css';
 import { handleLogIn } from '../../services/apiService';
 
 export const SignIn = () => {
-
-  /**
-       * Object to manage the navigation inside the
-       * application
-       */
-  const navigate = useNavigate()
-
-  /**
-   * Information of the logging form. It contains
-   * the username and the password
-   */
-  const [formData, setFormData] = useState(
-  {
-      username: "",   // Identifier of the user
-      password: ""    // His password
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    password: ""
   });
 
-  /**
-   * Saves the information in the state of the
-   * form.
-   *
-   * @param {*} e The object of the action
-   */
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-      // Save the value of the field inside the state
-      // of the filed.
-      setFormData(
-          {
-              ...formData,
-              [e.target.name]: e.target.value
-          }
-      )
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   return (
-    <div className="form-comp cfb">
-
-      <h1>Log In!</h1>
-      <form className="sign-up-form cfb"
-            onSubmit={(e) => {
-              e.preventDefault(),
-              handleLogIn(
-                formData.username,
-                formData.password,
-                navigate)}}>
-
-        {/* Username */}
-        <label>
-          Username:
-          <br/>
+    <div className="form-comp">
+      <form 
+        className="auth-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleLogIn(
+            formData.username,
+            formData.password,
+            navigate
+          );
+        }}
+      >
+        <div className="input-group">
+          <label htmlFor="username">Username</label>
           <input
             type="text"
+            id="username"
             name="username"
-            placeholder="Username"
+            placeholder="Enter your username"
             value={formData.username}
             onChange={handleChange}
-            required>
-          </input>
-        </label>
+            required
+          />
+        </div>
 
-        {/* Password */}
-        <label>
-          Password:
-          <br/>
+        <div className="input-group">
+          <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
             name="password"
-            placeholder="Password"
+            placeholder="Enter your password"
             value={formData.password}
             onChange={handleChange}
-            required>
-          </input>
-        </label>
-        <br/>
+            required
+          />
+        </div>
 
-        {/* Button for sending the form */}
         <button
           type="submit"
-          className="login-button">
-              Log In!
+          className="welcome-button login-btn"
+        >
+          <span className="button-text">Log In</span>
         </button>
       </form>
     </div>
   );
-}
+};

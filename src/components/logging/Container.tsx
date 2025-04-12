@@ -1,56 +1,48 @@
-// Code from: https://github.com/cooljasonmelton/cool-sign-up
-import React, {useState} from 'react';
-
-// components
+import React, { useState, useEffect } from 'react';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
+import './Container.css';
 
-const Container = (
-  {
-    logIn
-  } : {
-    logIn:boolean
-  }
-) => {
-  const [welcome, setWelcome] = useState(!logIn)
+const Container = ({ logIn }: { logIn: boolean }) => {
+  const [welcome, setWelcome] = useState(!logIn);
+  const [visible, setVisible] = useState(false);
 
-  const setBannerClass = () => {
-    const classArr = ["banner-side cfb shadow-game"]
-    if (welcome) classArr.push('send-right')
-    return classArr.join(' ')
-  }
-
-  const setFormClass = () => {
-    const classArr = ["form-side cfb shadow-game"] 
-    if (welcome) classArr.push('send-left')
-    return classArr.join(' ')
-  }
+  useEffect(() => {
+    // Add visible class after component mounts for animation
+    const timer = setTimeout(() => {
+      setVisible(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="Container cfb shadow-game">
+    <div className="auth-container">
+      <div className={`content-container ${visible ? 'visible' : ''}`}>
+        <div className="logo-container">
+          <h1 className="welcome-title">
+            {welcome ? "Create Account" : "Welcome Back"}
+          </h1>
+          <div className="paw-print paw-print-1"></div>
+          <div className="paw-print paw-print-2"></div>
+          <div className="paw-print paw-print-3"></div>
+          <div className="paw-print paw-print-4"></div>
+        </div>
 
-      <div className={setBannerClass()}> 
+        {welcome ? <SignUp /> : <SignIn />}
 
-        {welcome ? 
-          <h2>Do you have an account?</h2>
-            : <h2>Don&apos;t have an account?</h2>}
-
-        <button onClick={()=> setWelcome(!welcome)}>
-          {welcome ?
-            "Log In"
-              : "Create Account"}
-        </button>
-      </div>
-
-      <div className={setFormClass()}> 
-          {welcome ? 
-            <SignUp /> 
-              : <SignIn/>
-          }
-          
+        <div className="button-container">
+          <button 
+            className="welcome-button signup-btn"
+            onClick={() => setWelcome(!welcome)}
+          >
+            <span className="button-text">
+              {welcome ? "Already have an account? Log In" : "Need an account? Sign Up"}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Container;

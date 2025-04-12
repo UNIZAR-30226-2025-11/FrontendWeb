@@ -1,14 +1,34 @@
-/* App */
-.App {
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pawAnimation {
+    0% { opacity: 0; transform: translate(-5px, -5px); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translate(5px, 5px); }
+}
+
+.auth-container {
     height: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("../../../assets/images/background.jpg");
+    background-size: cover;
+    background-position: center;
     position: relative;
     font-family: 'Segoe UI', sans-serif;
 }
 
-.App::after {
+.auth-container::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -16,165 +36,202 @@
     z-index: 0;
 }
 
-/* Center Flex Box */
-.cfb {
+/* Main content container */
+.content-container {
+    position: relative;
+    padding: 40px;
+    background-color: rgba(26, 24, 30, 0.85);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    max-width: 400px;
     width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-}
-
-/* Container Styling */
-.Container {
-    position: relative;
-    width: 90%;
-    max-width: 900px;
-    height: 70%;
-    display: flex;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    border: 1px solid #592941;
-    border-radius: 1em;
-    overflow: hidden;
-    backdrop-filter: blur(8px);
-}
-
-/* Banner Side */
-.banner-side {
-    position: absolute;
-    z-index: 2;
-    right: 65%;
-    width: 35%;
-    height: 100%;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(89, 41, 65, 0.8);
-    color: #EEFCF8;
+    gap: 30px;
     text-align: center;
-    border-right: 1px solid #592941;
-    border-radius: 1em 0 0 1em;
-    transition: right 0.6s ease;
-    padding: 1em;
+    z-index: 4;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+    border: 2px solid rgba(255, 121, 63, 0.3);
 }
 
-/* Form Side */
-.form-side {
-    position: absolute;
-    z-index: 1;
-    right: 0;
-    width: 65%;
-    height: 100%;
-    background-color: rgba(157, 5, 20, 0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
+.content-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Logo area */
+.logo-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+/* Title styling */
+.welcome-title {
+    font-size: 42px;
     font-weight: bold;
-    border-left: 1px solid #592941;
-    border-radius: 0 1em 1em 0;
-    transition: right 0.6s ease;
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(255, 106, 136, 0.6);
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+    padding: 10px 0;
+    border-bottom: 3px solid rgba(255, 154, 68, 0.3);
 }
 
-/* Animation Classes */
-.send-right {
-    right: 0;
-}
-
-.send-left {
-    right: 35%;
-}
-
-/* Form Layout */
+/* Form styling */
 .form-comp {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    width: 80%;
-    max-width: 350px;
-}
-
-.sign-up-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-
-.sign-up-form > label {
-    display: flex;
-    flex-direction: column;
-    color: #EEFCF8;
-    font-size: 0.9em;
-}
-
-.sign-up-form > label > input {
     width: 100%;
-    padding: 0.75em;
-    border: 1px solid #035E7B;
-    border-radius: 0.5em;
-    background-color: #fff;
-    color: #333;
-    font-size: 1em;
+    animation: fadeIn 0.8s ease-out forwards;
 }
 
-/* Buttons */
-button {
-    padding: 0.8em 1.5em;
-    border: none;
-    border-radius: 2em;
-    background-color: #EEFCF8;
-    color: #592941;
-    font-weight: bold;
-    cursor: pointer;
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-group label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.input-group input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
     transition: all 0.3s ease;
 }
 
-button:focus {
+.input-group input:focus {
     outline: none;
+    border-color: rgba(255, 154, 68, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 154, 68, 0.2);
 }
 
-button:hover {
-    transform: scale(1.05);
-    opacity: 0.95;
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
-/* Inputs */
-input {
-    border: 1px solid #035E7B;
-    padding: 0.75em;
-    border-radius: 0.5em;
-    font-size: 1em;
+/* Button container */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 1s ease-out 0.5s forwards;
+    opacity: 0;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .Container {
-        flex-direction: column;
-        height: 90%;
+/* Button styling */
+.welcome-button {
+    background-color: transparent;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    z-index: 1;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.login-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.signup-btn {
+    background: linear-gradient(45deg, #36d1dc, #5b86e5);
+    color: white;
+    box-shadow: 0 4px 15px rgba(91, 134, 229, 0.4);
+}
+
+.button-text {
+    position: relative;
+    z-index: 3;
+}
+
+.welcome-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-button:active {
+    transform: translateY(1px);
+}
+
+/* Paw print decorations */
+.paw-print {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-image: url("../../../assets/svg/3-paw.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    z-index: 2;
+}
+
+.paw-print-1 {
+    top: 90px;
+    right: 20px;
+    animation: pawAnimation 4s ease-in-out 1s infinite;
+}
+
+.paw-print-2 {
+    bottom:70px;
+    left: 10px;
+    animation: pawAnimation 4s ease-in-out 2s infinite;
+}
+
+.paw-print-3 {
+    top: -30%;
+    right: 30px;
+    animation: pawAnimation 4s ease-in-out 3s infinite;
+}
+
+.paw-print-4 {
+    bottom: -40%;
+    left: 10px;
+    animation: pawAnimation 4s ease-in-out 4s infinite;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .content-container {
+        padding: 30px 20px;
+        max-width: 320px;
     }
 
-    .banner-side {
-        position: relative;
-        width: 100%;
-        height: 30%;
-        border-radius: 1em 1em 0 0;
-        right: 0;
-        border-right: none;
-        border-bottom: 1px solid #592941;
+    .welcome-title {
+        font-size: 32px;
     }
 
-    .form-side {
-        position: relative;
-        width: 100%;
-        height: 70%;
-        right: 0;
-        border-left: none;
-        border-radius: 0 0 1em 1em;
-    }
-
-    .send-left, .send-right {
-        right: 0;
+    .welcome-button {
+        padding: 12px 24px;
+        font-size: 16px;
     }
 }
