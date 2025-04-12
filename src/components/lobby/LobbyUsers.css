@@ -1,63 +1,292 @@
-/* Lobby.css */
-
-/* Title for the lobby identifier */
-.lobby-container h1,
-.lobby-container p {
-    font-weight: bold;
-    color: #FFF; /* White text */
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.lobby-container li {
-    font-size: 16px;
-    color: #FFF; /* White text */
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-}
-
-/* Styling for when there are no players yet */
-.lobby-container ol li {
-    font-style: italic;
-    color: #bbb; /* Light grey for default message */
-}
-
-/* Button for starting the game */
-.button-lobby {
-    background-color: #FFFFFF; /* White button */
-    color: #8B0000; /* Dark Red text */
-    border: 2px solid #8B0000; /* Dark Red border */
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
+.lobby-users-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     width: 100%;
 }
 
-.button-lobby:disabled {
-    background-color: #A9A9A9; /* Grey for disabled button */
+.lobby-users-card {
+    position: relative;
+}
+
+/* Lobby ID section */
+.lobby-id-container {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid rgba(255, 121, 63, 0.2);
+}
+
+.lobby-id-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+    text-align: left;
+}
+
+.lobby-id-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lobby-id-value:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.copy-tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.copy-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+.lobby-id-value:hover .copy-tooltip,
+.copy-tooltip.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.copy-button {
+    position: absolute;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.copy-button:hover {
+    opacity: 1;
+}
+
+/* Players section styling */
+.players-section {
+    margin: 20px 0;
+    position: relative;
+}
+
+.section-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 18px;
+    text-align: left;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    padding-left: 20px;
+}
+
+.section-label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background-image: linear-gradient(45deg, #ff9a44, #ff6a88);
+    border-radius: 50%;
+}
+
+.player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.player-list.animate .player-item {
+    animation: playerPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes playerPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.player-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.player-item:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.player-item:hover {
+    transform: translateX(5px);
+    background: rgba(255, 154, 68, 0.15);
+}
+
+.player-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 15px;
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    color: white;
+    box-shadow: 0 2px 8px rgba(255, 106, 136, 0.4);
+}
+
+.player-name {
+    font-size: 16px;
+    color: white;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.host-badge {
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Empty state */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.empty-icon {
+    width: 50px;
+    height: 50px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3Cpath d='M5 21v-2a7 7 0 0 1 14 0v2'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.6;
+}
+
+.empty-state p {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Status message */
+.status-message {
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 4px solid;
+    border-image: linear-gradient(to bottom, #ff9a44, #ff6a88) 1;
+}
+
+.status-message p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    text-align: left;
+}
+
+/* Button styling for disabled state */
+.GC-button.disabled {
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
-/* Responsive design for smaller screens */
+/* Animations */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 154, 68, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 154, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 154, 68, 0); }
+}
+
+/* Responsive design */
 @media (max-width: 480px) {
-    .lobby-container {
-        width: 90%;
-        padding: 20px;
+    .lobby-id-value {
+        font-size: 16px;
+        letter-spacing: 1px;
     }
-
-    .lobby-container p {
-        font-size: 18px;
-    }
-
-    .lobby-container li {
+    
+    .player-avatar {
+        width: 30px;
+        height: 30px;
         font-size: 14px;
     }
-
-    .button-lobby {
+    
+    .player-name {
+        font-size: 14px;
+    }
+    
+    .host-badge {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+    
+    .section-label {
+        font-size: 16px;
+    }
+    
+    .status-message p {
         font-size: 14px;
     }
 }
