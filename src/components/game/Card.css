@@ -19,17 +19,17 @@
     50% { opacity: 0.6; }
     100% { opacity: 0.3; transform: translate(2px, 2px); }
   }
-  
-  /* Main style for a card with glass effect */
-  .glass-card-game {
+  /* Update to Card.css to make cards smaller */
+/* Main style for a card with glass effect */
+.glass-card-game {
     position: relative;
-    height: 200px;
-    width: 144px;
+    height: 150px; /* Reduced from 200px */
+    width: 108px;  /* Reduced from 144px keeping aspect ratio */
     margin: 5px;
     cursor: pointer;
-    border-radius: 15px;
+    border-radius: 12px; /* Slightly smaller border radius */
     background-color: rgba(26, 24, 30, 0.85);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(5px);
     border: 2px solid rgba(255, 121, 63, 0.3);
     transition: all 0.3s ease;
@@ -46,7 +46,7 @@
   
   .glass-card-game:hover {
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     border-color: rgba(255, 154, 68, 0.6);
   }
   
@@ -55,35 +55,69 @@
     height: 100%;
     width: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 10px; /* Adjusted for smaller card */
     transition: all 0.3s ease;
   }
   
   /* Style for a selected card */
   .card-selected {
-    border: 3px solid transparent;
+    border: 2px solid transparent; /* Thinner border */
     background: linear-gradient(45deg, #ff9a44, #ff6a88);
     padding: 2px;
     animation: cardGlow 2s infinite;
   }
   
   .card-selected .card-image {
-    border-radius: 10px;
+    border-radius: 8px;
   }
   
-  /* Paw decoration on cards */
+  /* Paw decoration on cards - smaller */
   .paw-card-corner {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    bottom: 10px;
-    right: 10px;
+    width: 16px;  /* Smaller decoration */
+    height: 16px; /* Smaller decoration */
+    bottom: 8px;
+    right: 8px;
     background-image: url("../../../assets/svg/3-paw.svg");
     background-size: contain;
     background-repeat: no-repeat;
     opacity: 0.3;
     z-index: 2;
     animation: pawPulse 3s ease-in-out infinite;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .glass-card-game {
+      height: 130px;
+      width: 94px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .glass-card-game {
+      height: 110px;
+      width: 79px;
+      border-radius: 10px;
+    }
+    
+    .card-image {
+      border-radius: 8px;
+    }
+    
+    .paw-card-corner {
+      width: 14px;
+      height: 14px;
+      bottom: 6px;
+      right: 6px;
+    }
+  }
+  
+  @media (max-height: 500px) and (orientation: landscape) {
+    .glass-card-game {
+      height: 100px;
+      width: 72px;
+    }
   }
   
   .card-glow {
