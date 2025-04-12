@@ -1,10 +1,5 @@
 import React from 'react'
 
-import { useNavigate } from 'react-router-dom'
-import { routes } from '../../utils/constants'
-
-import * as Objects from "../../api/JSON"
-import './Lobby.css'
 import { startLobby } from '../../services/socketService'
 import { SocketContextType, useSocket } from '../../context/SocketContext'
 
