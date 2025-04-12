@@ -11,6 +11,7 @@ import Statistics from './pages/profile/Statistics'
 import { SocketProvider } from './context/SocketContext';
 import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
 import Container from './components/logging/Container';
+import { AnimatedBackground } from './common/AnimatedBackground/AnimatedBackground';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -26,13 +27,14 @@ function App() {
         <Route
           element={
             <ProtectedLogin> {/* Redirects to /gamemenu if user is logged in */}
-              <Outlet /> {/* ← This is the magic line! */}
+              <Outlet />
             </ProtectedLogin>
           }
         >
           <Route path={routes.home} element={<AuthPage />} />
           <Route path={routes.login} element={
             <div className='App cfb'>
+              <AnimatedBackground/>
               <Container logIn={true}/>
             </div>} />
           <Route path={routes.signup} element={

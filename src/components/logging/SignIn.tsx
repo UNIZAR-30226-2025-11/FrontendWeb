@@ -45,6 +45,7 @@ export const SignIn = () => {
 
   return (
     <div className="form-comp cfb">
+
       <h1>Log In!</h1>
       <form className="sign-up-form cfb"
             onSubmit={(e) => {

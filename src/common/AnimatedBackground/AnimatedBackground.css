@@ -1,0 +1,93 @@
+/* Animations used by background */
+@keyframes moveParticle {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(50px, -50px) rotate(90deg); }
+    50% { transform: translate(100px, 0) rotate(180deg); }
+    75% { transform: translate(50px, 50px) rotate(270deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes colorShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Base container styles */
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2a0845, #6b0b3d, #8e4700);
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Gradient animated background */
+.gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+                               rgba(42, 8, 69, 0.9) 0%, 
+                               rgba(107, 11, 61, 0.9) 50%, 
+                               rgba(142, 71, 0, 0.9) 100%);
+    background-size: 400% 400%;
+    animation: colorShift 20s ease infinite;
+    z-index: 1;
+}
+
+/* Background cat silhouettes */
+.background-cats {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.cat-silhouette {
+    position: absolute;
+    width: 80px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(0) invert(1);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.cat-1 { background-image: url("../../../assets/svg/1-cat.svg"); }
+.cat-2 { background-image: url("../../../assets/svg/2-cat.svg"); }
+.cat-3 { background-image: url("../../../assets/svg/3-cat.svg"); }
+.cat-4 { background-image: url("../../../assets/svg/4-cat.svg"); }
+.cat-5 { background-image: url("../../../assets/svg/1-bomb.svg"); }
+.cat-6 { background-image: url("../../../assets/svg/2-bomb.svg"); }
+
+/* Particle container */
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Individual particle */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    animation: moveParticle 15s infinite alternate;
+    pointer-events: none;
+}

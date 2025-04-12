@@ -1,9 +1,5 @@
 /* App */
 .App {
-    background-image: url('../../assets/AuthPage.png');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
     height: 100vh;
     display: flex;
     justify-content: center;
