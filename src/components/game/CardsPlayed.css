@@ -1,0 +1,148 @@
+/* Last Played Card Styling */
+.played-card-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 180px;
+    margin: 0 auto;
+    perspective: 800px;
+    z-index: 10;
+  }
+  
+  /* Label above the card */
+  .played-card-label {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 12px;
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    z-index: 2;
+  }
+  
+  /* Last played card */
+  .last-played-card {
+    position: relative;
+    width: 110px;
+    height: 160px;
+    transform-origin: center center;
+    transition: all 0.3s ease-out;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .last-played-card.visible {
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  
+  /* Inner card content */
+  .played-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background-color: rgba(26, 24, 30, 0.85);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 121, 63, 0.3);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  /* Card image */
+  .played-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  /* Card glow effect */
+  .played-card-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, 
+                             rgba(255, 154, 68, 0.15) 0%,
+                             transparent 70%);
+    z-index: 2;
+  }
+  
+  /* Paw decoration */
+  .paw-played-corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    bottom: 8px;
+    right: 8px;
+    background-image: url("../../../assets/svg/3-paw.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: 3;
+    animation: pawPulse 3s ease-in-out infinite;
+  }
+  
+  /* Floating animation for the card */
+  @keyframes floatCard {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+  }
+  
+  /* Animation for paw decoration */
+  @keyframes pawPulse {
+    0% { opacity: 0.2; transform: translate(-1px, -1px); }
+    50% { opacity: 0.4; }
+    100% { opacity: 0.2; transform: translate(1px, 1px); }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .played-card-container {
+      width: 100px;
+      height: 150px;
+    }
+    
+    .last-played-card {
+      width: 90px;
+      height: 130px;
+    }
+    
+    .played-card-label {
+      font-size: 12px;
+      padding: 3px 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .played-card-container {
+      width: 80px;
+      height: 120px;
+    }
+    
+    .last-played-card {
+      width: 70px;
+      height: 100px;
+    }
+    
+    .paw-played-corner {
+      width: 12px;
+      height: 12px;
+      bottom: 5px;
+      right: 5px;
+    }
+  }
