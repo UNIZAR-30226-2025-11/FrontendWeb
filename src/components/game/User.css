@@ -17,6 +17,12 @@
     min-width: 130px;
     max-height: 50px;
   }
+
+  /* For highlighting active player */
+  .user-container.active-turn .user-inner-container {
+    border-color: rgba(255, 154, 68, 0.9);
+    box-shadow: 0 4px 16px rgba(255, 106, 136, 0.5);
+  }
   
   .user-content {
     display: flex;

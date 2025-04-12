@@ -77,8 +77,17 @@ const Game = () => {
                 {/* All players in a single row */}
                 <div className="players-row-section">
                     {players.map((player, index) => (
-                        <div key={player.playerUsername} className="player-slot">
+                        <div 
+                            key={player.playerUsername} 
+                            className={`player-slot ${player.playerUsername === socket.gameState?.turnUsername ? 'active-turn' : ''}`}
+                        >
                             <User player={player} />
+                            {/* Turn counter badge */}
+                            {player.playerUsername === socket.gameState?.turnUsername && (
+                                <div className="turn-counter">
+                                    {socket.gameState?.turnsLeft}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -98,15 +107,24 @@ const Game = () => {
 
                 {/* Bottom section with player's hand */}
                 <div className="bottom-section">
-                    {/* Timer - only displayed during player's turn */}
-                    
+                    {/* Timer and turn indicator */}
                     <div className="game-timer-slot"> 
-                                     
                         {turn && (
-                            <Timer 
-                                duration={socket.gameState.timeOut/1000} 
-                                onTimeUp={() => {console.log("TIMEEER");}} 
-                            />
+                            <div className="turn-info-container">
+                                {/* Turn message on top */}
+                                <div className="your-turn-message">
+                                    <span className="turn-icon">🎮</span>
+                                    <span>Your Turn! ({socket.gameState?.turnsLeft} left)</span>
+                                </div>
+                                
+                                {/* Timer below the message */}
+                                <div className="timer-wrapper">
+                                    <Timer 
+                                        duration={socket.gameState.timeOut/1000} 
+                                        onTimeUp={() => {console.log("TIMEEER");}} 
+                                    />
+                                </div>
+                            </div>
                         )}
                     </div>
                     
@@ -114,7 +132,6 @@ const Game = () => {
                         {/* Player's hand */}
                         <Deck />
                     </div>
-
                 </div>
                 
                 {/* Users selection modal */}
