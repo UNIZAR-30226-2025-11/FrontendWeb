@@ -252,6 +252,13 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
+.GC-error-message {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+  }  
+
 
 /* Responsive design */
 @media (max-width: 768px) {
