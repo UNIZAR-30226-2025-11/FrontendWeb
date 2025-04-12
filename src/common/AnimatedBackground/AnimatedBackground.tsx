@@ -18,9 +18,10 @@ const positions = [
 
 interface AnimatedBackgroundProps {
   children: ReactNode;
+  showUserBar?: boolean;
 }
 
-export const AnimatedBackground = ({ children }: AnimatedBackgroundProps) => {
+export const AnimatedBackground = ({ children, showUserBar = true }: AnimatedBackgroundProps) => {
   useEffect(() => {
     // Initialize floating particles
     const particlesContainer = document.querySelector('.particles-container');
@@ -85,7 +86,7 @@ export const AnimatedBackground = ({ children }: AnimatedBackgroundProps) => {
 
   return (
     <div className="animated-background-container">
-      <UserBar />
+      {showUserBar && <UserBar />}
       <div className="animated-background">
         <div className="background-cats"></div>
         <div className="particles-container"></div>

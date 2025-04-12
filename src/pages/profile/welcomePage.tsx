@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './WelcomePage.css';
-import { AnimatedBackground } from '../../common/AnimatedBackground/AnimatedBackground';
 const WelcomePage = () => {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
@@ -15,7 +14,6 @@ const WelcomePage = () => {
   const handleSignUp = () => navigate('/signup');
 
   return (
-    <AnimatedBackground>
     <div className={`content-container ${loaded ? 'visible' : ''}`}>
       <div className="logo-container">
         <h1 className="welcome-title">Exploding Kittens</h1>
@@ -34,8 +32,6 @@ const WelcomePage = () => {
       <div className="paw-print paw-print-2"></div>
       <div className="paw-print paw-print-3"></div>
     </div>
-    </AnimatedBackground>
-
   );
 };
 

@@ -5,12 +5,13 @@ import Game from './pages/game/game';
 import GameMenu from './pages/menu/menu'
 import Shop from './components/shop/CardShop';
 import AuthPage from './pages/profile/welcomePage';
-import Layout from './components/layout/Layout';
 import ChangePasswordPage from './pages/profile/ChangePassword';
 import Statistics from './pages/profile/Statistics'
 import { SocketProvider } from './context/SocketContext';
 import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
 import Container from './components/logging/Container';
+import UserBar from './components/layout/UserBar';
+import { AnimatedBackground } from './common/AnimatedBackground/AnimatedBackground';
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
@@ -25,7 +26,9 @@ function App() {
         <Route
           element={
             <ProtectedLogin> {/* Redirects to /gamemenu if user is logged in */}
+              <AnimatedBackground showUserBar={false}>
               <Outlet />
+              </AnimatedBackground>
             </ProtectedLogin>
           }
         >
@@ -37,7 +40,9 @@ function App() {
         <Route path="/" element={
           <SocketProvider>
             <ProtectedNotLogin>
-              <Outlet />
+              <AnimatedBackground showUserBar={true}>
+                <Outlet />
+              </AnimatedBackground>
             </ProtectedNotLogin>
           </SocketProvider>}>
           

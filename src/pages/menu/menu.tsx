@@ -4,7 +4,6 @@ import { routes } from '../../utils/constants';
 
 import './menu.css';
 import { UserContextType, useUser } from '../../context/UserContext';
-import { AnimatedBackground } from '../../common/AnimatedBackground/AnimatedBackground';
 import CatMascot from './mascot';
 
 const GameMenu = () => {
@@ -22,7 +21,6 @@ const GameMenu = () => {
   }, []);
 
   return (
-      <AnimatedBackground>
       <div className={`game-content-container ${visible ? 'visible' : ''}`}>
         <div className="logo-container">
           <h1 className="game-title">Exploding Kittens</h1>
@@ -77,7 +75,6 @@ const GameMenu = () => {
           </button>
         </div>
       </div>        
-    </AnimatedBackground>
   );
 };
 

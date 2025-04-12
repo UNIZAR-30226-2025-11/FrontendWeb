@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 import './Container.css';
-import { AnimatedBackground } from '../../common/AnimatedBackground/AnimatedBackground';
 
 const Container = ({ logIn }: { logIn: boolean }) => {
   const [welcome, setWelcome] = useState(!logIn);
@@ -17,7 +16,6 @@ const Container = ({ logIn }: { logIn: boolean }) => {
   }, []);
 
   return (
-    <AnimatedBackground>
       <div className={`content-container ${visible ? 'visible' : ''}`}>
         <div className="logo-container">
           <h1 className="welcome-title">
@@ -42,7 +40,6 @@ const Container = ({ logIn }: { logIn: boolean }) => {
           </button>
         </div>
       </div>
-    </AnimatedBackground>
   );
 };
 
