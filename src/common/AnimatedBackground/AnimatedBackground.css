@@ -103,6 +103,7 @@
 }
 
 .content {
+    width: 95%;
     position: relative;
     z-index: 4; /* makes sure content appears above the animated layers */
 }

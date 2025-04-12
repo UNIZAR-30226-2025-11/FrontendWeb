@@ -19,16 +19,11 @@ import toast, { Toaster } from "react-hot-toast";
 import { Chat } from "../../components/game/Chat";
 
 /**
- * Creates a form for the user's logging that
- * takes the information inside it and sends it
- * to the server.
+ * Game component that renders the main game interface
  * 
- * The form asks for username and password.
- * 
- * @returns The form
+ * @returns The Game component
  */
 const Game = () => {
-
     // Import the state of the game
     const socket:SocketContextType = useSocket();
 
@@ -42,7 +37,7 @@ const Game = () => {
      * @returns The HTML code for winner information.
      */
     const winnerPage = () => {
-        if (socket.winner?.winnerUsername == socket.gameState?.playerUsername)
+        if (socket.winner?.winnerUsername === socket.gameState?.playerUsername)
             return <WinLose win={true}/>
         else
             return <WinLose win={false}/>
@@ -56,11 +51,11 @@ const Game = () => {
     const HTMLGame = () => {
         // Check the game state is not undefined
         if (socket.gameState === undefined)
-            return <></>
+            return <></>;
 
         // Compute the rest of players who are not the user and the turn
-        const players = socket.gameState.players.filter(player => player.playerUsername != socket.gameState!.playerUsername)
-        const turn: boolean = socket.gameState.turnUsername == socket.gameState.playerUsername
+        const players = socket.gameState.players.filter(player => player.playerUsername !== socket.gameState!.playerUsername);
+        const turn: boolean = socket.gameState.turnUsername === socket.gameState.playerUsername;
 
         // Check if we have to do a selection
         let selection = undefined;
@@ -73,58 +68,88 @@ const Game = () => {
 
         // Print the screen
         return (
-            <div className="screen">
-                <User   player={players[0]} />
-
-                <div className="div-rest-users">
-                    {/* Left user */}
-                    { players[1]
-                        ? <User player={players[1]}/>
-                        : <></>
-                    }
-
-                    {/* Cards played */}
-                    <PlayedCards />
-
-                    {/* Right user */}
-                    { players[2]
-                        ? <User player={players[2]}/>
-                        : <></>
-                    }
+            <div className="game-container">
+                {/* Top right chat dropdown */}
+                <div className="top-chat-section">
+                    <Chat />
                 </div>
 
-                {/* Timer */}
-                {turn &&
-                <Timer duration={socket.gameState.timeOut/1000} onTimeUp={() => {console.log("TIMEEER")}}/>}
-                        
-                {/* My own cards */}
-                <Deck/>
+                {/* All players in a single row */}
+                <div className="players-row-section">
+                    {players.map((player, index) => (
+                        <div key={player.playerUsername} className="player-slot">
+                            <User player={player} />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Middle section with draw pile and played cards */}
+                <div className="middle-cards-section">
+                    {/* Draw pile on the left */}
+                    <div className="draw-pile">
+                        <CardDeck ref={cardDeckRef} />
+                    </div>
+
+                    {/* Played card on the right */}
+                    <div className="played-pile">
+                        <PlayedCards />
+                    </div>
+                </div>
+
+                {/* Bottom section with player's hand */}
+                <div className="bottom-section">
+                    {/* Timer - only displayed during player's turn */}
+                    
+                    <div className="game-timer-slot"> 
+                                     
+                        {turn && (
+                            <Timer 
+                                duration={socket.gameState.timeOut/1000} 
+                                onTimeUp={() => {console.log("TIMEEER");}} 
+                            />
+                        )}
+                    </div>
+                    
+                    <div className="game-user-slot">
+                        {/* Player's hand */}
+                        <Deck />
+                    </div>
+
+                </div>
                 
-                {/* Cards for stealing */}
-                <CardDeck ref={cardDeckRef}/>
+                {/* Users selection modal */}
+                {(socket.selectPlayer || socket.selectCardType || socket.selectCard || socket.selectNope) && (
+                    <Selection />
+                )}
 
-                {/* Users selection */}
-                { (socket.selectPlayer || socket.selectCardType || socket.selectCard || socket.selectNope) &&
-                    <Selection /> }
-
-                {/* See Future */}
-                { ( socket.cardPlayedResult?.cardsSeeFuture &&
-                    socket.cardPlayedResult.cardsSeeFuture.length > 0) &&
-                        <FutureCards    cards={socket.cardPlayedResult.cardsSeeFuture}
-                                        setCardPlayedResult={socket.setCardPlayedResult}/> }
+                {/* See Future modal */}
+                {(socket.cardPlayedResult?.cardsSeeFuture && 
+                socket.cardPlayedResult.cardsSeeFuture.length > 0) && (
+                    <FutureCards
+                        cards={socket.cardPlayedResult.cardsSeeFuture}
+                        setCardPlayedResult={socket.setCardPlayedResult}
+                    />
+                )}
                                         
                 {/* For notifications */}
-                <Toaster />
-
-                {/* Chat of messages */}
-                <Chat />
+                <Toaster 
+                    position="top-right"
+                    toastOptions={{
+                        className: 'glass-toast',
+                        duration: 5000,
+                        style: {
+                            background: 'rgba(26, 24, 30, 0.85)',
+                            color: 'white',
+                            border: '1px solid rgba(255, 121, 63, 0.3)',
+                        },
+                    }}
+                />
             </div>
-        )
-
-    }
+        );
+    };
 
     const HTML = () => {
-        // Check if exsits a winner in the game
+        // Check if exists a winner in the game
         if (socket.winner)
             return winnerPage();
 
@@ -136,11 +161,11 @@ const Game = () => {
             else
             {
                 if (socket.lobbyCreate && socket.lobbyCreate.error)
-                    alert(socket.lobbyCreate.errorMsg);
+                    toast.error(socket.lobbyCreate.errorMsg);
                 else if (socket.lobbyEnter && socket.lobbyEnter.error)
-                    alert(socket.lobbyEnter.errorMsg);
+                    toast.error(socket.lobbyEnter.errorMsg);
                 else if (socket.lobbyState && socket.lobbyState.error)
-                    alert(socket.lobbyState.errorMsg);
+                    toast.error(socket.lobbyState.errorMsg);
 
                 return <Lobby />
             }
@@ -151,24 +176,30 @@ const Game = () => {
             !socket.actions.error)
         {
             // Apply effects to the deck
-            if (socket.actions.action == "DrawCard")
+            if (socket.actions.action === "DrawCard")
                 cardDeckRef.current?.stealCard();
-            else if (socket.actions.action == "ShuffleDeck")
+            else if (socket.actions.action === "ShuffleDeck")
                 cardDeckRef.current?.shuffleDeck();
 
             // Show messages if they are not known by the user
-            if (socket.actions.triggerUser !=
+            if (socket.actions.triggerUser !==
                 socket.gameState.playerUsername)
             {
                 if (socket.actions.targetUser)
-                    toast(  socket.actions.triggerUser +
-                            " has done the action " +
-                            socket.actions.action + 
-                            " to " + socket.actions.targetUser);
+                    toast(
+                        <div className="toast-message">
+                            <strong>{socket.actions.triggerUser}</strong> has done the action{' '}
+                            <span className="action-name">{socket.actions.action}</span> to{' '}
+                            <strong>{socket.actions.targetUser}</strong>
+                        </div>
+                    );
                 else
-                    toast(  socket.actions.triggerUser +
-                            " has done the action " +
-                            socket.actions.action);
+                    toast(
+                        <div className="toast-message">
+                            <strong>{socket.actions.triggerUser}</strong> has done the action{' '}
+                            <span className="action-name">{socket.actions.action}</span>
+                        </div>
+                    );
             }
 
             socket.setActions(undefined);
@@ -180,16 +211,20 @@ const Game = () => {
             // Check if there is an error
             if (socket.cardPlayedResult.error)
             {
-                toast(socket.cardPlayedResult.errorMsg);
+                toast.error(socket.cardPlayedResult.errorMsg);
                 socket.setCardPlayedResult(undefined);
             }
             else
             {
                 // Check if you have received a card
-                if (socket.cardPlayedResult.cardReceived.id != -1)
+                if (socket.cardPlayedResult.cardReceived.id !== -1)
                 {
-                    toast(  "You have received: " +
-                            socket.cardPlayedResult.cardReceived.type);
+                    toast(
+                        <div className="toast-message">
+                            You have received:{' '}
+                            <span className="card-received">{socket.cardPlayedResult.cardReceived.type}</span>
+                        </div>
+                    );
                     socket.setCardPlayedResult(undefined);
                 }
             }

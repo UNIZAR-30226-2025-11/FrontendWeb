@@ -1,32 +1,216 @@
-.screen {
-    width: 100vw;
-    height: calc(100vh - 40px);
-    margin-top: 40px;
-    padding-top: 5px;
-    box-sizing: border-box;
+/* Game container - no background since we use AnimatedBackground */
+.game-container {
+    width: 100%;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    position: relative;
+    z-index: 4;
+    overflow: hidden;
+  }
+  
+  /* Top section with chat dropdown */
+  .top-chat-section {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 50;
+    width: 250px;
+  }
+  
+  /* Players row - all players in a single horizontal row */
+  .players-row-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  /* Individual player spacing in the row */
+  .player-slot {
+    margin: 0 5px;
+  }
+  
+  /* Middle section with draw pile and played card */
+  .middle-cards-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 10%;
+    flex: 1;
+    gap: 50px;
+  }
+
+  
+  /* Draw pile - positioned on the left */
+  .draw-pile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
+  
+  /* Played pile - positioned on the right */
+  .played-pile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
+  
+  /* Bottom section with player's hand */
+  .bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Increased from 800px for more space */
+    margin: 0 auto;
+    padding: 0 5%; /* Reduced side padding from 10% to 5% */
+    flex: 1;
+    gap: 20px; /* Add gap between elements */
+  }
+  
+  /* Timer slot on the left */
+  .game-timer-slot {
+    width: 140px; /* Fixed width instead of percentage */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Prevent shrinking */
+  }
+  
+  /* User card deck slot */
+  .game-user-slot {
+    flex: 1; /* Take all remaining space */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Toast styling */
+  .glass-toast {
+    backdrop-filter: blur(10px) !important;
+    border-radius: 10px !important;
+  }
+  
+  .toast-message {
+    font-size: 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    background-color: #9d0514;
-}
-
-.div-rest-users {
-    width: 100vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 0 5%;
-    height: fit-content;
-}
-
-.deck-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.shadow-game {
-    box-shadow: 5px 10px 10px #400006;
-}
+  }
+  
+  .toast-message .action-name,
+  .toast-message .card-received {
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 992px) {
+    .middle-cards-section {
+      padding: 0 5%;
+    }
+    
+    .top-chat-section {
+      width: 220px;
+    }
+    
+    .players-row-section {
+      padding: 10px 15px;
+      gap: 15px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .middle-cards-section {
+      padding: 0 3%;
+    }
+    
+    .top-chat-section {
+      width: 200px;
+      top: 5px;
+      right: 5px;
+      transform: scale(0.9);
+      transform-origin: top right;
+    }
+    
+    .players-row-section {
+      padding: 5px 10px;
+      gap: 10px;
+    }
+    
+    .player-slot {
+      transform: scale(0.9);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .middle-cards-section {
+      padding: 0 2%;
+    }
+    
+    .top-chat-section {
+      width: 180px;
+      transform: scale(0.8);
+    }
+    
+    .players-row-section {
+      gap: 5px;
+    }
+    
+    .player-slot {
+      transform: scale(0.85);
+      margin: 0 2px;
+    }
+  }
+  
+  /* Landscape mode for mobile */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .game-container {
+      height: calc(100vh - 50px);
+    }
+    
+    .top-chat-section {
+      width: 160px;
+      transform: scale(0.7);
+    }
+    
+    .bottom-section {
+      min-height: 150px;
+    }
+    
+    .player-slot {
+      transform: scale(0.8);
+    }
+  }
+  
+  /* Very small screens */
+  @media (max-width: 480px), (max-height: 400px) {
+    .players-row-section {
+      padding: 5px;
+      gap: 3px;
+    }
+    
+    .player-slot {
+      transform: scale(0.75);
+      margin: 0 1px;
+    }
+  }

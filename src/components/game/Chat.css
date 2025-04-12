@@ -81,7 +81,7 @@
   /* Chat container */
   .chat-container {
     position: absolute;
-    top: 20px;
+    top: 70px; /* Changed from 20px to position it below the toggle button */
     right: 20px;
     width: 100%;
     max-width: 350px;
@@ -90,12 +90,13 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    z-index: 90;
-    background-color: rgba(26, 24, 30, 0.85);
+    z-index: 101; /* Increased z-index to ensure it's above all game elements */
+    background-color: rgba(26, 24, 30, 0.95); /* Slightly more opaque */
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     border: 2px solid rgba(255, 121, 63, 0.3);
     border-radius: 20px;
+    min-width: 300px;
   }
   
   .chat-header {

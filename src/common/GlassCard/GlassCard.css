@@ -135,14 +135,6 @@
     animation: pawAnimation 4s ease-in-out 3s infinite;
 }
 
-/* Common card styling */
-.glass-card {
-    background-color: rgba(26, 24, 30, 0.85);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 121, 63, 0.3);
-}
 
 /* Common gradient text styling */
 .gradient-text {
