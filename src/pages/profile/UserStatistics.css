@@ -1,75 +1,9 @@
-/* Page-specific animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-@keyframes pawAnimation {
-  0% { opacity: 0; transform: translate(-5px, -5px); }
-  50% { opacity: 1; }
-  100% { opacity: 0; transform: translate(5px, 5px); }
-}
 
 @keyframes shimmer {
   0% { background-position: -100% 0; }
   100% { background-position: 200% 0; }
 }
 
-/* Main content container */
-.stats-content-container {
-  position: relative;
-  padding: 40px;
-  background-color: rgba(26, 24, 30, 0.85);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
-  max-width: 2100px; /* Wider container */
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  text-align: center;
-  z-index: 4;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease-out;
-  border: 2px solid rgba(255, 121, 63, 0.3);
-  margin: 50px auto; /* Centered */
-}
-
-.stats-content-container.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Logo area */
-.stats-logo-container {
-  position: relative;
-  margin-bottom: 10px;
-}
-
-/* Title styling */
-.stats-title {
-  font-size: 42px;
-  font-weight: bold;
-  background: linear-gradient(45deg, #ff9a44, #ff6a88);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  margin: 0;
-  text-shadow: 0 2px 10px rgba(255, 106, 136, 0.6);
-  letter-spacing: 1px;
-  position: relative;
-  display: inline-block;
-  padding: 10px 0;
-  border-bottom: 3px solid rgba(255, 154, 68, 0.3);
-}
 
 /* Stats grid */
 .stats-grid {
@@ -342,61 +276,7 @@
   font-size: 14px;
 }
 
-/* Paw print decorations */
-.stats-paw-print {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-image: url("../../../assets/svg/3-paw.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0;
-  z-index: 2;
-}
-
-.stats-paw-print-1 {
-  top: 20px;
-  right: 20px;
-  animation: pawAnimation 4s ease-in-out 1s infinite;
-}
-
-.stat-paw-print-2 {
-  bottom: 30px;
-  left: 30px;
-  animation: pawAnimation 4s ease-in-out 2s infinite;
-}
-
-.stats-paw-print-3 {
-  top: 50%;
-  right: 30px;
-  animation: pawAnimation 4s ease-in-out 3s infinite;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .stats-content-container {
-    padding: 30px 20px;
-    max-width: 90%;
-  }
-
-  .stats-title {
-    font-size: 36px;
-  }
-  
-  .stats-info, .chart-container {
-    min-width: 100%;
-  }
-}
-
 @media (max-width: 480px) {
-  .stats-content-container {
-    padding: 30px 20px;
-    max-width: 95%;
-  }
-
-  .stats-title {
-    font-size: 32px;
-  }
 
   .stats-info p {
     font-size: 16px;

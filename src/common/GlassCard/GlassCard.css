@@ -16,6 +16,7 @@
     transition: all 0.5s ease-out;
     border: 2px solid rgba(255, 121, 63, 0.3);
     margin: 0 auto;
+    max-height: 80vh; /* Limit maximum height */
 }
 
 .glass-card.visible {
@@ -48,6 +49,30 @@
     flex-direction: column;
     gap: 30px;
     width: 100%;
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    padding-right: 10px; /* Add some padding for the scrollbar */
+    scrollbar-width: thin; /* For Firefox */
+    max-height: 100%; /* Allow content to fill available space */
+}
+
+/* Custom scrollbar styling */
+.glass-card-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.glass-card-content::-webkit-scrollbar-track {
+    background: rgba(26, 24, 30, 0.4);
+    border-radius: 10px;
+}
+
+.glass-card-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    border-radius: 10px;
+}
+
+.glass-card-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #ff8a34, #ff5a78);
 }
 
 /* Common animations */
@@ -56,28 +81,29 @@
     to { opacity: 1; transform: translateY(0); }
   }
   
-  @keyframes pulse {
+@keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
-  }
-  
-  @keyframes pawAnimation {
+}
+
+@keyframes pawAnimation {
     0% { opacity: 0; transform: translate(-5px, -5px); }
     50% { opacity: 1; }
     100% { opacity: 0; transform: translate(5px, 5px); }
-  }
-  
-  @keyframes shimmer {
+}
+
+@keyframes shimmer {
     0% { background-position: -100% 0; }
     100% { background-position: 200% 0; }
-  }
-  
-  @keyframes colorShift {
+}
+
+@keyframes colorShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-  }
+}
+  
   
 /* Reusable decorative elements */
 .paw-decoration {

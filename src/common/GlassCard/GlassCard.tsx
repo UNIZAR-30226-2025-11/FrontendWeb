@@ -9,6 +9,7 @@ interface GlassCardProps {
   maxwidth?: string | number;
   showPaws?: boolean;
   animationDelay?: number;
+  maxHeight?: string | number; // Add maxHeight prop
 }
 
 const GlassCard: React.FC<GlassCardProps> = ({
@@ -18,7 +19,8 @@ const GlassCard: React.FC<GlassCardProps> = ({
   maxwidth = '400px',
   minwidth = '300px',
   showPaws = true,
-  animationDelay = 100
+  animationDelay = 100,
+  maxHeight = '80vh' // Default max height
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -33,6 +35,7 @@ const GlassCard: React.FC<GlassCardProps> = ({
   const style = {
     maxWidth: typeof maxwidth === 'number' ? `${maxwidth}px` : maxwidth,
     minWidth: typeof minwidth === 'number' ? `${minwidth}px` : minwidth,
+    maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight
   };
 
   return (
