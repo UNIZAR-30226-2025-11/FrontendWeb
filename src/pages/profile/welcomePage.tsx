@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './WelcomePage.css';
+import GlassCard from '../../common/GlassCard/GlassCard';
+
 const WelcomePage = () => {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
@@ -14,24 +16,18 @@ const WelcomePage = () => {
   const handleSignUp = () => navigate('/signup');
 
   return (
-    <div className={`content-container ${loaded ? 'visible' : ''}`}>
-      <div className="logo-container">
-        <h1 className="welcome-title">Exploding Kittens</h1>
-      </div>
-      
-      <div className="button-container">
-        <button className="welcome-button login-btn" onClick={handleLogin}>
-          <span className="button-text">Log In</span>
-        </button>
-        <button className="welcome-button signup-btn" onClick={handleSignUp}>
-          <span className="button-text">Sign Up</span>
-        </button>
-      </div>
-      
-      <div className="paw-print paw-print-1"></div>
-      <div className="paw-print paw-print-2"></div>
-      <div className="paw-print paw-print-3"></div>
-    </div>
+    <div className="welcome-page">
+      <GlassCard title="Welcome to KatBoom!" maxwidth={400} minwidth={50}>
+        <div className="button-container">
+        <button className="GC-button login-btn" onClick={handleLogin}>
+            <span className="GC-button-text">Log In</span>
+          </button>
+          <button className="GC-button signup-btn" onClick={handleSignUp}>
+            <span className="GC-button-text">Sign Up</span>
+          </button>
+        </div>
+      </GlassCard>
+  </div>
   );
 };
 

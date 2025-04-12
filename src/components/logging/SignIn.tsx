@@ -57,9 +57,9 @@ export const SignIn = () => {
 
         <button
           type="submit"
-          className="welcome-button login-btn"
+          className="GC-button login-btn"
         >
-          <span className="button-text">Log In</span>
+          <span className="GC-button-text">Log In</span>
         </button>
       </form>
     </div>

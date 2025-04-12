@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 import './Container.css';
+import GlassCard from '../../common/GlassCard/GlassCard';
 
 const Container = ({ logIn }: { logIn: boolean }) => {
   const [welcome, setWelcome] = useState(!logIn);
@@ -16,30 +17,22 @@ const Container = ({ logIn }: { logIn: boolean }) => {
   }, []);
 
   return (
-      <div className={`content-container ${visible ? 'visible' : ''}`}>
-        <div className="logo-container">
-          <h1 className="welcome-title">
-            {welcome ? "Create Account" : "Welcome Back"}
-          </h1>
-          <div className="paw-print paw-print-1"></div>
-          <div className="paw-print paw-print-2"></div>
-          <div className="paw-print paw-print-3"></div>
-          <div className="paw-print paw-print-4"></div>
-        </div>
-
+    <div className="login-page">
+      <GlassCard title= {welcome ? "Create Account" : "Welcome Back"} minwidth={400}>
         {welcome ? <SignUp /> : <SignIn />}
 
-        <div className="button-container">
+        <div className="GC-button-container">
           <button 
-            className="welcome-button signup-btn"
+            className="GC-button signup-btn"
             onClick={() => setWelcome(!welcome)}
           >
-            <span className="button-text">
+            <span className="GC-button-text">
               {welcome ? "Already have an account? Log In" : "Need an account? Sign Up"}
             </span>
           </button>
         </div>
-      </div>
+      </GlassCard>
+    </div>
   );
 };
 

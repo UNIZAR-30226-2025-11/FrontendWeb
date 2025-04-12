@@ -72,9 +72,9 @@ export const SignUp = () => {
 
         <button
           type="submit"
-          className="welcome-button signup-btn"
+          className="GC-button signup-btn"
         >
-          <span className="button-text">Create Account</span>
+          <span className="GC-button-text">Create Account</span>
         </button>
       </form>
     </div>
