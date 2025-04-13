@@ -63,6 +63,7 @@
     font-size: 14px;
   }
   
+  
   .your-turn-message .turn-icon {
     margin-right: 8px;
     font-size: 18px;
@@ -134,15 +135,15 @@
   
   /* Bottom section with player's hand */
   .bottom-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
     width: 100%;
-    max-width: 1200px; /* Increased from 800px for more space */
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 5%; /* Reduced side padding from 10% to 5% */
-    flex: 1;
-    gap: 20px; /* Add gap between elements */
+    padding: 0 20px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 15px;
   }
   
   .timer-wrapper {
@@ -155,12 +156,11 @@
   
   /* Timer slot on the left */
   .game-timer-slot {
-    width: 140px; /* Fixed width */
+    width: 150px;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    flex-shrink: 0; /* Prevent shrinking */
   }
 
   .turn-info-container {
@@ -168,17 +168,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
     gap: 10px;
   }
-  
-  /* User card deck slot */
+
+  /* Game user slot - ensure cards have proper space */
   .game-user-slot {
-    flex: 1; /* Take all remaining space */
-    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 0; /* Added to help flex/grid calculation */
   }
   
   /* Toast styling */

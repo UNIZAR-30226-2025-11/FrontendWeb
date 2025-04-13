@@ -1,322 +1,217 @@
 .card-hand-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 10px 10px;  /* Reduced top/bottom padding */
-    margin-top: 10px;    /* Reduced top margin */
-  }
-  
-  /* Cards container with horizontal scroll */
-  .cards-container {
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: auto;
-    overflow-y: visible;
-    padding: 25px 60px 15px; /* Reduced vertical padding */
-    position: relative;
-    scrollbar-width: none; /* For Firefox */
-    -ms-overflow-style: none; /* For IE and Edge */
-    scroll-behavior: smooth;
-  }
-  
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .cards-container::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .cards-container.dragging {
-    cursor: grabbing;
-  }
-  
-  .cards-row {
-    display: flex;
-    flex-wrap: nowrap;
-    min-height: 150px;  /* Reduced min-height from 200px */
-    padding: 0 20px;
-  }
-  
-  /* Card slots with spacing - reduced overlap */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Play button styling */
+.play-button {
+  padding: 8px 16px;
+  margin-bottom: 15px;
+  border-radius: 30px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  min-width: 220px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.play-button.active {
+  background: linear-gradient(45deg, #ff9a44, #ff6a88);
+  color: white;
+}
+
+.play-button.active:hover {
+  transform: scale(1.05);
+}
+
+.play-button.inactive {
+  background: rgba(70, 70, 70, 0.7);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+/* Cards container wrapper */
+.cards-container-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+  position: relative;
+}
+
+/* Cards container with horizontal scroll */
+.cards-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-top: 20px;    /* Keep vertical padding */
+  padding-bottom: 15px; /* Add some bottom padding for scrollbar */
+  margin-bottom: 10px;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling */
+.cards-container::-webkit-scrollbar {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.cards-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.7), rgba(255, 106, 136, 0.7));
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cards-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.9), rgba(255, 106, 136, 0.9));
+}
+
+/* For Firefox */
+.cards-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 154, 68, 0.7) rgba(0, 0, 0, 0.2);
+}
+
+.cards-row {
+  display: inline-flex; /* Changed from flex to inline-flex */
+  min-width: 100%;     /* Ensure it tries to take full width */
+  min-height: 160px;
+  padding-left: 15px;  /* Add padding to compensate for negative margin */
+  padding-right: 15px; /* Add padding to compensate for negative margin */
+}
+
+/* Card slots with spacing */
+.card-slot {
+  position: relative;
+  margin: 0 -15px; /* Overlap cards */
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.card-slot.selected {
+  transform: translateY(-20px);
+  z-index: 5;
+}
+
+.card-slot:hover {
+  z-index: 4;
+}
+
+/* Card selection indicator */
+.selection-indicator {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(45deg, #ff9a44, #ff6a88);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  z-index: 10;
+}
+
+/* Hovered card display */
+.hovered-card-container {
+  position: absolute;
+  top: -220px;
+  width: 160px;
+  height: 220px;
+  z-index: 100;
+  pointer-events: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hovered-card {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Selection info */
+.selection-info {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 5px 15px;
+  background-color: rgba(26, 24, 30, 0.7);
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+}
+
+.clear-selection {
+  margin-left: 10px;
+  padding: 3px 8px;
+  background: linear-gradient(45deg, #ff9a44, #ff6a88);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.clear-selection:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
   .card-slot {
-    position: relative;
-    margin: 0 -18px; /* Increased overlap for more compactness */
-    transition: transform 0.3s ease, z-index 0.3s ease;
-    cursor: pointer;
-    /* Add height constraint to make cards smaller */
-    height: 150px; /* Reduced from default height */
-    transform-origin: bottom center;
+    margin: 0 -18px; /* More overlap on smaller screens */
   }
   
-  .card-slot.selected {
-    transform: translateY(-20px); /* Reduced lift height from -30px */
-    z-index: 5;
-  }
-  
-  /* Card selection indicator */
-  .selection-indicator {
-    position: absolute;
-    top: -10px;    /* Adjusted position */
-    right: -5px;
-    width: 22px;   /* Slightly smaller */
-    height: 22px;  /* Slightly smaller */
-    background: linear-gradient(45deg, #ff9a44, #ff6a88);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 12px;  /* Smaller font */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    z-index: 10;
-    animation: pulse 2s infinite;
-  }
-  
-  /* Hovered card display */
-  .hovered-card-container {
-    position: absolute;
-    top: -190px;    /* Moved up for better fit */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 140px;   /* Smaller preview */
-    height: 200px;  /* Smaller preview */
-    z-index: 100;
-    perspective: 1000px;
-    pointer-events: none;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 2px solid rgba(255, 121, 63, 0.3);
-  }
-  
-  .hovered-card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 12px;
-  }
-  
-  /* Play button styling - more compact */
   .play-button {
-    position: relative;
-    padding: 8px 20px;  /* Smaller padding */
-    border-radius: 30px;
-    border: none;
-    font-weight: bold;
-    font-size: 14px;    /* Smaller font */
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;  /* Reduced margin */
-    min-width: 250px;     /* Smaller width */
-    z-index: 10;
-    cursor: pointer;
-    backdrop-filter: blur(5px);
+    font-size: 14px;
+    min-width: 220px;
+    padding: 8px 16px;
   }
   
-  .play-button.active {
-    background: linear-gradient(45deg, #ff9a44, #ff6a88);
-    color: white;
-    box-shadow: 
-      0 4px 10px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  .hovered-card-container {
+    top: -180px;
+    width: 120px;
+    height: 160px;
   }
   
-  .play-button.inactive {
-    background: rgba(70, 70, 70, 0.7);
-    color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    cursor: not-allowed;
+  .cards-container::-webkit-scrollbar {
+    height: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-slot {
+    margin: 0 -20px; /* Even more overlap on mobile */
   }
   
-  /* Selection info - more compact */
-  .selection-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 8px;    /* Reduced margin */
-    padding: 6px 12px;  /* Smaller padding */
-    background-color: rgba(26, 24, 30, 0.8);
-    border-radius: 20px;
-    color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 121, 63, 0.2);
-    font-size: 12px;    /* Smaller font */
+  .play-button {
+    font-size: 13px;
+    min-width: 180px;
+    padding: 6px 12px;
   }
   
-  .clear-selection-btn {
-    margin-left: 8px;
-    padding: 2px 6px;
-    background: linear-gradient(45deg, #ff9a44, #ff6a88);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 11px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.2s ease;
+  .selection-indicator {
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
   }
   
-  .clear-selection-btn:hover {
-    background: linear-gradient(45deg, #ff8a34, #ff5a78);
-    transform: scale(1.05);
+  .cards-container::-webkit-scrollbar {
+    height: 4px;
   }
-  
-  /* Scroll buttons - smaller and more subtle */
-  .scroll-button {
-    position: absolute;
-    top: 45%;       /* Adjusted position */
-    transform: translateY(-50%);
-    width: 32px;    /* Smaller buttons */
-    height: 32px;   /* Smaller buttons */
-    border-radius: 50%;
-    background-color: rgba(26, 24, 30, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 121, 63, 0.3);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 20;
-    transition: all 0.2s ease;
-  }
-  
-  .scroll-button:hover {
-    background-color: rgba(40, 40, 44, 0.9);
-    border-color: rgba(255, 154, 68, 0.8);
-    transform: translateY(-50%) scale(1.1);
-  }
-  
-  .scroll-button:active {
-    transform: translateY(-50%) scale(0.95);
-  }
-  
-  .scroll-button.left {
-    left: 10px;
-  }
-  
-  .scroll-button.right {
-    right: 10px;
-  }
-  
-  .scroll-arrow {
-    font-size: 16px; /* Smaller arrow */
-    color: rgba(255, 154, 68, 0.9);
-  }
-  
-  /* Animations */
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .card-slot {
-      margin: 0 -20px; /* More overlap on smaller screens */
-      height: 130px;   /* Even smaller cards on tablet */
-    }
-    
-    .play-button {
-      font-size: 13px;
-      min-width: 220px;
-      padding: 8px 16px;
-    }
-    
-    .hovered-card-container {
-      top: -160px;
-      width: 120px;
-      height: 170px;
-    }
-    
-    .scroll-button {
-      width: 28px;
-      height: 28px;
-    }
-    
-    .cards-container {
-      padding: 20px 45px 10px;
-    }
-    
-    .cards-row {
-      min-height: 130px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .card-slot {
-      margin: 0 -22px; /* More overlap on mobile */
-      height: 110px;   /* Much smaller cards on phone */
-    }
-    
-    .card-slot.selected {
-      transform: translateY(-12px); /* Less lift on mobile */
-    }
-    
-    .play-button {
-      font-size: 11px;
-      min-width: 180px;
-      padding: 6px 12px;
-    }
-    
-    .hovered-card-container {
-      display: none; /* Hide the enlarged preview on very small screens */
-    }
-    
-    .cards-container {
-      padding: 15px 35px 5px;
-    }
-    
-    .scroll-button {
-      width: 26px;
-      height: 26px;
-    }
-    
-    .scroll-arrow {
-      font-size: 12px;
-    }
-    
-    .cards-row {
-      min-height: 110px;
-    }
-  }
-  
-  /* Landscape orientation */
-  @media (max-height: 500px) and (orientation: landscape) {
-    .card-hand-wrapper {
-      padding: 5px 5px;
-    }
-    
-    .cards-container {
-      padding: 10px 40px 5px;
-    }
-    
-    .card-slot {
-      height: 100px; /* Even smaller in landscape */
-    }
-    
-    .card-slot.selected {
-      transform: translateY(-10px);
-    }
-    
-    .scroll-button {
-      width: 24px;
-      height: 24px;
-    }
-    
-    .play-button {
-      padding: 5px 15px;
-      margin-bottom: 5px;
-      min-width: 160px;
-      font-size: 10px;
-    }
-    
-    .selection-info {
-      margin-top: 5px;
-      padding: 4px 10px;
-      font-size: 10px;
-    }
-  }
+}
