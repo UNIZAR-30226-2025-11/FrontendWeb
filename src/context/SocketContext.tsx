@@ -143,6 +143,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     const handleNotifyAction = useCallback((data: Objects.BackendNotifyActionJSON) => {
         setActions(data);
+        console.log("Notify action received:", data);
     }, []);
 
     const handlePlayerDisconnected = useCallback((data: Objects.BackendPlayerStatusJSON) => {
