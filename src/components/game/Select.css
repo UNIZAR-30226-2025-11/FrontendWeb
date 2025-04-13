@@ -1,95 +1,381 @@
-/* General Selection Container */
-.container-selection-big-user {
-    position: absolute;
-    top: 15vh;
-    left: 20vw;
-    width: 60vw;
-    height: 70vh;
-    background-color: #1E1E1E;
-    border-radius: 30px;
+/* Modern Selection Window Styling */
+.selection-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: hidden;
+  }
+  
+  .selection-window {
+    width: 70vw;
+    max-width: 800px;
+    max-height: 80vh;
+    background: rgba(26, 24, 30, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 121, 63, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+                0 0 20px rgba(255, 106, 136, 0.3);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
-    padding: 20px;
+    animation: floatIn 0.3s ease-out forwards;
+  }
+  
+  @keyframes floatIn {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  
+  /* Header Section */
+  .selection-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+  
+  .selection-header h1 {
+    margin: 0;
+    font-size: 20px;
     color: white;
-    z-index: 1;
-}
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+  }
+  
+  /* Content Section */
+  .selection-content {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 60vh;
+    /* Custom scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 154, 68, 0.6) rgba(26, 24, 30, 0.5);
+  }
+  
+  .selection-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .selection-content::-webkit-scrollbar-track {
+    background: rgba(26, 24, 30, 0.5);
+    border-radius: 10px;
+  }
+  
+  .selection-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 154, 68, 0.6);
+    border-radius: 10px;
+  }
+  
+  /* Nope Card Selection */
 
-/* Players and Cards List */
-.users {
-    width: 80%;
-    margin: 20px 0;
+  .nope-options {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .nope-option {
+    padding: 15px 30px;
+    width: 140px;
+    text-align: center;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  
+  .nope-option.yes {
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 106, 136, 0.4);
+  }
+  
+  .nope-option.no {
+    background: rgba(70, 70, 70, 0.7);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Disabled state for when user has no NOPE cards */
+  .nope-option.yes.disabled {
+    background: rgba(100, 100, 100, 0.5);
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+    position: relative;
+  }
+  
+  /* Add "X" overlay to indicate unavailability */
+  .nope-option.yes.disabled::before {
+    content: "✕";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: rgba(255, 89, 89, 0.9);
+    font-weight: bold;
+  }
+  
+  .nope-option:hover:not(.disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .nope-option:active:not(.disabled) {
+    transform: translateY(0);
+  }
+  
+  /* Player Selection */
+  /* Player selection styling */
+  .players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .player-option {
+    background-color: rgba(40, 40, 44, 0.8);
+    border: 1px solid rgba(255, 121, 63, 0.3);
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .player-option:hover:not(.no-cards) {
+    transform: translateY(-3px);
+    background-color: rgba(50, 50, 54, 0.9);
+    border-color: rgba(255, 154, 68, 0.7);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Special styling for players with no cards */
+  .player-option.no-cards {
+    cursor: not-allowed;
+    opacity: 0.7;
+    border-color: rgba(128, 128, 128, 0.3);
+  }
+
+  .player-avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .player-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 121, 63, 0.5);
+    overflow: hidden;
+  }
+
+  .player-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .player-name {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    margin: 0 0 5px 0;
+  }
+
+  .player-cards {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    margin: 0;
+  }
+
+  /* Different color for 0 cards */
+  .player-cards.no-cards {
+    color: rgba(255, 89, 89, 0.8);
+    font-weight: bold;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .players-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 12px;
+    }
+    
+    .player-avatar {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .players-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+    }
+    
+    .player-avatar {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .player-name {
+      font-size: 13px;
+    }
+    
+    .player-cards {
+      font-size: 11px;
+    }
+  }
+  
+  /* Card Selection (My Cards) */
+  .my-cards-container {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 10px 0;
+    position: relative;
+    /* Same custom scrollbar styling as above */
+  }
+  
+  .my-cards-row {
+    display: flex;
+    padding: 10px 5px;
+    gap: 10px;
+  }
+  
+  /* Scroll buttons - same style as CardHand */
+  .scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(26, 24, 30, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 121, 63, 0.3);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.2s ease;
+  }
+  
+  .scroll-button:hover {
+    background-color: rgba(40, 40, 44, 0.9);
+    border-color: rgba(255, 154, 68, 0.8);
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  .scroll-button.left {
+    left: 5px;
+  }
+  
+  .scroll-button.right {
+    right: 5px;
+  }
+  
+  /* Footer Section */
+  .selection-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    display: flex;
     justify-content: center;
     gap: 15px;
-}
-
-/* Individual Player/Card */
-.div-big-user {
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s;
-    padding: 10px;
-    border-radius: 15px;
-    background-color: #FF4500;
+  }
+  
+  /* Button styling */
+  .selection-button {
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
     color: white;
-    font-weight: bold;
-    text-align: center;
-    box-shadow: 0px 2px 10px rgba(255, 69, 0, 0.6);
-}
-
-.div-big-user:hover {
-    background-color: #FF6347;
-    transform: scale(1.05);
-}
-
-.div-big-user:active {
-    background-color: #CC3700;
-}
-
-/* Buttons */
-button {
-    background-color: #FF4500;
     border: none;
-    padding: 12px 25px;
-    border-radius: 25px;
-    color: white;
+    border-radius: 30px;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 14px;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-}
-
-button:hover {
-    background-color: #FF6347;
-    transform: scale(1.05);
-}
-
-button:disabled {
-    background-color: gray;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .selection-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .selection-button:active {
+    transform: translateY(0);
+  }
+  
+  .selection-button:disabled {
+    background: rgba(70, 70, 70, 0.7);
     cursor: not-allowed;
-}
-
-/* Selection Options */
-.option {
-    background-color: #FF4500;
-    padding: 15px 30px;
-    border-radius: 20px;
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-    transition: background 0.3s, transform 0.2s;
-    text-align: center;
-    box-shadow: 0px 3px 10px rgba(255, 69, 0, 0.6);
-}
-
-.option:hover {
-    background-color: #FF6347;
-    transform: scale(1.05);
-}
-
-.option:active {
-    background-color: #CC3700;
-}
+    box-shadow: none;
+  }
+  
+  .selection-button.cancel {
+    background: rgba(70, 70, 70, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .selection-window {
+      width: 90vw;
+    }
+    
+    .players-grid {
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+    }
+    
+    .selection-header h1 {
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .selection-window {
+      width: 95vw;
+      max-height: 85vh;
+    }
+    
+    .players-grid {
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 8px;
+    }
+    
+    .nope-options {
+      gap: 15px;
+    }
+    
+    .nope-option {
+      padding: 12px 20px;
+      width: 120px;
+    }
+    
+    .selection-content {
+      padding: 15px;
+    }
+  }

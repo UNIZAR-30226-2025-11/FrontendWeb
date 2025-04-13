@@ -9,7 +9,7 @@ import CardDeck from '../../components/game/CardDeck';
 import Lobby from "../../components/lobby/Lobby";
 import LobbyUsers from "../../components/lobby/LobbyUsers";
 import WinLose from "../../components/game/WinLose";
-import Selection from "../../components/game/SelectUser";
+import Selection from "../../components/game/Select";
 import FutureCards from "../../components/game/FutureCards";
 import { CardDeckHandle, SelectionType } from "../../utils/types";
 import { SocketContextType, useSocket } from "../../context/SocketContext";

@@ -114,7 +114,7 @@ const LobbyUsers = () => {
             <GlassCard
                 className="lobby-users-card"
                 title="Lobby"
-                maxwidth="800px"
+                maxwidth="700px"
                 minwidth="600px"
                 showPaws={true}
             >
