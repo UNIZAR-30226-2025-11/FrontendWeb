@@ -1,5 +1,5 @@
-/* Game container - no background since we use AnimatedBackground */
-.game-container {
+  /* Game container - no background since we use AnimatedBackground */
+  .game-container {
     width: 100%;
     height: calc(100vh - 70px);
     display: flex;
@@ -53,21 +53,24 @@
     background: linear-gradient(45deg, #ff9a44, #ff6a88);
     color: white;
     font-weight: bold;
-    padding: 8px 15px;
+    padding: 6px 12px; /* Slightly reduced padding */
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     animation: scaleInOut 2s infinite;
     white-space: nowrap;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px; /* Slightly reduced font size */
+    width: max-content; /* Allow width to fit content */
+    max-width: 100%; /* Prevent overflow */
   }
   
   
   .your-turn-message .turn-icon {
-    margin-right: 8px;
-    font-size: 18px;
+    margin-right: 6px; /* Reduced margin */
+    font-size: 16px; /* Reduced icon size */
   }
+  
   
   /* Turn counter badge */
   .turn-counter {
@@ -142,16 +145,20 @@
     padding: 0 20px;
     margin-bottom: 20px;
     display: grid;
-    grid-template-columns: 150px 1fr;
-    gap: 15px;
+    /* Adjust the first column to be flexible but have a minimum */
+    grid-template-columns: minmax(100px, 150px) 1fr;
+    gap: 15px; /* Reduced gap slightly */
+    align-items: end; /* Align grid items to the bottom */
   }
+  
   
   .timer-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    position: relative;
+    flex-direction: column; /* Stack timer and message vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically if needed */
+    gap: 5px; /* Add a small gap between timer and message */
+    width: 100%; /* Ensure wrapper takes full column width */
   }
   
   /* Timer slot on the left */
@@ -176,8 +183,9 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; /* Center content horizontally */
     min-width: 0; /* Added to help flex/grid calculation */
+    /* align-self: end; */ /* Ensure this slot aligns to the bottom of the grid row */
   }
   
   /* Toast styling */
@@ -218,6 +226,19 @@
       padding: 10px 15px;
       gap: 15px;
     }
+
+    .bottom-section {
+      /* Make columns more balanced on medium screens */
+      grid-template-columns: minmax(90px, 120px) 1fr;
+      gap: 10px;
+    }
+    .your-turn-message {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+    .your-turn-message .turn-icon {
+      font-size: 14px;
+    }
   }
   
   @media (max-width: 768px) {
@@ -241,6 +262,42 @@
     .player-slot {
       transform: scale(0.9);
     }
+
+  .bottom-section {
+    /* Stack columns on smaller screens */
+    grid-template-columns: 1fr;
+    gap: 15px; /* Adjust gap for stacked layout */
+    margin-bottom: 10px; /* Reduce bottom margin */
+  }
+
+  .timer-wrapper {
+     /* Arrange timer and message side-by-side when stacked */
+    flex-direction: row;
+    justify-content: center; /* Center horizontally */
+    gap: 10px;
+  }
+
+  .game-timer-slot {
+    /* Ensure timer doesn't take excessive width */
+    flex-shrink: 1;
+  }
+
+  .your-turn-message {
+    padding: 4px 8px;
+    font-size: 11px;
+    /* Allow shrinking if needed */
+    flex-shrink: 1;
+  }
+   .your-turn-message .turn-icon {
+    font-size: 12px;
+    margin-right: 4px;
+  }
+
+  /* Adjust card hand styles if needed for stacked layout */
+  .game-user-slot {
+     order: -1; /* Move card hand above timer/turn message */
+     margin-bottom: 10px;
+  }
   }
   
   @media (max-width: 576px) {

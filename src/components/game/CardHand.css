@@ -39,21 +39,26 @@
 .cards-container-wrapper {
   width: 100%;
   margin: 0 auto;
-  padding: 0 15px;
   position: relative;
+  display: flex; /* Use flex to manage inner container */
+  justify-content: center;
 }
 
 /* Cards container with horizontal scroll */
 .cards-container {
   width: 100%;
+  max-width: 100%; /* Ensure it doesn't overflow wrapper */
   overflow-x: auto;
   overflow-y: hidden;
-  padding-top: 20px;    /* Keep vertical padding */
-  padding-bottom: 15px; /* Add some bottom padding for scrollbar */
-  margin-bottom: 10px;
+  padding-top: 20px;    /* Space above cards */
+  padding-bottom: 15px; /* Space for scrollbar */
   position: relative;
   scroll-behavior: smooth;
+  padding-left: 15px;
+  padding-right: 15px;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
+
 
 /* Custom scrollbar styling */
 .cards-container::-webkit-scrollbar {
@@ -79,12 +84,12 @@
 }
 
 .cards-row {
-  display: inline-flex; /* Changed from flex to inline-flex */
-  min-width: 100%;     /* Ensure it tries to take full width */
-  min-height: 160px;
-  padding-left: 15px;  /* Add padding to compensate for negative margin */
-  padding-right: 15px; /* Add padding to compensate for negative margin */
+  display: inline-flex; /* Use inline-flex for horizontal layout */
+  min-width: max-content; /* Ensure row is wide enough for all cards */
+  align-items: flex-start; /* Align cards to the top */
+  padding-bottom: 5px; /* Small space below cards before scrollbar */
 }
+
 
 /* Card slots with spacing */
 .card-slot {
