@@ -57,9 +57,18 @@
 }
 
 .coins-icon {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) invert(1);
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease;
+}
+
+.coins-info:hover .coins-icon-wrapper {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 154, 68, 0.5);
+}
+
+.coins-info:hover .coins-icon {
+  transform: scale(1.4); /* Make the icon 40% larger on hover */
 }
 
 /* User info */

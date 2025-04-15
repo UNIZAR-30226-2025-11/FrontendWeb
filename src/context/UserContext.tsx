@@ -4,14 +4,37 @@ import { SERVER } from '../utils/config';
 import React from 'react';
 
 // Define the context type
-export interface UserContextType {
-  user: {
-    username:string, 
-    coins:number,
-    games_played: number,
-    games_won: number,
-  } | undefined;
+
+type UserJSON = {
+  username: string;
+  coins: number;
+  statistics: StatisticsJSON;
+  userPersonalizeData: UserPersonalizeDataJSON;
 }
+
+type StatisticsJSON = {
+  gamesPlayed: number;
+  gamesWon: number;
+  currentStreak: number;
+  bestStreak: number;
+  totalTimePlayed: number;
+  totalTurnsPlayed: number;
+  lastFiveGames: RecordJSON[];
+}
+
+type UserPersonalizeDataJSON = {
+  avatar: string;
+}
+
+type RecordJSON = {
+  gameDate: Date;
+  isWinner: boolean;
+  lobbyId: string;
+}
+
+export type UserContextType = {
+  user: UserJSON | undefined;
+};
 
 // Create a context with a default value
 const UserContext = createContext<UserContextType | null>(null);

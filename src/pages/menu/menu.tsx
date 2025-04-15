@@ -33,7 +33,7 @@ const GameMenu = () => {
             <div className="menu-stat-icon">🏆</div>
             <div className="menu-stat-info">
               <div className="menu-stat-label">Wins</div>
-              <div className="menu-stat-value">{userContext.user?.games_won}</div>
+              <div className="menu-stat-value">{userContext.user?.statistics.gamesWon}</div>
             </div>
           </div>
           <div className="menu-stat-item">
@@ -47,7 +47,7 @@ const GameMenu = () => {
             <div className="menu-stat-icon">🎮</div>
             <div className="menu-stat-info">
               <div className="menu-stat-label">Games</div>
-              <div className="menu-stat-value">{userContext.user?.games_played}</div>
+              <div className="menu-stat-value">{userContext.user?.statistics.gamesPlayed}</div>
             </div>
           </div>
         </div>

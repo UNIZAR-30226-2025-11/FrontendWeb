@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+import { Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 import './UserStatistics.css';
 import { UserContextType, useUser } from '../../context/UserContext';
 import GlassCard from '../../common/GlassCard/GlassCard';
+import { formatRelativeTime } from '../../utils/functions';
 
 const UserStatistics: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const userContext: UserContextType = useUser();
 
-  const gamesWon = userContext.user?.games_won || 0;
-  const gamesPlayed = userContext.user?.games_played || 0;
+  const gamesWon = userContext.user?.statistics.gamesWon || 0;
+  const gamesPlayed = userContext.user?.statistics.gamesPlayed || 0;
   const gamesLost = gamesPlayed - gamesWon;
   const winPercentage = gamesPlayed > 0 ? Math.round((gamesWon / gamesPlayed) * 100) : 0;
+  const totalTimePlayedSeconds = userContext.user?.statistics.totalTimePlayed || 0;
+
+  const totalTimePlayed:string = new Date(totalTimePlayedSeconds * 1000).toISOString().substr(11, 8); // Convert seconds to HH:MM:SS
   
+  const totalTurnsPlayed = userContext.user?.statistics.totalTurnsPlayed || 0;
+
+  const lastFiveGames = userContext.user?.statistics.lastFiveGames || [];
+
   // Calculate streak and best streak (dummy data - replace with actual data)
-  const currentStreak = 3;
-  const bestStreak = 7;
+  const currentStreak = userContext.user?.statistics.currentStreak || 0;
+  const bestStreak = userContext.user?.statistics.bestStreak || 0;
 
   // Pie chart data for win/loss ratio
   const pieData = [
@@ -28,7 +36,7 @@ const UserStatistics: React.FC = () => {
     if (gamesWon >= 50) return { emoji: '🏆', text: 'Champion', progress: 100 };
     if (gamesWon >= 25) return { emoji: '🥇', text: 'Expert', progress: 50 };
     if (gamesWon >= 10) return { emoji: '🥈', text: 'Intermediate', progress: 25 };
-    return { emoji: '🥉', text: 'Beginner', progress: 10 };
+    return { emoji: '🥉', text: 'Beginner', progress: 0 };
   };
 
   const achievement = getAchievementStatus();
@@ -64,6 +72,13 @@ const UserStatistics: React.FC = () => {
             <div className="progress" style={{ width: `${winPercentage}%` }}></div>
           </div>
         </div>
+
+      <div className="stats-card">
+        <div className="stats-icon">🎲</div>
+        <h3>Total Turns Played</h3>
+        <div className="stats-value">{totalTurnsPlayed}</div>
+      </div>
+
       </div>
     
     <div className="stats-container">
@@ -71,7 +86,7 @@ const UserStatistics: React.FC = () => {
         <h3 className="section-title">Current Status</h3>
         <p><span className="stats-emoji">🔥</span> <strong>Current streak:</strong> {currentStreak} games</p>
         <p><span className="stats-emoji">⭐</span> <strong>Best streak:</strong> {bestStreak} games</p>
-        <p><span className="stats-emoji">⏱️</span> <strong>Average game time:</strong> 5m 30s</p>
+        <p><span className="stats-emoji">⏱️</span> <strong>Average game time:</strong> {totalTimePlayed}</p>
         
         <div className="achievement-section">
           <h3 className="section-title">Achievement Level</h3>
@@ -120,27 +135,15 @@ const UserStatistics: React.FC = () => {
     <div className="recent-activity">
       <h3 className="section-title">Recent Activity</h3>
       <div className="activity-timeline">
-        <div className="activity-item win">
-          <div className="activity-icon">✅</div>
-          <div className="activity-details">
-            <p className="activity-title">Victory against Player2</p>
-            <p className="activity-time">2 hours ago</p>
+        {lastFiveGames.map((game, index) => (
+          <div key={index} className={`activity-item ${game.isWinner ? 'win' : 'loss'}`}>
+            <div className="activity-icon">{game.isWinner ? '✅' : '❌'}</div>
+            <div className="activity-details">
+              <p className="activity-title">{game.isWinner ? 'Victory' : 'Defeat'} in lobby {game.lobbyId}</p>
+              <p className="activity-time">{formatRelativeTime(game.gameDate)}</p>
+            </div>
           </div>
-        </div>
-        <div className="activity-item loss">
-          <div className="activity-icon">❌</div>
-          <div className="activity-details">
-            <p className="activity-title">Loss against Player3</p>
-            <p className="activity-time">Yesterday</p>
-          </div>
-        </div>
-        <div className="activity-item win">
-          <div className="activity-icon">✅</div>
-          <div className="activity-details">
-            <p className="activity-title">Victory against Player1</p>
-            <p className="activity-time">3 days ago</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
 

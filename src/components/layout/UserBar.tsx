@@ -60,7 +60,7 @@ const UserBar = ({}: {}) => {
           <div className="coins-info">
             <span className="coins">{coins}</span>
             <div className="coins-icon-wrapper">
-              <img alt="User coins" className="coins-icon" />
+              <img alt="User coins" className="coins-icon" src="../../../assets/coins.png"/>
             </div>
           </div>
         </div>
