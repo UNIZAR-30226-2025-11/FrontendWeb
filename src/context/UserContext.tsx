@@ -1,49 +1,28 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { routesRequest } from '../utils/constants';
-import { SERVER } from '../utils/config';
-import React from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { UserJSON } from "../api/entities";
+import { SERVER } from "../utils/config";
+import { routesRequest } from "../utils/constants";
+// Import any necessary API functions
 
-// Define the context type
-
-type UserJSON = {
-  username: string;
-  coins: number;
-  statistics: StatisticsJSON;
-  userPersonalizeData: UserPersonalizeDataJSON;
-}
-
-type StatisticsJSON = {
-  gamesPlayed: number;
-  gamesWon: number;
-  currentStreak: number;
-  bestStreak: number;
-  totalTimePlayed: number;
-  totalTurnsPlayed: number;
-  lastFiveGames: RecordJSON[];
-}
-
-type UserPersonalizeDataJSON = {
-  avatar: string;
-}
-
-type RecordJSON = {
-  gameDate: Date;
-  isWinner: boolean;
-  lobbyId: string;
-}
-
-export type UserContextType = {
+export interface UserContextType {
   user: UserJSON | undefined;
-};
+  isLoading: boolean;
+  setUser: React.Dispatch<React.SetStateAction<UserJSON | undefined>>;
+  // Add any other user-related functions here
+}
 
-// Create a context with a default value
-const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext<UserContextType>({
+  user: undefined,
+  isLoading: true,
+  setUser: () => {},
+});
 
-// Provider component to wrap around the app
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserContextType['user']>(undefined);
+  const [user, setUser] = useState<UserJSON | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Attempt to fetch the user data when the app loads
     const fetchUser = async () => {
       try {
         const response = await fetch(SERVER + routesRequest.user, {
@@ -58,7 +37,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUser(undefined);
         }
       } catch (error) {
-        console.error('Error fetching user:', error);
+        console.error("Failed to fetch user:");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -66,18 +47,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   return (
-    <UserContext.Provider value={{ user }}>
+    <UserContext.Provider value={{ user, setUser, isLoading }}>
       {children}
     </UserContext.Provider>
   );
 };
 
-// Custom hook to access user context
-export const useUser = () => 
-{
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
-  }
-  return context;
-}
+export const useUser = () => useContext(UserContext);
