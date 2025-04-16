@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { handleLogIn } from '../../services/apiService';
+import { ApiResponse, handleLogInAPI } from '../../services/apiService';
+import { useNotification } from '../../context/NotificationContext';
 
 export const SignIn = () => {
   const navigate = useNavigate();
+  const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
   const [formData, setFormData] = useState({
     username: "",
     password: ""
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -16,18 +20,38 @@ export const SignIn = () => {
     });
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    const result: ApiResponse = await handleLogInAPI(formData.username, formData.password);
+
+    setIsLoading(false);
+
+    // Use the showToast function from the context
+    showToast({
+      message: result.message,
+      type: result.type,
+      duration: result.displayTime || 3000, // Default duration if not provided
+    });
+
+    if (result.redirectPath) {
+      // Navigate after a short delay to allow user to see the success message
+      setTimeout(() => {
+        window.location.reload(); // Reload the page to ensure the user is logged in
+        navigate(result.redirectPath!);
+
+      }, result.displayTime || 3000);
+    }
+  };
+
   return (
     <div className="GC-form-comp">
       <form 
         className="GC-auth-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleLogIn(
-            formData.username,
-            formData.password,
-            navigate
-          );
-        }}
+        onSubmit={handleSubmit}
       >
         <div className="GC-input-group">
           <label htmlFor="username">Username</label>

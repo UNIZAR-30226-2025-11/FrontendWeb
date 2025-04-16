@@ -24,6 +24,7 @@ const Shop: React.FC = () => {
   const loadShopItems = async () => {
     try {
       const items = await fetchShopItems();
+      console.log(items);
       setShopData(items);
     } catch (error) {
       alert((error as Error).message);

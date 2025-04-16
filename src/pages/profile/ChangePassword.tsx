@@ -1,17 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import './ChangePassword.css';
-import { handleConfirmChange, handleDeleteAccout } from '../../services/apiService';
+import { ApiResponse, handleConfirmChangeAPI, handleDeleteAccountAPI } from '../../services/apiService';
 import GlassCard from '../../common/GlassCard/GlassCard';
+import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../context/NotificationContext';
 
 
 const ChangePasswordPage = (
   {} : {}) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     newPassword: "",
     repeatPassword: ""
   });
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [formTouched, setFormTouched] = useState(false);
+
+  const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChangePassword = async (newPassword: string, repeatPassword: string) => {
+    setIsLoading(true);
+    const result: ApiResponse = await handleConfirmChangeAPI(newPassword, repeatPassword);
+    setIsLoading(false);
+
+    // Use the showToast function from the context
+    showToast({
+      message: result.message,
+      type: result.type,
+      duration: result.displayTime || 3000, // Default duration if not provided
+    });
+
+    if (result.redirectPath) {
+      // Navigate after a short delay to allow user to see the success message
+      setTimeout(() => {
+        navigate(result.redirectPath!);
+      }, result.displayTime || 3000);
+    }
+  }
+
+  const handleDeleteAccount = async () => {
+    setIsLoading(true);
+    const result: ApiResponse = await handleDeleteAccountAPI();
+    setIsLoading(false);
+
+    // Use the showToast function from the context
+    showToast({
+      message: result.message,
+      type: result.type,
+      duration: result.displayTime || 3000, // Default duration if not provided
+    });
+
+    if (result.redirectPath) {
+      // Navigate after a short delay to allow user to see the success message
+      setTimeout(() => {
+        navigate(result.redirectPath!);
+      }, result.displayTime || 3000);
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -38,7 +84,10 @@ const ChangePasswordPage = (
         onSubmit={(e) => {
           e.preventDefault();
           if (passwordsMatch && formData.newPassword) {
-            handleConfirmChange(formData.newPassword, formData.repeatPassword);
+            handleChangePassword(
+              formData.newPassword,
+              formData.repeatPassword
+            );
           }
         }}
       >
@@ -78,7 +127,7 @@ const ChangePasswordPage = (
           <span className="GC-button-text">Confirm Change</span>
         </button>
       </form>
-      <button className="GC-button GC-red-btn" onClick={handleDeleteAccout}>
+      <button className="GC-button GC-red-btn" onClick={handleDeleteAccount}>
         <span className="GC-button-text">Delete Profile</span>
       </button>
     </GlassCard>

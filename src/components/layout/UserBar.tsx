@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
-import { handleLogout } from "../../services/apiService";
+import { handleLogoutAPI } from "../../services/apiService";
 import FriendsList from "./FriendsList";
 import { UserContextType, useUser } from '../../context/UserContext';
+import { useNotification } from '../../context/NotificationContext';
 
 /**
  * Defines the HTML for creating a user bar with the
@@ -20,6 +21,30 @@ const UserBar = ({}: {}) => {
   const [isFriendsListOpen, setIsFriendsListOpen] = useState(false);
 
   const userContext: UserContextType = useUser();
+
+  const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+    const result = await handleLogoutAPI();
+    setIsLoading(false);
+
+    // Use the showToast function from the context
+    showToast({
+      message: result.message,
+      type: result.type,
+      duration: result.displayTime || 3000, // Default duration if not provided
+    });
+
+    if (result.redirectPath) {
+      // Navigate after a short delay to allow user to see the success message
+      setTimeout(() => {
+        window.location.reload(); // Reload the page to ensure the user is logged out
+        navigate(result.redirectPath!);
+      }, result.displayTime || 3000);
+    }
+  };
 
   const coins = userContext.user?.coins;
   const username = userContext.user?.username;
