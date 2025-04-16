@@ -56,7 +56,7 @@ const Lobby = () => {
                 <div className="lobby-sections-container">
                     <div className="lobby-section">
                         <h2 className="section-title gradient-text">Join</h2>
-                        <div className="section-content">
+                        {/* <div className="section-content"> */}
                             <div className="GC-input-group">
                                 <input
                                     type="text"
@@ -69,7 +69,7 @@ const Lobby = () => {
                             <button className="GC-button GC-blue-btn" onClick={handleJoin}>
                                 <span className="GC-button-text">Join Lobby</span>
                             </button>
-                        </div>
+                        {/* </div> */}
                     </div>
 
                     <div className="section-divider">
@@ -82,7 +82,7 @@ const Lobby = () => {
                         <h2 className="section-title gradient-text">Create</h2>
                         <div className="section-content">
                             <div className="player-selector">
-                                <h3>Number of Players</h3>
+                                <h3>Select the number of Players:</h3>
                                 <div className="player-options">
                                     {[2, 3, 4].map((num) => (
                                         <div 

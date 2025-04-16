@@ -115,7 +115,7 @@ const LobbyUsers = () => {
                 className="lobby-users-card"
                 title="Lobby"
                 maxwidth="700px"
-                minwidth="600px"
+                minwidth="100px"
                 showPaws={true}
             >
                 <div className="lobby-id-container">
@@ -182,9 +182,12 @@ const LobbyUsers = () => {
                         </button>
                     </div>
                 ) : (
+                    <div>
                     <button className="GC-button GC-blue-btn" onClick={handleLeave}>
                         <span className="GC-button-text">Leave Lobby</span>
                     </button>
+                    <div></div>
+                    </div>
                 )}
             </GlassCard>
         </div>
