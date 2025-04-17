@@ -12,6 +12,7 @@ const GameMenu = () => {
   const [visible, setVisible] = useState(false);
 
   const userContext: UserContextType = useUser();
+  const background: string = userContext.user?.userPersonalizeData.background || "default";
 
   useEffect(() => {
     // Add visible class after component mounts for animation
@@ -22,7 +23,7 @@ const GameMenu = () => {
   }, []);
 
   return (
-      <GlassCard title="Welcome Back!" minwidth={500}>
+      <GlassCard title="Welcome Back!" minwidth={500} background={background}>
         
         <div className="menu-mascot">
           <CatMascot />

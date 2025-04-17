@@ -3,6 +3,7 @@ import './LobbyUsers.css';
 import { startLobby } from '../../services/socketService';
 import { SocketContextType, useSocket } from '../../context/SocketContext';
 import GlassCard from '../../common/GlassCard/GlassCard';
+import { useUser } from '../../context/UserContext';
 
 const LobbyUsers = () => {
     const socket: SocketContextType = useSocket();
@@ -10,7 +11,8 @@ const LobbyUsers = () => {
     const [animateList, setAnimateList] = useState(false);
     const [disbandAnimated, setDisbandAnimated] = useState(false);
     const [countdown, setCountdown] = useState(5);
-
+    const userContext = useUser();
+    const background: string = userContext.user?.userPersonalizeData.background || 'default'; // Default background if not set
     const lobbyId = socket.lobbyCreate?.lobbyId || socket.lobbyEnter?.lobbyId || "";
     const isHost = !!socket.lobbyCreate;
     const players = socket.lobbyState?.players || [];
@@ -87,6 +89,7 @@ const LobbyUsers = () => {
                     maxwidth="800px"
                     minwidth="600px"
                     showPaws={true}
+                    background={background}
                 >
                     <div className="disband-content">
                         <div className="disband-icon">
@@ -117,6 +120,7 @@ const LobbyUsers = () => {
                 maxwidth="700px"
                 minwidth="600px"
                 showPaws={true}
+                background={background}
             >
                 <div className="lobby-id-container">
                     <h3 className="lobby-id-label">Lobby Code</h3>

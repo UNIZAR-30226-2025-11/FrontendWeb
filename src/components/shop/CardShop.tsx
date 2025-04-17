@@ -77,6 +77,7 @@ const Shop: React.FC = () => {
 
   const  userContext: UserContextType = useUser();
   const coins = userContext.user?.coins || 0;
+  const background: string = userContext.user?.userPersonalizeData.background || 'default'; // Default background if not set
 
   const loadShopItems = async () => {
     try {
@@ -141,6 +142,7 @@ const Shop: React.FC = () => {
         maxwidth="1200px"
         showPaws={true}
         autoFit={false}
+        background={background}
       >
         <div className="shop-balance">
           <img src={coinIcon} alt="Coins" className="balance-icon" />

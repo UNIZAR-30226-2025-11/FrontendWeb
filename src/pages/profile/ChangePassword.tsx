@@ -4,6 +4,7 @@ import { ApiResponse, handleConfirmChangeAPI, handleDeleteAccountAPI } from '../
 import GlassCard from '../../common/GlassCard/GlassCard';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../../context/NotificationContext';
+import { useUser } from '../../context/UserContext';
 
 
 const ChangePasswordPage = (
@@ -18,6 +19,9 @@ const ChangePasswordPage = (
 
   const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
   const [isLoading, setIsLoading] = useState(false);
+
+  const userContext = useUser();
+  const background:string = userContext.user?.userPersonalizeData.background || "default"; // Default background if not set
 
   const handleChangePassword = async (newPassword: string, repeatPassword: string) => {
     setIsLoading(true);
@@ -78,7 +82,7 @@ const ChangePasswordPage = (
   }, [formData.newPassword, formData.repeatPassword]);
 
   return (
-    <GlassCard title="Change Password" minwidth={500}>
+    <GlassCard title="Change Password" minwidth={500} background={background}>
       <form 
         className="GC-auth-form"
         onSubmit={(e) => {

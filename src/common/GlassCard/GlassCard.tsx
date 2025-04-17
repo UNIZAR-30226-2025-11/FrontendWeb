@@ -1,5 +1,6 @@
 import React, { useEffect, useState, ReactNode, useRef } from 'react';
 import './GlassCard.css';
+import { useUser } from '../../context/UserContext';
 
 interface GlassCardProps {
   children: ReactNode;
@@ -11,6 +12,7 @@ interface GlassCardProps {
   animationDelay?: number;
   maxHeight?: string | number;
   autoFit?: boolean; // Whether to automatically fit content or use scroll
+  background?: string; // Background type
 }
 
 const GlassCard: React.FC<GlassCardProps> = ({
@@ -22,7 +24,8 @@ const GlassCard: React.FC<GlassCardProps> = ({
   showPaws = true,
   animationDelay = 100,
   maxHeight = '90vh',
-  autoFit = true // Default to true for backwards compatibility
+  autoFit = true, // Default to true for backwards compatibility
+  background = 'default'
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -78,27 +81,27 @@ const GlassCard: React.FC<GlassCardProps> = ({
 
   return (
     <div 
-      className={`glass-card ${isVisible ? 'visible' : ''} ${className}`}
+      className={`glass-card ${background} ${isVisible ? 'visible' : ''} ${className}`}
       style={style}
     >
       {title && (
-        <div className="glass-card-header">
-          <h2 className="glass-card-title">{title}</h2>
+        <div className={`glass-card-header ${background}`}>
+          <h2 className={`glass-card-title ${background}`}>{title}</h2>
         </div>
       )}
       
       <div 
         ref={contentRef}
-        className={`glass-card-content`}
+        className={`glass-card-content ${background}`}
       >
         {children}
       </div>
       
       {showPaws && (
         <>
-          <div className="paw-decoration paw-top-right"></div>
-          <div className="paw-decoration paw-bottom-left"></div>
-          <div className="paw-decoration paw-middle-right"></div>
+          <div className={`paw-decoration ${background} paw-top-right`}></div>
+          <div className={`paw-decoration ${background} paw-bottom-left`}></div>
+          <div className={`paw-decoration ${background} paw-middle-right`}></div>
         </>
       )}
     </div>
