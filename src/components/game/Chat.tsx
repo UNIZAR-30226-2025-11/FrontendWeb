@@ -21,29 +21,29 @@ export const Chat = () => {
     }
   };
 
-  // Focus input when chat expands
   useEffect(() => {
-    if (isExpanded && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isExpanded]);
-
-  // Scroll to bottom on new messages
-  useEffect(() => {
+    const container = messagesContainerRef.current;
     const messageCount = socket.messagesChat?.messages.length || 0;
-    
-    if (messageCount > prevMessageCount) {
-      // New messages arrived
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-      
-      // If chat is collapsed, increment unread counter
-      if (!isExpanded) {
-        setUnreadCount(prev => prev + (messageCount - prevMessageCount));
-      }
-      
-      setPrevMessageCount(messageCount);
+  
+    if (!container) return;
+  
+    const isAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
+  
+    if (messageCount > prevMessageCount && isAtBottom) {
+      // Scroll at the end of the render
+      requestAnimationFrame(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      });
     }
-  }, [socket.messagesChat, prevMessageCount, isExpanded]);
+  
+    if (!isExpanded) {
+      setUnreadCount(prev => prev + (messageCount - prevMessageCount));
+    }
+  
+    setPrevMessageCount(messageCount);
+  }, [socket.messagesChat?.messages.length, isExpanded]);
+  
+
   
   // Reset unread count when expanded
   useEffect(() => {
@@ -51,6 +51,7 @@ export const Chat = () => {
       setUnreadCount(0);
     }
   }, [isExpanded]);
+  
 
   // Get username from last message
   const getLastSender = () => {

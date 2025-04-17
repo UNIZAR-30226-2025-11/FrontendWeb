@@ -40,6 +40,7 @@ const WinLose = (
             ?   <div className="win-message">
                     <h1>You won !</h1>
                     <p>Congratulations, you&apos;ve won the game!</p>
+                    <p>You have won {socket.winner?.coinsEarned} coins!</p>
                 </div>
             :
                 <div className="loose-message">

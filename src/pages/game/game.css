@@ -1,4 +1,9 @@
   /* Game container - no background since we use AnimatedBackground */
+
+  html, body {
+    overflow: hidden;
+  }
+
   .game-container {
     width: 100%;
     height: calc(100vh - 70px);
