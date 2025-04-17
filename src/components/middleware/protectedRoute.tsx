@@ -38,7 +38,6 @@ export const ProtectedNotLogin = ({ children }: { children: React.ReactNode }) =
 
   useEffect(() => {
 
-    console.log("ProtectedNotLogin: ", userContext.user, userContext.isLoading);
     if (userContext.isLoading) {
       return; // Wait for loading to finish
     }

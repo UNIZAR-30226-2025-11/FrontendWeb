@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ApiResponse, handleLogInAPI } from '../../services/apiService';
 import { useNotification } from '../../context/NotificationContext';
+import { UserContextType, useUser } from '../../context/UserContext';
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ export const SignIn = () => {
     username: "",
     password: ""
   });
+  const userContext: UserContextType = useUser();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,8 +41,8 @@ export const SignIn = () => {
 
     if (result.redirectPath) {
       // Navigate after a short delay to allow user to see the success message
-      setTimeout(() => {
-        window.location.reload(); // Reload the page to ensure the user is logged in
+      setTimeout(async () => {
+        await userContext.refreshUser(); // Refresh user data after login
         navigate(result.redirectPath!);
 
       }, result.displayTime || 3000);

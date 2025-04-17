@@ -89,22 +89,47 @@
   box-shadow: 0 4px 15px rgba(91, 134, 229, 0.3);
 }
 
+/* Update the user avatar styling */
 .user-avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  background: linear-gradient(45deg, #36d1dc, #5b86e5);
-  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   margin-right: 10px;
-  padding: 2px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .user-icon {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background-color: rgba(54, 209, 220, 0.1);
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+/* Add a subtle border glow effect on hover */
+.user-info:hover .user-icon {
+  border-color: rgba(91, 134, 229, 0.6);
+}
+
+/* Update menu avatar to be consistent but slightly larger */
+.menu-avatar {
+  width: 48px;
+  height: 48px;
+  margin-right: 15px;
+}
+
+.menu-avatar .user-icon {
+  border-width: 3px;
+  background-color: rgba(255, 154, 68, 0.1);
 }
 
 .username {
@@ -125,6 +150,8 @@
   margin-top: 3px;
   transition: transform 0.3s ease;
 }
+
+
 
 .user-info:hover .dropdown-arrow {
   transform: translateY(2px);
@@ -266,4 +293,274 @@
   .side-menu {
     width: 250px;
   }
+}
+
+/* After your existing styles, add the following: */
+
+/* ===== THEME STYLES ===== */
+
+/* ==== BLUE THEME ==== */
+.user-bar-blue {
+  border-bottom: 2px solid rgba(63, 81, 255, 0.3);
+}
+
+.coins-info-blue {
+  background: linear-gradient(45deg, rgba(68, 154, 255, 0.2), rgba(106, 136, 255, 0.2));
+  border: 1px solid rgba(68, 154, 255, 0.3);
+}
+
+.coins-info-blue:hover {
+  box-shadow: 0 4px 15px rgba(68, 154, 255, 0.3);
+}
+
+.coins-icon-wrapper-blue {
+  background: linear-gradient(45deg, #44a4ff, #6a88ff);
+}
+
+.coins-info-blue:hover .coins-icon-wrapper-blue {
+  box-shadow: 0 0 10px rgba(68, 154, 255, 0.5);
+}
+
+.user-info-blue {
+  background: linear-gradient(45deg, rgba(54, 136, 220, 0.2), rgba(91, 165, 229, 0.2));
+  border: 1px solid rgba(54, 136, 220, 0.3);
+}
+
+.user-info-blue:hover {
+  box-shadow: 0 4px 15px rgba(54, 136, 220, 0.3);
+}
+
+.user-avatar-blue .user-icon {
+  background-color: rgba(54, 136, 220, 0.1);
+}
+
+.user-info-blue:hover .user-icon {
+  border-color: rgba(54, 136, 220, 0.6);
+}
+
+.menu-avatar-blue .user-icon {
+  background-color: rgba(68, 154, 255, 0.1);
+}
+
+.side-menu-blue {
+  border: 2px solid rgba(63, 81, 255, 0.3);
+}
+
+.menu-header-blue {
+  background: linear-gradient(45deg, rgba(68, 154, 255, 0.2), rgba(106, 136, 255, 0.2));
+}
+
+.side-menu-blue .menu-username {
+  background: linear-gradient(45deg, #44a4ff, #6a88ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.side-menu-blue .menu-divider {
+  background: linear-gradient(to right, rgba(68, 154, 255, 0.2), rgba(106, 136, 255, 0.2), rgba(68, 154, 255, 0.2));
+}
+
+/* ==== GREEN THEME ==== */
+.user-bar-green {
+  border-bottom: 2px solid rgba(63, 255, 106, 0.3);
+}
+
+.coins-info-green {
+  background: linear-gradient(45deg, rgba(68, 255, 154, 0.2), rgba(106, 255, 136, 0.2));
+  border: 1px solid rgba(68, 255, 154, 0.3);
+}
+
+.coins-info-green:hover {
+  box-shadow: 0 4px 15px rgba(68, 255, 154, 0.3);
+}
+
+.coins-icon-wrapper-green {
+  background: linear-gradient(45deg, #44ffa4, #6aff88);
+}
+
+.coins-info-green:hover .coins-icon-wrapper-green {
+  box-shadow: 0 0 10px rgba(68, 255, 154, 0.5);
+}
+
+.user-info-green {
+  background: linear-gradient(45deg, rgba(54, 220, 136, 0.2), rgba(91, 229, 165, 0.2));
+  border: 1px solid rgba(54, 220, 136, 0.3);
+}
+
+.user-info-green:hover {
+  box-shadow: 0 4px 15px rgba(54, 220, 136, 0.3);
+}
+
+.user-avatar-green .user-icon {
+  background-color: rgba(54, 220, 136, 0.1);
+}
+
+.user-info-green:hover .user-icon {
+  border-color: rgba(54, 220, 136, 0.6);
+}
+
+.menu-avatar-green .user-icon {
+  background-color: rgba(68, 255, 154, 0.1);
+}
+
+.side-menu-green {
+  border: 2px solid rgba(63, 255, 106, 0.3);
+}
+
+.menu-header-green {
+  background: linear-gradient(45deg, rgba(68, 255, 154, 0.2), rgba(106, 255, 136, 0.2));
+}
+
+.side-menu-green .menu-username {
+  background: linear-gradient(45deg, #44ffa4, #6aff88);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.side-menu-green .menu-divider {
+  background: linear-gradient(to right, rgba(68, 255, 154, 0.2), rgba(106, 255, 136, 0.2), rgba(68, 255, 154, 0.2));
+}
+
+/* ==== RAINBOW THEME ==== */
+.user-bar-rainbow {
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(to right, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd, #c8d6e5);
+  border-image-slice: 1;
+  animation: border-glow 5s infinite alternate;
+}
+
+.coins-info-rainbow {
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.2), rgba(255, 106, 136, 0.2));
+  border: 1px solid transparent;
+  border-image: linear-gradient(45deg, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  border-image-slice: 1;
+  animation: rainbow-background 8s infinite alternate;
+}
+
+.coins-info-rainbow:hover {
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  animation: rainbow-shadow 3s infinite alternate;
+}
+
+.coins-icon-wrapper-rainbow {
+  animation: rainbow-rotate 5s linear infinite;
+  background: linear-gradient(45deg, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+}
+
+.user-info-rainbow {
+  background: linear-gradient(45deg, rgba(255, 107, 129, 0.2), rgba(41, 128, 185, 0.2));
+  border: 1px solid transparent;
+  border-image: linear-gradient(45deg, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  border-image-slice: 1;
+  animation: rainbow-background 8s infinite alternate-reverse;
+}
+
+.user-info-rainbow:hover {
+  box-shadow: 0 4px 15px rgba(91, 134, 229, 0.3);
+  animation: rainbow-shadow 3s infinite alternate-reverse;
+}
+
+.user-avatar-rainbow .user-icon {
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  background-image: 
+    linear-gradient(to bottom, #1e1e1e, #1e1e1e), 
+    linear-gradient(45deg, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  animation: rotate 5s linear infinite;
+}
+
+.user-info-rainbow:hover .user-icon {
+  animation: rotate 2s linear infinite;
+}
+
+.side-menu-rainbow {
+  border: 2px solid transparent;
+  border-image: linear-gradient(to bottom, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  border-image-slice: 1;
+}
+
+.menu-header-rainbow {
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.2), rgba(255, 106, 136, 0.2));
+  animation: rainbow-background 8s infinite alternate;
+}
+
+.menu-avatar-rainbow .user-icon {
+  border: 3px solid transparent;
+  border-radius: 50%;
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  background-image: 
+    linear-gradient(to bottom, #1e1e1e, #1e1e1e), 
+    linear-gradient(45deg, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  animation: rotate 5s linear infinite;
+}
+
+.side-menu-rainbow .menu-username {
+  background: linear-gradient(45deg, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: rainbow-text 5s linear infinite;
+  background-size: 400% 100%;
+}
+
+.side-menu-rainbow .menu-divider {
+  background: linear-gradient(to right, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  animation: rainbow-background 8s infinite alternate;
+}
+
+/* Rainbow Animations */
+@keyframes rainbow-background {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes rainbow-shadow {
+  0% { box-shadow: 0 4px 15px rgba(255, 71, 87, 0.5); }
+  25% { box-shadow: 0 4px 15px rgba(254, 202, 87, 0.5); }
+  50% { box-shadow: 0 4px 15px rgba(29, 209, 161, 0.5); }
+  75% { box-shadow: 0 4px 15px rgba(95, 39, 205, 0.5); }
+  100% { box-shadow: 0 4px 15px rgba(255, 107, 129, 0.5); }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes rainbow-text {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes rainbow-rotate {
+  0% {
+    background: linear-gradient(45deg, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  }
+  20% {
+    background: linear-gradient(45deg, #5f27cd, #ff4757, #ff6b81, #feca57, #1dd1a1);
+  }
+  40% {
+    background: linear-gradient(45deg, #1dd1a1, #5f27cd, #ff4757, #ff6b81, #feca57);
+  }
+  60% {
+    background: linear-gradient(45deg, #feca57, #1dd1a1, #5f27cd, #ff4757, #ff6b81);
+  }
+  80% {
+    background: linear-gradient(45deg, #ff6b81, #feca57, #1dd1a1, #5f27cd, #ff4757);
+  }
+  100% {
+    background: linear-gradient(45deg, #ff4757, #ff6b81, #feca57, #1dd1a1, #5f27cd);
+  }
+}
+
+@keyframes border-glow {
+  0% { border-color: #ff4757; }
+  25% { border-color: #feca57; }
+  50% { border-color: #1dd1a1; }
+  75% { border-color: #5f27cd; }
+  100% { border-color: #ff6b81; }
 }
