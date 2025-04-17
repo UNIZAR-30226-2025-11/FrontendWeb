@@ -3,14 +3,15 @@ import './LobbyUsers.css';
 import { startLobby } from '../../services/socketService';
 import { SocketContextType, useSocket } from '../../context/SocketContext';
 import GlassCard from '../../common/GlassCard/GlassCard';
+import { fetchFriends } from '../../services/apiFriends';
 
 const LobbyUsers = () => {
     const socket: SocketContextType = useSocket();
     const [copied, setCopied] = useState(false);
     const [animateList, setAnimateList] = useState(false);
     const [disbandAnimated, setDisbandAnimated] = useState(false);
-    const [countdown, setCountdown] = useState(5);
     const [invitedFriends, setInvitedFriends] = useState<string[]>([]);
+	const [friends, setFriends] = useState<string[]>([])
 
     const lobbyId = socket.lobbyCreate?.lobbyId || socket.lobbyEnter?.lobbyId || "";
     const isHost = !!socket.lobbyCreate;
@@ -24,27 +25,14 @@ const LobbyUsers = () => {
         return () => clearTimeout(timer);
     }, [players.length]);
 
-    // Handle disband animation
-    useEffect(() => {
-        if (disband) {
-            setDisbandAnimated(true);
-            
-            // Start countdown for redirection
-            const countdownInterval = setInterval(() => {
-                setCountdown(prev => {
-                    if (prev <= 1) {
-                        clearInterval(countdownInterval);
-                        // Redirect after countdown reaches zero
-                        window.location.reload();
-                        return 0;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-            
-            return () => clearInterval(countdownInterval);
-        }
-    }, [disband]);
+	useEffect(() => {
+		const _fetchFriends = async () => {
+			const myFriends = await fetchFriends()
+			setFriends(myFriends)
+		}
+
+		_fetchFriends()
+	},[])
 
     const handleClick = () => {
         startLobby(socket.socket, lobbyId, socket.setLobbyStart);
@@ -117,7 +105,6 @@ const LobbyUsers = () => {
         );
     }
 
-    const friends = players.filter((player) => {return !player.isYou})
     const you = players.filter((player) => {return player.isYou})
 
     return (
@@ -188,30 +175,28 @@ const LobbyUsers = () => {
                         <h3 className='section-label'>Invite your friends</h3>
                         <div className={`player-list ${animateList ? "animate" : ""}`}>
                         {friends.length > 0 ? (
-                                friends.map((player, index) => (
+                                friends.map((username, index) => (
                                     // The hole friend
                                     <div 
-                                        key={player.name} 
-                                        className={`player-item ${player.isYou ? 'player-self' : ''}`}
+                                        key={username} 
+                                        className={`player-item`}
                                     >
                                         {/* Avatar */}
-                                        <div className={`player-avatar ${player.isYou ? 'self-avatar' : ''}`}>
-                                            {player.name.charAt(0).toUpperCase()}
-                                            {player.isYou && <div className="self-indicator"></div>}
+                                        <div className={`player-avatar`}>
+                                            {username.charAt(0).toUpperCase()}
                                         </div>
 
                                         {/* Name */}
                                         <span className="player-name">
-                                            {player.name}
-                                            {player.isYou && <span className="self-label">(You)</span>}
+                                            {username}
                                         </span>
 
                                         {/* Invite button */}
-                                        { invitedFriends.indexOf(player.name) == -1
+                                        { invitedFriends.indexOf(username) == -1
                                         ?
                                         <button
                                             className='host-badge host-badge-button'
-                                            onClick={() => handleInviteFriend(player.name)}>
+                                            onClick={() => handleInviteFriend(username)}>
                                             Invite
                                         </button>
                                         :
