@@ -4,6 +4,7 @@ import { startLobby } from '../../services/socketService';
 import { SocketContextType, useSocket } from '../../context/SocketContext';
 import GlassCard from '../../common/GlassCard/GlassCard';
 import { useUser } from '../../context/UserContext';
+import { BackendSendConnectedFriendsJSON, FriendSocketJSON } from '../../api/JSON';
 
 const LobbyUsers = () => {
     const socket: SocketContextType = useSocket();
@@ -17,6 +18,26 @@ const LobbyUsers = () => {
     const isHost = !!socket.lobbyCreate;
     const players = socket.lobbyState?.players || [];
     const disband = socket.lobbyState?.disband || false;
+
+
+    const [friends, setFriends] = useState<FriendSocketJSON[]>([]);
+
+    useEffect(() => {
+        fetchFriends();
+    }
+    , []);
+
+    // Fetch friends from the socket context
+    const fetchFriends = () => {
+        const msg = {error: false, errorMsg: ""};
+        socket.socket.emit("get-friends-connected", msg, (response: BackendSendConnectedFriendsJSON) => {
+            if (response.error) {
+                console.error("Error fetching friends:", response.errorMsg);
+                return;
+            }
+            setFriends(response.connectedFriends);
+        })
+    }
 
     useEffect(() => {
         // Trigger animation when players list changes
@@ -166,6 +187,10 @@ const LobbyUsers = () => {
                             </div>
                         )}
                     </div>
+                </div>
+
+                <div className="friends-section">
+                    <h3 className="section-label">Friends</h3>
                 </div>
 
                 <div className="status-message">

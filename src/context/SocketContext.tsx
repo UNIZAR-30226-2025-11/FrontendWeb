@@ -37,6 +37,8 @@ export interface SocketContextType {
     disconnect: Objects.BackendPlayerStatusJSON | undefined;
     messagesChat: Objects.BackendGetMessagesJSON | undefined;
     setMessagesChat: React.Dispatch<React.SetStateAction<Objects.BackendGetMessagesJSON | undefined>>;
+    friendJoinRequest: Objects.BackendSendFriendRequestEnterLobbyJSON | undefined;
+    setFriendJoinRequest: React.Dispatch<React.SetStateAction<Objects.BackendSendFriendRequestEnterLobbyJSON | undefined>>;
 }
 
 // Create the context
@@ -93,28 +95,27 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const [messagesChat, setMessagesChat] = useState<Objects.BackendGetMessagesJSON | undefined>(undefined);
 
 
+    // -------------------------------------------------------------------------
+    // FRIENDS
+    // -------------------------------------------------------------------------
+    const [friendJoinRequest, setFriendJoinRequest] = useState<Objects.BackendSendFriendRequestEnterLobbyJSON | undefined>(undefined);
+
 
     // -------------------------------------------------------------------------
     // HANDLERS (Using useCallback for stability)
     // -------------------------------------------------------------------------
+
+    const handleFriendJoinRequest = useCallback((data: Objects.BackendSendFriendRequestEnterLobbyJSON) => {
+        setFriendJoinRequest(data);
+    }, []);
+
+    
     const handleGameState = useCallback((data: Objects.BackendStateUpdateJSON) => {
         setGameState(data);
     }, []);
 
     const handleWinnerWrapper = useCallback((data: Objects.BackendWinnerJSON) => {
-        console.log("Winner is set");
         setWinner(data);
-        if (data.coinsEarned > 0) {
-            console.log("I am the winner");
-            const msg: Objects.FrontendWinnerResponseJSON = {
-                error: false,
-                errorMsg: "",
-                winnerUsername: data.winnerUsername,
-                coinsEarned: data.coinsEarned,
-                lobbyId: data.lobbyId,
-            };
-            socket.emit("winner", msg);
-        }
     }, [socket]);
 
     const handleSelectPlayer = useCallback((data: Objects.BackendGameSelectPlayerJSON) => {
@@ -143,7 +144,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     const handleNotifyAction = useCallback((data: Objects.BackendNotifyActionJSON) => {
         setActions(data);
-        console.log("Notify action received:", data);
     }, []);
 
     const handlePlayerDisconnected = useCallback((data: Objects.BackendPlayerStatusJSON) => {
@@ -181,6 +181,9 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         // Winner
         socket.on("winner", handleWinnerWrapper);
 
+        // Friends
+        socket.on("receive-friend-lobby-request", handleFriendJoinRequest);
+
         return () => {
             // Lobby
             socket.off("lobby-state", handleLobbyStateUpdate);
@@ -206,6 +209,9 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
             // Winner
             socket.off("winner", handleWinnerWrapper);
+
+            // Friends
+            socket.off("receive-friend-lobby-request", handleFriendJoinRequest);
         };
     }, [
         socket,
@@ -219,7 +225,8 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         handleWinnerWrapper,
         handleNotifyAction,
         handlePlayerDisconnected,
-        handleGetMessages
+        handleGetMessages,
+        handleFriendJoinRequest,
     ]);
 
     return (
@@ -252,7 +259,9 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setActions,
             disconnect,
             messagesChat,
-            setMessagesChat
+            setMessagesChat,
+            friendJoinRequest,
+            setFriendJoinRequest,
         }}>
             {children}
         </SocketContext.Provider>
