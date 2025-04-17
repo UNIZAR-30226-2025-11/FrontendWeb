@@ -1,4 +1,6 @@
 export function formatRelativeTime(date: Date): string {
+    if (!date) return "";
+    
     const now = new Date();
     const diffInSeconds = Math.round((date.getTime() - now.getTime()) / 1000);
   

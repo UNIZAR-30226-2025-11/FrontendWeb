@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { routes } from "../../utils/constants"
 import { useNavigate } from "react-router-dom";
 
 import "./WinLose.css"
 import { useSocket } from "../../context/SocketContext";
+import { useUser } from "../../context/UserContext";
+import { fetchUser } from "../../services/apiService";
 
 const WinLose = (
     {
@@ -14,6 +16,7 @@ const WinLose = (
 ) => {
     const navegate = useNavigate();
     const socket = useSocket();
+    const userContext = useUser();
 
     const handleClick = () => {
         socket.setWinner(undefined);
@@ -25,6 +28,11 @@ const WinLose = (
         socket.setMessagesChat(undefined);
         navegate(routes.gamemenu);
     }
+
+    useEffect(() => {
+        fetchUser(  userContext.setUser,
+                    userContext.setIsLoading);
+    }, [])
 
     return (
         <div className="win-lose-container">

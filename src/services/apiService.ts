@@ -1,6 +1,7 @@
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { SERVER } from "../utils/config";
 import { routes, routesRequest } from "../utils/constants";
+import { UserContextType, useUser } from "../context/UserContext";
 
 /**
  * Sends a message to the server for Log In.
@@ -196,4 +197,28 @@ export const handleConfirmChange = async (
 		alert("Something went wrong with JWT")
 	else
 	  	alert("Something went wrong...")
+};
+
+export const fetchUser = async (
+	setUser: (u: any) => void,
+	setIsLoading: (b: boolean) => void
+) => {
+
+	try {
+	const response = await fetch(SERVER + routesRequest.user, {
+		method: 'GET',
+		credentials: 'include', // Send cookies with the request
+	});
+
+	if (response.ok) {
+		const data = await response.json();
+		setUser(data);
+	} else {
+		setUser(undefined);
+	}
+	} catch (error) {
+		console.error("Failed to fetch user:");
+	} finally {
+		setIsLoading(false);
+	}
 };

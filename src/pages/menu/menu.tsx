@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/constants';
 
@@ -6,20 +6,17 @@ import './menu.css';
 import { UserContextType, useUser } from '../../context/UserContext';
 import CatMascot from './mascot';
 import GlassCard from '../../common/GlassCard/GlassCard';
+import { fetchUser } from '../../services/apiService';
 
 const GameMenu = () => {
   const navigate = useNavigate();
-  const [visible, setVisible] = useState(false);
 
   const userContext: UserContextType = useUser();
 
   useEffect(() => {
-    // Add visible class after component mounts for animation
-    const timer = setTimeout(() => {
-      setVisible(true);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
+      fetchUser(userContext.setUser,
+                userContext.setIsLoading);
+  },[])
 
   return (
       <GlassCard title="Welcome Back!" minwidth={500}>
