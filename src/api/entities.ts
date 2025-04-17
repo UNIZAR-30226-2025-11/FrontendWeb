@@ -18,7 +18,6 @@ type StatisticsJSON = {
 type UserPersonalizeDataJSON = {
   avatar: string;
   background: string;
-  cardstyle: string;
 }
 
 type RecordJSON = {

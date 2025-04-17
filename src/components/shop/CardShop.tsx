@@ -9,7 +9,6 @@ import { UserContextType, useUser } from "../../context/UserContext";
 const CATEGORIES: Record<string, {name: string, icon: string}> = {
   "avatar": {name: "Avatar", icon: "👤"},
   "background": {name: "Background", icon: "🖼️"},
-  "cardstyle": {name: "Card Style", icon: "🃏"},
 }
 
 
@@ -78,6 +77,7 @@ const Shop: React.FC = () => {
   const  userContext: UserContextType = useUser();
   const coins = userContext.user?.coins || 0;
   const background: string = userContext.user?.userPersonalizeData.background || 'default'; // Default background if not set
+
 
   const loadShopItems = async () => {
     try {
