@@ -201,6 +201,18 @@
     margin-left: 10px;
 }
 
+.host-badge-button {
+    border: none;
+}
+
+.host-badge-button:hover {
+    background: linear-gradient(45deg, #b06b2f, #a84659);
+}
+
+.host-badge-button:active {
+    background: linear-gradient(45deg, #804e22, #6a2c39);
+}
+
 /* Empty state */
 .empty-state {
     display: flex;

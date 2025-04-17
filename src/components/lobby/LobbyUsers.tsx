@@ -10,6 +10,7 @@ const LobbyUsers = () => {
     const [animateList, setAnimateList] = useState(false);
     const [disbandAnimated, setDisbandAnimated] = useState(false);
     const [countdown, setCountdown] = useState(5);
+    const [invitedFriends, setInvitedFriends] = useState<string[]>([]);
 
     const lobbyId = socket.lobbyCreate?.lobbyId || socket.lobbyEnter?.lobbyId || "";
     const isHost = !!socket.lobbyCreate;
@@ -61,6 +62,13 @@ const LobbyUsers = () => {
         }
     };
 
+    const handleInviteFriend = (username:string) => {
+        if (invitedFriends.indexOf(username) == -1)
+            setInvitedFriends(invitedFriends => [...invitedFriends, username])
+
+        // TODO: Conection with the backend
+    }
+
     // Calculate status message based on player count and disband status
     const getStatusMessage = () => {
         if (disband) {
@@ -109,6 +117,9 @@ const LobbyUsers = () => {
         );
     }
 
+    const friends = players.filter((player) => {return !player.isYou})
+    const you = players.filter((player) => {return player.isYou})
+
     return (
         <div className="lobby-users-wrapper">
             <GlassCard
@@ -135,23 +146,30 @@ const LobbyUsers = () => {
                     </div>
                 </div>
 
+                {/* Players in the lobby */}
                 <div className="players-section">
                     <h3 className="section-label">Players</h3>
                     <div className={`player-list ${animateList ? "animate" : ""}`}>
                         {players.length > 0 ? (
                             players.map((player, index) => (
+                                // The hole player
                                 <div 
                                     key={player.name} 
                                     className={`player-item ${player.isYou ? 'player-self' : ''}`}
                                 >
+                                    {/* Avatar */}
                                     <div className={`player-avatar ${player.isYou ? 'self-avatar' : ''}`}>
                                         {player.name.charAt(0).toUpperCase()}
                                         {player.isYou && <div className="self-indicator"></div>}
                                     </div>
+
+                                    {/* Name */}
                                     <span className="player-name">
                                         {player.name}
                                         {player.isYou && <span className="self-label">(You)</span>}
                                     </span>
+
+                                    {/* Leader */}
                                     {player.isLeader && <span className="host-badge">Host</span>}
                                 </div>
                             ))
@@ -163,6 +181,52 @@ const LobbyUsers = () => {
                         )}
                     </div>
                 </div>
+
+                {/* Friends that the user can invite */}
+                {you[0].isLeader && (
+                    <div className='players-section'>
+                        <h3 className='section-label'>Invite your friends</h3>
+                        <div className={`player-list ${animateList ? "animate" : ""}`}>
+                        {friends.length > 0 ? (
+                                friends.map((player, index) => (
+                                    // The hole friend
+                                    <div 
+                                        key={player.name} 
+                                        className={`player-item ${player.isYou ? 'player-self' : ''}`}
+                                    >
+                                        {/* Avatar */}
+                                        <div className={`player-avatar ${player.isYou ? 'self-avatar' : ''}`}>
+                                            {player.name.charAt(0).toUpperCase()}
+                                            {player.isYou && <div className="self-indicator"></div>}
+                                        </div>
+
+                                        {/* Name */}
+                                        <span className="player-name">
+                                            {player.name}
+                                            {player.isYou && <span className="self-label">(You)</span>}
+                                        </span>
+
+                                        {/* Invite button */}
+                                        { invitedFriends.indexOf(player.name) == -1
+                                        ?
+                                        <button
+                                            className='host-badge host-badge-button'
+                                            onClick={() => handleInviteFriend(player.name)}>
+                                            Invite
+                                        </button>
+                                        :
+                                        <span className="host-badge">Already invited!</span>}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="empty-state">
+                                    <div className="empty-icon"></div>
+                                    <p>You don&apos;t have any friends yet...</p>
+                                </div>
+                            )}
+                    </div>
+                </div>
+                )}
 
                 <div className="status-message">
                     <p>{getStatusMessage()}</p>
