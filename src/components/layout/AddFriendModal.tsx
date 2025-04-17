@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./AddFriendModal.css";
 import { sendFriendRequest } from "../../services/apiFriends";
+import GlassCard from "../../common/GlassCard/GlassCard";
 
 interface AddFriendModalProps {
   allUsers: string[];
@@ -11,8 +12,13 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
   allUsers,
   onClose,
 }) => {
+
+  // Info searched by the user
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Users added to your friends now
   const [addedFriends, setAddedFriends] = useState<string[]>([]);
+
   const modalRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -52,6 +58,72 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
+
+  return (
+    <GlassCard
+          title="Friends"
+          maxwidth="700px"
+          minwidth="320px"
+          showPaws={true}
+    >
+      {/* Users in the app */}
+      <div className="players-section">
+          {/* Semi-title */}
+          <h3 className="section-label">
+            Registered users in the app
+          </h3>
+
+          {/* Search input */}
+          <input
+            type="text"
+            placeholder="Search by username..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-bar" />
+
+          {/* Box with users */}
+          <div className={`player-list`}>
+              {allUsers.length > 0 ? (
+                  allUsers.map((username, index) => (
+                      // The hole friend
+                      <div 
+                          key={username} 
+                          className={`player-item`}
+                      >
+                          {/* Avatar */}
+                          <div className={`player-avatar`}>
+                              {username.charAt(0).toUpperCase()}
+                          </div>
+
+                          {/* Name */}
+                          <span className="player-name">
+                              {username}
+                          </span>
+                      </div>
+                  ))
+              ) : (
+                  <div className="empty-state">
+                      <div className="empty-icon"></div>
+                      <p>Loading users...</p>
+                  </div>
+              )}
+          </div>
+        </div>
+
+      {/* Buttons */}
+      <div className="button-group">
+        {/* Button for adding new friends */}
+        <button
+            className={"GC-button GC-red-btn"}
+            onClick={onClose}
+        >
+          <span className="GC-button-text">
+            Back to your friends
+          </span>
+        </button>
+      </div>
+    </GlassCard> 
+  )
 
   return (
     <div className="modal-overlay">

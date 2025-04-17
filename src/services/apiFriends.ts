@@ -13,14 +13,17 @@ export const fetchFriends = async (): Promise<string[]> => {
   });
 
   const data = await res.json();
-  return data.users.map((user: any) => user.username);
+  if (data)
+      return data.users.map((user: any) => user.username);
+  else
+      return []
 };
 
 /**
  * Removes a friend from the user's friend list.
  * @param username The friend's username
  */
-export const removeFriend = async (username: string): Promise<void> => {
+export const removeFriend = async (username: string) => {
     await fetch(SERVER + routesRequest.friends, {
       method: "DELETE",
       credentials: "include",
@@ -35,7 +38,7 @@ export const removeFriend = async (username: string): Promise<void> => {
    * Sends a friend request to the specified user.
    * @param username The username to send a request to
    */
-  export const sendFriendRequest = async (username: string): Promise<void> => {
+  export const sendFriendRequest = async (username: string) => {
       const response = await fetch(SERVER + routesRequest.friends, {
         method: "POST",
         credentials: "include",
@@ -54,7 +57,7 @@ export const removeFriend = async (username: string): Promise<void> => {
  * Fetches pending friend requests received by the current user.
  * @returns Array of usernames (strings)
  */
-export const fetchFriendRequests = async (): Promise<string[]> => {
+export const fetchFriendRequests = async () => {
   const res = await fetch(SERVER + routesRequest.friendRequest, {
     method: "GET",
     credentials: "include",
@@ -70,7 +73,7 @@ export const fetchFriendRequests = async (): Promise<string[]> => {
  * @param username The username of the requester
  * @param accept Whether the request is accepted (true) or rejected (false)
  */
-export const respondToFriendRequest = async (username: string, accept: boolean): Promise<void> => {
+export const respondToFriendRequest = async (username: string, accept: boolean) => {
   await fetch(SERVER + routesRequest.friendRequest, {
     method: "POST",
     credentials: "include",
@@ -85,7 +88,7 @@ export const respondToFriendRequest = async (username: string, accept: boolean):
  * Fetches the full list of registered users on the platform.
  * @returns Array of usernames (strings)
  */
-export const fetchAllUsers = async (): Promise<string[]> => {
+export const fetchAllUsers = async () => {
     const res = await fetch(SERVER + routesRequest.allusers, {
       method: "GET",
       credentials: "include",
@@ -93,5 +96,9 @@ export const fetchAllUsers = async (): Promise<string[]> => {
     });
   
     const data = await res.json();
-    return data.users.map((user: any) => user.username);
+
+    if (data)
+      return data.map((user: any) => user.username);
+    else
+      return []
   };

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
 import { handleLogout } from "../../services/apiService";
-import FriendsList from "./FriendsList";
 import { UserContextType, useUser } from '../../context/UserContext';
 
 /**
@@ -53,7 +52,7 @@ const UserBar = ({}: {}) => {
   }, []);
   
   return (
-    <>
+    <div>
       <div className="user-bar">
         {/* Coins */}
         <div className="coins-container">
@@ -104,7 +103,7 @@ const UserBar = ({}: {}) => {
             </button>
           </li>
           <li>
-            <button className="menu-btn friends-btn" onClick={openFriendsList}>
+            <button className="menu-btn friends-btn" onClick={() => navigate(routes.FRINEDS)}>
               <span className="btn-icon">👥</span>
               <span className="btn-text">Friends</span>
             </button>
@@ -118,11 +117,7 @@ const UserBar = ({}: {}) => {
           </li>
         </ul>
       </div>
-
-      {isFriendsListOpen && (
-        <FriendsList onClose={closeFriendsList} />
-      )}
-    </>
+    </div>
   );
 };
 

@@ -8,7 +8,8 @@ export const routes = {
     winlose: "/winlose",
     gamemenu: "/menu",
     chgpassw: "/changepassword",
-    statistics: "/statistics"
+    statistics: "/statistics",
+    FRINEDS: "/friends"
 }
 
 export const routesRequest = {
@@ -19,6 +20,6 @@ export const routesRequest = {
     user: "/user",
     friends: "/friends",
     friendRequest: "/friends/request",
-    allusers: "/userss",
+    allusers: "/users",
     shop: "/shop",
 }

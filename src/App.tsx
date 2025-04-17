@@ -11,6 +11,7 @@ import { SocketProvider } from './context/SocketContext';
 import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
 import Container from './components/logging/Container';
 import { AnimatedBackground } from './common/AnimatedBackground/AnimatedBackground';
+import { FriendsList } from './components/layout/FriendsList';
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
@@ -53,6 +54,9 @@ function App() {
 
           {/* Route for the game menu */}
           <Route path={routes.gamemenu} element={<GameMenu />} />
+
+          {/* Route for the friends */}
+          <Route path={routes.FRINEDS} element={<FriendsList />} />
 
           {/* Route for the change password page */}
           <Route path={routes.chgpassw} element={<ChangePasswordPage />} />
