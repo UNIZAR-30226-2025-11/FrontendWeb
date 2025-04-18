@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
 import { handleLogoutAPI } from "../../services/apiService";
-import FriendsList from "./FriendsList";
 import { UserContextType, useUser } from '../../context/UserContext';
 import { useNotification } from '../../context/NotificationContext';
 import { IMAGES_EXTENSION, IMAGES_PATH } from '../../services/apiShop';
+import { FriendsList } from './FriendsList';
 
 /**
  * Defines the HTML for creating a user bar with the
@@ -148,7 +148,7 @@ const UserBar = ({}: {}) => {
       </div>
 
       {isFriendsListOpen && (
-        <FriendsList onClose={closeFriendsList} />
+        <FriendsList/>
       )}
     </>
   );
