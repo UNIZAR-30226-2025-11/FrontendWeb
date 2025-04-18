@@ -1,26 +1,32 @@
 import { SERVER } from "../utils/config";
 import { routesRequest } from "../utils/constants";
 
+
+export const IMAGES_PATH: string = "../../../assets/shop";
+export const IMAGES_EXTENSION: string = ".png";
+
 export type Product = {
-  name: string;
+  productName: string;
+  productUrl: string;
+  categoryName: string;
+  categoryUrl: string;
   price: number;
   isBought: boolean;
-  category: string;
 };
 
 type Category = {
   name: string;
+  url: string;
   products: {
     name: string;
+    url: string;
     price: number;
     isBought: boolean;
   }[];
 };
 
 type ShopApiResponse = {
-  categories: {
-    categories: Category[];
-  };
+  categories: Category[];
 };
 
 /**
@@ -38,16 +44,19 @@ export const fetchShopItems = async (): Promise<Product[]> => {
   if (!res.ok) {
     throw new Error("Error retrieving shop items");
   }
-
   const data: ShopApiResponse = await res.json();
-
-  const categories = data.categories?.categories || [];
-  return categories.flatMap(cat =>
+  const categories: Category[] = data.categories! || [];
+  const products: Product[] =  categories.flatMap(cat =>
     cat.products.map(product => ({
-      ...product,
-      category: cat.name
+      productName: product.name,
+      productUrl: product.url,
+      categoryName: cat.name,
+      categoryUrl: cat.url,
+      price: product.price,
+      isBought: product.isBought
     }))
   );
+  return products
 };
 
 /**
@@ -62,8 +71,8 @@ export const buyItem = async (item: Product): Promise<void> => {
     },
     body: JSON.stringify({
       resp: {
-        categoryName: item.category,
-        productName: item.name
+        categoryName: item.categoryUrl,
+        productName: item.productUrl,
       }
     })
   });

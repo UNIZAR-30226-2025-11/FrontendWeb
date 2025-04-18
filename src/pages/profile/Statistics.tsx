@@ -14,6 +14,7 @@ const UserStatistics: React.FC = () => {
   const gamesLost = gamesPlayed - gamesWon;
   const winPercentage = gamesPlayed > 0 ? Math.round((gamesWon / gamesPlayed) * 100) : 0;
   const totalTimePlayedSeconds = userContext.user?.statistics.totalTimePlayed || 0;
+  const background: string = userContext.user?.userPersonalizeData.background || 'default'; // Default background if not set
 
   const totalTimePlayed:string = new Date(totalTimePlayedSeconds * 1000).toISOString().substr(11, 8); // Convert seconds to HH:MM:SS
   
@@ -49,7 +50,7 @@ const UserStatistics: React.FC = () => {
   }, []);
 
   return (
-    <GlassCard title='Game Statistics' minwidth={500} maxwidth={800} showPaws={false} animationDelay={100}>
+    <GlassCard title='Game Statistics' minwidth={500} maxwidth={800} showPaws={false} animationDelay={100} background={background}>
  
     <div className="stats-grid">
       <div className="stats-card">

@@ -247,12 +247,6 @@
     text-align: left;
 }
 
-/* Button styling for disabled state */
-.GC-button.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
 /* Animations */
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(255, 154, 68, 0.4); }
@@ -518,5 +512,311 @@
     
     .disband-message {
         font-size: 14px;
+    }
+}
+
+/* ...existing code... */
+
+/* Friends section styling */
+.friends-section {
+    margin: 20px 0;
+    position: relative;
+}
+
+.friends-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.refresh-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.refresh-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.refresh-button.rotating svg {
+    animation: rotate 1.5s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.lu-friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.lu-friend-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.lu-friend-item:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.lu-friend-item:hover {
+    transform: translateX(5px);
+    background: rgba(65, 137, 230, 0.15);
+}
+
+.friend-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 15px;
+    background: linear-gradient(45deg, #4189e6, #5e9cf5);
+    color: white;
+    box-shadow: 0 2px 8px rgba(65, 137, 230, 0.4);
+    position: relative;
+    overflow: visible; /* Changed from hidden to make the indicator fully visible */
+}
+
+.friend-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.status-indicator {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    bottom: -2px;
+    right: -2px;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    z-index: 5;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    transform: translate(-20%, -20%);
+}
+
+.status-indicator.online {
+    background-color: #4cd964;
+    box-shadow: 0 0 5px rgba(76, 217, 100, 0.6), 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.status-indicator.busy {
+    background-color: #ffcc00;
+    box-shadow: 0 0 5px rgba(255, 204, 0, 0.6), 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.status-indicator.offline {
+    background-color: #8e8e93;
+    box-shadow: 0 0 5px rgba(142, 142, 147, 0.4), 0 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.friend-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.friend-name {
+    font-size: 16px;
+    color: white;
+}
+
+.friend-status {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 2px;
+}
+
+/* Offline friend styling */
+.friend-item.offline {
+    opacity: 0.7;
+    background: rgba(142, 142, 147, 0.1);
+}
+
+.friend-item.offline .friend-avatar {
+    background: linear-gradient(45deg, #8e8e93, #aeaeb2);
+    box-shadow: 0 2px 8px rgba(142, 142, 147, 0.2);
+}
+
+.friend-item.offline:hover {
+    background: rgba(142, 142, 147, 0.15);
+}
+
+/* In-game friend styling */
+.friend-item.in-game {
+    border-left: 3px solid #ffcc00;
+}
+
+.friend-item.in-game .friend-avatar {
+    background: linear-gradient(45deg, #ffcc00, #ffd60a);
+    box-shadow: 0 2px 8px rgba(255, 204, 0, 0.4);
+}
+
+/* Already in lobby friend styling */
+.lu-friend-item.already-in-lobby {
+    border-left: 3px solid #4cd964;
+    background: rgba(76, 217, 100, 0.08);
+}
+
+.lu-friend-item.already-in-lobby:hover {
+    background: rgba(76, 217, 100, 0.15);
+}
+
+.lu-friend-item.already-in-lobby .friend-avatar {
+    background: linear-gradient(45deg, #4cd964, #76e190);
+    box-shadow: 0 2px 8px rgba(76, 217, 100, 0.4);
+}
+
+.lu-friend-item.already-in-lobby .invite-button {
+    background: rgba(76, 217, 100, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: not-allowed;
+}
+
+.lu-friend-item.already-in-lobby .invite-button:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.already-in-lobby-badge {
+    background: rgba(76, 217, 100, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.already-in-lobby-badge svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Responsive adjustments for already-in-lobby state */
+@media (max-width: 480px) {
+    .already-in-lobby-badge {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+}
+
+/* Invite button */
+.invite-button {
+    background: linear-gradient(45deg, #4189e6, #5e9cf5);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.invite-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(65, 137, 230, 0.4);
+}
+
+.invite-text {
+    margin-right: 2px;
+}
+
+/* Invite success animation */
+.invite-success {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(76, 217, 100, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 5;
+}
+
+.friend-item.invite-sent .invite-success {
+    transform: translateX(0);
+    animation: slideOut 2s forwards;
+}
+
+@keyframes slideOut {
+    0% { transform: translateX(100%); }
+    10% { transform: translateX(0); }
+    80% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
+
+/* Empty state for friends */
+.empty-icon.friends-empty {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+}
+
+/* Responsive styling for friends section */
+@media (max-width: 480px) {
+    .friend-avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    .friend-name {
+        font-size: 14px;
+    }
+    
+    .friend-status {
+        font-size: 10px;
+    }
+    
+    .invite-button {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+    
+    .status-indicator {
+        width: 10px;
+        height: 10px;
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { handleSignUp } from "../../services/apiService";
+import { handleSignUpAPI } from "../../services/apiService";
+import { useNotification } from "../../context/NotificationContext";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -11,6 +12,33 @@ export const SignUp = () => {
   });
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [formTouched, setFormTouched] = useState(false);
+
+  const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChangePassword = async (
+    username: string,
+    password: string,
+    password2: string) => {
+
+    setIsLoading(true);
+    const result = await handleSignUpAPI(username, password, password2);
+    setIsLoading(false);
+
+    // Use the showToast function from the context
+    showToast({
+      message: result.message,
+      type: result.type,
+      duration: result.displayTime || 3000, // Default duration if not provided
+    });
+
+    if (result.redirectPath) {
+      // Navigate after a short delay to allow user to see the success message
+      setTimeout(() => {
+        navigate(result.redirectPath!);
+      }, result.displayTime || 3000);
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -36,11 +64,10 @@ export const SignUp = () => {
       onSubmit={(e) => {
         e.preventDefault();
         if (passwordsMatch && formData.password) {
-          handleSignUp(
+          handleChangePassword(
             formData.username,
             formData.password,
-            formData.password2,
-            navigate
+            formData.password2
           );
         }
       }}

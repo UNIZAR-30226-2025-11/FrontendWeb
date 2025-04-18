@@ -13,6 +13,44 @@
   border-bottom: 2px solid rgba(255, 121, 63, 0.3);
   z-index: 100;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Default theme (orange) - Already exists */
+.user-bar-default {
+  border-bottom: 2px solid rgba(255, 121, 63, 0.3);
+}
+
+/* Blue theme */
+.user-bar-blue {
+  background-color: rgba(30, 34, 50, 0.85);
+  border-bottom: 2px solid rgba(63, 140, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 100, 0.3);
+}
+
+/* Green theme */
+.user-bar-green {
+  background-color: rgba(24, 40, 30, 0.85);
+  border-bottom: 2px solid rgba(63, 255, 121, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 100, 50, 0.3);
+}
+
+/* Rainbow theme */
+.user-bar-rainbow {
+  background-color: rgba(30, 30, 45, 0.85);
+  border-bottom: 2px solid transparent;
+  box-shadow: 0 4px 20px rgba(100, 0, 100, 0.3);
+  animation: rainbow-shadow 4s linear infinite;
+}
+
+@keyframes rainbow-shadow {
+  0% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); }
+  17% { box-shadow: 0 4px 20px rgba(255, 165, 0, 0.4); }
+  33% { box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); }
+  50% { box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); }
+  67% { box-shadow: 0 4px 20px rgba(0, 0, 255, 0.4); }
+  83% { box-shadow: 0 4px 20px rgba(128, 0, 128, 0.4); }
+  100% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); }
 }
 
 /* Coins container */
@@ -32,9 +70,69 @@
   transition: all 0.3s ease;
 }
 
+/* Theme-specific Coin Info styling */
+.coins-info-default {
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.2), rgba(255, 106, 136, 0.2));
+  border: 1px solid rgba(255, 154, 68, 0.3);
+}
+
+.coins-info-blue {
+  background: linear-gradient(45deg, rgba(68, 154, 255, 0.2), rgba(106, 136, 255, 0.2));
+  border: 1px solid rgba(68, 154, 255, 0.3);
+}
+
+.coins-info-green {
+  background: linear-gradient(45deg, rgba(68, 255, 154, 0.2), rgba(106, 255, 136, 0.2));
+  border: 1px solid rgba(68, 255, 154, 0.3);
+}
+
+.coins-info-rainbow {
+  background: linear-gradient(45deg, 
+    rgba(255, 0, 0, 0.1), 
+    rgba(255, 165, 0, 0.1), 
+    rgba(255, 255, 0, 0.1), 
+    rgba(0, 255, 0, 0.1), 
+    rgba(0, 0, 255, 0.1));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: rainbow-border 3s linear infinite;
+}
+
 .coins-info:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.coins-info-blue:hover {
+  box-shadow: 0 4px 15px rgba(107, 107, 255, 0.3);
+}
+
+.coins-info-green:hover {
+  box-shadow: 0 4px 15px rgba(107, 255, 107, 0.3);
+}
+
+.coins-info-rainbow:hover {
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+  animation: rainbow-glow 3s linear infinite;
+}
+
+@keyframes rainbow-border {
+  0% { border-color: rgba(255, 0, 0, 0.5); }
+  17% { border-color: rgba(255, 165, 0, 0.5); }
+  33% { border-color: rgba(255, 255, 0, 0.5); }
+  50% { border-color: rgba(0, 255, 0, 0.5); }
+  67% { border-color: rgba(0, 0, 255, 0.5); }
+  83% { border-color: rgba(128, 0, 128, 0.5); }
+  100% { border-color: rgba(255, 0, 0, 0.5); }
+}
+
+@keyframes rainbow-glow {
+  0% { box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5); }
+  17% { box-shadow: 0 4px 15px rgba(255, 165, 0, 0.5); }
+  33% { box-shadow: 0 4px 15px rgba(255, 255, 0, 0.5); }
+  50% { box-shadow: 0 4px 15px rgba(0, 255, 0, 0.5); }
+  67% { box-shadow: 0 4px 15px rgba(0, 0, 255, 0.5); }
+  83% { box-shadow: 0 4px 15px rgba(128, 0, 128, 0.5); }
+  100% { box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5); }
 }
 
 .coins {
@@ -51,7 +149,6 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  background: linear-gradient(45deg, #ff9a44, #ff6a88);
   border-radius: 50%;
   padding: 3px;
 }
@@ -67,8 +164,20 @@
   box-shadow: 0 0 10px rgba(255, 154, 68, 0.5);
 }
 
+.coins-info-blue:hover .coins-icon-wrapper {
+  box-shadow: 0 0 10px rgba(68, 154, 255, 0.5);
+}
+
+.coins-info-green:hover .coins-icon-wrapper {
+  box-shadow: 0 0 10px rgba(68, 255, 154, 0.5);
+}
+
+.coins-info-rainbow:hover .coins-icon-wrapper {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
 .coins-info:hover .coins-icon {
-  transform: scale(1.4); /* Make the icon 40% larger on hover */
+  transform: scale(1.4);
 }
 
 /* User info */
@@ -76,58 +185,136 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  background: linear-gradient(45deg, rgba(54, 209, 220, 0.2), rgba(91, 134, 229, 0.2));
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.2), rgba(255, 106, 136, 0.2));
   padding: 6px 15px;
   border-radius: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(91, 134, 229, 0.3);
+  border: 1px solid rgba(255, 154, 68, 0.3);
   transition: all 0.3s ease;
+}
+
+.user-info-default {
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.2), rgba(255, 106, 136, 0.2));
+  border: 1px solid rgba(255, 154, 68, 0.3);
+}
+
+.user-info-blue {
+  background: linear-gradient(45deg, rgba(0, 156, 255, 0.2), rgba(0, 89, 178, 0.2));
+  border: 1px solid rgba(0, 89, 178, 0.3);
+}
+
+.user-info-green {
+  background: linear-gradient(45deg, rgba(54, 220, 110, 0.2), rgba(91, 229, 134, 0.2));
+  border: 1px solid rgba(91, 229, 134, 0.3);
+}
+
+.user-info-rainbow {
+  background: linear-gradient(45deg, 
+    rgba(255, 0, 0, 0.1), 
+    rgba(255, 165, 0, 0.1), 
+    rgba(255, 255, 0, 0.1), 
+    rgba(0, 255, 0, 0.1), 
+    rgba(0, 0, 255, 0.1));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: rainbow-border 4s linear infinite;
 }
 
 .user-info:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(91, 134, 229, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 }
 
+.user-info-blue:hover {
+  box-shadow: 0 4px 15px rgba(0, 89, 178, 0.3);
+}
+
+.user-info-green:hover {
+  box-shadow: 0 4px 15px rgba(91, 229, 134, 0.3);
+}
+
+.user-info-rainbow:hover {
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+  animation: rainbow-glow 3s linear infinite;
+}
+
+/* Update the user avatar styling */
 .user-avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  background: linear-gradient(45deg, #36d1dc, #5b86e5);
-  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   margin-right: 10px;
-  padding: 2px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
 }
 
 .user-icon {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1);
-}
-
-.username {
-  color: #fff;
-  font-family: 'Segoe UI', 'Roboto', sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  margin-right: 8px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.dropdown-arrow {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid rgba(255, 255, 255, 0.7);
-  margin-top: 3px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: transform 0.3s ease;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background-color: rgba(54, 209, 220, 0.1);
+  padding: 2px;
+  box-sizing: border-box;
 }
 
-.user-info:hover .dropdown-arrow {
-  transform: translateY(2px);
+.user-info-rainbow:hover .user-icon {
+  animation: rainbow-rotate 6s linear infinite;
+}
+
+@keyframes rainbow-rotate {
+  0% { border-color: rgba(255, 0, 0, 0.6); transform: rotate(0deg); }
+  16% { border-color: rgba(255, 165, 0, 0.6); }
+  33% { border-color: rgba(255, 255, 0, 0.6); }
+  50% { border-color: rgba(0, 255, 0, 0.6); transform: rotate(180deg); }
+  67% { border-color: rgba(0, 0, 255, 0.6); }
+  84% { border-color: rgba(128, 0, 128, 0.6); }
+  100% { border-color: rgba(255, 0, 0, 0.6); transform: rotate(360deg); }
+}
+
+/* Add a subtle border glow effect on hover */
+.user-info:hover .user-icon {
+  border-color: rgba(255, 154, 68, 0.5);
+}
+
+.user-info-blue:hover .user-icon {
+  border-color: rgba(0, 89, 178, 0.6);
+}
+
+.user-info-green:hover .user-icon {
+  border-color: rgba(91, 229, 134, 0.6);
+}
+
+.user-info-rainbow:hover .user-icon {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Update menu avatar to be consistent but slightly larger */
+.menu-avatar {
+  width: 48px;
+  height: 48px;
+  margin-right: 15px;
+}
+
+.menu-avatar .user-icon {
+  border-width: 3px;
+  background-color: rgba(255, 154, 68, 0.1);
+}
+
+.menu-avatar-blue .user-icon {
+  background-color: rgba(68, 154, 255, 0.1);
+}
+
+.menu-avatar-green .user-icon {
+  background-color: rgba(68, 255, 154, 0.1);
+}
+
+.menu-avatar-rainbow .user-icon {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Side Menu */
@@ -149,6 +336,25 @@
   overflow-y: auto;
 }
 
+.side-menu-default {
+  border: 2px solid rgba(255, 121, 63, 0.3);
+}
+
+.side-menu-blue {
+  background-color: rgba(20, 30, 50, 0.95);
+  border: 2px solid rgba(63, 140, 255, 0.3);
+}
+
+.side-menu-green {
+  background-color: rgba(20, 50, 30, 0.95);
+  border: 2px solid rgba(63, 255, 121, 0.3);
+}
+
+.side-menu-rainbow {
+  border: 2px  transparent;
+  animation: rainbow-glow 4s linear infinite;
+}
+
 .side-menu.open {
   right: 0;
 }
@@ -161,10 +367,33 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.menu-avatar {
-  width: 40px;
-  height: 40px;
-  margin-right: 15px;
+.menu-header-default {
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.2), rgba(255, 106, 136, 0.2));
+}
+
+.menu-header-blue {
+  background: linear-gradient(45deg, rgba(68, 154, 255, 0.2), rgba(106, 136, 255, 0.2));
+}
+
+.menu-header-green {
+  background: linear-gradient(45deg, rgba(68, 255, 154, 0.2), rgba(106, 255, 136, 0.2));
+}
+
+.menu-header-rainbow {
+  background: linear-gradient(45deg, 
+    rgba(255, 0, 0, 0.2), 
+    rgba(255, 165, 0, 0.2), 
+    rgba(255, 255, 0, 0.2), 
+    rgba(0, 255, 0, 0.2), 
+    rgba(0, 0, 255, 0.2), 
+    rgba(128, 0, 128, 0.2));
+  animation: rainbow-header 8s linear infinite;
+}
+
+@keyframes rainbow-header {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .menu-username {
@@ -178,19 +407,39 @@
   color: transparent;
 }
 
-.menu-items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.side-menu-blue .menu-username {
+  background: linear-gradient(45deg, #44a1ff, #6a88ff);
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
-.menu-items li {
-  padding: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+.side-menu-green .menu-username {
+  background: linear-gradient(45deg, #44ff9a, #6aff88);
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
-.menu-items li:last-child {
-  border-bottom: none;
+.side-menu-rainbow .menu-username {
+  background: linear-gradient(90deg, 
+    rgba(255, 102, 102, 0.8),  /* softer red */
+    rgba(255, 178, 102, 0.8),  /* softer orange */
+    rgba(255, 255, 153, 0.8),  /* softer yellow */
+    rgba(153, 255, 153, 0.8),  /* softer green */
+    rgba(153, 204, 255, 0.8),  /* softer cyan */
+    rgba(153, 153, 255, 0.8),  /* softer blue */
+    rgba(204, 153, 255, 0.8),  /* softer purple */
+    rgba(255, 153, 204, 0.8)   /* softer pink */
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-size: 200% auto;
+  animation: rainbow-text 6s linear infinite;
+}
+
+@keyframes rainbow-text {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .menu-divider {
@@ -199,71 +448,189 @@
   margin: 10px 0;
 }
 
+.side-menu-blue .menu-divider {
+  background: linear-gradient(to right, rgba(68, 154, 255, 0.2), rgba(106, 136, 255, 0.2), rgba(68, 154, 255, 0.2));
+}
+
+.side-menu-green .menu-divider {
+  background: linear-gradient(to right, rgba(68, 255, 154, 0.2), rgba(106, 255, 136, 0.2), rgba(68, 255, 154, 0.2));
+}
+
+.side-menu-rainbow .menu-divider {
+  background: linear-gradient(to right, 
+    rgba(255, 0, 0, 0.2), 
+    rgba(255, 165, 0, 0.2), 
+    rgba(255, 255, 0, 0.2), 
+    rgba(0, 255, 0, 0.2), 
+    rgba(0, 0, 255, 0.2), 
+    rgba(128, 0, 128, 0.2),
+    rgba(255, 0, 0, 0.2));
+  background-size: 300% auto;
+  animation: rainbow-shift 4s linear infinite;
+}
+
+@keyframes rainbow-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.side-menu-rainbow .menu-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(90deg, 
+    #ff0000, #ff9a00, #ffff00, #00ff00, #00ffff, #0000ff, #9a00ff);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.side-menu-rainbow .btn-icon {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.side-menu-rainbow .menu-btn:hover .btn-icon {
+  animation: bounce 0.6s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Menu Items Styling */
+.menu-items {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.menu-items li {
+  margin: 5px 0;
+}
+
 .menu-btn {
-  width: 100%;
-  text-align: left;
-  padding: 15px 20px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  color: #fff;
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  background: none;
+  text-align: left;
   font-size: 16px;
-  transition: all 0.2s ease;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .menu-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 154, 68, 0.15);
   transform: translateX(5px);
 }
+
+.side-menu-blue .menu-btn:hover {
+  background-color: rgba(68, 154, 255, 0.15);
+}
+
+.side-menu-green .menu-btn:hover {
+  background-color: rgba(68, 255, 154, 0.15);
+}
+
+/* We already have the rainbow hover effect above */
 
 .btn-icon {
   margin-right: 12px;
   font-size: 18px;
 }
 
-.logout-btn {
-  color: #ff6b6b;
+.btn-text {
+  font-weight: 500;
+}
+
+.home-btn:hover {
+  color: #ff9a44;
+}
+
+.stats-btn:hover {
+  color: #36d1dc;
+}
+
+.profile-btn:hover {
+  color: #5b86e5;
+}
+
+.friends-btn:hover {
+  color: #8a2be2;
 }
 
 .logout-btn:hover {
-  background-color: rgba(255, 107, 107, 0.1);
+  color: #ff6a88;
 }
 
-/* Animation for menu items */
-.menu-items li {
-  opacity: 0;
-  transform: translateX(20px);
-  transition: all 0.3s ease;
+.side-menu-blue .home-btn:hover {
+  color: #44a1ff;
 }
 
-.side-menu.open .menu-items li {
-  opacity: 1;
-  transform: translateX(0);
+.side-menu-blue .stats-btn:hover {
+  color: #6a88ff;
 }
 
-.side-menu.open .menu-items li:nth-child(1) { transition-delay: 0.1s; }
-.side-menu.open .menu-items li:nth-child(2) { transition-delay: 0.15s; }
-.side-menu.open .menu-items li:nth-child(3) { transition-delay: 0.2s; }
-.side-menu.open .menu-items li:nth-child(4) { transition-delay: 0.25s; }
-.side-menu.open .menu-items li:nth-child(5) { transition-delay: 0.3s; }
-.side-menu.open .menu-items li:nth-child(6) { transition-delay: 0.35s; }
+.side-menu-blue .profile-btn:hover {
+  color: #0089ff;
+}
 
-/* Responsive styles */
-@media (max-width: 480px) {
-  .user-bar {
-    padding: 8px 15px;
-  }
-  
-  .username {
-    max-width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .side-menu {
-    width: 250px;
-  }
+.side-menu-blue .friends-btn:hover {
+  color: #005db2;
+}
+
+.side-menu-blue .logout-btn:hover {
+  color: #0055ff;
+}
+
+.side-menu-green .home-btn:hover {
+  color: #44ff9a;
+}
+
+.side-menu-green .stats-btn:hover {
+  color: #6aff88;
+}
+
+.side-menu-green .profile-btn:hover {
+  color: #00cc44;
+}
+
+.side-menu-green .friends-btn:hover {
+  color: #00b233;
+}
+
+.side-menu-green .logout-btn:hover {
+  color: #00ff55;
+}
+
+/* For rainbow, we already have special effects defined above */
+
+/* Username in the top bar */
+.username {
+  color: white;
+  font-weight: 600;
+  margin: 0 10px;
+  font-size: 16px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Dropdown arrow in the user info section */
+.dropdown-arrow {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #ffffff;
+  margin-left: 5px;
+  transition: transform 0.3s ease;
+}
+
+.user-info:hover .dropdown-arrow {
+  transform: rotate(180deg);
 }

@@ -6,6 +6,7 @@ import { SocketContextType, useSocket } from "../../context/SocketContext";
 import Card from "./Card";
 import "./Select.css";
 import { CardJSON } from "../../api/JSON";
+import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
 
 const Selection = () => {
   // Recover the socket
@@ -157,7 +158,7 @@ const Selection = () => {
                 <div className="player-avatar-container">
                   <div className="player-avatar">
                     <img 
-                      src="./assets/user.png" 
+                      src={`${IMAGES_PATH}/avatar/${player.playerAvatar}${IMAGES_EXTENSION}`} 
                       alt={`${player.playerUsername}'s avatar`} 
                       className="player-avatar-image"
                     />

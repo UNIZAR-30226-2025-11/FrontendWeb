@@ -86,12 +86,22 @@ export const respondToFriendRequest = async (username: string, accept: boolean):
  * @returns Array of usernames (strings)
  */
 export const fetchAllUsers = async (): Promise<string[]> => {
-    const res = await fetch(SERVER + routesRequest.allusers, {
+    const res = await fetch(SERVER + routesRequest.users, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
-  
+    
+    if (!res.ok) {
+      throw new Error("Error retrieving all users");
+    }
+
+    
     const data = await res.json();
+
+    if(data === undefined) {
+      throw new Error("No users found");
+    }
+
     return data.users.map((user: any) => user.username);
   };

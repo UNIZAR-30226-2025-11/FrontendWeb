@@ -12,6 +12,7 @@ const GameMenu = () => {
   const navigate = useNavigate();
 
   const userContext: UserContextType = useUser();
+  const background: string = userContext.user?.userPersonalizeData.background || "default";
 
   useEffect(() => {
       fetchUser(userContext.setUser,
@@ -19,7 +20,7 @@ const GameMenu = () => {
   },[])
 
   return (
-      <GlassCard title="Welcome Back!" minwidth={500}>
+      <GlassCard title="Welcome Back!" minwidth={500} background={background}>
         
         <div className="menu-mascot">
           <CatMascot />

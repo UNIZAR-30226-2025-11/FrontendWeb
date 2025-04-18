@@ -1,19 +1,23 @@
-import { NavigateFunction, useNavigate } from "react-router-dom";
 import { SERVER } from "../utils/config";
 import { routes, routesRequest } from "../utils/constants";
 import { UserContextType, useUser } from "../context/UserContext";
+
+export interface ApiResponse {
+	type: "success" | "error" | "info" | "warning";
+	message: string;
+	displayTime?: number;
+	redirectPath?: string
+}
 
 /**
  * Sends a message to the server for Log In.
  * @param username The username of the account
  * @param password The password of the account
- * @param navigate A way to navigate across the pages
  */
-export const handleLogIn = async (
+export const handleLogInAPI = async (
 	username:string,
 	password:string,
-	navigate:NavigateFunction
-) =>
+): Promise<ApiResponse> =>
 {
    	try
    	{
@@ -36,18 +40,35 @@ export const handleLogIn = async (
 		// Check the answer
 		if (response.status === 200)
 		{
-			navigate(routes.gamemenu);
-			window.location.reload();
+			return {
+				type: "success",
+				message: "Login successful!",
+				redirectPath: routes.gamemenu,
+				displayTime: 1000
+			}
 		}
 		else if (response.status == 401)
-			alert("Username or password are incorrect!")
+			return {
+				type: "error",
+				message: "Username or password are incorrect!",
+				displayTime: 2000
+			}
 		else
-			alert("There is some problems with the server...")
+			return {
+				type: "error",
+				message: "There is some problems with the server...",
+				displayTime: 2000
+			}
 
 	}
 	catch (error)
 	{
-		console.error("Something went wrong:", error)
+		return {
+			type: "error",
+			message: "There is some problems with the server...",
+			displayTime: 2000
+		}
+
 	}
 }
 
@@ -58,19 +79,20 @@ export const handleLogIn = async (
  * @param username Username of the new account
  * @param password Password of the new account
  * @param repeatPassword Validation of the new password
- * @param navigate A way to navigate across the pages
  */
-export const handleSignUp = async (
+export const handleSignUpAPI = async (
 	username:string,
 	password:string,
 	repeatPassword:string,
-	navigate:NavigateFunction
-) => {
+): Promise<ApiResponse> => {
 
 	// Test if both passwords are the same
 	if (password !== repeatPassword) {
-		alert("Passwords are not the same")
-		return;
+		return {
+			type: "error",
+			message: "Passwords are not the same",
+			displayTime: 2000
+		}
 	}
 
 	// Create the request to the server
@@ -91,19 +113,31 @@ export const handleSignUp = async (
 
 	// If the answer is OK, we navigate to the appropiate page
 	if (response.status === 201)
-	{
-		navigate(routes.gamemenu);
-		window.location.reload();
-	} else if (response.status == 400)
-	  	alert("The username already exists!");
+		return {
+			type: "success",
+			message: "Account created!",
+			redirectPath: routes.gamemenu,
+			displayTime: 1000
+		};
+	else if (response.status == 400)
+		return {
+			type: "warning",
+			message: "The username is already taken!",
+			displayTime: 2000
+		};
 	else
-	  	alert("Something has fail in the server...");
+	  	return {
+			type: "error",
+			message: "There is some problems with the server...",
+			displayTime: 2000
+		};
 }
 
 /**
  * Sends to the Backend a message for log out
  */
-export const handleLogout = async () =>
+export const handleLogoutAPI = async (
+): Promise<ApiResponse> =>
 {
 	// Create the request of logout
 	const response = await fetch(
@@ -120,16 +154,26 @@ export const handleLogout = async () =>
 
 	// Check the answer
 	if (response.status == 200)
-		window.location.reload();
+		return {
+			type: "success",
+			message: "Logout successful!",
+			redirectPath: routes.login,
+			displayTime: 1000
+		}
 	else
-		alert("Something didn't work...");
+		return {
+			type: "error",
+			message: "There is some problems with the server...",
+			displayTime: 2000
+		}
 }
 
 /**
  * Sends to the backend a message for deleting the
  * user account
  */
-export const handleDeleteAccout = async () =>
+export const handleDeleteAccountAPI = async (	
+): Promise<ApiResponse> =>
 {
 	// Create the request
 	const response = await fetch(
@@ -145,12 +189,26 @@ export const handleDeleteAccout = async () =>
 	)
 
 	// Check the answer
-	if (response.status == 200)
-		window.location.reload();
-	else if (response.status == 401)
-		alert("Something went wrong with JWT");
-	else
-		alert("Something went wrong...")
+    if (response.status == 200)
+        return {
+            type: "success",
+            message: "Account deleted successfully!",
+            redirectPath: routes.login,
+            displayTime: 1000
+        };
+    else if (response.status == 401)
+        return {
+            type: "error",
+            message: "Authentication failed. Please log in again.",
+            redirectPath: routes.login,
+            displayTime: 2000
+        };
+    else
+        return {
+            type: "error",
+            message: "There was a problem with the server...",
+            displayTime: 2000
+        };
 };
 
 /**
@@ -159,16 +217,19 @@ export const handleDeleteAccout = async () =>
  * @param repeatPassword 	The confirmation of the new
  * 							password
  */
-export const handleConfirmChange = async (
+export const handleConfirmChangeAPI = async (
 	newPassword:string,
 	repeatPassword:string
-) =>
+): Promise<ApiResponse> =>
 {
 	// Check if both passwords are the same
 	if (newPassword != repeatPassword)
 	{
-		alert("Passwords don't match!");
-		return
+        return {
+            type: "error",
+            message: "Passwords don't match!",
+            displayTime: 2000
+        };
 	}
 
 	// Create the request
@@ -188,15 +249,26 @@ export const handleConfirmChange = async (
 	)
 
 	// Check the answer
-	if (response.status == 200)
-	{
-		alert("Password successfully changed!");
-		handleLogout();
-	}
+    if (response.status == 200)
+		return {
+			type: "success",
+			message: "Password successfully changed!",
+			redirectPath: routes.login,
+			displayTime: 1000
+		};
 	else if (response.status == 401)
-		alert("Something went wrong with JWT")
+		return {
+			type: "error",
+			message: "Authentication failed. Please log in again.",
+			redirectPath: routes.login,
+			displayTime: 2000
+		};
 	else
-	  	alert("Something went wrong...")
+		return {
+			type: "error",
+			message: "There was a problem with the server...",
+			displayTime: 2000
+		};
 };
 
 export const fetchUser = async (

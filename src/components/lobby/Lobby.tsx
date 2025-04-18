@@ -5,6 +5,7 @@ import { useSocket } from '../../context/SocketContext';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/constants';
 import GlassCard from '../../common/GlassCard/GlassCard';
+import { useUser } from '../../context/UserContext';
 
 /**
  * Lobby screen to join or create a lobby.
@@ -12,9 +13,12 @@ import GlassCard from '../../common/GlassCard/GlassCard';
 const Lobby = () => {
     const [lobbyID, setLobbyID] = useState('');
     const [selectedPlayers, setSelectedPlayers] = useState(2);
-
+    
+    const userContext = useUser();
     const socket = useSocket();
     const navigate = useNavigate();
+
+    const background: string = userContext.user?.userPersonalizeData.background || 'default'; // Default background if not set
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLobbyID(e.target.value);
@@ -45,6 +49,7 @@ const Lobby = () => {
                 maxwidth="700px"
                 minwidth="320px"
                 showPaws={false}
+                background={background}
             >
                 <button className="close-button" onClick={handleClose}>
                     <div className="close-icon">

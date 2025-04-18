@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {routes} from '../../utils/constants';
-import { handleLogout } from "../../services/apiService";
-import FriendsList from "./FriendsList";
+import { handleLogoutAPI } from "../../services/apiService";
 import { UserContextType, useUser } from '../../context/UserContext';
+import { useNotification } from '../../context/NotificationContext';
+import { IMAGES_EXTENSION, IMAGES_PATH } from '../../services/apiShop';
+import { FriendsList } from './FriendsList';
 
 /**
  * Defines the HTML for creating a user bar with the
@@ -21,9 +23,35 @@ const UserBar = ({}: {}) => {
 
   const userContext: UserContextType = useUser();
 
+  const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+    const result = await handleLogoutAPI();
+    setIsLoading(false);
+
+    // Use the showToast function from the context
+    showToast({
+      message: result.message,
+      type: result.type,
+      duration: result.displayTime || 3000, // Default duration if not provided
+    });
+
+    if (result.redirectPath) {
+      // Navigate after a short delay to allow user to see the success message
+      setTimeout(() => {
+        window.location.reload(); // Reload the page to ensure the user is logged out
+        navigate(result.redirectPath!);
+      }, result.displayTime || 3000);
+    }
+  };
+
   const coins = userContext.user?.coins;
   const username = userContext.user?.username;
-
+  const avatar = userContext.user?.userPersonalizeData.avatar || "default";
+  const background: string = userContext.user?.userPersonalizeData.background || "default";
+  
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -54,21 +82,21 @@ const UserBar = ({}: {}) => {
   
   return (
     <>
-      <div className="user-bar">
+      <div className={`user-bar user-bar-${background}`}>
         {/* Coins */}
         <div className="coins-container">
-          <div className="coins-info">
+          <div className={`coins-info coins-info-${background}`}>
             <span className="coins">{coins}</span>
-            <div className="coins-icon-wrapper">
+            <div className={`coins-icon-wrapper coins-icon-wrapper-${background}`}>
               <img alt="User coins" className="coins-icon" src="../../../assets/coins.png"/>
             </div>
           </div>
         </div>
 
         {/* User information */}
-        <div className="user-info" onClick={toggleMenu}>
-          <div className="user-avatar">
-            <img alt="User Icon" className="user-icon" />
+        <div className={`user-info user-info-${background}`} onClick={toggleMenu}>
+          <div className={`user-avatar user-avatar-${background}`}>
+            <img alt="User Icon" className="user-icon" src={`${IMAGES_PATH}/avatar/${avatar}${IMAGES_EXTENSION}`} />
           </div>
           <span className="username">{username}</span>
           <div className="dropdown-arrow"></div>
@@ -76,10 +104,10 @@ const UserBar = ({}: {}) => {
       </div>
 
       {/* Side Menu */}
-      <div className={`side-menu ${isOpen ? "open" : ""}`}>
-        <div className="menu-header">
-          <div className="user-avatar menu-avatar">
-            <img alt="User Icon" className="user-icon" />
+      <div className={`side-menu ${isOpen ? "open" : ""} side-menu-${background}`}>
+        <div className={`menu-header menu-header-${background}`}>
+          <div className={`user-avatar menu-avatar menu-avatar-${background}`}>
+            <img alt="User Icon" className="user-icon" src={`${IMAGES_PATH}/avatar/${avatar}${IMAGES_EXTENSION}`} />
           </div>
           <h3 className="menu-username">{username}</h3>
         </div>
@@ -120,7 +148,7 @@ const UserBar = ({}: {}) => {
       </div>
 
       {isFriendsListOpen && (
-        <FriendsList onClose={closeFriendsList} />
+        <FriendsList/>
       )}
     </>
   );

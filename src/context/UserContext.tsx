@@ -10,25 +10,67 @@ export interface UserContextType {
   isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<UserJSON | undefined>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshUser: () => Promise<void>; // Added refreshUser method
 }
 
 const UserContext = createContext<UserContextType>({
   user: undefined,
   isLoading: true,
   setUser: () => {},
-  setIsLoading: () => {}
+  setIsLoading: () => {},
+  refreshUser: async () => {}, // Default implementation
 });
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserJSON | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Create a reusable function to fetch user data
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(SERVER + routesRequest.user, {
+        method: 'GET',
+        credentials: 'include', // Send cookies with the request
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+        return data;
+      } else {
+        setUser(undefined);
+        return undefined;
+      }
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+      return undefined;
+    }
+  };
+
+  // Function to refresh user data
+  const refreshUser = async () => {
+    try {
+      await fetchUserData();
+    } catch (error) {
+      console.error("Error refreshing user data:", error);
+    }
+  };
+
   useEffect(() => {
-    fetchUser(setUser, setIsLoading);
+    // Attempt to fetch the user data when the app loads
+    const initialize = async () => {
+      try {
+        await fetchUserData();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initialize();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
+    <UserContext.Provider value={{ user, isLoading, setUser, setIsLoading, refreshUser }}>
       {children}
     </UserContext.Provider>
   );

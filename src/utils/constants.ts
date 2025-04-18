@@ -19,6 +19,5 @@ export const routesRequest = {
     user: "/user",
     friends: "/friends",
     friendRequest: "/friends/request",
-    allusers: "/userss",
     shop: "/shop",
 }

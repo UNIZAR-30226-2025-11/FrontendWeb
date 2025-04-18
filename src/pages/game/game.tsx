@@ -59,7 +59,7 @@ const Game = () => {
                     <div className="toast-message"> {/* Use class from game.css */}
                         <b>{socket.actions.triggerUser}</b> has done the action{' '}
                         <span className="action-name">{socket.actions.action}</span> {/* Use class from game.css */}
-                        {socket.actions.targetUser ? ` to <strong>${socket.actions.targetUser}</strong>` : ''}
+                        {socket.actions.targetUser ? ` to ${socket.actions.targetUser}` : ''}
                     </div>
                 );
                 toast(message);
@@ -110,7 +110,6 @@ const Game = () => {
 
         const players = socket.gameState.players.filter(player => player.playerUsername !== socket.gameState!.playerUsername);
         const turn: boolean = socket.gameState.turnUsername === socket.gameState.playerUsername;
-
         return (
             <div className="game-container"> {/* Root container */}
                 {/* Top right chat dropdown */}
@@ -123,14 +122,20 @@ const Game = () => {
                     {players.map((player) => (
                         <div
                             key={player.playerUsername}
-                            // Apply classes for player slot and active turn highlighting
-                            className={`player-slot ${player.playerUsername === socket.gameState?.turnUsername ? 'active-turn' : ''}`}
+                            // Apply classes for player slot, active turn highlighting, and disconnected state
+                            className={`player-slot ${player.playerUsername === socket.gameState?.turnUsername ? 'active-turn' : ''} ${player.disconnected ? 'disconnected-player' : ''}`}
                         >
                             <User player={player} />
                             {/* Display turn counter badge if it's this player's turn */}
                             {player.playerUsername === socket.gameState?.turnUsername && (
                                 <div className="turn-counter"> {/* Use class from game.css */}
                                     {socket.gameState?.turnsLeft}
+                                </div>
+                            )}
+                            {/* Display disconnected indicator */}
+                            {player.disconnected && (
+                                <div className="disconnected-indicator">
+                                    <span className="disconnected-icon">⚡</span>
                                 </div>
                             )}
                         </div>

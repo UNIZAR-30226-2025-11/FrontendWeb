@@ -3,6 +3,10 @@ import './LobbyUsers.css';
 import { startLobby } from '../../services/socketService';
 import { SocketContextType, useSocket } from '../../context/SocketContext';
 import GlassCard from '../../common/GlassCard/GlassCard';
+import { useUser } from '../../context/UserContext';
+import { BackendResponseFriendRequestEnterLobbyJSON, BackendSendConnectedFriendsJSON, FriendSocketJSON, FrontendSendFriendRequestEnterLobbyJSON } from '../../api/JSON';
+import { IMAGES_EXTENSION, IMAGES_PATH } from '../../services/apiShop';
+import { useNotification } from '../../context/NotificationContext';
 
 const LobbyUsers = () => {
     const socket: SocketContextType = useSocket();
@@ -10,14 +14,93 @@ const LobbyUsers = () => {
     const [animateList, setAnimateList] = useState(false);
     const [disbandAnimated, setDisbandAnimated] = useState(false);
     const [countdown, setCountdown] = useState(5);
-
-    const lobbyId = socket.lobbyCreate?.lobbyId || socket.lobbyEnter?.lobbyId || "";
+    const [loadingFriends, setLoadingFriends] = useState(false);
+    const userContext = useUser();
+    const background: string = userContext.user?.userPersonalizeData.background || 'default'; // Default background if not set
+    const lobbyId = socket.lobbyState?.lobbyId || "";
     const isHost = !!socket.lobbyCreate;
     const players = socket.lobbyState?.players || [];
     const disband = socket.lobbyState?.disband || false;
 
+
+    const [friends, setFriends] = useState<FriendSocketJSON[]>([]);
+    
+    const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
+    
+
+    useEffect(() => {
+        fetchFriends();
+    }, []);
+
+    // Fetch friends from the socket context
+    const fetchFriends = () => {
+        setLoadingFriends(true);
+        const msg = {error: false, errorMsg: "", lobbyId: lobbyId};
+        socket.socket.emit("get-friends-connected", msg, 
+            (response: BackendSendConnectedFriendsJSON) => {
+            setLoadingFriends(false);
+            if (response.error) {
+                console.error("Error fetching friends:", response.errorMsg);
+                return;
+            }
+            setFriends(response.connectedFriends);
+        })
+    }
+
+    // Function to invite a friend to the lobby
+    const inviteFriend = (username: string) => {
+        const msg: FrontendSendFriendRequestEnterLobbyJSON = {
+            error: false,
+            errorMsg: "",
+            lobbyId: lobbyId,
+            friendUsername: username,
+        };
+
+        socket.socket.emit("send-friend-join-lobby-request", msg, 
+            (response: BackendResponseFriendRequestEnterLobbyJSON) => {
+            if (response.error) {
+                console.error("Error inviting friend:", response.errorMsg);
+                return;
+            }
+            const friendElement = document.getElementById(`friend-${username}`);
+            if (friendElement) {
+                const accept: string = response.accept ? "accepted" : "declined";
+                showToast({
+                    message: `Player ${response.friendUsername} ${accept} your invitation!`,
+                    type: "info",
+                    duration: 5000,
+                });
+
+                friendElement.classList.add('invite-sent');
+                setTimeout(() => {
+                    if (friendElement) {
+                        friendElement.classList.remove('invite-sent');
+                    }
+                }, 2000);
+            }
+        });
+
+    }
+
+    // Sort friends: connected (not in game) first, then in-game, then offline
+    const sortedFriends = [...friends].sort((a, b) => {
+        // First prioritize connection status
+        if (a.connected && !b.connected) return -1;
+        if (!a.connected && b.connected) return 1;
+        
+        // Both are connected, prioritize those not in game
+        if (a.connected && b.connected) {
+            if (a.isInGame && !b.isInGame) return 1;
+            if (!a.isInGame && b.isInGame) return -1;
+        }
+        
+        // Default sort by name
+        return a.username.localeCompare(b.username);
+    });
+
     useEffect(() => {
         // Trigger animation when players list changes
+        fetchFriends();
         setAnimateList(true);
         const timer = setTimeout(() => setAnimateList(false), 500);
         return () => clearTimeout(timer);
@@ -87,6 +170,7 @@ const LobbyUsers = () => {
                     maxwidth="800px"
                     minwidth="600px"
                     showPaws={true}
+                    background={background}
                 >
                     <div className="disband-content">
                         <div className="disband-icon">
@@ -117,6 +201,7 @@ const LobbyUsers = () => {
                 maxwidth="700px"
                 minwidth="100px"
                 showPaws={true}
+                background={background}
             >
                 <div className="lobby-id-container">
                     <h3 className="lobby-id-label">Lobby Code</h3>
@@ -159,6 +244,90 @@ const LobbyUsers = () => {
                             <div className="empty-state">
                                 <div className="empty-icon"></div>
                                 <p>Waiting for players to join...</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="friends-section">
+                    <div className="friends-header">
+                        <h3 className="section-label">Friends</h3>
+                        <button 
+                            className={`refresh-button ${loadingFriends ? 'rotating' : ''}`} 
+                            onClick={fetchFriends}
+                            disabled={loadingFriends}
+                            aria-label="Refresh friends list"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="none" d="M0 0h24v24H0z"/>
+                                <path d="M18.537 19.567A9.961 9.961 0 0 1 12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10c0 2.136-.67 4.116-1.81 5.74L17 12h3a8 8 0 1 0-2.46 5.772l.997 1.795z" 
+                                      fill="rgba(255,255,255,0.8)"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div className="friends-list">
+                    {sortedFriends.length > 0 ? (
+                        sortedFriends.map((friend) => (
+                            <div 
+                                key={friend.username} 
+                                id={`friend-${friend.username}`}
+                                className={`lu-friend-item 
+                                    ${!friend.connected ? 'offline' : ''} 
+                                    ${friend.isInGame ? 'in-game' : ''} 
+                                    ${friend.isAlreadyInThisLobby ? 'already-in-lobby' : ''}`}
+                            >
+                                <div className="friend-avatar">
+                                    {friend.avatar ? (
+                                        <img 
+                                            src={`${IMAGES_PATH}/avatar/${friend.avatar}${IMAGES_EXTENSION}`} 
+                                            alt={`${friend.username}'s avatar`} 
+                                            className="friend-avatar-img"
+                                        />
+                                    ) : (
+                                        friend.username.charAt(0).toUpperCase()
+                                    )}
+                                    <div className={`status-indicator ${friend.connected ? (friend.isInGame ? 'busy' : 'online') : 'offline'}`}></div>
+                                </div>
+                                <div className="friend-info">
+                                    <span className="friend-name">{friend.username}</span>
+                                    <span className="friend-status">
+                                        {!friend.connected && 'Offline'}
+                                        {friend.connected && friend.isInGame && 'In Game'}
+                                        {friend.connected && !friend.isInGame && !friend.isAlreadyInThisLobby && 'Online'}
+                                        {friend.connected && !friend.isInGame && friend.isAlreadyInThisLobby && 'Already in this lobby'}
+                                    </span>
+                                </div>
+                                {friend.connected && !friend.isInGame && !friend.isAlreadyInThisLobby && (
+                                    <button 
+                                        className="invite-button"
+                                        onClick={() => inviteFriend(friend.username)}
+                                        aria-label={`Invite ${friend.username}`}
+                                    >
+                                        <span className="invite-text">Invite</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                                            <path fill="none" d="M0 0h24v24H0z"/>
+                                            <path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z" 
+                                                fill="currentColor"/>
+                                        </svg>
+                                    </button>
+                                )}
+                                {friend.connected && !friend.isInGame && friend.isAlreadyInThisLobby && (
+                                    <span className="already-in-lobby-badge">
+                                        <svg viewBox="0 0 24 24" width="16" height="16">
+                                            <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                        </svg>
+                                        In Lobby
+                                    </span>
+                                )}
+                                <div className="invite-success">
+                                    <span>Invited!</span>
+                                </div>
+                            </div>
+                        ))
+                        ) : (
+                            <div className="empty-state">
+                                <div className="empty-icon friends-empty"></div>
+                                <p>{loadingFriends ? 'Loading friends...' : 'No friends found'}</p>
                             </div>
                         )}
                     </div>

@@ -27,8 +27,10 @@ export type CardJSON = {
 
 export type PlayerJSON = {
     playerUsername: string;
+    playerAvatar: string;
     numCards: number;
     active: boolean;
+    disconnected: boolean;
 }
 
 // -----------------------------------------------------------
@@ -70,14 +72,6 @@ export type BackendWinnerJSON = {
     lobbyId: string;
 }
 
-export type FrontendWinnerResponseJSON = {
-    error: boolean;
-    errorMsg: string;
-    winnerUsername: string;
-    coinsEarned: number;
-    lobbyId: string;
-}
-
 // -----------------------------------------------------------
 // Message to send a petition to select a player of the game
 // Started by: The backend
@@ -90,6 +84,7 @@ export type BackendGameSelectPlayerJSON = {
     error: boolean;
     errorMsg: string;
     lobbyId: string;
+    timeOut: number;
 }
 
 export type FrontendGameSelectPlayerResponseJSON = {
@@ -111,6 +106,7 @@ export type BackendGameSelectCardJSON = {
     error: boolean;
     errorMsg: string;
     lobbyId: string;
+    timeOut: number;
 }
 
 export type FrontendGameSelectCardResponseJSON = {
@@ -133,6 +129,7 @@ export type BackendGameSelectCardTypeJSON = {
     error: boolean;
     errorMsg: string;
     lobbyId: string;
+    timeOut: number;
 }
 
 export type FrontendGameSelectCardTypeResponseJSON = {
@@ -153,6 +150,7 @@ export type BackendGameSelectNopeJSON = {
     error: boolean;
     errorMsg: string;
     lobbyId: string;
+    timeOut: number;
 }
 
 export type FrontendGameSelectNopeResponseJSON = {
@@ -276,14 +274,13 @@ export type BackendNotifyActionJSON = {
 // Started by: The backend
 // Listened by: The frontend
 // Ack: None
-// Socket-event: "player-status"
+// Socket-event: "player-reconnect"
 // -----------------------------------------------------------
 
-export type BackendPlayerStatusJSON = {
+export type BackendPlayerCanReconnectJSON = {
     error: boolean;
     errorMsg: string;
-    playerUsername: string;
-    connected: boolean;
+    lobbyId: string;
 }
 // -----------------------------------------------------------
 
@@ -324,4 +321,78 @@ export type MsgJSON = {
     msg: string;
     username: string;
     date: string;
+}
+
+// -----------------------------------------------------------
+// Message to get the connected friends
+// Started by: The frontend
+// Listened by: The backend
+// Ack: Yes, with the BackendSendConnectedFriendsJSON
+// Socket-event: "get-friends-connected"
+export type FrontendRequestConnectedFriendsJSON = {
+    error: boolean;
+    errorMsg: string;
+    lobbyId: string;
+}
+
+export type BackendSendConnectedFriendsJSON = {
+    error: boolean;
+    errorMsg: string;
+    connectedFriends: FriendSocketJSON[];
+}
+
+export type FriendSocketJSON = {
+    username: string;
+    avatar: string;
+    connected: boolean;
+    isInGame: boolean;
+    isAlreadyInThisLobby: boolean;
+}
+
+// -----------------------------------------------------------
+// Message to send a friend request to join a lobby
+// Started by: The frontend
+// Listened by: The backend
+// Ack: Yes, with the BackendResponseFriendRequestEnterLobbyJSON
+// Socket-event: "send-friend-join-lobby-request"
+// -----------------------------------------------------------
+
+export type FrontendSendFriendRequestEnterLobbyJSON = {
+    error: boolean;
+    errorMsg: string;
+    lobbyId: string;
+    friendUsername: string;
+}
+
+export type BackendResponseFriendRequestEnterLobbyJSON = {
+    error: boolean;
+    errorMsg: string;
+    lobbyId: string;
+    friendUsername: string;
+    accept: boolean;
+}
+
+
+// -----------------------------------------------------------
+// Message to send a friend request to join a lobby
+// Started by: The backend
+// Listened by: The friend that is going to receive the request
+// Ack: Yes, with the FrontendResponseFriendRequestEnterLobbyJSON
+// Socket-event: "receive-friend-lobby-request"
+// -----------------------------------------------------------
+
+export type BackendSendFriendRequestEnterLobbyJSON = {
+    error: boolean;
+    errorMsg: string;
+    lobbyId: string;
+    friendSendingRequest: string;
+    friendSendingRequestAvatar: string;
+}
+
+export type FrontendResponseFriendRequestEnterLobbyJSON = {
+    error: boolean;
+    errorMsg: string;
+    lobbyId: string;
+    accept: boolean;
+    friendSendingRequest: string;
 }
