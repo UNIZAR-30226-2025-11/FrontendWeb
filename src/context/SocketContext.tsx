@@ -2,6 +2,8 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { io, Socket } from "socket.io-client";
 import { SERVER } from "../utils/config";
 import * as Objects from "../api/JSON";
+import { redirect } from "react-router-dom";
+import { routes } from "../utils/constants";
 
 // Create the socket
 const socket = io(SERVER, { withCredentials: true });
@@ -39,6 +41,9 @@ export interface SocketContextType {
     setMessagesChat: React.Dispatch<React.SetStateAction<Objects.BackendGetMessagesJSON | undefined>>;
     friendJoinRequest: Objects.BackendSendFriendRequestEnterLobbyJSON | undefined;
     setFriendJoinRequest: React.Dispatch<React.SetStateAction<Objects.BackendSendFriendRequestEnterLobbyJSON | undefined>>;
+    // New invitation handlers
+    acceptInvitation: (lobbyId: string) => void;
+    declineInvitation: (lobbyId: string) => void;
 }
 
 // Create the context
@@ -106,6 +111,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // -------------------------------------------------------------------------
 
     const handleFriendJoinRequest = useCallback((data: Objects.BackendSendFriendRequestEnterLobbyJSON) => {
+        console.log("Friend join request received:", data);
         setFriendJoinRequest(data);
     }, []);
 
@@ -155,6 +161,40 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }, []);
 
 
+    // -------------------------------------------------------------------------
+    const acceptInvitation = useCallback((lobbyId: string) => {
+        if (friendJoinRequest) {
+            const msg: Objects.FrontendResponseFriendRequestEnterLobbyJSON = {
+                error: false,
+                errorMsg: "",
+                lobbyId: lobbyId,
+                accept: true,
+                friendSendingRequest: friendJoinRequest.friendSendingRequest
+            }
+            console.log("Accepting invitation:", msg);
+            // Send socket message to accept the invitation
+            socket.emit("receive-friend-join-lobby-request", msg);
+            setFriendJoinRequest(undefined);
+        }
+    }, [friendJoinRequest]);
+    
+    const declineInvitation = useCallback((lobbyId: string) => {
+        if (friendJoinRequest) {
+            const msg: Objects.FrontendResponseFriendRequestEnterLobbyJSON = {
+                error: false,
+                errorMsg: "",
+                lobbyId: lobbyId,
+                accept: false,
+                friendSendingRequest: friendJoinRequest.friendSendingRequest
+            }
+            console.log("Declining invitation:", msg);
+            // Send socket message to accept the invitation
+            socket.emit("receive-friend-join-lobby-request", msg);
+            setFriendJoinRequest(undefined);
+        }
+    }, [friendJoinRequest]);
+
+
     useEffect(() => {
         // Lobby
         socket.on("lobby-state", handleLobbyStateUpdate);
@@ -182,7 +222,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         socket.on("winner", handleWinnerWrapper);
 
         // Friends
-        socket.on("receive-friend-lobby-request", handleFriendJoinRequest);
+        socket.on("receive-friend-join-lobby-request", handleFriendJoinRequest);
 
         return () => {
             // Lobby
@@ -211,7 +251,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             socket.off("winner", handleWinnerWrapper);
 
             // Friends
-            socket.off("receive-friend-lobby-request", handleFriendJoinRequest);
+            socket.off("receive-friend-join-lobby-request", handleFriendJoinRequest);
         };
     }, [
         socket,
@@ -262,6 +302,8 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setMessagesChat,
             friendJoinRequest,
             setFriendJoinRequest,
+            acceptInvitation,
+            declineInvitation,
         }}>
             {children}
         </SocketContext.Provider>

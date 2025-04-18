@@ -11,6 +11,7 @@ import { SocketProvider } from './context/SocketContext';
 import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
 import Container from './components/logging/Container';
 import { AnimatedBackground } from './common/AnimatedBackground/AnimatedBackground';
+import InvitationModal from './common/InvitationModal/InvitationModal';
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
@@ -38,6 +39,7 @@ function App() {
 
         <Route path="/" element={
           <SocketProvider>
+            <InvitationModal/>
             <ProtectedNotLogin>
               <AnimatedBackground showUserBar={true}>
                 <Outlet />

@@ -185,7 +185,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  background: linear-gradient(45deg, rgba(54, 209, 220, 0.2), rgba(91, 134, 229, 0.2));
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.2), rgba(255, 106, 136, 0.2));
   padding: 6px 15px;
   border-radius: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -194,7 +194,7 @@
 }
 
 .user-info-default {
-  background: linear-gradient(45deg, rgba(54, 209, 220, 0.2), rgba(91, 134, 229, 0.2));
+  background: linear-gradient(45deg, rgba(255, 154, 68, 0.2), rgba(255, 106, 136, 0.2));
   border: 1px solid rgba(91, 134, 229, 0.3);
 }
 

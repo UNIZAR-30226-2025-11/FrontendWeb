@@ -1,0 +1,99 @@
+.invitation-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .invitation-modal {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 400px;
+    max-width: 90vw;
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+  }
+  
+  .invitation-modal-header {
+    background-color: #f8f9fa;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .invitation-modal-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .invitation-modal-body {
+    padding: 20px;
+  }
+  
+  .invitation-modal-body p {
+    margin: 0 0 10px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .lobby-details {
+    font-size: 14px;
+    color: #666;
+    background-color: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  .invitation-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 20px;
+    border-top: 1px solid #eaeaea;
+    gap: 12px;
+  }
+  
+  .invitation-btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+  }
+  
+  .invitation-btn.accept {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .invitation-btn.accept:hover {
+    background-color: #43a047;
+  }
+  
+  .invitation-btn.decline {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .invitation-btn.decline:hover {
+    background-color: #e53935;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }

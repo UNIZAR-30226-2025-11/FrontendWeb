@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ApiResponse, handleLogInAPI } from '../../services/apiService';
 import { useNotification } from '../../context/NotificationContext';
 import { UserContextType, useUser } from '../../context/UserContext';
+import { useSocket } from '../../context/SocketContext';
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -43,8 +44,8 @@ export const SignIn = () => {
       // Navigate after a short delay to allow user to see the success message
       setTimeout(async () => {
         await userContext.refreshUser(); // Refresh user data after login
+        window.location.reload(); // Reload the page to reflect changes
         navigate(result.redirectPath!);
-
       }, result.displayTime || 3000);
     }
   };
