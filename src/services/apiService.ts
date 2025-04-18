@@ -269,3 +269,27 @@ export const handleConfirmChangeAPI = async (
 			displayTime: 2000
 		};
 };
+
+export const fetchUser = async (
+	setUser: (u: any) => void,
+	setIsLoading: (b: boolean) => void
+) => {
+
+	try {
+	const response = await fetch(SERVER + routesRequest.user, {
+		method: 'GET',
+		credentials: 'include', // Send cookies with the request
+	});
+
+	if (response.ok) {
+		const data = await response.json();
+		setUser(data);
+	} else {
+		setUser(undefined);
+	}
+	} catch (error) {
+		console.error("Failed to fetch user:");
+	} finally {
+		setIsLoading(false);
+	}
+};
