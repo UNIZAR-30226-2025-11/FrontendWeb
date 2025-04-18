@@ -274,23 +274,6 @@ export type BackendNotifyActionJSON = {
 
 
 // -----------------------------------------------------------
-// Message to notify a player connection or disconnection
-// Started by: The backend
-// Listened by: The frontend
-// Ack: None
-// Socket-event: "player-status"
-// -----------------------------------------------------------
-
-export type BackendPlayerStatusJSON = {
-    error: boolean;
-    errorMsg: string;
-    playerUsername: string;
-    connected: boolean;
-}
-// -----------------------------------------------------------
-
-
-// -----------------------------------------------------------
 // Message to post a message in the chat
 // Started by: The frontend
 // Listened by: The backend

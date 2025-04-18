@@ -2,8 +2,6 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import { io, Socket } from "socket.io-client";
 import { SERVER } from "../utils/config";
 import * as Objects from "../api/JSON";
-import { redirect } from "react-router-dom";
-import { routes } from "../utils/constants";
 
 // Create the socket
 const socket = io(SERVER, { withCredentials: true });
@@ -36,7 +34,6 @@ export interface SocketContextType {
     lobbyStarted: Objects.BackendStartGameResponseJSON | undefined;
     actions: Objects.BackendNotifyActionJSON | undefined;
     setActions: React.Dispatch<React.SetStateAction<Objects.BackendNotifyActionJSON | undefined>>;
-    disconnect: Objects.BackendPlayerStatusJSON | undefined;
     messagesChat: Objects.BackendGetMessagesJSON | undefined;
     setMessagesChat: React.Dispatch<React.SetStateAction<Objects.BackendGetMessagesJSON | undefined>>;
     friendJoinRequest: Objects.BackendSendFriendRequestEnterLobbyJSON | undefined;
@@ -88,11 +85,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // ACTIONS
     // -------------------------------------------------------------------------
     const [actions, setActions] = useState<Objects.BackendNotifyActionJSON | undefined>(undefined);
-
-    // -------------------------------------------------------------------------    
-    // DISCONNECT
-    // -------------------------------------------------------------------------
-    const [disconnect, setDisconnect] = useState<Objects.BackendPlayerStatusJSON | undefined>(undefined);
 
     // -------------------------------------------------------------------------
     // CHAT
@@ -152,10 +144,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setActions(data);
     }, []);
 
-    const handlePlayerDisconnected = useCallback((data: Objects.BackendPlayerStatusJSON) => {
-        setDisconnect(data);
-    }, []);
-
     const handleGetMessages = useCallback((data: Objects.BackendGetMessagesJSON) => {
         setMessagesChat(data);
     }, []);
@@ -209,9 +197,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         socket.on("game-select-card", handleSelectCard);
         socket.on("game-select-nope", handleSelectNope);
 
-        // Player status
-        socket.on("player-status", handlePlayerDisconnected);
-
         // Global actions
         socket.on("notify-action", handleNotifyAction);
 
@@ -238,8 +223,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             socket.off("game-select-card", handleSelectCard);
             socket.off("game-select-nope", handleSelectNope);
 
-            // Player status
-            socket.off("player-status", handlePlayerDisconnected);
 
             // Global actions
             socket.off("notify-action", handleNotifyAction);
@@ -264,7 +247,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         handleLobbyStateUpdate,
         handleWinnerWrapper,
         handleNotifyAction,
-        handlePlayerDisconnected,
         handleGetMessages,
         handleFriendJoinRequest,
     ]);
@@ -297,7 +279,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             lobbyStarted,
             actions,
             setActions,
-            disconnect,
             messagesChat,
             setMessagesChat,
             friendJoinRequest,
