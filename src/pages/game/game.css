@@ -352,3 +352,90 @@
       margin: 0 1px;
     }
   }
+
+  .disconnected-player .user-inner-container {
+    opacity: 0.7;
+    border-color: rgba(255, 61, 61, 0.7);
+    box-shadow: 0 0 15px rgba(255, 61, 61, 0.4);
+    filter: grayscale(0.5);
+    animation: disconnectedPulse 3s infinite;
+  }
+  
+  /* Disconnected indicator badge */
+  .disconnected-indicator {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background: rgba(255, 61, 61, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 11px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 6;
+  }
+  
+  .disconnected-icon {
+    font-size: 12px;
+    animation: disconnectedIconFlash 1.5s infinite;
+  }
+  
+  /* Animation for disconnected pulse */
+  @keyframes disconnectedPulse {
+    0% { box-shadow: 0 0 10px rgba(255, 61, 61, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(255, 61, 61, 0.5); }
+    100% { box-shadow: 0 0 10px rgba(255, 61, 61, 0.3); }
+  }
+  
+  @keyframes disconnectedIconFlash {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+  }
+  
+  /* Handle overlap case when player is both active turn and disconnected */
+  .player-slot.active-turn.disconnected-player .user-inner-container {
+    box-shadow: 0 0 15px rgba(255, 61, 61, 0.7), 0 0 30px rgba(255, 61, 61, 0.4);
+    border-color: rgba(255, 61, 61, 0.9);
+    animation: disconnectedActivePulse 2s infinite;
+  }
+  
+  @keyframes disconnectedActivePulse {
+    0% { box-shadow: 0 0 15px rgba(255, 61, 61, 0.6), 0 0 30px rgba(255, 61, 61, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(255, 61, 61, 0.8), 0 0 40px rgba(255, 61, 61, 0.5); }
+    100% { box-shadow: 0 0 15px rgba(255, 61, 61, 0.6), 0 0 30px rgba(255, 61, 61, 0.3); }
+  }
+  
+  /* Responsive adjustments for disconnected indicator */
+  @media (max-width: 768px) {
+    .disconnected-indicator {
+      width: 20px;
+      height: 20px;
+      font-size: 10px;
+      top: -6px;
+      left: -6px;
+    }
+    
+    .disconnected-icon {
+      font-size: 11px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .disconnected-indicator {
+      width: 18px;
+      height: 18px;
+      font-size: 9px;
+      top: -5px;
+      left: -5px;
+    }
+    
+    .disconnected-icon {
+      font-size: 10px;
+    }
+  }
