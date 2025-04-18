@@ -19,8 +19,6 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
   // Users added to your friends now
   const [addedFriends, setAddedFriends] = useState<string[]>([]);
 
-  const modalRef = useRef<HTMLDivElement>(null);
-
   /**
    * Filters the list of users based on the search input.
    */
@@ -45,20 +43,6 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
     }
   };
 
-  /**
-   * Closes modal if user clicks outside of it.
-   */
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);
-
   return (
     <GlassCard
           title="Friends"
@@ -76,6 +60,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
           {/* Search input */}
           <input
             type="text"
+            name="searched-user"
             placeholder="Search by username..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -83,8 +68,8 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
 
           {/* Box with users */}
           <div className={`player-list`}>
-              {allUsers.length > 0 ? (
-                  allUsers.map((username, index) => (
+              {filteredUsers.length > 0 ? (
+                  filteredUsers.map((username, index) => (
                       // The hole friend
                       <div 
                           key={username} 
@@ -99,12 +84,24 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
                           <span className="player-name">
                               {username}
                           </span>
+
+                          {/* Button for send request */}
+                          { !addedFriends.includes(username)
+                              ?
+                              <button
+                                  className='host-badge host-badge-button'
+                                  onClick={() => handleAddFriend(username)}>
+                                  Send a Friendship Request
+                              </button>
+                              :
+                              <span className="host-badge">Already invited!</span>
+                          }
                       </div>
                   ))
               ) : (
                   <div className="empty-state">
                       <div className="empty-icon"></div>
-                      <p>Loading users...</p>
+                      <p>Any users found</p>
                   </div>
               )}
           </div>
