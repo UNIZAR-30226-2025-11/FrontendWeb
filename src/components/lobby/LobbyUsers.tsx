@@ -6,6 +6,7 @@ import GlassCard from '../../common/GlassCard/GlassCard';
 import { useUser } from '../../context/UserContext';
 import { BackendResponseFriendRequestEnterLobbyJSON, BackendSendConnectedFriendsJSON, FriendSocketJSON, FrontendSendFriendRequestEnterLobbyJSON } from '../../api/JSON';
 import { IMAGES_EXTENSION, IMAGES_PATH } from '../../services/apiShop';
+import { useNotification } from '../../context/NotificationContext';
 
 const LobbyUsers = () => {
     const socket: SocketContextType = useSocket();
@@ -23,6 +24,9 @@ const LobbyUsers = () => {
 
 
     const [friends, setFriends] = useState<FriendSocketJSON[]>([]);
+    
+    const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
+    
 
     useEffect(() => {
         fetchFriends();
@@ -31,8 +35,9 @@ const LobbyUsers = () => {
     // Fetch friends from the socket context
     const fetchFriends = () => {
         setLoadingFriends(true);
-        const msg = {error: false, errorMsg: ""};
-        socket.socket.emit("get-friends-connected", msg, (response: BackendSendConnectedFriendsJSON) => {
+        const msg = {error: false, errorMsg: "", lobbyId: lobbyId};
+        socket.socket.emit("get-friends-connected", msg, 
+            (response: BackendSendConnectedFriendsJSON) => {
             setLoadingFriends(false);
             if (response.error) {
                 console.error("Error fetching friends:", response.errorMsg);
@@ -57,10 +62,15 @@ const LobbyUsers = () => {
                 console.error("Error inviting friend:", response.errorMsg);
                 return;
             }
-            console.log("Friend invited:", msg);
             const friendElement = document.getElementById(`friend-${username}`);
             if (friendElement) {
-                console.log("OK, friend invited:", username);
+                const accept: string = response.accept ? "accepted" : "declined";
+                showToast({
+                    message: `Player ${response.friendUsername} ${accept} your invitation!`,
+                    type: "info",
+                    duration: 5000,
+                });
+
                 friendElement.classList.add('invite-sent');
                 setTimeout(() => {
                     if (friendElement) {
@@ -90,6 +100,7 @@ const LobbyUsers = () => {
 
     useEffect(() => {
         // Trigger animation when players list changes
+        fetchFriends();
         setAnimateList(true);
         const timer = setTimeout(() => setAnimateList(false), 500);
         return () => clearTimeout(timer);
@@ -255,52 +266,64 @@ const LobbyUsers = () => {
                         </button>
                     </div>
                     <div className="friends-list">
-                        {sortedFriends.length > 0 ? (
-                            sortedFriends.map((friend) => (
-                                <div 
-                                    key={friend.username} 
-                                    id={`friend-${friend.username}`}
-                                    className={`lu-friend-item ${!friend.connected ? 'offline' : ''} ${friend.isInGame ? 'in-game' : ''}`}
-                                >
-                                    <div className="friend-avatar">
-                                        {friend.avatar ? (
-                                            <img 
-                                                src={`${IMAGES_PATH}/avatar/${friend.avatar}${IMAGES_EXTENSION}`} 
-                                                alt={`${friend.username}'s avatar`} 
-                                                className="friend-avatar-img"
-                                            />
-                                        ) : (
-                                            friend.username.charAt(0).toUpperCase()
-                                        )}
-                                        <div className={`status-indicator ${friend.connected ? (friend.isInGame ? 'busy' : 'online') : 'offline'}`}></div>
-                                    </div>
-                                    <div className="friend-info">
-                                        <span className="friend-name">{friend.username}</span>
-                                        <span className="friend-status">
-                                            {!friend.connected && 'Offline'}
-                                            {friend.connected && friend.isInGame && 'In Game'}
-                                            {friend.connected && !friend.isInGame && 'Online'}
-                                        </span>
-                                    </div>
-                                    {friend.connected && !friend.isInGame && (
-                                        <button 
-                                            className="invite-button"
-                                            onClick={() => inviteFriend(friend.username)}
-                                            aria-label={`Invite ${friend.username}`}
-                                        >
-                                            <span className="invite-text">Invite</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                                                <path fill="none" d="M0 0h24v24H0z"/>
-                                                <path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z" 
-                                                      fill="currentColor"/>
-                                            </svg>
-                                        </button>
+                    {sortedFriends.length > 0 ? (
+                        sortedFriends.map((friend) => (
+                            <div 
+                                key={friend.username} 
+                                id={`friend-${friend.username}`}
+                                className={`lu-friend-item 
+                                    ${!friend.connected ? 'offline' : ''} 
+                                    ${friend.isInGame ? 'in-game' : ''} 
+                                    ${friend.isAlreadyInThisLobby ? 'already-in-lobby' : ''}`}
+                            >
+                                <div className="friend-avatar">
+                                    {friend.avatar ? (
+                                        <img 
+                                            src={`${IMAGES_PATH}/avatar/${friend.avatar}${IMAGES_EXTENSION}`} 
+                                            alt={`${friend.username}'s avatar`} 
+                                            className="friend-avatar-img"
+                                        />
+                                    ) : (
+                                        friend.username.charAt(0).toUpperCase()
                                     )}
-                                    <div className="invite-success">
-                                        <span>Invited!</span>
-                                    </div>
+                                    <div className={`status-indicator ${friend.connected ? (friend.isInGame ? 'busy' : 'online') : 'offline'}`}></div>
                                 </div>
-                            ))
+                                <div className="friend-info">
+                                    <span className="friend-name">{friend.username}</span>
+                                    <span className="friend-status">
+                                        {!friend.connected && 'Offline'}
+                                        {friend.connected && friend.isInGame && 'In Game'}
+                                        {friend.connected && !friend.isInGame && !friend.isAlreadyInThisLobby && 'Online'}
+                                        {friend.connected && !friend.isInGame && friend.isAlreadyInThisLobby && 'Already in this lobby'}
+                                    </span>
+                                </div>
+                                {friend.connected && !friend.isInGame && !friend.isAlreadyInThisLobby && (
+                                    <button 
+                                        className="invite-button"
+                                        onClick={() => inviteFriend(friend.username)}
+                                        aria-label={`Invite ${friend.username}`}
+                                    >
+                                        <span className="invite-text">Invite</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                                            <path fill="none" d="M0 0h24v24H0z"/>
+                                            <path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z" 
+                                                fill="currentColor"/>
+                                        </svg>
+                                    </button>
+                                )}
+                                {friend.connected && !friend.isInGame && friend.isAlreadyInThisLobby && (
+                                    <span className="already-in-lobby-badge">
+                                        <svg viewBox="0 0 24 24" width="16" height="16">
+                                            <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                        </svg>
+                                        In Lobby
+                                    </span>
+                                )}
+                                <div className="invite-success">
+                                    <span>Invited!</span>
+                                </div>
+                            </div>
+                        ))
                         ) : (
                             <div className="empty-state">
                                 <div className="empty-icon friends-empty"></div>

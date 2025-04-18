@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { PlayerJSON } from "../../api/JSON";
 import './User.css';
+import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
 
 /**
  * Displays a user with avatar, username and card count
@@ -12,7 +13,6 @@ import './User.css';
  */
 const User = ({ player }: { player: PlayerJSON }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
   return (
     <motion.div 
       className="user-container"
@@ -28,7 +28,7 @@ const User = ({ player }: { player: PlayerJSON }) => {
           <div className="user-avatar-wrapper">
             <img 
               className="user-avatar" 
-              src="./assets/user.png" 
+              src={`${IMAGES_PATH}/avatar/${player.playerAvatar}${IMAGES_EXTENSION}`} 
               alt={`${player.playerUsername}'s avatar`} 
             />
             

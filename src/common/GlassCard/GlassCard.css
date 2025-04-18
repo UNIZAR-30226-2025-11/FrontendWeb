@@ -303,14 +303,13 @@
 
 .GC-button {
     background-color: transparent;
-    padding: 15px 30px;
+    padding: 15px 20px;
     font-size: 18px;
     font-weight: 600;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
     border: none;
     z-index: 1;
     width: 100%;

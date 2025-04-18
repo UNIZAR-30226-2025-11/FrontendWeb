@@ -59,7 +59,7 @@ const Game = () => {
                     <div className="toast-message"> {/* Use class from game.css */}
                         <b>{socket.actions.triggerUser}</b> has done the action{' '}
                         <span className="action-name">{socket.actions.action}</span> {/* Use class from game.css */}
-                        {socket.actions.targetUser ? ` to <strong>${socket.actions.targetUser}</strong>` : ''}
+                        {socket.actions.targetUser ? ` to ${socket.actions.targetUser}` : ''}
                     </div>
                 );
                 toast(message);

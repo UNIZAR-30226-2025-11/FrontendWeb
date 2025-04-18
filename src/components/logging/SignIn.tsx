@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { ApiResponse, handleLogInAPI } from '../../services/apiService';
 import { useNotification } from '../../context/NotificationContext';
 import { UserContextType, useUser } from '../../context/UserContext';
-import { useSocket } from '../../context/SocketContext';
 
 export const SignIn = () => {
   const navigate = useNavigate();

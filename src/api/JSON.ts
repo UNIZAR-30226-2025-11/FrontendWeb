@@ -27,8 +27,10 @@ export type CardJSON = {
 
 export type PlayerJSON = {
     playerUsername: string;
+    playerAvatar: string;
     numCards: number;
     active: boolean;
+    disconnected: boolean;
 }
 
 // -----------------------------------------------------------
@@ -336,6 +338,7 @@ export type MsgJSON = {
 export type FrontendRequestConnectedFriendsJSON = {
     error: boolean;
     errorMsg: string;
+    lobbyId: string;
 }
 
 export type BackendSendConnectedFriendsJSON = {
@@ -349,6 +352,7 @@ export type FriendSocketJSON = {
     avatar: string;
     connected: boolean;
     isInGame: boolean;
+    isAlreadyInThisLobby: boolean;
 }
 
 // -----------------------------------------------------------
