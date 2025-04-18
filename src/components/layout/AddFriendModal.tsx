@@ -2,9 +2,11 @@ import React, { useRef, useState, useEffect } from "react";
 import "./AddFriendModal.css";
 import { sendFriendRequest } from "../../services/apiFriends";
 import GlassCard from "../../common/GlassCard/GlassCard";
+import { UserAvatar } from "../../api/entities";
+import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
 
 interface AddFriendModalProps {
-  allUsers: string[];
+  allUsers: UserAvatar[];
   onClose: () => void;
 }
 
@@ -23,7 +25,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
    * Filters the list of users based on the search input.
    */
   const filteredUsers = allUsers.filter((user) =>
-    user.toLowerCase().includes(searchTerm.toLowerCase())
+    user.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   /**
@@ -69,28 +71,28 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
           {/* Box with users */}
           <div className={`player-list`}>
               {filteredUsers.length > 0 ? (
-                  filteredUsers.map((username, index) => (
+                  filteredUsers.map((user, index) => (
                       // The hole friend
                       <div 
-                          key={username} 
+                          key={user.username} 
                           className={`player-item`}
                       >
                           {/* Avatar */}
                           <div className={`player-avatar`}>
-                              {username.charAt(0).toUpperCase()}
+                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" className="avatar-image" />
                           </div>
 
                           {/* Name */}
                           <span className="player-name">
-                              {username}
+                              {user.username}
                           </span>
 
                           {/* Button for send request */}
-                          { !addedFriends.includes(username)
+                          { !addedFriends.includes(user.username)
                               ?
                               <button
                                   className='host-badge host-badge-button'
-                                  onClick={() => handleAddFriend(username)}>
+                                  onClick={() => handleAddFriend(user.username)}>
                                   Send a Friendship Request
                               </button>
                               :

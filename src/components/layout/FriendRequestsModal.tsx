@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./FriendRequestsModal.css";
 import GlassCard from "../../common/GlassCard/GlassCard";
+import { UserAvatar } from "../../api/entities";
+import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
 
 interface FriendRequestsModalProps {
-  requests: string[];
+  requests: UserAvatar[];
   onClose: () => void;
   onAccept: (username: string) => void;
   onReject: (username: string) => void;
@@ -48,27 +50,27 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
           {/* Box with users */}
           <div className={`player-list`}>
               {requests.length > 0 ? (
-                  requests.map((request, index) => (
+                  requests.map((user, index) => (
                       // The hole friend
                       <div 
-                          key={request} 
+                          key={user.username} 
                           className={`player-item`}
                       >
                           {/* Avatar */}
                           <div className={`player-avatar`}>
-                              {request.charAt(0).toUpperCase()}
+                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" className="avatar-image" />
                           </div>
 
                           {/* Name */}
                           <span className="player-name">
-                              {request}
+                              {user.username}
                           </span>
 
                           {/* Button for send request */}
                           <div className="request-actions">
-                              {respondedRequests[request] ? (
+                              {respondedRequests[user.username] ? (
                                 <button className="modal-btn status">
-                                  {respondedRequests[request] === "accepted"
+                                  {respondedRequests[user.username] === "accepted"
                                     ? "Accepted"
                                     : "Refused"}
                                 </button>
@@ -77,10 +79,10 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
                                   <button
                                     className='host-badge host-badge-button'
                                     onClick={() => {
-                                      onAccept(request);
+                                      onAccept(user.username);
                                       setRespondedRequests((prev) => ({
                                         ...prev,
-                                        [request]: "accepted",
+                                        [user.username]: "accepted",
                                       }));
                                     }}
                                   >
@@ -89,10 +91,10 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
                                   <button
                                     className='host-badge host-badge-button'
                                     onClick={() => {
-                                      onReject(request);
+                                      onReject(user.username);
                                       setRespondedRequests((prev) => ({
                                         ...prev,
-                                        [request]: "refused",
+                                        [user.username]: "refused",
                                       }));
                                     }}
                                   >

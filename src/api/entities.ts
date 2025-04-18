@@ -25,3 +25,8 @@ type RecordJSON = {
   isWinner: boolean;
   lobbyId: string;
 }
+
+export type UserAvatar = { 
+  username: string;
+  avatar: string;
+}

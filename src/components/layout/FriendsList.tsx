@@ -10,15 +10,16 @@ import {
   removeFriend
 } from "../../services/apiFriends";
 import GlassCard from "../../common/GlassCard/GlassCard";
-import { allowedNodeEnvironmentFlags } from "process";
 import { useUser } from "../../context/UserContext";
+import { UserAvatar } from "../../api/entities";
+import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
 
 export const FriendsList = () =>
 {
   // Store information about users to show
-  const [friends, setFriends] = useState<string[]>([]);
-  const [requests, setRequests] = useState<string[]>([]);
-  const [allUsers, setAllUsers] = useState<string[]>([]);
+  const [friends, setFriends] = useState<UserAvatar[]>([]);
+  const [requests, setRequests] = useState<UserAvatar[]>([]);
+  const [allUsers, setAllUsers] = useState<UserAvatar[]>([]);
 
   // Manage the windows shown
   const [isAddFriendOpen, setIsAddFriendOpen] = useState(false);
@@ -27,28 +28,25 @@ export const FriendsList = () =>
   // Information of the current user
   const userContext = useUser();
 
+  const fetchData = async () => {
+
+    // Load your friends
+    const friendsData = await fetchFriends();
+    setFriends(friendsData);
+
+    // Load your friends requests
+    const requestsData = await fetchFriendRequests();
+    setRequests(requestsData);
+
+    // Load all users and filter them
+    const allUsersData = await fetchAllUsers();
+    const filteredUsers = allUsersData.filter(user => !friendsData.includes(user) && user.username != userContext.user?.username)
+    setAllUsers(filteredUsers)
+
+  };
+
   // Fetch data
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Load your friends
-        const friendsData = await fetchFriends();
-        setFriends(friendsData);
-  
-        // Load your friends requests
-        const requestsData = await fetchFriendRequests();
-        setRequests(requestsData);
-
-        // Load all users and filter them
-        const allUsersData = await fetchAllUsers();
-        const filteredUsers = allUsersData.filter        ((user:string) => !friendsData.includes(user) && user != userContext.user?.username)
-        setAllUsers(filteredUsers)
-
-      } catch (error) {
-        console.error("Error fetching all users:", error);
-      }
-    };
-  
     fetchData();
   }, [isAddFriendOpen, isRequestOpen]);  
 
@@ -59,8 +57,7 @@ export const FriendsList = () =>
   const handleAccept = async (username: string) => {
     try {
       await respondToFriendRequest(username, true);
-      setRequests(prev => prev.filter(u => u !== username));
-      setFriends(prev => [...prev, username]);
+      fetchData(); // Refresh the data after accepting
     } catch (err) {
       console.error("Error accepting friend request:", err);
     }
@@ -73,7 +70,7 @@ export const FriendsList = () =>
   const handleReject = async (username: string) => {
     try {
       await respondToFriendRequest(username, false);
-      setRequests(prev => prev.filter(u => u !== username));
+      fetchData(); // Refresh the data after rejecting
     } catch (err) {
       console.error("Error rejecting friend request:", err);
     }
@@ -86,7 +83,7 @@ export const FriendsList = () =>
   const handleRemoveFriend = async (username: string) => {
     try {
       await removeFriend(username);
-      setFriends(prev => prev.filter(friend => friend !== username));
+      fetchData(); // Refresh the data after removing
     } catch (err) {
       console.error("Error removing friend:", err);
     }
@@ -107,26 +104,26 @@ export const FriendsList = () =>
           <h3 className="section-label">Your Friends</h3>
           <div className={`player-list`}>
               {friends.length > 0 ? (
-                  friends.map((username, index) => (
+                  friends.map((user, index) => (
                       // The hole friend
                       <div 
-                          key={username} 
+                          key={user.username} 
                           className={`player-item`}
                       >
                           {/* Avatar */}
                           <div className={`player-avatar`}>
-                              {username.charAt(0).toUpperCase()}
+                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" className="avatar-image" />
                           </div>
 
                           {/* Name */}
                           <span className="player-name">
-                              {username}
+                              {user.username}
                           </span>
 
                           {/* Button for deleting a friend */}
                           <button 
                             className='host-badge host-badge-button'
-                            onClick={() => handleRemoveFriend(username)}
+                            onClick={() => handleRemoveFriend(user.username)}
                           >
                             Remove
                           </button>
@@ -156,7 +153,7 @@ export const FriendsList = () =>
 
           {/* Button for check out requests */}
           <button
-              className={"GC-button GC-red-btn"}
+              className={"GC-button GC-blue-btn"}
               onClick={() => {setIsRequestOpen(true)}}
           >
             <span className="GC-button-text">
@@ -186,5 +183,5 @@ export const FriendsList = () =>
   }
   
   return friendsPage();
-  
+
 };
