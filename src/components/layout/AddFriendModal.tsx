@@ -1,17 +1,20 @@
-import React, { useRef, useState, useEffect } from "react";
-import "./AddFriendModal.css";
+import React, { useState } from "react";
+import "./FriendsCommon.css";
 import { sendFriendRequest } from "../../services/apiFriends";
 import GlassCard from "../../common/GlassCard/GlassCard";
-import { UserAvatar } from "../../api/entities";
+import { FriendsJSON, UserAvatar } from "../../api/entities";
 import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
+
 
 interface AddFriendModalProps {
   allUsers: UserAvatar[];
+  friends: FriendsJSON[];
   onClose: () => void;
 }
 
 const AddFriendModal: React.FC<AddFriendModalProps> = ({
   allUsers,
+  friends,
   onClose,
 }) => {
 
@@ -19,7 +22,19 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
 
   // Users added to your friends now
-  const [addedFriends, setAddedFriends] = useState<string[]>([]);
+  const [addedFriends, setAddedFriends] = useState<string[]>([]); 
+
+  // Set initial addedFriends list using useEffect to avoid render loop
+  React.useEffect(() => {
+    const acceptedFriends = allUsers.filter(
+      (user) => friends.findIndex(
+        (friend) => 
+          friend.username === user.username && 
+          friend.isAccepted === false)
+      !== -1).map((user) => user.username);
+
+    setAddedFriends(acceptedFriends);
+  }, [allUsers, friends]);
 
   /**
    * Filters the list of users based on the search input.
@@ -66,24 +81,24 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
             placeholder="Search by username..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-bar" />
+            className="search-input" />
 
           {/* Box with users */}
           <div className={`player-list`}>
               {filteredUsers.length > 0 ? (
                   filteredUsers.map((user, index) => (
-                      // The hole friend
+                      // The whole friend
                       <div 
                           key={user.username} 
-                          className={`player-item`}
+                          className={`friend-item`}
                       >
                           {/* Avatar */}
-                          <div className={`player-avatar`}>
-                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" className="avatar-image" />
+                          <div className={`friend-avatar`}>
+                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" />
                           </div>
 
                           {/* Name */}
-                          <span className="player-name">
+                          <span className="friend-name">
                               {user.username}
                           </span>
 
@@ -91,19 +106,18 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
                           { !addedFriends.includes(user.username)
                               ?
                               <button
-                                  className='host-badge host-badge-button'
+                                  className='friend-button friend-button-primary'
                                   onClick={() => handleAddFriend(user.username)}>
-                                  Send a Friendship Request
+                                  Send Request
                               </button>
                               :
-                              <span className="host-badge">Already invited!</span>
+                              <span className="friend-status friend-status-pending">Sent</span>
                           }
                       </div>
                   ))
               ) : (
-                  <div className="empty-state">
-                      <div className="empty-icon"></div>
-                      <p>Any users found</p>
+                  <div className="empty-friends">
+                      <p>No users found</p>
                   </div>
               )}
           </div>
@@ -113,16 +127,15 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
       <div className="button-group">
         {/* Button for adding new friends */}
         <button
-            className={"GC-button GC-red-btn"}
+            className={"friend-button friend-button-neutral"}
             onClick={onClose}
         >
-          <span className="GC-button-text">
-            Back to your friends
-          </span>
+          Back to your friends
         </button>
       </div>
     </GlassCard> 
-  )
+  );
+
 };
 
 export default AddFriendModal;

@@ -30,3 +30,9 @@ export type UserAvatar = {
   username: string;
   avatar: string;
 }
+
+export type FriendsJSON = {
+  username: string;
+  avatar: string;
+  isAccepted: boolean;
+}

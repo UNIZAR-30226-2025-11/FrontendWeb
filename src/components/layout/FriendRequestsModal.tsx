@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import "./FriendRequestsModal.css";
+import "./FriendsCommon.css";
 import GlassCard from "../../common/GlassCard/GlassCard";
 import { UserAvatar } from "../../api/entities";
 import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
@@ -17,6 +17,7 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
   onAccept,
   onReject,
 }) => {
+  
   const modalRef = useRef<HTMLDivElement>(null);
   const [respondedRequests, setRespondedRequests] = useState<{
     [username: string]: "accepted" | "refused";
@@ -51,33 +52,37 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
           <div className={`player-list`}>
               {requests.length > 0 ? (
                   requests.map((user, index) => (
-                      // The hole friend
+                      // The whole friend
                       <div 
                           key={user.username} 
-                          className={`player-item`}
+                          className={`friend-item`}
                       >
                           {/* Avatar */}
-                          <div className={`player-avatar`}>
-                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" className="avatar-image" />
+                          <div className={`friend-avatar`}>
+                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" />
                           </div>
 
                           {/* Name */}
-                          <span className="player-name">
+                          <span className="friend-name">
                               {user.username}
                           </span>
 
                           {/* Button for send request */}
                           <div className="request-actions">
                               {respondedRequests[user.username] ? (
-                                <button className="modal-btn status">
+                                <span className={`friend-status ${
+                                  respondedRequests[user.username] === "accepted" 
+                                    ? "friend-status-accepted" 
+                                    : "friend-status-rejected"
+                                }`}>
                                   {respondedRequests[user.username] === "accepted"
                                     ? "Accepted"
                                     : "Refused"}
-                                </button>
+                                </span>
                               ) : (
                                 <>
                                   <button
-                                    className='host-badge host-badge-button'
+                                    className='friend-button friend-button-success'
                                     onClick={() => {
                                       onAccept(user.username);
                                       setRespondedRequests((prev) => ({
@@ -89,7 +94,7 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
                                     Accept
                                   </button>
                                   <button
-                                    className='host-badge host-badge-button'
+                                    className='friend-button friend-button-danger'
                                     onClick={() => {
                                       onReject(user.username);
                                       setRespondedRequests((prev) => ({
@@ -106,8 +111,7 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
                       </div>
                   ))
               ) : (
-                  <div className="empty-state">
-                      <div className="empty-icon"></div>
+                  <div className="empty-friends">
                       <p>You don&apos;t have any requests...</p>
                   </div>
               )}
@@ -118,16 +122,14 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
       <div className="button-group">
         {/* Button for adding new friends */}
         <button
-            className={"GC-button GC-red-btn"}
+            className={"friend-button friend-button-neutral"}
             onClick={onClose}
         >
-          <span className="GC-button-text">
-            Back to your friends
-          </span>
+          Back to your friends
         </button>
       </div>
     </GlassCard>
-  )
+  );
 
 };
 

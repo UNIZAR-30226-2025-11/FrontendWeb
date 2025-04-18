@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import "./FriendsList.css";
+import React, { useEffect, useState } from "react";
+import "./FriendsCommon.css";
 import AddFriendModal from "./AddFriendModal";
 import FriendRequestsModal from "./FriendRequestsModal";
 import {
@@ -11,13 +11,14 @@ import {
 } from "../../services/apiFriends";
 import GlassCard from "../../common/GlassCard/GlassCard";
 import { useUser } from "../../context/UserContext";
-import { UserAvatar } from "../../api/entities";
+import { FriendsJSON, UserAvatar } from "../../api/entities";
 import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
+import ConfirmationModal from "./ConfirmationModal";
 
 export const FriendsList = () =>
 {
   // Store information about users to show
-  const [friends, setFriends] = useState<UserAvatar[]>([]);
+  const [friends, setFriends] = useState<FriendsJSON[]>([]);
   const [requests, setRequests] = useState<UserAvatar[]>([]);
   const [allUsers, setAllUsers] = useState<UserAvatar[]>([]);
 
@@ -28,10 +29,37 @@ export const FriendsList = () =>
   // Information of the current user
   const userContext = useUser();
 
+  // Add new state for confirmation modal
+  const [confirmationModal, setConfirmationModal] = useState({
+    isOpen: false,
+    username: "",
+    title: "",
+    message: ""
+  });
+
+  // Add function to confirm removal
+  const confirmRemoveFriend = async () => {
+    try {
+      await removeFriend(confirmationModal.username);
+      fetchData(); // Refresh the data after removing
+      // Close the modal
+      setConfirmationModal(prev => ({...prev, isOpen: false}));
+    } catch (err) {
+      console.error("Error removing friend:", err);
+    }
+  };
+
+  // Add function to close modal
+  const closeConfirmationModal = () => {
+    setConfirmationModal(prev => ({...prev, isOpen: false}));
+  };
+
+
   const fetchData = async () => {
 
     // Load your friends
     const friendsData = await fetchFriends();
+    const friendsDataUsernames = friendsData.filter(user => user.isAccepted).map(friend => friend.username);
     setFriends(friendsData);
 
     // Load your friends requests
@@ -40,7 +68,7 @@ export const FriendsList = () =>
 
     // Load all users and filter them
     const allUsersData = await fetchAllUsers();
-    const filteredUsers = allUsersData.filter(user => !friendsData.includes(user) && user.username != userContext.user?.username)
+    const filteredUsers = allUsersData.filter(user => !friendsDataUsernames.includes(user.username) && user.username != userContext.user?.username)
     setAllUsers(filteredUsers)
 
   };
@@ -81,15 +109,13 @@ export const FriendsList = () =>
    * @param username The friend's username
    */
   const handleRemoveFriend = async (username: string) => {
-    try {
-      await removeFriend(username);
-      fetchData(); // Refresh the data after removing
-    } catch (err) {
-      console.error("Error removing friend:", err);
-    }
+    setConfirmationModal({
+      isOpen: true,
+      username,
+      title: "Remove Friend",
+      message: `Are you sure you want to remove ${username} from your friends list?`
+    });
   };
-
-
 
   const seeYourFriends = () => {
     return (
@@ -104,25 +130,26 @@ export const FriendsList = () =>
           <h3 className="section-label">Your Friends</h3>
           <div className={`player-list`}>
               {friends.length > 0 ? (
-                  friends.map((user, index) => (
-                      // The hole friend
+                  friends.filter(friend => friend.isAccepted).map((user, index) => (
+                      // The whole friend
+                      
                       <div 
                           key={user.username} 
-                          className={`player-item`}
+                          className={`friend-item`}
                       >
                           {/* Avatar */}
-                          <div className={`player-avatar`}>
-                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" className="avatar-image" />
+                          <div className={`friend-avatar`}>
+                              <img src={`${IMAGES_PATH}/avatar/${user.avatar}${IMAGES_EXTENSION}`} alt="Avatar" />
                           </div>
 
                           {/* Name */}
-                          <span className="player-name">
+                          <span className="friend-name">
                               {user.username}
                           </span>
 
                           {/* Button for deleting a friend */}
                           <button 
-                            className='host-badge host-badge-button'
+                            className='friend-button friend-button-danger'
                             onClick={() => handleRemoveFriend(user.username)}
                           >
                             Remove
@@ -130,39 +157,44 @@ export const FriendsList = () =>
                       </div>
                   ))
               ) : (
-                  <div className="empty-state">
-                      <div className="empty-icon"></div>
+                  <div className="empty-friends">
                       <p>You don&apos;t have friends yet...</p>
                   </div>
               )}
           </div>
         </div>
 
-
         {/* Buttons */}
         <div className="button-group">
           {/* Button for adding new friends */}
           <button
-              className={"GC-button GC-red-btn"}
+              className={"friend-button friend-button-primary"}
               onClick={() => {setIsAddFriendOpen(true)}}
           >
-            <span className="GC-button-text">
-              Search for new friends
-            </span>
+            Search for new friends
           </button>
 
           {/* Button for check out requests */}
           <button
-              className={"GC-button GC-blue-btn"}
+              className={"friend-button friend-button-success"}
               onClick={() => {setIsRequestOpen(true)}}
           >
-            <span className="GC-button-text">
-              Check out your requests
-            </span>
+            Check out your requests
           </button>
         </div>
+
+        {/* Confirmation Modal */}
+        <ConfirmationModal
+          isOpen={confirmationModal.isOpen}
+          onClose={closeConfirmationModal}
+          onConfirm={confirmRemoveFriend}
+          title={confirmationModal.title}
+          message={confirmationModal.message}
+          confirmText="Remove"
+          cancelText="Cancel"
+        />
       </GlassCard>
-    )
+    );
   }
 
   const friendsPage = () => {
@@ -170,6 +202,7 @@ export const FriendsList = () =>
     {   
       return <AddFriendModal
                 allUsers={allUsers}
+                friends={friends}
                 onClose={() => setIsAddFriendOpen(false)} />
     }
     else if (isRequestOpen)

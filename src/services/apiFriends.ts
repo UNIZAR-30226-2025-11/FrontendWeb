@@ -1,4 +1,4 @@
-import { UserAvatar } from "../api/entities";
+import { FriendsJSON, UserAvatar } from "../api/entities";
 import { SERVER } from "../utils/config";
 import { routesRequest } from "../utils/constants";
 
@@ -6,7 +6,7 @@ import { routesRequest } from "../utils/constants";
  * Fetches the list of friends for the current user.
  * @returns Array of usernames (strings)
  */
-export const fetchFriends = async (): Promise<UserAvatar[]> => {
+export const fetchFriends = async (): Promise<FriendsJSON[]> => {
   const res = await fetch(SERVER + routesRequest.friends, {
     method: "GET",
     credentials: "include",
@@ -17,7 +17,7 @@ export const fetchFriends = async (): Promise<UserAvatar[]> => {
 
   console.log("Friends data:", data); // Debugging line
   if(data)
-    return data.users.map((user: any) => ({username:user.username, avatar:user.avatar}));
+    return data.users.map((user: any) => ({username:user.username, avatar:user.avatar, isAccepted:user.isAccepted}));
   else
     return [];
 };

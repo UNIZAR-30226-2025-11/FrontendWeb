@@ -1,0 +1,313 @@
+/* Styling for friends components that matches the project's glass card aesthetic */
+
+/* Friend item styling */
+.friend-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.friend-item:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 154, 68, 0.4);
+}
+
+/* Avatar styling */
+.friend-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 154, 68, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.friend-item:hover .friend-avatar img {
+    transform: scale(1.05);
+}
+
+/* Friend name styling */
+.friend-name {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-left: 15px;
+    flex-grow: 1;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Button styling matching the glass card buttons */
+.friend-button {
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    min-width: 90px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.friend-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+}
+
+.friend-button:active {
+    transform: translateY(1px);
+}
+
+/* Primary button - blue gradient */
+.friend-button-primary {
+    background: linear-gradient(45deg, #36d1dc, #5b86e5);
+    color: white;
+    box-shadow: 0 4px 15px rgba(91, 134, 229, 0.4);
+}
+
+.friend-button-primary:hover {
+    background: linear-gradient(45deg, #3ecae5, #6e95f3);
+}
+
+/* Success button - green gradient */
+.friend-button-success {
+    background: linear-gradient(45deg, #11998e, #38ef7d);
+    color: white;
+    box-shadow: 0 4px 12px rgba(56, 239, 125, 0.4);
+    padding: 15px 10px;
+}
+
+.friend-button-success:hover {
+    background: linear-gradient(45deg, #13a89c, #4aff8d);
+}
+
+/* Danger button - red gradient */
+.friend-button-danger {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+.friend-button-danger:hover {
+    background: linear-gradient(45deg, #ff7a7a, #ffa071);
+}
+
+/* Neutral button - gray gradient */
+.friend-button-neutral {
+    background: linear-gradient(45deg, #616161, #9e9e9e);
+    color: white;
+    box-shadow: 0 4px 12px rgba(97, 97, 97, 0.4);
+    padding: 15px 10px;
+}
+
+.friend-button-neutral:hover {
+    background: linear-gradient(45deg, #757575, #bdbdbd);
+}
+
+/* Status indicators */
+.friend-status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.friend-status-accepted {
+    background: linear-gradient(45deg, #11998e, #38ef7d);
+}
+
+.friend-status-rejected {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+}
+
+.friend-status-pending {
+    background: linear-gradient(45deg, #F2994A, #F2C94C);
+    color: #2a0845;
+}
+
+/* Request actions container */
+.request-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Empty state messaging */
+.empty-friends {
+    text-align: center;
+    padding: 25px;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    margin: 15px 0;
+}
+
+.empty-friends p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Button group styling */
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Search input styling */
+.search-input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: rgba(255, 154, 68, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 154, 68, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Players section styling */
+.players-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.section-label {
+    font-size: 1.1rem;
+    color: white;
+    margin-bottom: 15px;
+    text-align: left;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 10px rgba(255, 106, 136, 0.6);
+}
+
+.player-list {
+    max-height: 350px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 5px;
+}
+
+/* Custom scrollbar styling */
+.player-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.player-list::-webkit-scrollbar-track {
+    background: rgba(26, 24, 30, 0.4);
+    border-radius: 10px;
+}
+
+.player-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    border-radius: 10px;
+}
+
+.player-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #ff8a34, #ff5a78);
+}
+
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.2s ease-out forwards;
+  }
+  
+  .confirmation-modal {
+    background-color: rgba(26, 24, 30, 0.95);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 121, 63, 0.3);
+    padding: 25px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.6);
+    animation: slideUp 0.3s ease-out forwards;
+    text-align: center;
+  }
+  
+  .confirmation-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #ff9a44, #ff6a88);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 10px rgba(255, 106, 136, 0.6);
+  }
+  
+  .confirmation-message {
+    color: white;
+    margin-bottom: 25px;
+    font-size: 1rem;
+  }
+  
+  .confirmation-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
