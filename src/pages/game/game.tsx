@@ -158,21 +158,17 @@ const Game = () => {
                      <div className="game-timer-slot"> {/* Use class from game.css */}
                         {/* Wrapper for Timer and Turn Message (used for layout) */}
                         <div className="timer-wrapper"> {/* Use class from game.css */}
-                            {turn && (
-                                <>
-                                    {/* Display "Your Turn" message */}
-                                    <div className="your-turn-message"> {/* Use class from game.css */}
-                                        <span className="turn-icon">🎮</span> {/* Use class from game.css */}
-                                        <span>Your Turn!</span>
-                                    </div>
-                                    {/* Display Timer */}
-                                    <Timer
-                                        key={socket.gameState.turnUsername + socket.gameState.turnsLeft} // Add key to force re-render on turn change
-                                        duration={socket.gameState.timeOut/1000}
-                                        onTimeUp={() => {console.log("TIMER ENDED");}} // Add actual logic if needed
-                                    />
-                                </>
-                            )}
+                            {/* Display "Your Turn" message */}
+                            {turn && <div className="your-turn-message"> {/* Use class from game.css */}
+                                    <span className="turn-icon">🎮</span> {/* Use class from game.css */}
+                                    <span>Your Turn!</span>
+                                </div>}
+                                {/* Display Timer */}
+                                <Timer
+                                    key={socket.gameState.turnUsername + socket.gameState.turnsLeft} // Add key to force re-render on turn change
+                                    duration={socket.gameState.timeOut/1000}
+                                    onTimeUp={() => {console.log("TIMER ENDED");}} // Add actual logic if needed
+                                />
                         </div>
                     </div>
                     {/* Slot for the Player's Hand */}

@@ -158,7 +158,7 @@
     align-items: center; /* Center items horizontally */
     justify-content: center; /* Center items vertically if needed */
     gap: 5px; /* Add a small gap between timer and message */
-    width: 100%; /* Ensure wrapper takes full column width */
+    /* width: 100%; Ensure wrapper takes full column width */
   }
   
   /* Timer slot on the left */

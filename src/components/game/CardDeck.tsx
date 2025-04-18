@@ -113,7 +113,7 @@ import React, {
 			}}
 			transition={{ 
 			  duration: isShuffling ? 1 : 0.3,
-			  type: "spring", 
+			  type: "easeInOut", 
 			  stiffness: 300
 			}}
 		  >
@@ -139,7 +139,7 @@ import React, {
 				}}
 				transition={{ 
 				  duration: isShuffling ? 0.8 : 0.3,
-				  type: "spring"
+				  type: "easeInOut"
 				}}
 			  />
 			))}

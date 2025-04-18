@@ -15,18 +15,18 @@ const WelcomePage = () => {
   const handleSignUp = () => navigate('/signup');
 
   return (
-    <div className="welcome-page">
-      <GlassCard title="Welcome to KatBoom!" maxwidth={400} minwidth={50}>
-        <div className="button-container">
-        <button className="GC-button GC-red-btn" onClick={handleLogin}>
-            <span className="GC-button-text">Log In</span>
-          </button>
-          <button className="GC-button GC-blue-btn" onClick={handleSignUp}>
-            <span className="GC-button-text">Sign Up</span>
-          </button>
-        </div>
-      </GlassCard>
-  </div>
+    <GlassCard title="Welcome to KatBoom!" 
+      maxwidth={500} 
+      minwidth={50}>
+      <div className="button-container">
+      <button className="GC-button GC-red-btn" onClick={handleLogin}>
+          <span className="GC-button-text">Log In</span>
+        </button>
+        <button className="GC-button GC-blue-btn" onClick={handleSignUp}>
+          <span className="GC-button-text">Sign Up</span>
+        </button>
+      </div>
+    </GlassCard>
   );
 };
 
