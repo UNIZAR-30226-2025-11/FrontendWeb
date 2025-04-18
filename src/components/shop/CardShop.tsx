@@ -82,7 +82,6 @@ const Shop: React.FC = () => {
   const loadShopItems = async () => {
     try {
       const items: Product[] = await fetchShopItems();
-      console.log(items);
       setShopData(items);
     } catch (error) {
       console.error("Failed to load shop items:", error);

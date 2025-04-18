@@ -110,7 +110,6 @@ const Game = () => {
 
         const players = socket.gameState.players.filter(player => player.playerUsername !== socket.gameState!.playerUsername);
         const turn: boolean = socket.gameState.turnUsername === socket.gameState.playerUsername;
-        console.log(players);
         return (
             <div className="game-container"> {/* Root container */}
                 {/* Top right chat dropdown */}

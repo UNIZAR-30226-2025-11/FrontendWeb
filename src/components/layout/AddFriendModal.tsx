@@ -31,7 +31,6 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
       try {
         await sendFriendRequest(username);
         setAddedFriends((prev) => [...prev, username]);
-        console.log(`Friend request sent to ${username}`);
       } catch (err) {
         console.error("Error sending friend request:", err);
         alert("Could not send friend request. Try again later.");

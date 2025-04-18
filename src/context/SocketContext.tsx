@@ -34,6 +34,8 @@ export interface SocketContextType {
     lobbyStarted: Objects.BackendStartGameResponseJSON | undefined;
     actions: Objects.BackendNotifyActionJSON | undefined;
     setActions: React.Dispatch<React.SetStateAction<Objects.BackendNotifyActionJSON | undefined>>;
+    canReconnect: Objects.BackendPlayerCanReconnectJSON | undefined;
+    setCanReconnect: React.Dispatch<React.SetStateAction<Objects.BackendPlayerCanReconnectJSON | undefined>>;
     messagesChat: Objects.BackendGetMessagesJSON | undefined;
     setMessagesChat: React.Dispatch<React.SetStateAction<Objects.BackendGetMessagesJSON | undefined>>;
     friendJoinRequest: Objects.BackendSendFriendRequestEnterLobbyJSON | undefined;
@@ -99,11 +101,15 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
 
     // -------------------------------------------------------------------------
+    // RECONNECTING
+    // -------------------------------------------------------------------------
+    const [canReconnect, setCanReconnect] = useState<Objects.BackendPlayerCanReconnectJSON | undefined>(undefined);
+
+    // -------------------------------------------------------------------------
     // HANDLERS (Using useCallback for stability)
     // -------------------------------------------------------------------------
 
     const handleFriendJoinRequest = useCallback((data: Objects.BackendSendFriendRequestEnterLobbyJSON) => {
-        console.log("Friend join request received:", data);
         setFriendJoinRequest(data);
     }, []);
 
@@ -148,6 +154,10 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setMessagesChat(data);
     }, []);
 
+    const handleCanReconnect = useCallback((data: Objects.BackendPlayerCanReconnectJSON) => {
+        setCanReconnect(data);
+    }
+    , []);
 
     // -------------------------------------------------------------------------
     const acceptInvitation = useCallback((lobbyId: string) => {
@@ -159,7 +169,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 accept: true,
                 friendSendingRequest: friendJoinRequest.friendSendingRequest
             }
-            console.log("Accepting invitation:", msg);
             // Send socket message to accept the invitation
             socket.emit("receive-friend-join-lobby-request", msg);
             setFriendJoinRequest(undefined);
@@ -175,7 +184,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 accept: false,
                 friendSendingRequest: friendJoinRequest.friendSendingRequest
             }
-            console.log("Declining invitation:", msg);
             // Send socket message to accept the invitation
             socket.emit("receive-friend-join-lobby-request", msg);
             setFriendJoinRequest(undefined);
@@ -209,6 +217,9 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         // Friends
         socket.on("receive-friend-join-lobby-request", handleFriendJoinRequest);
 
+        // Reconnect
+        socket.on("player-reconnect", handleCanReconnect);
+
         return () => {
             // Lobby
             socket.off("lobby-state", handleLobbyStateUpdate);
@@ -235,6 +246,9 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
             // Friends
             socket.off("receive-friend-join-lobby-request", handleFriendJoinRequest);
+
+            // Reconnect
+            socket.off("player-reconnect", handleCanReconnect);
         };
     }, [
         socket,
@@ -248,6 +262,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         handleWinnerWrapper,
         handleNotifyAction,
         handleGetMessages,
+        handleCanReconnect,
         handleFriendJoinRequest,
     ]);
 
@@ -279,6 +294,8 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             lobbyStarted,
             actions,
             setActions,
+            canReconnect,
+            setCanReconnect,
             messagesChat,
             setMessagesChat,
             friendJoinRequest,

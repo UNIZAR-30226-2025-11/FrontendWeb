@@ -72,14 +72,6 @@ export type BackendWinnerJSON = {
     lobbyId: string;
 }
 
-export type FrontendWinnerResponseJSON = {
-    error: boolean;
-    errorMsg: string;
-    winnerUsername: string;
-    coinsEarned: number;
-    lobbyId: string;
-}
-
 // -----------------------------------------------------------
 // Message to send a petition to select a player of the game
 // Started by: The backend
@@ -92,6 +84,7 @@ export type BackendGameSelectPlayerJSON = {
     error: boolean;
     errorMsg: string;
     lobbyId: string;
+    timeOut: number;
 }
 
 export type FrontendGameSelectPlayerResponseJSON = {
@@ -113,6 +106,7 @@ export type BackendGameSelectCardJSON = {
     error: boolean;
     errorMsg: string;
     lobbyId: string;
+    timeOut: number;
 }
 
 export type FrontendGameSelectCardResponseJSON = {
@@ -135,6 +129,7 @@ export type BackendGameSelectCardTypeJSON = {
     error: boolean;
     errorMsg: string;
     lobbyId: string;
+    timeOut: number;
 }
 
 export type FrontendGameSelectCardTypeResponseJSON = {
@@ -155,6 +150,7 @@ export type BackendGameSelectNopeJSON = {
     error: boolean;
     errorMsg: string;
     lobbyId: string;
+    timeOut: number;
 }
 
 export type FrontendGameSelectNopeResponseJSON = {
@@ -274,6 +270,22 @@ export type BackendNotifyActionJSON = {
 
 
 // -----------------------------------------------------------
+// Message to notify a player connection or disconnection
+// Started by: The backend
+// Listened by: The frontend
+// Ack: None
+// Socket-event: "player-reconnect"
+// -----------------------------------------------------------
+
+export type BackendPlayerCanReconnectJSON = {
+    error: boolean;
+    errorMsg: string;
+    lobbyId: string;
+}
+// -----------------------------------------------------------
+
+
+// -----------------------------------------------------------
 // Message to post a message in the chat
 // Started by: The frontend
 // Listened by: The backend
@@ -310,7 +322,6 @@ export type MsgJSON = {
     username: string;
     date: string;
 }
-
 
 // -----------------------------------------------------------
 // Message to get the connected friends
