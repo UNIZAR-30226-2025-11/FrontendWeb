@@ -13,7 +13,10 @@ export const fetchFriends = async (): Promise<string[]> => {
   });
 
   const data = await res.json();
-  return data.users.map((user: any) => user.username);
+  if(data)
+    return data.users.map((user: any) => user.username);
+  else
+    return [];
 };
 
 /**
@@ -62,7 +65,10 @@ export const fetchFriendRequests = async (): Promise<string[]> => {
   });
 
   const data = await res.json();
-  return data.map((user: any) => user.username);
+  if(data)
+    return data.users.map((user: any) => user.username);
+  else
+    return [];
 };
 
 /**
@@ -99,9 +105,8 @@ export const fetchAllUsers = async (): Promise<string[]> => {
     
     const data = await res.json();
 
-    if(data === undefined) {
-      throw new Error("No users found");
-    }
-
-    return data.users.map((user: any) => user.username);
+    if(data)
+      return data.users.map((user: any) => user.username);
+    else
+      return [];
   };

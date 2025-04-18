@@ -12,6 +12,8 @@ import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/prote
 import Container from './components/logging/Container';
 import { AnimatedBackground } from './common/AnimatedBackground/AnimatedBackground';
 import InvitationModal from './common/InvitationModal/InvitationModal';
+import { FriendsList } from './components/layout/FriendsList';
+
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
@@ -55,6 +57,9 @@ function App() {
 
           {/* Route for the game menu */}
           <Route path={routes.gamemenu} element={<GameMenu />} />
+
+          {/* Route for the friends list */}
+          <Route path={routes.friends} element={<FriendsList />} />
 
           {/* Route for the change password page */}
           <Route path={routes.chgpassw} element={<ChangePasswordPage />} />

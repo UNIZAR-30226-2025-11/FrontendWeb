@@ -10,38 +10,29 @@ import {
   removeFriend
 } from "../../services/apiFriends";
 import GlassCard from "../../common/GlassCard/GlassCard";
-import { useUser } from "../../context/UserContext";
 
 export const FriendsList = () =>
 {
-  // Store information about users to show
   const [friends, setFriends] = useState<string[]>([]);
   const [requests, setRequests] = useState<string[]>([]);
   const [allUsers, setAllUsers] = useState<string[]>([]);
 
-  // Manage the windows shown
   const [isAddFriendOpen, setIsAddFriendOpen] = useState(false);
   const [isRequestOpen, setIsRequestOpen] = useState(false);
-
-  // Information of the current user
-  const userContext = useUser();
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Load your friends
         const friendsData = await fetchFriends();
         setFriends(friendsData);
   
-        // Load your friends requests
         const requestsData = await fetchFriendRequests();
         setRequests(requestsData);
 
-        // Load all users and filter them
         const allUsersData = await fetchAllUsers();
-        const filteredUsers = allUsersData.filter        ((user:string) => !friendsData.includes(user) && user != userContext.user?.username)
-        setAllUsers(filteredUsers)
+        setAllUsers(allUsersData);
 
       } catch (error) {
         console.error("Error fetching all users:", error);
@@ -121,14 +112,6 @@ export const FriendsList = () =>
                           <span className="player-name">
                               {username}
                           </span>
-
-                          {/* Button for deleting a friend */}
-                          <button 
-                            className='host-badge host-badge-button'
-                            onClick={() => handleRemoveFriend(username)}
-                          >
-                            Remove
-                          </button>
                       </div>
                   ))
               ) : (
@@ -167,23 +150,96 @@ export const FriendsList = () =>
     )
   }
 
+  const requestsOfFriends = () => {
+    return (
+      <GlassCard
+          title="Friends"
+          maxwidth="700px"
+          minwidth="320px"
+          showPaws={true}
+      >
+        {/* Players in the lobby */}
+        <div className="players-section">
+            <h3 className="section-label">Your Friends</h3>
+            <div className={`player-list`}>
+                {friends.length > 0 ? (
+                    friends.map((username, index) => (
+                        // The hole friend
+                        <div 
+                            key={username} 
+                            className={`player-item`}
+                        >
+                            {/* Avatar */}
+                            <div className={`player-avatar`}>
+                                {username.charAt(0).toUpperCase()}
+                            </div>
+
+                            {/* Name */}
+                            <span className="player-name">
+                                {username}
+                            </span>
+                        </div>
+                    ))
+                ) : (
+                    <div className="empty-state">
+                        <div className="empty-icon"></div>
+                        <p>You don&apos;t have friends yet...</p>
+                    </div>
+                )}
+            </div>
+          </div>
+
+        {/* Buttons */}
+        <div className="button-group">
+          {/* Button for adding new friends */}
+          <button
+              className={"GC-button GC-red-btn"}
+              onClick={() => {setIsRequestOpen(false)}}
+          >
+            <span className="GC-button-text">
+              Back to your friends
+            </span>
+          </button>
+        </div>
+      </GlassCard> 
+    )
+  }
+
+  const fetch = async () => {
+    try {
+      const friendsData = await fetchFriends();
+      setFriends(friendsData);
+
+      const requestsData = await fetchFriendRequests();
+      setRequests(requestsData);
+
+      console.log("B")
+
+      const allUsersData = await fetchAllUsers();
+
+      console.log("D")
+      setAllUsers(allUsersData);
+      console.log("E")
+
+    } catch (error) {
+      console.error("Error fetching all users:", error);
+    }
+  }
+
   const friendsPage = () => {
+    console.log("All users: ", allUsers)
     if (isAddFriendOpen)
     {   
       return <AddFriendModal
                 allUsers={allUsers}
-                onClose={() => setIsAddFriendOpen(false)} />
+                onClose={() => {setIsAddFriendOpen(false)}} />
     }
     else if (isRequestOpen)
-      return <FriendRequestsModal
-                requests={requests}
-                onClose={() => setIsRequestOpen(false)}
-                onAccept={handleAccept}
-                onReject={handleReject}/>
+      return requestsOfFriends();
     else
       return seeYourFriends();
   }
   
   return friendsPage();
-
+  
 };

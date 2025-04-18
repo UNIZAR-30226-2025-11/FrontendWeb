@@ -5,7 +5,6 @@ import { handleLogoutAPI } from "../../services/apiService";
 import { UserContextType, useUser } from '../../context/UserContext';
 import { useNotification } from '../../context/NotificationContext';
 import { IMAGES_EXTENSION, IMAGES_PATH } from '../../services/apiShop';
-import { FriendsList } from './FriendsList';
 
 /**
  * Defines the HTML for creating a user bar with the
@@ -56,10 +55,6 @@ const UserBar = ({}: {}) => {
     setIsOpen(!isOpen);
   };
 
-  const openFriendsList = () => {
-    setIsFriendsListOpen(true);
-    setIsOpen(false);
-  };
 
   const closeFriendsList = () => {
     setIsFriendsListOpen(false);
@@ -132,7 +127,7 @@ const UserBar = ({}: {}) => {
             </button>
           </li>
           <li>
-            <button className="menu-btn friends-btn" onClick={openFriendsList}>
+            <button className="menu-btn friends-btn" onClick={() => navigate(routes.friends)}>
               <span className="btn-icon">👥</span>
               <span className="btn-text">Friends</span>
             </button>
@@ -146,10 +141,6 @@ const UserBar = ({}: {}) => {
           </li>
         </ul>
       </div>
-
-      {isFriendsListOpen && (
-        <FriendsList/>
-      )}
     </>
   );
 };
