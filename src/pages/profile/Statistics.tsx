@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
-import './UserStatistics.css';
 import { UserContextType, useUser } from '../../context/UserContext';
 import GlassCard from '../../common/GlassCard/GlassCard';
 import { formatRelativeTime } from '../../utils/functions';
+
+import './statistics.css';
 
 const UserStatistics: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);

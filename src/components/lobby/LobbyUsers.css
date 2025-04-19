@@ -1,4 +1,4 @@
-.lobby-users-wrapper {
+.lu-lobby-users-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,12 +6,12 @@
     width: 100%;
 }
 
-.lobby-users-card {
+.lu-lobby-users-card {
     position: relative;
 }
 
 /* Lobby ID section */
-.lobby-id-container {
+.lu-lobby-id-container {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 12px;
     padding: 15px;
@@ -23,14 +23,14 @@
     border: 1px solid rgba(255, 121, 63, 0.2);
 }
 
-.lobby-id-label {
+.lu-lobby-id-label {
     color: rgba(255, 255, 255, 0.7);
     font-size: 14px;
     margin: 0;
     text-align: left;
 }
 
-.lobby-id-value {
+.lu-lobby-id-value {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,11 +48,11 @@
     transition: all 0.3s ease;
 }
 
-.lobby-id-value:hover {
+.lu-lobby-id-value:hover {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.copy-tooltip {
+.lu-copy-tooltip {
     position: absolute;
     bottom: calc(100% + 10px);
     left: 50%;
@@ -69,7 +69,7 @@
     pointer-events: none;
 }
 
-.copy-tooltip::after {
+.lu-copy-tooltip::after {
     content: "";
     position: absolute;
     top: 100%;
@@ -80,13 +80,13 @@
     border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
 }
 
-.lobby-id-value:hover .copy-tooltip,
-.copy-tooltip.show {
+.lu-lobby-id-value:hover .lu-copy-tooltip,
+.lu-copy-tooltip.show {
     opacity: 1;
     visibility: visible;
 }
 
-.copy-button {
+.lu-copy-button {
     position: absolute;
     right: 10px;
     background: transparent;
@@ -99,17 +99,17 @@
     transition: opacity 0.3s ease;
 }
 
-.copy-button:hover {
+.lu-copy-button:hover {
     opacity: 1;
 }
 
 /* Players section styling */
-.players-section {
+.lu-players-section {
     margin: 20px 0;
     position: relative;
 }
 
-.section-label {
+.lu-section-label {
     color: rgba(255, 255, 255, 0.9);
     font-size: 18px;
     text-align: left;
@@ -119,7 +119,7 @@
     padding-left: 20px;
 }
 
-.section-label::before {
+.lu-section-label::before {
     content: "";
     position: absolute;
     left: 0;
@@ -131,7 +131,7 @@
     border-radius: 50%;
 }
 
-.player-list {
+.lu-player-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -140,7 +140,7 @@
     padding-right: 5px;
 }
 
-.player-list.animate .player-item {
+.lu-player-list.animate .lu-player-item {
     animation: playerPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
@@ -150,7 +150,7 @@
     100% { transform: scale(1); }
 }
 
-.player-item {
+.lu-player-item {
     display: flex;
     align-items: center;
     padding: 12px 15px;
@@ -160,16 +160,16 @@
     position: relative;
 }
 
-.player-item:nth-child(odd) {
+.lu-player-item:nth-child(odd) {
     background: rgba(255, 255, 255, 0.12);
 }
 
-.player-item:hover {
+.lu-player-item:hover {
     transform: translateX(5px);
     background: rgba(255, 154, 68, 0.15);
 }
 
-.player-avatar {
+.lu-player-avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -184,14 +184,14 @@
     box-shadow: 0 2px 8px rgba(255, 106, 136, 0.4);
 }
 
-.player-name {
+.lu-player-name {
     font-size: 16px;
     color: white;
     flex-grow: 1;
     text-align: left;
 }
 
-.host-badge {
+.lu-host-badge {
     background: linear-gradient(45deg, #ff9a44, #ff6a88);
     color: white;
     padding: 4px 8px;
@@ -202,7 +202,7 @@
 }
 
 /* Empty state */
-.empty-state {
+.lu-empty-state {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -214,7 +214,7 @@
     border: 1px dashed rgba(255, 255, 255, 0.2);
 }
 
-.empty-icon {
+.lu-empty-icon {
     width: 50px;
     height: 50px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3Cpath d='M5 21v-2a7 7 0 0 1 14 0v2'/%3E%3C/svg%3E");
@@ -224,14 +224,14 @@
     opacity: 0.6;
 }
 
-.empty-state p {
+.lu-empty-state p {
     color: rgba(255, 255, 255, 0.6);
     font-style: italic;
     margin: 0;
 }
 
 /* Status message */
-.status-message {
+.lu-status-message {
     padding: 15px;
     margin: 20px 0;
     border-radius: 10px;
@@ -240,7 +240,7 @@
     border-image: linear-gradient(to bottom, #ff9a44, #ff6a88) 1;
 }
 
-.status-message p {
+.lu-status-message p {
     margin: 0;
     color: rgba(255, 255, 255, 0.9);
     font-size: 16px;
@@ -256,36 +256,36 @@
 
 /* Responsive design */
 @media (max-width: 480px) {
-    .lobby-id-value {
+    .lu-lobby-id-value {
         font-size: 16px;
         letter-spacing: 1px;
     }
     
-    .player-avatar {
+    .lu-player-avatar {
         width: 30px;
         height: 30px;
         font-size: 14px;
     }
     
-    .player-name {
+    .lu-player-name {
         font-size: 14px;
     }
     
-    .host-badge {
+    .lu-host-badge {
         font-size: 10px;
         padding: 3px 6px;
     }
     
-    .section-label {
+    .lu-section-label {
         font-size: 16px;
     }
     
-    .status-message p {
+    .lu-status-message p {
         font-size: 14px;
     }
 }
 
-.countdown {
+.lu-countdown {
     font-weight: bold;
     font-size: 22px;
     color: #ff6a88;
@@ -305,7 +305,7 @@
     100% { transform: scale(1); }
 }
 
-.countdown-progress {
+.lu-countdown-progress {
     width: 100%;
     max-width: 300px;
     height: 6px;
@@ -315,7 +315,7 @@
     margin: 5px 0 20px;
 }
 
-.countdown-bar {
+.lu-countdown-bar {
     height: 100%;
     background: linear-gradient(to right, #ff9a44, #ff6a88);
     border-radius: 3px;
@@ -323,24 +323,24 @@
 }
 
 /* Current player (self) styling */
-.player-self {
+.lu-player-self {
     background: rgba(255, 154, 68, 0.15) !important;
     border-left: 4px solid #ff9a44;
     transform: translateX(0) !important;
     box-shadow: 0 0 20px rgba(255, 106, 136, 0.1);
 }
 
-.player-self:hover {
+.lu-player-self:hover {
     background: rgba(255, 154, 68, 0.25) !important;
 }
 
-.self-avatar {
+.lu-self-avatar {
     background: linear-gradient(45deg, #ff6a88, #ff9a44) !important;
     box-shadow: 0 0 15px rgba(255, 106, 136, 0.5) !important;
     position: relative;
 }
 
-.self-indicator {
+.lu-self-indicator {
     position: absolute;
     width: 12px;
     height: 12px;
@@ -352,7 +352,7 @@
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
-.self-label {
+.lu-self-label {
     font-size: 12px;
     opacity: 0.8;
     margin-left: 5px;
@@ -364,13 +364,13 @@
 }
 
 /* Disband card styling */
-.lobby-users-card.disband {
+.lu-lobby-users-card.disband {
     border-color: rgba(255, 59, 48, 0.4);
     position: relative;
     overflow: hidden;
 }
 
-.lobby-users-card.disband:before {
+.lu-lobby-users-card.disband:before {
     content: "";
     position: absolute;
     top: 0;
@@ -393,7 +393,7 @@
 }
 
 /* Disband content styling */
-.disband-content {
+.lu-disband-content {
     position: relative;
     z-index: 1;
     display: flex;
@@ -405,7 +405,7 @@
     text-align: center;
 }
 
-.disband-icon {
+.lu-disband-icon {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -418,7 +418,7 @@
     margin-bottom: 10px;
 }
 
-.disband-icon span {
+.lu-disband-icon span {
     position: absolute;
     width: 50px;
     height: 4px;
@@ -426,35 +426,35 @@
     border-radius: 2px;
 }
 
-.disband-icon span:first-child {
+.lu-disband-icon span:first-child {
     transform: rotate(45deg);
 }
 
-.disband-icon span:last-child {
+.lu-disband-icon span:last-child {
     transform: rotate(-45deg);
 }
 
-.disband-title {
+.lu-disband-title {
     font-size: 28px;
     color: rgba(255, 59, 48, 0.9);
     margin: 0;
     text-shadow: 0 2px 10px rgba(255, 59, 48, 0.4);
 }
 
-.disband-message {
+.lu-disband-message {
     font-size: 18px;
     color: rgba(255, 255, 255, 0.7);
     margin: 0;
 }
 
 /* Loading indicator */
-.loading-indicator {
+.lu-loading-indicator {
     display: flex;
     gap: 8px;
     margin: 10px 0;
 }
 
-.loading-dot {
+.lu-loading-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -462,15 +462,15 @@
     animation: dotPulse 1.4s infinite ease-in-out;
 }
 
-.loading-dot:nth-child(1) {
+.lu-loading-dot:nth-child(1) {
     animation-delay: 0s;
 }
 
-.loading-dot:nth-child(2) {
+.lu-loading-dot:nth-child(2) {
     animation-delay: 0.2s;
 }
 
-.loading-dot:nth-child(3) {
+.lu-loading-dot:nth-child(3) {
     animation-delay: 0.4s;
 }
 
@@ -480,7 +480,7 @@
 }
 
 /* Animation for disbanding */
-.disband-animated {
+.lu-disband-animated {
     animation: disbandShake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
 
@@ -493,44 +493,42 @@
 
 /* Responsive adjustments for new elements */
 @media (max-width: 480px) {
-    .self-label {
+    .lu-self-label {
         display: block;
         margin-left: 0;
         font-size: 10px;
     }
     
-    .countdown {
+    .lu-countdown {
         font-size: 18px;
         width: 20px;
         height: 20px;
         line-height: 20px;
     }
     
-    .disband-title {
+    .lu-disband-title {
         font-size: 22px;
     }
     
-    .disband-message {
+    .lu-disband-message {
         font-size: 14px;
     }
 }
 
-/* ...existing code... */
-
 /* Friends section styling */
-.friends-section {
+.lu-friends-section {
     margin: 20px 0;
     position: relative;
 }
 
-.friends-header {
+.lu-friends-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.refresh-button {
+.lu-refresh-button {
     background: rgba(255, 255, 255, 0.1);
     border: none;
     border-radius: 50%;
@@ -543,12 +541,12 @@
     transition: all 0.3s ease;
 }
 
-.refresh-button:hover {
+.lu-refresh-button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.05);
 }
 
-.refresh-button.rotating svg {
+.lu-refresh-button.rotating svg {
     animation: rotate 1.5s linear infinite;
 }
 
@@ -586,7 +584,7 @@
     background: rgba(65, 137, 230, 0.15);
 }
 
-.friend-avatar {
+.lu-friend-avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -603,7 +601,7 @@
     overflow: visible; /* Changed from hidden to make the indicator fully visible */
 }
 
-.friend-avatar-img {
+.lu-friend-avatar-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -612,7 +610,7 @@
     overflow: hidden;
 }
 
-.status-indicator {
+.lu-status-indicator {
     position: absolute;
     width: 12px;
     height: 12px;
@@ -625,60 +623,60 @@
     transform: translate(-20%, -20%);
 }
 
-.status-indicator.online {
+.lu-status-indicator.online {
     background-color: #4cd964;
     box-shadow: 0 0 5px rgba(76, 217, 100, 0.6), 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
-.status-indicator.busy {
+.lu-status-indicator.busy {
     background-color: #ffcc00;
     box-shadow: 0 0 5px rgba(255, 204, 0, 0.6), 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
-.status-indicator.offline {
+.lu-status-indicator.offline {
     background-color: #8e8e93;
     box-shadow: 0 0 5px rgba(142, 142, 147, 0.4), 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
-.friend-info {
+.lu-friend-info {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     text-align: left;
 }
 
-.friend-name {
+.lu-friend-name {
     font-size: 16px;
     color: white;
 }
 
-.friend-status {
+.lu-friend-status {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
     margin-top: 2px;
 }
 
 /* Offline friend styling */
-.friend-item.offline {
+.lu-friend-item.offline {
     opacity: 0.7;
     background: rgba(142, 142, 147, 0.1);
 }
 
-.friend-item.offline .friend-avatar {
+.lu-friend-item.offline .lu-friend-avatar {
     background: linear-gradient(45deg, #8e8e93, #aeaeb2);
     box-shadow: 0 2px 8px rgba(142, 142, 147, 0.2);
 }
 
-.friend-item.offline:hover {
+.lu-friend-item.offline:hover {
     background: rgba(142, 142, 147, 0.15);
 }
 
 /* In-game friend styling */
-.friend-item.in-game {
+.lu-friend-item.in-game {
     border-left: 3px solid #ffcc00;
 }
 
-.friend-item.in-game .friend-avatar {
+.lu-friend-item.in-game .lu-friend-avatar {
     background: linear-gradient(45deg, #ffcc00, #ffd60a);
     box-shadow: 0 2px 8px rgba(255, 204, 0, 0.4);
 }
@@ -693,23 +691,23 @@
     background: rgba(76, 217, 100, 0.15);
 }
 
-.lu-friend-item.already-in-lobby .friend-avatar {
+.lu-friend-item.already-in-lobby .lu-friend-avatar {
     background: linear-gradient(45deg, #4cd964, #76e190);
     box-shadow: 0 2px 8px rgba(76, 217, 100, 0.4);
 }
 
-.lu-friend-item.already-in-lobby .invite-button {
+.lu-friend-item.already-in-lobby .lu-invite-button {
     background: rgba(76, 217, 100, 0.3);
     color: rgba(255, 255, 255, 0.7);
     cursor: not-allowed;
 }
 
-.lu-friend-item.already-in-lobby .invite-button:hover {
+.lu-friend-item.already-in-lobby .lu-invite-button:hover {
     transform: none;
     box-shadow: none;
 }
 
-.already-in-lobby-badge {
+.lu-already-in-lobby-badge {
     background: rgba(76, 217, 100, 0.7);
     color: white;
     padding: 4px 8px;
@@ -721,21 +719,21 @@
     gap: 4px;
 }
 
-.already-in-lobby-badge svg {
+.lu-already-in-lobby-badge svg {
     width: 12px;
     height: 12px;
 }
 
 /* Responsive adjustments for already-in-lobby state */
 @media (max-width: 480px) {
-    .already-in-lobby-badge {
+    .lu-already-in-lobby-badge {
         font-size: 10px;
         padding: 3px 6px;
     }
 }
 
 /* Invite button */
-.invite-button {
+.lu-invite-button {
     background: linear-gradient(45deg, #4189e6, #5e9cf5);
     border: none;
     border-radius: 6px;
@@ -750,17 +748,17 @@
     gap: 5px;
 }
 
-.invite-button:hover {
+.lu-invite-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(65, 137, 230, 0.4);
 }
 
-.invite-text {
+.lu-invite-text {
     margin-right: 2px;
 }
 
 /* Invite success animation */
-.invite-success {
+.lu-invite-success {
     position: absolute;
     top: 0;
     left: 0;
@@ -777,7 +775,7 @@
     z-index: 5;
 }
 
-.friend-item.invite-sent .invite-success {
+.lu-friend-item.invite-sent .lu-invite-success {
     transform: translateX(0);
     animation: slideOut 2s forwards;
 }
@@ -790,32 +788,32 @@
 }
 
 /* Empty state for friends */
-.empty-icon.friends-empty {
+.lu-empty-icon.friends-empty {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
 }
 
 /* Responsive styling for friends section */
 @media (max-width: 480px) {
-    .friend-avatar {
+    .lu-friend-avatar {
         width: 30px;
         height: 30px;
         font-size: 14px;
     }
     
-    .friend-name {
+    .lu-friend-name {
         font-size: 14px;
     }
     
-    .friend-status {
+    .lu-friend-status {
         font-size: 10px;
     }
     
-    .invite-button {
+    .lu-invite-button {
         padding: 4px 8px;
         font-size: 10px;
     }
     
-    .status-indicator {
+    .lu-status-indicator {
         width: 10px;
         height: 10px;
     }

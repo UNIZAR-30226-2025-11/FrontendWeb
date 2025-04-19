@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './ChangePassword.css';
 import { ApiResponse, handleConfirmChangeAPI, handleDeleteAccountAPI } from '../../services/apiService';
 import GlassCard from '../../common/GlassCard/GlassCard';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../../context/NotificationContext';
 import { useUser } from '../../context/UserContext';
 
+import './changePassword.css';
 
 const ChangePasswordPage = (
   {} : {}) => {

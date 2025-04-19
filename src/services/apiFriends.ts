@@ -1,3 +1,4 @@
+import { FriendsJSON, UserAvatar } from "../api/entities";
 import { SERVER } from "../utils/config";
 import { routesRequest } from "../utils/constants";
 
@@ -5,7 +6,7 @@ import { routesRequest } from "../utils/constants";
  * Fetches the list of friends for the current user.
  * @returns Array of usernames (strings)
  */
-export const fetchFriends = async (): Promise<string[]> => {
+export const fetchFriends = async (): Promise<FriendsJSON[]> => {
   const res = await fetch(SERVER + routesRequest.friends, {
     method: "GET",
     credentials: "include",
@@ -13,7 +14,12 @@ export const fetchFriends = async (): Promise<string[]> => {
   });
 
   const data = await res.json();
-  return data.users.map((user: any) => user.username);
+
+  console.log("Friends data:", data); // Debugging line
+  if(data)
+    return data.users.map((user: any) => ({username:user.username, avatar:user.avatar, isAccepted:user.isAccepted}));
+  else
+    return [];
 };
 
 /**
@@ -54,7 +60,7 @@ export const removeFriend = async (username: string): Promise<void> => {
  * Fetches pending friend requests received by the current user.
  * @returns Array of usernames (strings)
  */
-export const fetchFriendRequests = async (): Promise<string[]> => {
+export const fetchFriendRequests = async (): Promise<UserAvatar[]> => {
   const res = await fetch(SERVER + routesRequest.friendRequest, {
     method: "GET",
     credentials: "include",
@@ -62,7 +68,12 @@ export const fetchFriendRequests = async (): Promise<string[]> => {
   });
 
   const data = await res.json();
-  return data.map((user: any) => user.username);
+
+  console.log("Friend requests data:", data); // Debugging line
+  if(data)
+    return data.users.map((user: any) => ({username:user.username, avatar:user.avatar}));
+  else
+    return [];
 };
 
 /**
@@ -85,23 +96,19 @@ export const respondToFriendRequest = async (username: string, accept: boolean):
  * Fetches the full list of registered users on the platform.
  * @returns Array of usernames (strings)
  */
-export const fetchAllUsers = async (): Promise<string[]> => {
+export const fetchAllUsers = async (): Promise<UserAvatar[]> => {
     const res = await fetch(SERVER + routesRequest.users, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
     
-    if (!res.ok) {
-      throw new Error("Error retrieving all users");
-    }
-
-    
     const data = await res.json();
 
-    if(data === undefined) {
-      throw new Error("No users found");
-    }
+    console.log("All users data:", data); // Debugging line
 
-    return data.users.map((user: any) => user.username);
+    if(data)
+      return data.map((user: any) => ({username:user.username, avatar:user.avatar}));
+    else
+      return [];
   };

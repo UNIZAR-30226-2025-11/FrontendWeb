@@ -71,10 +71,10 @@ const LobbyUsers = () => {
                     duration: 5000,
                 });
 
-                friendElement.classList.add('invite-sent');
+                friendElement.classList.add('lu-invite-sent');
                 setTimeout(() => {
                     if (friendElement) {
-                        friendElement.classList.remove('invite-sent');
+                        friendElement.classList.remove('lu-invite-sent');
                     }
                 }, 2000);
             }
@@ -163,26 +163,26 @@ const LobbyUsers = () => {
     // Return disband overlay if the lobby is disbanded
     if (disband) {
         return (
-            <div className="lobby-users-wrapper">
+            <div className="lu-lobby-users-wrapper">
                 <GlassCard
-                    className={`lobby-users-card disband ${disbandAnimated ? "disband-animated" : ""}`}
+                    className={`lu-lobby-users-card lu-disband ${disbandAnimated ? "lu-disband-animated" : ""}`}
                     title="Lobby Disbanded"
                     maxwidth="800px"
                     minwidth="600px"
                     showPaws={true}
                     background={background}
                 >
-                    <div className="disband-content">
-                        <div className="disband-icon">
+                    <div className="lu-disband-content">
+                        <div className="lu-disband-icon">
                             <span></span>
                             <span></span>
                         </div>
-                        <h3 className="disband-title">The host has disbanded this lobby</h3>
-                        <p className="disband-message">You'll be redirected to the main menu shortly...</p>
-                        <div className="loading-indicator">
-                            <div className="loading-dot"></div>
-                            <div className="loading-dot"></div>
-                            <div className="loading-dot"></div>
+                        <h3 className="lu-disband-title">The host has disbanded this lobby</h3>
+                        <p className="lu-disband-message">You'll be redirected to the main menu shortly...</p>
+                        <div className="lu-loading-indicator">
+                            <div className="lu-loading-dot"></div>
+                            <div className="lu-loading-dot"></div>
+                            <div className="lu-loading-dot"></div>
                         </div>
                         <button className="GC-button GC-blue-btn" onClick={handleLeave}>
                             <span className="GC-button-text">Return to Menu Now</span>
@@ -194,23 +194,23 @@ const LobbyUsers = () => {
     }
 
     return (
-        <div className="lobby-users-wrapper">
+        <div className="lu-lobby-users-wrapper">
             <GlassCard
-                className="lobby-users-card"
+                className="lu-lobby-users-card"
                 title="Lobby"
                 maxwidth="700px"
                 minwidth="100px"
                 showPaws={true}
                 background={background}
             >
-                <div className="lobby-id-container">
-                    <h3 className="lobby-id-label">Lobby Code</h3>
-                    <div className="lobby-id-value" onClick={copyLobbyId}>
+                <div className="lu-lobby-id-container">
+                    <h3 className="lu-lobby-id-label">Lobby Code</h3>
+                    <div className="lu-lobby-id-value" onClick={copyLobbyId}>
                         <span>{lobbyId || "Loading..."}</span>
-                        <div className={`copy-tooltip ${copied ? "show" : ""}`}>
+                        <div className={`lu-copy-tooltip ${copied ? "show" : ""}`}>
                             {copied ? "Copied!" : "Click to copy"}
                         </div>
-                        <button className="copy-button" aria-label="Copy lobby ID">
+                        <button className="lu-copy-button" aria-label="Copy lobby ID">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
                                 <path fill="none" d="M0 0h24v24H0z"/>
                                 <path d="M7 6V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7zm2 0h8v10h2V4H9v2z" 
@@ -220,40 +220,40 @@ const LobbyUsers = () => {
                     </div>
                 </div>
 
-                <div className="players-section">
-                    <h3 className="section-label">Players</h3>
-                    <div className={`player-list ${animateList ? "animate" : ""}`}>
+                <div className="lu-players-section">
+                    <h3 className="lu-section-label">Players</h3>
+                    <div className={`lu-player-list ${animateList ? "animate" : ""}`}>
                         {players.length > 0 ? (
                             players.map((player, index) => (
                                 <div 
                                     key={player.name} 
-                                    className={`player-item ${player.isYou ? 'player-self' : ''}`}
+                                    className={`lu-player-item ${player.isYou ? 'lu-player-self' : ''}`}
                                 >
-                                    <div className={`player-avatar ${player.isYou ? 'self-avatar' : ''}`}>
+                                    <div className={`lu-player-avatar ${player.isYou ? 'lu-self-avatar' : ''}`}>
                                         {player.name.charAt(0).toUpperCase()}
-                                        {player.isYou && <div className="self-indicator"></div>}
+                                        {player.isYou && <div className="lu-self-indicator"></div>}
                                     </div>
-                                    <span className="player-name">
+                                    <span className="lu-player-name">
                                         {player.name}
-                                        {player.isYou && <span className="self-label">(You)</span>}
+                                        {player.isYou && <span className="lu-self-label">(You)</span>}
                                     </span>
-                                    {player.isLeader && <span className="host-badge">Host</span>}
+                                    {player.isLeader && <span className="lu-host-badge">Host</span>}
                                 </div>
                             ))
                         ) : (
-                            <div className="empty-state">
-                                <div className="empty-icon"></div>
+                            <div className="lu-empty-state">
+                                <div className="lu-empty-icon"></div>
                                 <p>Waiting for players to join...</p>
                             </div>
                         )}
                     </div>
                 </div>
 
-                <div className="friends-section">
-                    <div className="friends-header">
-                        <h3 className="section-label">Friends</h3>
+                <div className="lu-friends-section">
+                    <div className="lu-friends-header">
+                        <h3 className="lu-section-label">Friends</h3>
                         <button 
-                            className={`refresh-button ${loadingFriends ? 'rotating' : ''}`} 
+                            className={`lu-refresh-button ${loadingFriends ? 'rotating' : ''}`} 
                             onClick={fetchFriends}
                             disabled={loadingFriends}
                             aria-label="Refresh friends list"
@@ -265,32 +265,32 @@ const LobbyUsers = () => {
                             </svg>
                         </button>
                     </div>
-                    <div className="friends-list">
+                    <div className="lu-friends-list">
                     {sortedFriends.length > 0 ? (
                         sortedFriends.map((friend) => (
                             <div 
                                 key={friend.username} 
                                 id={`friend-${friend.username}`}
                                 className={`lu-friend-item 
-                                    ${!friend.connected ? 'offline' : ''} 
-                                    ${friend.isInGame ? 'in-game' : ''} 
-                                    ${friend.isAlreadyInThisLobby ? 'already-in-lobby' : ''}`}
+                                    ${!friend.connected ? 'lu-offline' : ''} 
+                                    ${friend.isInGame ? 'lu-in-game' : ''} 
+                                    ${friend.isAlreadyInThisLobby ? 'lu-already-in-lobby' : ''}`}
                             >
-                                <div className="friend-avatar">
+                                <div className="lu-friend-avatar">
                                     {friend.avatar ? (
                                         <img 
                                             src={`${IMAGES_PATH}/avatar/${friend.avatar}${IMAGES_EXTENSION}`} 
                                             alt={`${friend.username}'s avatar`} 
-                                            className="friend-avatar-img"
+                                            className="lu-friend-avatar-img"
                                         />
                                     ) : (
                                         friend.username.charAt(0).toUpperCase()
                                     )}
-                                    <div className={`status-indicator ${friend.connected ? (friend.isInGame ? 'busy' : 'online') : 'offline'}`}></div>
+                                    <div className={`lu-status-indicator ${friend.connected ? (friend.isInGame ? 'busy' : 'online') : 'offline'}`}></div>
                                 </div>
-                                <div className="friend-info">
-                                    <span className="friend-name">{friend.username}</span>
-                                    <span className="friend-status">
+                                <div className="lu-friend-info">
+                                    <span className="lu-friend-name">{friend.username}</span>
+                                    <span className="lu-friend-status">
                                         {!friend.connected && 'Offline'}
                                         {friend.connected && friend.isInGame && 'In Game'}
                                         {friend.connected && !friend.isInGame && !friend.isAlreadyInThisLobby && 'Online'}
@@ -299,11 +299,11 @@ const LobbyUsers = () => {
                                 </div>
                                 {friend.connected && !friend.isInGame && !friend.isAlreadyInThisLobby && (
                                     <button 
-                                        className="invite-button"
+                                        className="lu-invite-button"
                                         onClick={() => inviteFriend(friend.username)}
                                         aria-label={`Invite ${friend.username}`}
                                     >
-                                        <span className="invite-text">Invite</span>
+                                        <span className="lu-invite-text">Invite</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
                                             <path fill="none" d="M0 0h24v24H0z"/>
                                             <path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z" 
@@ -312,33 +312,33 @@ const LobbyUsers = () => {
                                     </button>
                                 )}
                                 {friend.connected && !friend.isInGame && friend.isAlreadyInThisLobby && (
-                                    <span className="already-in-lobby-badge">
+                                    <span className="lu-already-in-lobby-badge">
                                         <svg viewBox="0 0 24 24" width="16" height="16">
                                             <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                                         </svg>
                                         In Lobby
                                     </span>
                                 )}
-                                <div className="invite-success">
+                                <div className="lu-invite-success">
                                     <span>Invited!</span>
                                 </div>
                             </div>
                         ))
                         ) : (
-                            <div className="empty-state">
-                                <div className="empty-icon friends-empty"></div>
+                            <div className="lu-empty-state">
+                                <div className="lu-empty-icon lu-friends-empty"></div>
                                 <p>{loadingFriends ? 'Loading friends...' : 'No friends found'}</p>
                             </div>
                         )}
                     </div>
                 </div>
 
-                <div className="status-message">
+                <div className="lu-status-message">
                     <p>{getStatusMessage()}</p>
                 </div>
 
                 {isHost ? (
-                    <div className="button-group">
+                    <div className="lu-button-group">
                         <button 
                             className={`GC-button GC-red-btn ${players.length < 2 ? "disabled" : ""}`} 
                             onClick={handleClick}

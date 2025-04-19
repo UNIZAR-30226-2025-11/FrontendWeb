@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSocket } from '../../context/SocketContext';
 import './InvitationModal.css';
 import { IMAGES_EXTENSION, IMAGES_PATH } from '../../services/apiShop';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/constants';
 
 const InvitationModal: React.FC = () => {
@@ -10,8 +10,24 @@ const InvitationModal: React.FC = () => {
   const navigate = useNavigate();
 
 
+  const handleAccept = () => {
+    if (friendJoinRequest) {
+      navigate(routes.game); // Redirect to game after accepting invitation
+      acceptInvitation(friendJoinRequest.lobbyId);
+      console.log("Accepting invitation to lobby:", friendJoinRequest.lobbyId);
+    }
+  }
+
+  const handleDecline = () => {
+    if (friendJoinRequest) {
+      declineInvitation(friendJoinRequest.lobbyId);
+    }
+  }
+
   const handleOkReconnect = () => {
+    console.log("Reconnect")
     if (canReconnect) {
+      console.log("Navigate")
       navigate(routes.game);
       setCanReconnect(undefined); // Reset reconnect state after navigating
     }
@@ -72,13 +88,13 @@ const InvitationModal: React.FC = () => {
           <div className="invitation-modal-footer">
             <button 
               className="invitation-btn decline"
-              onClick={() => declineInvitation(friendJoinRequest.lobbyId)}
+              onClick={() => handleDecline()}
             >
               Decline
             </button>
             <button 
               className="invitation-btn accept"
-              onClick={() => acceptInvitation(friendJoinRequest.lobbyId)}
+              onClick={() => handleAccept()}
             >
               Accept
             </button>

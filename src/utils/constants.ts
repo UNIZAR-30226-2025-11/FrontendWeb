@@ -8,7 +8,8 @@ export const routes = {
     winlose: "/winlose",
     gamemenu: "/menu",
     chgpassw: "/changepassword",
-    statistics: "/statistics"
+    statistics: "/statistics",
+    friends: "/friends"
 }
 
 export const routesRequest = {

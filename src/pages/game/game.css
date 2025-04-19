@@ -1,3 +1,6 @@
+  html, body {
+    overflow: hidden;
+  }
   /* Game container - no background since we use AnimatedBackground */
   .game-container {
     width: 100%;

@@ -36,3 +36,9 @@ export type CardDeckHandle = {
     shuffleDeck: () => void;
     stealCard: () => void;
   };
+
+
+export const CATEGORIES: Record<string, {name: string, icon: string}> = {
+    "avatar": {name: "Avatar", icon: "👤"},
+    "background": {name: "Background", icon: "🖼️"},
+}

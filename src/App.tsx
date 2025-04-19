@@ -3,15 +3,17 @@ import { BrowserRouter as Router, Route, Routes, useNavigate, Outlet } from 'rea
 import { routes } from './utils/constants';
 import Game from './pages/game/game';
 import GameMenu from './pages/menu/menu'
-import Shop from './components/shop/CardShop';
 import AuthPage from './pages/profile/welcomePage';
-import ChangePasswordPage from './pages/profile/ChangePassword';
-import Statistics from './pages/profile/Statistics'
 import { SocketProvider } from './context/SocketContext';
 import { ProtectedLogin, ProtectedNotLogin } from './components/middleware/protectedRoute';
 import Container from './components/logging/Container';
 import { AnimatedBackground } from './common/AnimatedBackground/AnimatedBackground';
 import InvitationModal from './common/InvitationModal/InvitationModal';
+import { FriendsList } from './components/layout/FriendsList';
+import ChangePasswordPage from './pages/profile/ChangePassword';
+import UserStatistics from './pages/profile/Statistics';
+import Shop from './pages/shop/shop';
+
 /**
  * Creates the application, prepares all the routes and loads
  * the initial page.
@@ -56,11 +58,14 @@ function App() {
           {/* Route for the game menu */}
           <Route path={routes.gamemenu} element={<GameMenu />} />
 
+          {/* Route for the friends list */}
+          <Route path={routes.friends} element={<FriendsList />} />
+
           {/* Route for the change password page */}
           <Route path={routes.chgpassw} element={<ChangePasswordPage />} />
 
           {/* Route for statistics */}
-          <Route path={routes.statistics} element={<Statistics />} />
+          <Route path={routes.statistics} element={<UserStatistics />} />
         </Route>
       </Routes>
     </Router>

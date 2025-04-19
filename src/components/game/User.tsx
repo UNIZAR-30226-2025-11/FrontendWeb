@@ -12,15 +12,13 @@ import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
  * @returns The styled user component
  */
 const User = ({ player }: { player: PlayerJSON }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const userImg = (player.active ? player.playerAvatar : "user-dead" ) + IMAGES_EXTENSION
   return (
     <motion.div 
       className="user-container"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
     >
       <div className="user-inner-container">
         <div className="user-content">
@@ -28,7 +26,7 @@ const User = ({ player }: { player: PlayerJSON }) => {
           <div className="user-avatar-wrapper">
             <img 
               className="user-avatar" 
-              src={`${IMAGES_PATH}/avatar/${player.playerAvatar}${IMAGES_EXTENSION}`} 
+              src={`${IMAGES_PATH}/avatar/${userImg}`} 
               alt={`${player.playerUsername}'s avatar`} 
             />
             
