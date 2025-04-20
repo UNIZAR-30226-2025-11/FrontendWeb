@@ -123,6 +123,12 @@ const UserBar = ({}: {}) => {
             </button>
           </li>
           <li>
+            <button className="menu-btn background-btn" onClick={() => navigate(routes.changebg)}>
+              <span className="btn-icon">🖼️</span>
+              <span className="btn-text">Change Background</span>
+            </button>
+          </li>
+          <li>
             <button className="menu-btn stats-btn" onClick={() => navigate(routes.statistics)}>
               <span className="btn-icon">📊</span>
               <span className="btn-text">Statistics</span>
