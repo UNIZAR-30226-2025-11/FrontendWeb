@@ -13,6 +13,7 @@ import { FriendsList } from './components/layout/FriendsList';
 import ChangePasswordPage from './pages/profile/ChangePassword';
 import UserStatistics from './pages/profile/Statistics';
 import Shop from './pages/shop/shop';
+import AvatarSelection from './components/layout/AvatarSelection';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -66,6 +67,9 @@ function App() {
 
           {/* Route for statistics */}
           <Route path={routes.statistics} element={<UserStatistics />} />
+
+          {/* Route for the avatar selection */}
+          <Route path={routes.changeavatar} element={<AvatarSelection />} />
         </Route>
       </Routes>
     </Router>
