@@ -5,6 +5,7 @@ import { handleLogoutAPI } from "../../services/apiService";
 import { UserContextType, useUser } from '../../context/UserContext';
 import { useNotification } from '../../context/NotificationContext';
 import { IMAGES_EXTENSION, IMAGES_PATH } from '../../services/apiShop';
+import './userbar.css';
 
 /**
  * Defines the HTML for creating a user bar with the
@@ -19,6 +20,7 @@ const UserBar = ({}: {}) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isFriendsListOpen, setIsFriendsListOpen] = useState(false);
+  const [showCustomizeHint, setShowCustomizeHint] = useState(false);
 
   const userContext: UserContextType = useUser();
 
@@ -55,6 +57,10 @@ const UserBar = ({}: {}) => {
     setIsOpen(!isOpen);
   };
 
+  const navigateToCustomization = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent menu toggle
+    navigate(routes.profilecustomization);
+  };
 
   const closeFriendsList = () => {
     setIsFriendsListOpen(false);
@@ -90,8 +96,18 @@ const UserBar = ({}: {}) => {
 
         {/* User information */}
         <div className={`user-info user-info-${background}`} onClick={toggleMenu}>
-          <div className={`user-avatar user-avatar-${background}`}>
+          <div 
+            className={`user-avatar user-avatar-${background} customizable-avatar`}
+            onMouseEnter={() => setShowCustomizeHint(true)}
+            onMouseLeave={() => setShowCustomizeHint(false)}
+            onClick={navigateToCustomization}
+          >
             <img alt="User Icon" className="user-icon" src={`${IMAGES_PATH}/avatar/${avatar}${IMAGES_EXTENSION}`} />
+            {showCustomizeHint && (
+              <div className="customize-hint">
+                <span>✏️ Customize</span>
+              </div>
+            )}
           </div>
           <span className="username">{username}</span>
           <div className="dropdown-arrow"></div>
@@ -104,13 +120,16 @@ const UserBar = ({}: {}) => {
           <div
             className={`user-avatar menu-avatar menu-avatar-${background}`}
             onClick={() => {navigate(routes.profilecustomization);}}
-            style={{ cursor: 'pointer' }}
           >
             <img
               alt="User Icon"
               className="user-icon"
               src={`${IMAGES_PATH}/avatar/${avatar}${IMAGES_EXTENSION}`}
             />
+            <div className="customize-overlay">
+              <span className="customize-icon">✏️</span>
+              <span className="customize-text">Edit Profile</span>
+            </div>
           </div>
           <h3 className="menu-username">{username}</h3>
         </div>

@@ -652,3 +652,122 @@
 .user-info:hover .dropdown-arrow {
   transform: rotate(180deg);
 }
+
+/* Add these customization-specific styles to your existing userbar.css file */
+
+/* Customizable Avatar Styles */
+.customizable-avatar {
+  position: relative;
+  cursor: pointer !important;
+  transition: transform 0.3s ease !important;
+  z-index: 102;
+}
+
+.customizable-avatar:hover {
+  transform: scale(1.1) !important;
+}
+
+.customizable-avatar::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.customizable-avatar:hover::after {
+  opacity: 1;
+  border-color: #ffd700;
+  animation: avatar-pulse 1.5s infinite;
+}
+
+@keyframes avatar-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(255, 215, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+  }
+}
+
+/* Customize Hint Tooltip */
+.customize-hint {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  animation: fade-in 0.2s ease-in-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translate(-50%, 5px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.customize-hint::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+}
+
+/* Menu Avatar Customization Overlay */
+.menu-avatar {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.customize-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu-avatar:hover .customize-overlay {
+  opacity: 1;
+}
+
+.customize-icon {
+  font-size: 12px;
+  margin-bottom: 2px;
+  color: white;
+}
+
+.customize-text {
+  font-size: 8px;
+  color: white;
+  font-weight: 500;
+  text-align: center;
+}
