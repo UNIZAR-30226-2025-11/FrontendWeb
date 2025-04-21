@@ -23,4 +23,5 @@ export const routesRequest = {
     friends: "/friends",
     friendRequest: "/friends/request",
     shop: "/shop",
+    productsOwned: "/shop/owned",
 }

@@ -5,6 +5,13 @@ export type UserJSON = {
   userPersonalizeData: UserPersonalizeDataJSON;
 }
 
+export type ProductOwned = {
+  productName: string;
+  productUrl: string;
+  categoryName: string;
+  categoryUrl: string;
+}
+
 type StatisticsJSON = {
   gamesPlayed: number;
   gamesWon: number;

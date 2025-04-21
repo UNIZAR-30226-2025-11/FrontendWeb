@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import GlassCard from "../../common/GlassCard/GlassCard";
-import { IMAGES_PATH, IMAGES_EXTENSION, fetchShopItems, Product } from "../../services/apiShop";
+import { IMAGES_PATH, IMAGES_EXTENSION, fetchShopItems, Product, fetchOwnedProducts, updateOwnedProduct } from "../../services/apiShop";
 import { useUser } from "../../context/UserContext";
-import { updateUserAvatar } from "../../services/apiUser";
 import "./AvatarSelection.css";
+import { ProductOwned } from "../../api/entities";
 
 const AvatarSelection = () => {
   const { user, refreshUser } = useUser();
-  const [ownedAvatars, setOwnedAvatars] = useState<Product[]>([]);
+  const [ownedAvatars, setOwnedAvatars] = useState<ProductOwned[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadAvatars = async () => {
       try {
-        const products = await fetchShopItems();
-        const avatars = products.filter(p => p.categoryUrl === "avatar" && p.isBought);
-        setOwnedAvatars(avatars);
+        const avatarOwned: ProductOwned[] = await fetchOwnedProducts("avatar");
+        setOwnedAvatars(avatarOwned);
       } catch (error) {
         console.error("Failed to load avatars", error);
       } finally {
@@ -26,18 +25,22 @@ const AvatarSelection = () => {
     loadAvatars();
   }, []);
 
-  const handleAvatarChange = async (avatar: string) => {
+  const handleAvatarChange = async (avatarName: string) => {
     try {
-      await updateUserAvatar(avatar);
+      await updateOwnedProduct(avatarName, "avatar");
       await refreshUser();
-      // console.log(user?.userPersonalizeData.avatar);
     } catch (error) {
       console.error("Failed to change avatar:", error);
     }
   };
 
   return (
-    <GlassCard title="Choose Your Avatar" maxwidth="700px" minwidth="320px" showPaws={true}>
+    <GlassCard 
+      title="Choose Your Avatar" 
+      maxwidth="700px" 
+      minwidth="320px" 
+      showPaws={true}
+      background={user?.userPersonalizeData.background}>
       <div className="avatar-selection-container">
         {isLoading ? (
           <p>Loading avatars...</p>

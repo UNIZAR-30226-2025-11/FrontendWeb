@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import GlassCard from "../../common/GlassCard/GlassCard";
-import { IMAGES_PATH, IMAGES_EXTENSION, fetchShopItems, Product } from "../../services/apiShop";
+import { IMAGES_PATH, IMAGES_EXTENSION, fetchShopItems, Product, fetchOwnedProducts, updateOwnedProduct } from "../../services/apiShop";
 import { useUser } from "../../context/UserContext";
-import { updateUserBackground } from "../../services/apiUser";
 import "./BackgroundSelection.css";
+import { ProductOwned } from "../../api/entities";
 
 const BackgroundSelection = () => {
   const { user, refreshUser } = useUser();
-  const [ownedBackgrounds, setOwnedBackgrounds] = useState<Product[]>([]);
+  const [ownedBackgrounds, setOwnedBackgrounds] = useState<ProductOwned[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadBackgrounds = async () => {
       try {
-        const products = await fetchShopItems();
-        const backgrounds = products.filter(p => p.categoryUrl === "background" && p.isBought);
-        setOwnedBackgrounds(backgrounds);
+        const ownedBackgrounds: ProductOwned[] = await fetchOwnedProducts("background");
+        setOwnedBackgrounds(ownedBackgrounds);
       } catch (error) {
         console.error("Failed to load backgrounds", error);
       } finally {
@@ -26,9 +25,9 @@ const BackgroundSelection = () => {
     loadBackgrounds();
   }, []);
 
-  const handleBackgroundChange = async (background: string) => {
+  const handleBackgroundChange = async (backgroundName: string) => {
     try {
-      await updateUserBackground(background);
+      await updateOwnedProduct(backgroundName, "background");
       await refreshUser();
     } catch (error) {
       console.error("Failed to change background:", error);
@@ -36,7 +35,13 @@ const BackgroundSelection = () => {
   };
 
   return (
-    <GlassCard title="Choose Your Background" maxwidth="700px" minwidth="320px" showPaws={true}>
+    <GlassCard 
+      title="Choose Your Background" 
+      maxwidth="700px" 
+      minwidth="320px" 
+      showPaws={true}
+      background={user?.userPersonalizeData.background}
+    >
       <div className="avatar-selection-container">
         {isLoading ? (
           <p>Loading backgrounds...</p>

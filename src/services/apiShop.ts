@@ -1,5 +1,6 @@
+import { ProductOwned } from "../api/entities";
 import { SERVER } from "../utils/config";
-import { routesRequest } from "../utils/constants";
+import { routes, routesRequest } from "../utils/constants";
 
 
 export const IMAGES_PATH: string = "../../../assets/shop";
@@ -80,5 +81,54 @@ export const buyItem = async (item: Product): Promise<void> => {
   if (!res.ok) {
     const data = await res.json();
     throw new Error(data.error || "Error when purchasing item");
+  }
+};
+
+export const fetchOwnedProducts = async (categoryUrl: string): Promise<ProductOwned[]> => {
+  
+  const res = await fetch(SERVER + routesRequest.productsOwned, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      resp: {
+        categoryName: categoryUrl
+      }
+    })
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to fetch owned products");
+  }
+
+  const data = await res.json();
+  console.log("Owned products data:", data); // Debugging line
+  return data.products as ProductOwned[];
+}
+
+export const updateOwnedProduct = async (productUrl: string, categoryUrl: string): Promise<void> => {
+  
+  console.log("Updating owned product:", productUrl, categoryUrl); // Debugging line
+  
+  const res = await fetch(SERVER + routesRequest.productsOwned, {
+    method: "PUT",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      resp: {
+        categoryName: categoryUrl,
+        productName: productUrl
+      }
+    })
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to update background");
   }
 };
