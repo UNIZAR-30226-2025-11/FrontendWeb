@@ -289,3 +289,34 @@
 .pc-button-icon {
   font-size: 1.2rem;
 }
+
+.pc-customization-notification {
+  position: fixed;
+  /* Adjust top position to be below the user bar */
+  top: 80px; 
+  right: 20px;
+  background: linear-gradient(45deg, #36d1dc, #5b86e5);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* Keep high z-index */
+  z-index: 100000; 
+  transform: translateX(200%);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-weight: 500;
+}
+
+.pc-customization-notification.show {
+  transform: translateX(0);
+}
+
+@media (max-width: 480px) {
+  .pc-customization-notification {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    /* Adjust top position for smaller screens if needed */
+    top: 70px; 
+    right: 15px;
+  }
+}

@@ -18,6 +18,8 @@ const ProfileCustomization: React.FC = () => {
   });
   const [activeCategory, setActiveCategory] = useState<CustomizationCategory>("avatar");
   const [isLoading, setIsLoading] = useState(true);
+  // Add notification state
+  const [notification, setNotification] = useState<string | null>(null);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -38,10 +40,23 @@ const ProfileCustomization: React.FC = () => {
     loadItems();
   }, []);
 
-  const handleItemChange = async (itemUrl: string, category: CustomizationCategory) => {
+  // Add effect to hide notification after a delay
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
+  const handleItemChange = async (itemUrl: string, category: CustomizationCategory, itemName: string) => {
     try {
       await updateOwnedProduct(itemUrl, category);
       await refreshUser();
+      // Show notification on successful change
+      setNotification(`✨ ${getCategoryTitle(category)} changed to ${itemName}!`);
     } catch (error) {
       console.error(`Failed to change ${category}:`, error);
     }
@@ -61,77 +76,84 @@ const ProfileCustomization: React.FC = () => {
   const getItems = () => ownedItems[activeCategory] || [];
 
   return (
-    <GlassCard 
-      title="Customize Your Profile" 
-      maxwidth="700px" 
-      minwidth="320px" 
-      showPaws={true}
-      background={user?.userPersonalizeData.background}
-    >
-      <div className="pc-customization-tabs">
-        <button 
-          className={`pc-customization-tab ${activeCategory === "avatar" ? 'pc-active' : ''}`}
-          onClick={() => setActiveCategory("avatar")}
-        >
-          <span className="pc-tab-icon">😺</span> Avatars
-        </button>
-        <button 
-          className={`pc-customization-tab ${activeCategory === "background" ? 'pc-active' : ''}`}
-          onClick={() => setActiveCategory("background")}
-        >
-          <span className="pc-tab-icon">🖼️</span> Backgrounds
-        </button>
-      </div>
+    <>
+      <GlassCard 
+        title="Customize Your Profile" 
+        maxwidth="700px" 
+        minwidth="320px" 
+        showPaws={true}
+        background={user?.userPersonalizeData.background}
+      >
+        <div className="pc-customization-tabs">
+          <button 
+            className={`pc-customization-tab ${activeCategory === "avatar" ? 'pc-active' : ''}`}
+            onClick={() => setActiveCategory("avatar")}
+          >
+            <span className="pc-tab-icon">😺</span> Avatars
+          </button>
+          <button 
+            className={`pc-customization-tab ${activeCategory === "background" ? 'pc-active' : ''}`}
+            onClick={() => setActiveCategory("background")}
+          >
+            <span className="pc-tab-icon">🖼️</span> Backgrounds
+          </button>
+        </div>
 
-      <h3 className="pc-category-title">Choose Your {getCategoryTitle(activeCategory)}</h3>
+        <h3 className="pc-category-title">Choose Your {getCategoryTitle(activeCategory)}</h3>
 
-      <div className="pc-customization-container">
-        {isLoading ? (
-          <div className="pc-loading-state">
-            <div className="pc-loading-spinner"></div>
-            <p>Loading {activeCategory}s...</p>
-          </div>
-        ) : getItems().length > 0 ? (
-          <div className="pc-items-grid">
-            {getItems().map(item => (
-              <div
-                key={item.productName}
-                className={`pc-customization-item ${
-                  getCurrentSelection(activeCategory) === item.productUrl ? "pc-selected" : ""
-                }`}
-                onClick={() => handleItemChange(item.productUrl, activeCategory)}
-              >
-                <img
-                  src={`${IMAGES_PATH}/${activeCategory}/${item.productUrl}${IMAGES_EXTENSION}`}
-                  alt={item.productName}
-                  className="pc-item-image"
-                />
-                <div className="pc-item-name">{item.productName}</div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="pc-empty-state">
-            <div className="pc-empty-icon">
-              {activeCategory === "avatar" ? "😺" : "🖼️"}
+        <div className="pc-customization-container">
+          {isLoading ? (
+            <div className="pc-loading-state">
+              <div className="pc-loading-spinner"></div>
+              <p>Loading {activeCategory}s...</p>
             </div>
-            <h4 className="pc-empty-message">
-              No {activeCategory === "avatar" ? "Avatars" : "Backgrounds"} Found
-            </h4>
-            <p className="pc-empty-subtitle">
-              Visit the shop to get some cool {activeCategory === "avatar" ? "avatars" : "backgrounds"} for your profile.
-            </p>
-            <button 
-              className="pc-shop-button" 
-              onClick={() => window.location.href = '/shop'}
-            >
-              <span className="pc-button-icon">🛒</span>
-              Visit Shop
-            </button>
-          </div>
-        )}
+          ) : getItems().length > 0 ? (
+            <div className="pc-items-grid">
+              {getItems().map(item => (
+                <div
+                  key={item.productName}
+                  className={`pc-customization-item ${
+                    getCurrentSelection(activeCategory) === item.productUrl ? "pc-selected" : ""
+                  }`}
+                  onClick={() => handleItemChange(item.productUrl, activeCategory, item.productName)}
+                >
+                  <img
+                    src={`${IMAGES_PATH}/${activeCategory}/${item.productUrl}${IMAGES_EXTENSION}`}
+                    alt={item.productName}
+                    className="pc-item-image"
+                  />
+                  <div className="pc-item-name">{item.productName}</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="pc-empty-state">
+              <div className="pc-empty-icon">
+                {activeCategory === "avatar" ? "😺" : "🖼️"}
+              </div>
+              <h4 className="pc-empty-message">
+                No {activeCategory === "avatar" ? "Avatars" : "Backgrounds"} Found
+              </h4>
+              <p className="pc-empty-subtitle">
+                Visit the shop to get some cool {activeCategory === "avatar" ? "avatars" : "backgrounds"} for your profile.
+              </p>
+              <button 
+                className="pc-shop-button" 
+                onClick={() => window.location.href = '/shop'}
+              >
+                <span className="pc-button-icon">🛒</span>
+                Visit Shop
+              </button>
+            </div>
+          )}
+        </div>
+      </GlassCard>
+      
+      {/* Add notification component */}
+      <div className={`pc-customization-notification ${notification ? 'show' : ''}`}>
+        {notification}
       </div>
-    </GlassCard>
+    </>
   );
 };
 

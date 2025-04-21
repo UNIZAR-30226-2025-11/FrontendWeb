@@ -137,7 +137,7 @@ const UserBar = ({}: {}) => {
           <li>
             <button className="menu-btn profile-btn" onClick={() => navigate(routes.chgpassw)}>
               <span className="btn-icon">✏️</span>
-              <span className="btn-text">Edit Profile</span>
+              <span className="btn-text">Change Password</span>
             </button>
           </li>
           <li>
