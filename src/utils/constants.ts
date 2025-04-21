@@ -9,7 +9,9 @@ export const routes = {
     gamemenu: "/menu",
     chgpassw: "/changepassword",
     statistics: "/statistics",
-    friends: "/friends"
+    friends: "/friends",
+    changeavatar: "/changeavatar",
+    changebg: "/changebackground",
 }
 
 export const routesRequest = {

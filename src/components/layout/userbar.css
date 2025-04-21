@@ -305,6 +305,12 @@
   background-color: rgba(255, 154, 68, 0.1);
 }
 
+.menu-avatar:hover .user-icon {
+  transform: scale(1.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 154, 68, 0.5);
+}
+
 .menu-avatar-blue .user-icon {
   background-color: rgba(68, 154, 255, 0.1);
 }

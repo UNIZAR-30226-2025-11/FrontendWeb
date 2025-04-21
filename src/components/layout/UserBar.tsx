@@ -101,8 +101,16 @@ const UserBar = ({}: {}) => {
       {/* Side Menu */}
       <div className={`side-menu ${isOpen ? "open" : ""} side-menu-${background}`}>
         <div className={`menu-header menu-header-${background}`}>
-          <div className={`user-avatar menu-avatar menu-avatar-${background}`}>
-            <img alt="User Icon" className="user-icon" src={`${IMAGES_PATH}/avatar/${avatar}${IMAGES_EXTENSION}`} />
+          <div
+            className={`user-avatar menu-avatar menu-avatar-${background}`}
+            onClick={() => {navigate(routes.changeavatar);}}
+            style={{ cursor: 'pointer' }}
+          >
+            <img
+              alt="User Icon"
+              className="user-icon"
+              src={`${IMAGES_PATH}/avatar/${avatar}${IMAGES_EXTENSION}`}
+            />
           </div>
           <h3 className="menu-username">{username}</h3>
         </div>
@@ -112,6 +120,12 @@ const UserBar = ({}: {}) => {
             <button className="menu-btn home-btn" onClick={() => navigate(routes.gamemenu)}>
               <span className="btn-icon">🏠</span>
               <span className="btn-text">Back to Menu</span>
+            </button>
+          </li>
+          <li>
+            <button className="menu-btn background-btn" onClick={() => navigate(routes.changebg)}>
+              <span className="btn-icon">🖼️</span>
+              <span className="btn-text">Change Background</span>
             </button>
           </li>
           <li>
