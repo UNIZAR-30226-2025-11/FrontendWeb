@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CardType } from "../../utils/types";
 import { selectCard, selectNopeUsage, selectTypeOfCard, selectPlayer } from "../../services/socketService";
 import { SocketContextType, useSocket } from "../../context/SocketContext";
 import Card from "./Card";
@@ -12,14 +11,7 @@ const Selection = () => {
   // Recover the socket
   const socket: SocketContextType = useSocket();
   
-  // States for selection and scrolling
-  const [selectedCardType, setSelectedCardType] = useState("");
-  const [selectedCard, setSelectedCard] = useState(-1);
-  const [showLeftScroll, setShowLeftScroll] = useState(false);
-  const [showRightScroll, setShowRightScroll] = useState(false);
-  
   // Refs for scrollable containers
-  const cardTypesRef = useRef<HTMLDivElement>(null);
   const myCardsRef = useRef<HTMLDivElement>(null);
   
   // Check if the game is undefined
@@ -30,87 +22,20 @@ const Selection = () => {
     (player) => player.playerUsername !== socket.gameState!.playerUsername && player.active
   );
   
-  // Define the card type options
-  const cardTypeOptions = Object.keys(CardType).filter(
-    (key) => isNaN(Number(key))
-  ) as (keyof typeof CardType)[];
-  
   const lobbyID = socket.gameState.lobbyId;
   
-  // Check scroll position for horizontal scroll containers
-  const checkScrollPosition = (container: HTMLDivElement | null) => {
-    if (!container) return;
-    
-    const scrollLeft = container.scrollLeft;
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    
-    if (container === cardTypesRef.current) {
-      setShowLeftScroll(scrollLeft > 10);
-      setShowRightScroll(maxScroll - scrollLeft > 10);
-    }
-  };
-  
-  // Set up scroll listeners
-  useEffect(() => {
-    const typesContainer = cardTypesRef.current;
-    const cardsContainer = myCardsRef.current;
-    
-    const handleScroll = (e: Event) => {
-      checkScrollPosition(e.target as HTMLDivElement);
-    };
-    
-    if (typesContainer) {
-      typesContainer.addEventListener("scroll", handleScroll);
-      checkScrollPosition(typesContainer);
-    }
-    
-    if (cardsContainer) {
-      cardsContainer.addEventListener("scroll", handleScroll);
-      checkScrollPosition(cardsContainer);
-    }
-    
-    return () => {
-      if (typesContainer) {
-        typesContainer.removeEventListener("scroll", handleScroll);
-      }
-      if (cardsContainer) {
-        cardsContainer.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [socket.selectCardType, socket.selectCard]);
-  
-  // Scroll handlers
-  const scrollLeft = (container: HTMLDivElement | null) => {
-    if (!container) return;
-    container.scrollBy({ left: -200, behavior: "smooth" });
-    setTimeout(() => checkScrollPosition(container), 300);
-  };
-  
-  const scrollRight = (container: HTMLDivElement | null) => {
-    if (!container) return;
-    container.scrollBy({ left: 200, behavior: "smooth" });
-    setTimeout(() => checkScrollPosition(container), 300);
-  };
-  
-  // Card type selection handler
+  // Card type selection handler with auto-confirm
   const handleCardTypeSelect = (cardType: string) => {
-    setSelectedCardType(cardType);
-  };
-  
-  // Card type confirmation
-  const handleCardTypeConfirm = () => {
-    if (!selectedCardType) return;
-    
-    selectTypeOfCard(socket.socket, selectedCardType, lobbyID);
+    selectTypeOfCard(socket.socket, cardType, lobbyID);
     socket.setSelectCardType(undefined);
   };
   
-  // Card selection handler
-  const handleCardSelection = () => {
-    if (selectedCard === -1 || !socket.gameState) return;
+  // Card selection handler with auto-confirm
+  const handleCardSelection = (cardId: number) => {
+    if (!socket.gameState) return;
     
     const selectedCardObj = socket.gameState.playerCards.find(
-      (card) => card.id === selectedCard
+      (card) => card.id === cardId
     );
     
     if (selectedCardObj) {
@@ -130,54 +55,95 @@ const Selection = () => {
     socket.setSelectPlayer(undefined);
   }
 
+  // Auto-close timer effect for each selection type
+  useEffect(() => {
+    // Create a timer for each selection type that's active
+    let timer: NodeJS.Timeout | null = null;
+    
+    if (socket.selectPlayer && socket.selectPlayer.timeOut) {
+      timer = setTimeout(() => {
+        socket.setSelectPlayer(undefined);
+      }, socket.selectPlayer.timeOut);
+    } else if (socket.selectCardType && socket.selectCardType.timeOut) {
+      timer = setTimeout(() => {
+        socket.setSelectCardType(undefined);
+      }, socket.selectCardType.timeOut);
+    } else if (socket.selectCard && socket.selectCard.timeOut) {
+      timer = setTimeout(() => {
+        socket.setSelectCard(undefined);
+      }, socket.selectCard.timeOut);
+    } else if (socket.selectNope && socket.selectNope.timeOut) {
+      timer = setTimeout(() => {
+        socket.setSelectNope(undefined);
+      }, socket.selectNope.timeOut);
+    }
+    
+    // Clean up timer on unmount or when selection changes
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [socket.selectPlayer, socket.selectCardType, socket.selectCard, socket.selectNope]);
+
   // Updated player selection component with proper handling for players with 0 cards
-  const renderPlayerSelection = () => (
-    <div className="selection-overlay">
-      <motion.div 
-        className="selection-window"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-      >
-        <div className="selection-header">
-          <h1>Select a Player</h1>
-        </div>
-        
-        <div className="selection-content">
-          <div className="players-grid">
-            {activePlayers.map((player) => (
-              <div
-                key={player.playerUsername}
-                className={`player-option ${player.numCards === 0 ? 'no-cards' : ''}`}
-                onClick={() => { 
-                  if (player.numCards > 0) {
-                    handlePlayerSelection(player.playerUsername);
-                  }
-                }}
-              >
-                <div className="player-avatar-container">
-                  <div className="player-avatar">
-                    <img 
-                      src={`${IMAGES_PATH}/avatar/${player.playerAvatar}${IMAGES_EXTENSION}`} 
-                      alt={`${player.playerUsername}'s avatar`} 
-                      className="player-avatar-image"
-                    />
-                  </div>
-                </div>
-                <p className="player-name">{player.playerUsername}</p>
-                <p className={`player-cards ${player.numCards === 0 ? 'no-cards' : ''}`}>
-                  {player.numCards} cards
-                </p>
-              </div>
-            ))}
+  const renderPlayerSelection = () => {
+    const timeoutMs = socket.selectPlayer?.timeOut || 30000; // Default to 30 seconds if not specified
+    
+    return (
+      <div className="selection-overlay">
+        <motion.div 
+          className="selection-window"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+        >
+          <div className="selection-header">
+            <h1>Select a Player</h1>
           </div>
-        </div>
-      </motion.div>
-    </div>
-  );
+          
+          <div className="selection-content">
+            <div className="players-grid">
+              {activePlayers.map((player) => (
+                <div
+                  key={player.playerUsername}
+                  className={`player-option ${player.numCards === 0 ? 'no-cards' : ''}`}
+                  onClick={() => { 
+                    if (player.numCards > 0) {
+                      handlePlayerSelection(player.playerUsername);
+                    }
+                  }}
+                >
+                  <div className="player-avatar-container">
+                    <div className="player-avatar">
+                      <img 
+                        src={`${IMAGES_PATH}/avatar/${player.playerAvatar}${IMAGES_EXTENSION}`} 
+                        alt={`${player.playerUsername}'s avatar`} 
+                        className="player-avatar-image"
+                      />
+                    </div>
+                  </div>
+                  <p className="player-name">{player.playerUsername}</p>
+                  <p className={`player-cards ${player.numCards === 0 ? 'no-cards' : ''}`}>
+                    {player.numCards} cards
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="selection-footer">
+            <div className="selection-timer">
+              <div className="selection-timer-bar" style={{ animationDuration: `${timeoutMs/1000}s` }}></div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  };
   
-  // Card type selection component
+  // Card type selection component - modified to auto-confirm when a card is clicked
   const renderCardTypeSelection = () => {
+    const timeoutMs = socket.selectCardType?.timeOut || 30000; // Default to 30 seconds if not specified
+    
     const cardPlayable: string[] = 
     [
       "SeeFuture", // See the next 3 cards
@@ -196,7 +162,7 @@ const Selection = () => {
 
     const cardTypeElements: CardJSON[] = cardPlayable.map((type, id) => ({ id: id, type: type }));
     const wrapper = (id: number) => {
-      return setSelectedCardType(cardTypeElements[id].type);
+      handleCardTypeSelect(cardTypeElements[id].type);
     };
 
     return(
@@ -215,11 +181,11 @@ const Selection = () => {
           <div className="my-cards-container" ref={myCardsRef}>            
             <div className="my-cards-row">
               {cardTypeElements.map((card) => (
-                <div key={card.type} style={{ transform: selectedCardType === card.type ? 'translateY(-10px)' : 'none' }}>
+                <div key={card.type}>
                   <Card
                     card={card}
                     id={card.id}
-                    isSelected={selectedCardType === card.type}
+                    isSelected={false}
                     onClick={wrapper}
                     setHoveredCard={() => {}}
                   />
@@ -230,67 +196,64 @@ const Selection = () => {
         </div>
         
         <div className="selection-footer">
-          <button
-            className="selection-button"
-            disabled={selectedCardType === ""}
-            onClick={handleCardTypeConfirm}
-          >
-            Confirm
-          </button>
+          <div className="selection-timer">
+            <div className="timer-bar" style={{ animationDuration: `${timeoutMs/1000}s` }}></div>
+          </div>
         </div>
       </motion.div>
     </div>
     )
   };
   
-  // My card selection component
-  const renderCardSelection = () => (
-    <div className="selection-overlay">
-      <motion.div 
-        className="selection-window"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-      >
-        <div className="selection-header">
-          <h1>Select one of your Cards</h1>
-        </div>
-        
-        <div className="selection-content">
-          <div className="my-cards-container" ref={myCardsRef}>            
-            <div className="my-cards-row">
-              {socket.gameState!.playerCards.map((card) => (
-                <div key={card.type} style={{ transform: selectedCard === card.id ? 'translateY(-10px)' : 'none' }}>
-                  <Card
-                    card={card}
-                    id={card.id}
-                    isSelected={selectedCard === card.id}
-                    onClick={setSelectedCard}
-                    setHoveredCard={() => {}}
-                  />
-                </div>
-              ))}
+  // My card selection component - modified to auto-confirm when a card is clicked
+  const renderCardSelection = () => {
+    const timeoutMs = socket.selectCard?.timeOut || 30000; // Default to 30 seconds if not specified
+    
+    return (
+      <div className="selection-overlay">
+        <motion.div 
+          className="selection-window"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+        >
+          <div className="selection-header">
+            <h1>Select one of your Cards</h1>
+          </div>
+          
+          <div className="selection-content">
+            <div className="my-cards-container" ref={myCardsRef}>            
+              <div className="my-cards-row">
+                {socket.gameState!.playerCards.map((card) => (
+                  <div key={card.type}>
+                    <Card
+                      card={card}
+                      id={card.id}
+                      isSelected={false}
+                      onClick={handleCardSelection}
+                      setHoveredCard={() => {}}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div className="selection-footer">
-          <button
-            className="selection-button"
-            disabled={selectedCard === -1}
-            onClick={handleCardSelection}
-          >
-            Confirm
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  );
+          
+          <div className="selection-footer">
+            <div className="selection-timer">
+              <div className="timer-bar" style={{ animationDuration: `${timeoutMs/1000}s` }}></div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  };
     
   // Updated Nope card selection component with checking if user has a NOPE card
   const renderNopeSelection = () => {
     // Check if the user has a NOPE card
     const hasNopeCard = socket.gameState?.playerCards.some(card => card.type === "Nope");
+    const timeoutMs = socket.selectNope?.timeOut || 15000; // Default to 15 seconds if not specified
     
     return (
       <div className="selection-overlay">
@@ -334,6 +297,12 @@ const Selection = () => {
               >
                 No
               </div>
+            </div>
+          </div>
+          
+          <div className="selection-footer">
+            <div className="selection-timer">
+              <div className="timer-bar" style={{ animationDuration: `${timeoutMs/1000}s` }}></div>
             </div>
           </div>
         </motion.div>
