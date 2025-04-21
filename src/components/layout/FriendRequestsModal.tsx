@@ -3,25 +3,38 @@ import "./FriendsCommon.css";
 import GlassCard from "../../common/GlassCard/GlassCard";
 import { UserAvatar } from "../../api/entities";
 import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
+import { fetchFriendRequests } from "../../services/apiFriends";
 
 interface FriendRequestsModalProps {
-  requests: UserAvatar[];
   onClose: () => void;
   onAccept: (username: string) => void;
   onReject: (username: string) => void;
+  background: string;
 }
 
 const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
-  requests,
   onClose,
   onAccept,
   onReject,
+  background,
 }) => {
   
   const modalRef = useRef<HTMLDivElement>(null);
-  const [respondedRequests, setRespondedRequests] = useState<{
-    [username: string]: "accepted" | "refused";
-  }>({});
+  
+  const [requests, setRequests] = useState<UserAvatar[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const request = await fetchFriendRequests();
+      setRequests(request);
+    } catch (error) {
+      console.error("Error fetching friend requests:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -34,12 +47,25 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
+  const handleAccept = (username: string) => {
+    onAccept(username);
+    // Remove the request from the list
+    setRequests(prev => prev.filter(user => user.username !== username));
+  };
+
+  const handleReject = (username: string) => {
+    onReject(username);
+    // Remove the request from the list
+    setRequests(prev => prev.filter(user => user.username !== username));
+  };
+
   return (
     <GlassCard
           title="Friends"
           maxwidth="700px"
           minwidth="320px"
           showPaws={true}
+          background={background}
     >
       {/* Users in the app */}
       <div className="players-section">
@@ -69,45 +95,19 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
 
                           {/* Button for send request */}
                           <div className="request-actions">
-                              {respondedRequests[user.username] ? (
-                                <span className={`friend-status ${
-                                  respondedRequests[user.username] === "accepted" 
-                                    ? "friend-status-accepted" 
-                                    : "friend-status-rejected"
-                                }`}>
-                                  {respondedRequests[user.username] === "accepted"
-                                    ? "Accepted"
-                                    : "Refused"}
-                                </span>
-                              ) : (
-                                <>
-                                  <button
-                                    className='friend-button friend-button-success'
-                                    onClick={() => {
-                                      onAccept(user.username);
-                                      setRespondedRequests((prev) => ({
-                                        ...prev,
-                                        [user.username]: "accepted",
-                                      }));
-                                    }}
-                                  >
-                                    Accept
-                                  </button>
-                                  <button
-                                    className='friend-button friend-button-danger'
-                                    onClick={() => {
-                                      onReject(user.username);
-                                      setRespondedRequests((prev) => ({
-                                        ...prev,
-                                        [user.username]: "refused",
-                                      }));
-                                    }}
-                                  >
-                                    Reject
-                                  </button>
-                                </>
-                              )}
-                            </div>
+                            <button
+                              className='friend-button friend-button-success'
+                              onClick={() => handleAccept(user.username)}
+                            >
+                              Accept
+                            </button>
+                            <button
+                              className='friend-button friend-button-danger'
+                              onClick={() => handleReject(user.username)}
+                            >
+                              Reject
+                            </button>
+                          </div>
                       </div>
                   ))
               ) : (
@@ -130,7 +130,6 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
       </div>
     </GlassCard>
   );
-
 };
 
 export default FriendRequestsModal;

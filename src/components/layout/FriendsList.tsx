@@ -11,7 +11,7 @@ import {
 } from "../../services/apiFriends";
 import GlassCard from "../../common/GlassCard/GlassCard";
 import { useUser } from "../../context/UserContext";
-import { FriendsJSON, UserAvatar } from "../../api/entities";
+import { AllUserData, FriendsJSON, UserAvatar } from "../../api/entities";
 import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
 import ConfirmationModal from "./ConfirmationModal";
 
@@ -20,7 +20,7 @@ export const FriendsList = () =>
   // Store information about users to show
   const [friends, setFriends] = useState<FriendsJSON[]>([]);
   const [requests, setRequests] = useState<UserAvatar[]>([]);
-  const [allUsers, setAllUsers] = useState<UserAvatar[]>([]);
+  const [allUsers, setAllUsers] = useState<AllUserData[]>([]);
 
   // Manage the windows shown
   const [isAddFriendOpen, setIsAddFriendOpen] = useState(false);
@@ -68,8 +68,7 @@ export const FriendsList = () =>
 
     // Load all users and filter them
     const allUsersData = await fetchAllUsers();
-    const filteredUsers = allUsersData.filter(user => !friendsDataUsernames.includes(user.username) && user.username != userContext.user?.username)
-    setAllUsers(filteredUsers)
+    setAllUsers(allUsersData)
 
   };
 
@@ -117,6 +116,7 @@ export const FriendsList = () =>
     });
   };
 
+  const background = userContext.user?.userPersonalizeData.background || "default";
   const seeYourFriends = () => {
     return (
       <GlassCard
@@ -124,13 +124,14 @@ export const FriendsList = () =>
           maxwidth="700px"
           minwidth="320px"
           showPaws={true}
+          background={background}
       >
         {/* Players in the lobby */}
         <div className="players-section">
           <h3 className="section-label">Your Friends</h3>
           <div className={`player-list`}>
               {friends.length > 0 ? (
-                  friends.filter(friend => friend.isAccepted).map((user, index) => (
+                  friends.map((user, index) => (
                       // The whole friend
                       
                       <div 
@@ -201,16 +202,15 @@ export const FriendsList = () =>
     if (isAddFriendOpen)
     {   
       return <AddFriendModal
-                allUsers={allUsers}
-                friends={friends}
-                onClose={() => setIsAddFriendOpen(false)} />
+                onClose={() => setIsAddFriendOpen(false)} 
+                background={background}/>
     }
     else if (isRequestOpen)
       return <FriendRequestsModal
-                requests={requests}
                 onClose={() => setIsRequestOpen(false)}
                 onAccept={handleAccept}
-                onReject={handleReject}/>
+                onReject={handleReject}
+                background={background}/>
     else
       return seeYourFriends();
   }

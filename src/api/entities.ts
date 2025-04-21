@@ -31,6 +31,12 @@ export type UserAvatar = {
   avatar: string;
 }
 
+export type AllUserData = {
+  username: string;
+  avatar: string;
+  status: "friend" | "pending" | "none";
+}
+
 export type FriendsJSON = {
   username: string;
   avatar: string;
