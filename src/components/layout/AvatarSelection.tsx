@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import GlassCard from "../../common/GlassCard/GlassCard";
-import { IMAGES_PATH, IMAGES_EXTENSION, fetchShopItems, Product, fetchOwnedProducts, updateOwnedProduct } from "../../services/apiShop";
+import { IMAGES_PATH, IMAGES_EXTENSION, fetchOwnedProducts, updateOwnedProduct } from "../../services/apiShop";
 import { useUser } from "../../context/UserContext";
 import "./AvatarSelection.css";
 import { ProductOwned } from "../../api/entities";

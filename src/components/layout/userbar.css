@@ -559,6 +559,10 @@
   color: #ff9a44;
 }
 
+.shop-btn:hover {
+  color: #ff6a88;
+}
+
 .stats-btn:hover {
   color: #36d1dc;
 }
@@ -583,6 +587,10 @@
   color: #6a88ff;
 }
 
+.side-menu-blue .shop-btn:hover {
+  color: #0055ff;
+}
+
 .side-menu-blue .profile-btn:hover {
   color: #0089ff;
 }
@@ -597,6 +605,10 @@
 
 .side-menu-green .home-btn:hover {
   color: #44ff9a;
+}
+
+.side-menu-green .shop-btn:hover {
+  color: #6aff88;
 }
 
 .side-menu-green .stats-btn:hover {

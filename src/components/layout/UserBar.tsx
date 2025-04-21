@@ -103,7 +103,7 @@ const UserBar = ({}: {}) => {
         <div className={`menu-header menu-header-${background}`}>
           <div
             className={`user-avatar menu-avatar menu-avatar-${background}`}
-            onClick={() => {navigate(routes.changeavatar);}}
+            onClick={() => {navigate(routes.profilecustomization);}}
             style={{ cursor: 'pointer' }}
           >
             <img
@@ -123,9 +123,9 @@ const UserBar = ({}: {}) => {
             </button>
           </li>
           <li>
-            <button className="menu-btn background-btn" onClick={() => navigate(routes.changebg)}>
-              <span className="btn-icon">🖼️</span>
-              <span className="btn-text">Change Background</span>
+            <button className="menu-btn shop-btn" onClick={() => navigate(routes.shop)}>
+              <span className="btn-icon">🛒</span>
+              <span className="btn-text">Shop</span>
             </button>
           </li>
           <li>

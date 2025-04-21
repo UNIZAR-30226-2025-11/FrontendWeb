@@ -58,12 +58,6 @@ const GameMenu = () => {
             <span className="GC-button-text">Start Adventure</span>
           </button>
           
-          <button 
-            className="GC-button GC-blue-btn"
-            onClick={() => navigate(routes.shop)}
-          >
-            <span className="GC-button-text">Visit Shop</span>
-          </button>
         </div>       
       </GlassCard>
 

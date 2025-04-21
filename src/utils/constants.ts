@@ -11,7 +11,7 @@ export const routes = {
     statistics: "/statistics",
     friends: "/friends",
     changeavatar: "/changeavatar",
-    changebg: "/changebackground",
+    profilecustomization: "/customization",
 }
 
 export const routesRequest = {

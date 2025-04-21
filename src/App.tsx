@@ -13,8 +13,7 @@ import { FriendsList } from './components/layout/FriendsList';
 import ChangePasswordPage from './pages/profile/ChangePassword';
 import UserStatistics from './pages/profile/Statistics';
 import Shop from './pages/shop/shop';
-import AvatarSelection from './components/layout/AvatarSelection';
-import BackgroundSelection from "./pages/profile/BackgroundSelection";
+import ProfileCustomization from './pages/profile/ProfileCustomization';
 
 /**
  * Creates the application, prepares all the routes and loads
@@ -70,10 +69,8 @@ function App() {
           <Route path={routes.statistics} element={<UserStatistics />} />
 
           {/* Route for the avatar selection */}
-          <Route path={routes.changeavatar} element={<AvatarSelection />} />
+          <Route path={routes.profilecustomization} element={<ProfileCustomization />} />
 
-          {/* Route for the background selection */}
-          <Route path={routes.changebg} element={<BackgroundSelection />} />
         </Route>
       </Routes>
     </Router>
