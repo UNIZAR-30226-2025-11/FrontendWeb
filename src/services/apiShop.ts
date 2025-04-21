@@ -84,19 +84,14 @@ export const buyItem = async (item: Product): Promise<void> => {
   }
 };
 
-export const fetchOwnedProducts = async (categoryUrl: string): Promise<ProductOwned[]> => {
+export const fetchOwnedProducts = async (): Promise<ProductOwned[]> => {
   
   const res = await fetch(SERVER + routesRequest.productsOwned, {
-    method: "POST",
+    method: "GET",
     credentials: "include",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      resp: {
-        categoryName: categoryUrl
-      }
-    })
   });
 
   if (!res.ok) {

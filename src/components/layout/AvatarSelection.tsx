@@ -13,7 +13,8 @@ const AvatarSelection = () => {
   useEffect(() => {
     const loadAvatars = async () => {
       try {
-        const avatarOwned: ProductOwned[] = await fetchOwnedProducts("avatar");
+        let avatarOwned: ProductOwned[] = await fetchOwnedProducts();
+        avatarOwned.filter(avatar => avatar.categoryUrl === "avatar");
         setOwnedAvatars(avatarOwned);
       } catch (error) {
         console.error("Failed to load avatars", error);

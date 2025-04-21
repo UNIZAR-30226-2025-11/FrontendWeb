@@ -13,7 +13,9 @@ const BackgroundSelection = () => {
   useEffect(() => {
     const loadBackgrounds = async () => {
       try {
-        const ownedBackgrounds: ProductOwned[] = await fetchOwnedProducts("background");
+        let ownedBackgrounds: ProductOwned[] = await fetchOwnedProducts();
+        ownedBackgrounds = ownedBackgrounds.filter(bg => bg.categoryUrl === "background");
+        console.log(ownedBackgrounds);
         setOwnedBackgrounds(ownedBackgrounds);
       } catch (error) {
         console.error("Failed to load backgrounds", error);
