@@ -70,7 +70,12 @@ export type BackendWinnerJSON = {
     winnerUsername: string;
     coinsEarned: number;
     lobbyId: string;
+    isWinner: boolean;
+    gameDate: Date;
+    timePlayed: number;
+    turnsPlayed: number;
 }
+
 
 // -----------------------------------------------------------
 // Message to send a petition to select a player of the game

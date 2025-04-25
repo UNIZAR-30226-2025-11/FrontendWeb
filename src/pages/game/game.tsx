@@ -80,12 +80,63 @@ const Game = () => {
             } else {
                 // Check if a card was received (and it's not the "See Future" case being handled by the modal)
                 if (socket.cardPlayedResult.cardReceived?.id !== -1 && !socket.cardPlayedResult.cardsSeeFuture?.length) {
-                     toast(
-                        <div className="toast-message"> {/* Use class from game.css */}
-                            You have received:{' '}
-                            <span className="card-received">{socket.cardPlayedResult.cardReceived.type}</span> {/* Use class from game.css */}
-                        </div>
-                    );
+                    if(socket.cardPlayedResult.cardReceived.type !== "Bomb")
+                    {
+                        toast(
+                            <div className="toast-message"> {/* Use class from game.css */}
+                                You have received:{' '}
+                                <span className="card-received">{socket.cardPlayedResult.cardReceived.type}</span> {/* Use class from game.css */}
+                            </div>
+                        );
+                    }
+                    else
+                    {
+                        // Create a bomb explosion animation when player receives a bomb
+                        const explosionElement = document.createElement('div');
+                        explosionElement.className = 'bomb-explosion';
+                        document.body.appendChild(explosionElement);
+                        
+                        // Play explosion sound
+                        const explosionSound = new Audio('/sounds/explosion.mp3');
+                        explosionSound.volume = 0.5;
+                        explosionSound.play().catch(e => console.log('Sound play error:', e));
+                        
+                        // Show a dramatic toast notification
+                        toast(
+                            <div className="toast-message bomb-message">
+                                <span className="bomb-icon">💣</span>
+                                <span className="bomb-text">BOOM! You've been bombed!</span>
+                            </div>,
+                            {
+                                duration: 3000,
+                                style: {
+                                    background: 'rgba(220, 38, 38, 0.9)',
+                                    color: 'white',
+                                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                                }
+                            }
+                        );
+                        
+                        // Add screen shake effect
+                        const gameContainer = document.querySelector('.game-container');
+                        if (gameContainer) {
+                            gameContainer.classList.add('screen-shake');
+                            setTimeout(() => {
+                                gameContainer.classList.remove('screen-shake');
+                            }, 1000);
+                        }
+                        
+                        // Remove explosion element after animation completes
+                        setTimeout(() => {
+                            if (document.body.contains(explosionElement)) {
+                                document.body.removeChild(explosionElement);
+                            }
+                        }, 1500);
+                        
+                        // Clear the card played result state
+                        socket.setCardPlayedResult(undefined);
+                    }
+
                     // Clear the result state after showing toast (unless it's See Future)
                     socket.setCardPlayedResult(undefined);
                 }
@@ -95,14 +146,6 @@ const Game = () => {
     }, [socket.cardPlayedResult, socket.setCardPlayedResult]); // Dependencies: result, setter
 
     // --- Render Functions ---
-
-    const winnerPage = () => {
-        // No changes needed here
-        if (socket.winner?.winnerUsername === socket.gameState?.playerUsername)
-            return <WinLose win={true}/>
-        else
-            return <WinLose win={false}/>
-    }
 
     const HTMLGame = () => {
         // This function renders the main game board structure
@@ -215,7 +258,11 @@ const Game = () => {
     // Main render logic - Decides what high-level component to show
     const renderContent = () => {
         if (socket.winner) {
-            return winnerPage(); // Show Win/Lose screen
+            console.log("Game ended, showing Win/Lose screen");
+            console.log("Game ended, showing Win/Lose screen");
+            console.log("Game ended, showing Win/Lose screen");
+            console.log("Game ended, showing Win/Lose screen");
+            return <WinLose/>; // Show Win/Lose screen
         }
 
         if (!socket.gameState) {

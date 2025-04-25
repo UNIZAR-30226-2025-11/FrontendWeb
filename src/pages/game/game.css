@@ -442,3 +442,88 @@
       font-size: 10px;
     }
   }
+
+  /* Bomb explosion animation */
+  .bomb-explosion {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle, rgba(255, 87, 34, 0.8) 0%, rgba(255, 87, 34, 0) 70%);
+    z-index: 1000;
+    pointer-events: none;
+    animation: explode 1.5s ease-out forwards;
+  }
+
+  @keyframes explode {
+    0% {
+      opacity: 0;
+      transform: scale(0.1);
+    }
+    25% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(3);
+    }
+  }
+
+  /* Screen shake animation */
+  .screen-shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-2px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(4px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+      transform: translate3d(-8px, 0, 0);
+    }
+
+    40%, 60% {
+      transform: translate3d(8px, 0, 0);
+    }
+  }
+
+  /* Bomb message styling */
+  .bomb-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .bomb-icon {
+    display: inline-block;
+    font-size: 20px;
+    animation: bombPulse 0.5s infinite alternate;
+  }
+
+  .bomb-text {
+    animation: bombTextGlow 1.5s infinite;
+  }
+
+  @keyframes bombPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); }
+  }
+
+  @keyframes bombTextGlow {
+    0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 87, 34, 0.8); }
+    100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+  }
