@@ -14,7 +14,7 @@ RUN npm install --frozen-lockfile
 COPY . .
 
 # Expose the port defined in the environment variables or default to 5173
-EXPOSE ${VITE_PORT:-5173}
+EXPOSE 8080
 
 # Start Vite
 CMD ["npm", "run", "dev"]
