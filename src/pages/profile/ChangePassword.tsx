@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useNotification } from '../../context/NotificationContext';
 import { useUser } from '../../context/UserContext';
 
-import './ChangePassword.css';
 
 const ChangePasswordPage = (
   {} : {}) => {
