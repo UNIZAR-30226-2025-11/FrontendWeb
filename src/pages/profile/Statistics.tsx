@@ -89,18 +89,6 @@ const UserStatistics: React.FC = () => {
         <p><span className="stats-emoji">🔥</span> <strong>Current streak:</strong> {currentStreak} games</p>
         <p><span className="stats-emoji">⭐</span> <strong>Best streak:</strong> {bestStreak} games</p>
         <p><span className="stats-emoji">⏱️</span> <strong>Average game time:</strong> {totalTimePlayed}</p>
-        
-        <div className="achievement-section">
-          <h3 className="section-title">Achievement Level</h3>
-          <div className="achievement-badge">
-            <span className="achievement-emoji">{achievement.emoji}</span>
-            <span className="achievement-text">{achievement.text}</span>
-          </div>
-          <div className="progress-bar">
-            <div className="progress" style={{ width: `${achievement.progress}%` }}></div>
-          </div>
-          <p className="achievement-hint">Win more games to level up!</p>
-        </div>
       </div>
       
       <div className="chart-container">
