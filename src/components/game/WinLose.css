@@ -1,85 +1,222 @@
-/* winlose.css */
+/* WinLose.css with ws- prefix to avoid conflicts */
 
-/* Container for the win/lose screen */
-.win-lose-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-  }
-  
-  /* Specific styles for the win message */
-  .win-message {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 2px solid #333;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
-    background-color: #fff;
-  }
-  
-  .win-message h1 {
-    color: #2e7d32;
-    margin-bottom: 10px;
+/* Main container */
+.ws-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.ws-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 24px;
+  color: white;
+}
+
+.ws-result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+
+/* Trophy animation */
+.ws-trophy-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.ws-trophy {
+  font-size: 80px;
+  animation: ws-pulse 2s infinite;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.ws-winner {
+  animation: ws-winner-animation 1.5s ease-in-out infinite;
+}
+
+.ws-loser {
+  animation: ws-loser-animation 2s ease-in-out infinite;
+}
+
+@keyframes ws-winner-animation {
+  0% { transform: scale(1) rotate(-5deg); }
+  50% { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1) rotate(-5deg); }
+}
+
+@keyframes ws-loser-animation {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes ws-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Message styling */
+.ws-message {
+  text-align: center;
+}
+
+.ws-message h2 {
+  font-size: 28px;
+  margin: 0;
+  background: linear-gradient(45deg, #ff9a44, #ff6a88);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 10px rgba(255, 106, 136, 0.3);
+}
+
+/* Stats grid */
+.ws-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.ws-stats-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ws-stats-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ws-stats-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.ws-stats-card h3 {
+  color: #ccc;
+  margin: 5px 0 10px;
+  font-size: 18px;
+}
+
+.ws-stats-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  margin: 5px 0;
+  background: linear-gradient(45deg, #ff9a44, #ff6a88);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Lobby info */
+.ws-lobby-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ws-lobby-info p {
+  margin: 0;
+  color: #ccc;
+}
+
+.ws-lobby-info span {
+  font-weight: bold;
+  color: white;
+}
+
+/* Button styling */
+.ws-button {
+  background: linear-gradient(45deg, #36d1dc, #5b86e5);
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(91, 134, 229, 0.4);
+  margin-top: 15px;
+  align-self: center;
+}
+
+.ws-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(91, 134, 229, 0.5);
+  background: linear-gradient(45deg, #42d7e2, #6690e9);
+}
+
+.ws-button:active {
+  transform: translateY(1px);
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .ws-stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
-  .loose-message {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 2px solid #333;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
-    background-color: #fff;
+  .ws-trophy {
+    font-size: 60px;
   }
-  
-  .loose-message h1 {
-    color: #c62828;
-    margin-bottom: 10px;
+
+  .ws-message h2 {
+    font-size: 24px;
   }
-  
-  /* Updated styles for the lose message to cover the entire page */
-  .lose-message {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    background: url('../../assets/explosion.jpeg') no-repeat center center;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #c62828;
-    border: none;
-    border-radius: 0;
-    padding: 0;
+
+  .ws-stats-value {
+    font-size: 24px;
   }
-  
-  .lose-message p {
-    margin-top: 15px;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 4px;
+}
+
+@media (max-width: 480px) {
+  .ws-stats-grid {
+    grid-template-columns: 1fr 1fr;
   }
-  
-  /* Styles for the restart button */
-  .restart-button {
-    padding: 10px 20px;
+
+  .ws-stats-card {
+    padding: 15px;
+  }
+
+  .ws-stats-icon {
+    font-size: 30px;
+  }
+
+  .ws-stats-value {
+    font-size: 20px;
+  }
+
+  .ws-button {
     font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #1976d2;
-    color: #fff;
-    transition: background-color 0.3s ease;
+    padding: 12px 24px;
   }
-  
-  .restart-button:hover {
-    background-color: #1565c0;
-  }
-  
+}
