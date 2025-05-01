@@ -13,6 +13,7 @@ export const Chat = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const [prevMessageCount, setPrevMessageCount] = useState(0);
+  const [messageList, setMessageList] = useState<any[]>([]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && input.trim()) {
@@ -28,27 +29,50 @@ export const Chat = () => {
     }
   }, [isExpanded]);
 
-  // Scroll to bottom on new messages
+  // Scroll to bottom when messages change and chat is expanded
   useEffect(() => {
-    const container = messagesContainerRef.current;
-    const messageCount = socket.messagesChat?.messages.length || 0;
-    if (!container) return;
-   
-    const isAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
-  
-    if (messageCount > prevMessageCount && isAtBottom) {
-      // Scroll at the end of the render
-      requestAnimationFrame(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-      });
+    if (isExpanded && bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  
-    if (!isExpanded) {
-      setUnreadCount(prev => prev + (messageCount - prevMessageCount));
-    }
-    setPrevMessageCount(messageCount);
+  }, [messageList, isExpanded]);
 
-  }, [socket.messagesChat?.messages.length, isExpanded]);
+  // Set message list from socket
+  useEffect(() => {
+    if (socket.messagesChat?.messages) {
+      setMessageList(socket.messagesChat.messages);
+    }
+  }, [socket.messagesChat?.messages]);
+
+  // Handle new messages, unread count, and scrolling
+  useEffect(() => {
+    const currentMessageCount = messageList.length;
+    
+    if (currentMessageCount > prevMessageCount) {
+      
+      // Only increment unread count for messages from others when chat is collapsed
+      if (!isExpanded) {
+        // Check if the new messages are from other users
+        for (let i = prevMessageCount; i < currentMessageCount; i++) {
+          if (messageList[i].username !== socket.gameState?.playerUsername) {
+            setUnreadCount(prev => prev + 1);
+          }
+        }
+      }
+      
+      // Handle scrolling when new messages arrive
+      if (isExpanded && messagesContainerRef.current) {
+        // Use a small timeout to ensure DOM has updated
+        setTimeout(() => {
+          if (bottomRef.current) {
+            // Try 'auto' instead of 'smooth'
+            bottomRef.current.scrollIntoView({ behavior: "auto" }); 
+          }
+        }, 10); // Maybe try increasing timeout slightly (e.g., 50ms)
+      }
+    }
+    
+    setPrevMessageCount(currentMessageCount);
+  }, [messageList.length, isExpanded, socket.gameState?.playerUsername, prevMessageCount]);
   
   // Reset unread count when expanded
   useEffect(() => {
@@ -59,8 +83,8 @@ export const Chat = () => {
 
   // Get username from last message
   const getLastSender = () => {
-    if (socket.messagesChat?.messages.length) {
-      const lastMessage = socket.messagesChat.messages[socket.messagesChat.messages.length - 1];
+    if (messageList.length) {
+      const lastMessage = messageList[messageList.length - 1];
       return lastMessage.username;
     }
     return "";
@@ -68,12 +92,12 @@ export const Chat = () => {
   
   // Create message groups by username
   const getMessageGroups = () => {
-    if (!socket.messagesChat?.messages.length) return [];
+    if (!messageList.length) return [];
     
     const groups: Array<{username: string, messages: string[], isCurrentUser: boolean}> = [];
     let currentGroup: {username: string, messages: string[], isCurrentUser: boolean} | null = null;
     
-    socket.messagesChat.messages.forEach(msg => {
+    messageList.forEach(msg => {
       const isCurrentUser = msg.username === socket.gameState?.playerUsername;
       
       if (!currentGroup || currentGroup.username !== msg.username) {
@@ -111,9 +135,9 @@ export const Chat = () => {
         {!isExpanded && unreadCount > 0 && (
           <div className="unread-badge">{unreadCount}</div>
         )}
-        {!isExpanded && unreadCount > 0 && socket.messagesChat && socket.messagesChat?.messages?.length > 0 && (
+        {!isExpanded && unreadCount > 0 && messageList.length > 0 && (
           <div className="last-message-preview">
-            <strong>{getLastSender()}</strong>: {socket.messagesChat.messages[socket.messagesChat.messages.length - 1].msg}
+            <strong>{getLastSender()}</strong>: {messageList[messageList.length - 1].msg}
           </div>
         )}
       </motion.div>
