@@ -6,7 +6,7 @@ import { routesRequest } from "../utils/constants";
  * Fetches the list of friends for the current user.
  * @returns Array of usernames (strings)
  */
-export const fetchFriends = async (): Promise<FriendsJSON[]> => {
+export const fetchFriends = async (): Promise<{friends: FriendsJSON[], numRequests: number}> => {
   const res = await fetch(SERVER + routesRequest.friends, {
     method: "GET",
     credentials: "include",
@@ -16,10 +16,13 @@ export const fetchFriends = async (): Promise<FriendsJSON[]> => {
   const data = await res.json();
 
   console.log("Friends data:", data); // Debugging line
-  if(data)
-    return data.users.map((user: any) => ({username:user.username, avatar:user.avatar, isAccepted:user.isAccepted}));
+  if(data) {
+    const friends:FriendsJSON[] = data.users.map((user: any) => ({username:user.username, avatar:user.avatar, isAccepted:user.isAccepted}));
+    const numRequests = data.numRequests || 0; // Default to 0 if not present
+    return {friends, numRequests};
+  }
   else
-    return [];
+    return {friends: [], numRequests: 0};
 };
 
 /**

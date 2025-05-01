@@ -4,23 +4,24 @@ import AddFriendModal from "./AddFriendModal";
 import FriendRequestsModal from "./FriendRequestsModal";
 import {
   fetchFriends,
-  fetchFriendRequests,
-  fetchAllUsers,
   respondToFriendRequest,
   removeFriend
 } from "../../services/apiFriends";
 import GlassCard from "../../common/GlassCard/GlassCard";
 import { useUser } from "../../context/UserContext";
-import { AllUserData, FriendsJSON, UserAvatar } from "../../api/entities";
+import { FriendsJSON } from "../../api/entities";
 import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
 import ConfirmationModal from "./ConfirmationModal";
+
+import "../../../src/common/GlassCard/GlassCard.css"
 
 export const FriendsList = () =>
 {
   // Store information about users to show
   const [friends, setFriends] = useState<FriendsJSON[]>([]);
-  const [requests, setRequests] = useState<UserAvatar[]>([]);
-  const [allUsers, setAllUsers] = useState<AllUserData[]>([]);
+
+  const [numRequest, setNumRequest] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Manage the windows shown
   const [isAddFriendOpen, setIsAddFriendOpen] = useState(false);
@@ -56,20 +57,22 @@ export const FriendsList = () =>
 
 
   const fetchData = async () => {
+    setRefreshing(true);
+    try {
+      // Load your friends
+      const friendsData: {friends: FriendsJSON[], numRequests: number} = await fetchFriends();
+      setFriends(friendsData.friends);
+      setNumRequest(friendsData.numRequests);
+    } catch (error) {
+      console.error("Error fetching friends data:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
-    // Load your friends
-    const friendsData = await fetchFriends();
-    const friendsDataUsernames = friendsData.filter(user => user.isAccepted).map(friend => friend.username);
-    setFriends(friendsData);
-
-    // Load your friends requests
-    const requestsData = await fetchFriendRequests();
-    setRequests(requestsData);
-
-    // Load all users and filter them
-    const allUsersData = await fetchAllUsers();
-    setAllUsers(allUsersData)
-
+  // Handle refresh button click
+  const handleRefresh = () => {
+    fetchData();
   };
 
   // Fetch data
@@ -128,10 +131,33 @@ export const FriendsList = () =>
       >
         {/* Players in the lobby */}
         <div className="players-section">
-          <h3 className="section-label">Your Friends</h3>
-          <div className={`player-list`}>
-              {friends.length > 0 ? (
-                  friends.map((user, index) => (
+          {/* Section header with refresh button */}
+          <div className="section-header">
+            <h3 className="section-label">Your Friends</h3>
+            <button 
+              className={`refresh-button ${refreshing ? 'rotating' : ''}`}
+              onClick={handleRefresh}
+              disabled={refreshing}
+              aria-label="Refresh friends list"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+                <path fill="none" d="M0 0h24v24H0z"/>
+                <path 
+                  d="M18.537 19.567A9.961 9.961 0 0 1 12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10c0 2.136-.67 4.116-1.81 5.74L17 12h3a8 8 0 1 0-2.46 5.772l.997 1.795z" 
+                  fill="rgba(255,255,255,0.8)"
+                />
+              </svg>
+            </button>
+          </div>
+          
+          <div className={`player-list ${refreshing ? 'loading-fade' : ''}`}>
+              {refreshing && friends.length === 0 ? (
+                <div className="loading-indicator">
+                  <div className="loading-spinner"></div>
+                  <p>Loading friends...</p>
+                </div>
+              ) : friends.length > 0 ? (
+                  friends.map((user, _) => (
                       // The whole friend
                       
                       <div 
@@ -166,21 +192,24 @@ export const FriendsList = () =>
         </div>
 
         {/* Buttons */}
-        <div className="button-group">
+        <div className="GC-button-group">
           {/* Button for adding new friends */}
           <button
-              className={"friend-button friend-button-primary"}
+              className={"GC-button GC-blue-btn"}
               onClick={() => {setIsAddFriendOpen(true)}}
           >
             Search for new friends
           </button>
 
-          {/* Button for check out requests */}
+          {/* Button for check out requests with notification badge */}
           <button
-              className={"friend-button friend-button-success"}
+              className={`GC-button ${numRequest > 0 ? 'GC-red-btn request-btn-active' : 'GC-gray-btn'}`}
               onClick={() => {setIsRequestOpen(true)}}
           >
             Check out your requests
+            {numRequest > 0 && (
+              <span className="request-badge">{numRequest}</span>
+            )}
           </button>
         </div>
 

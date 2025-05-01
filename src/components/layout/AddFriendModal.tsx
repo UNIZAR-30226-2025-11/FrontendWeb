@@ -31,7 +31,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
       const friendsData = await fetchFriends();
       
       setAllUsers(usersData);
-      setFriends(friendsData);
+      setFriends(friendsData.friends);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -104,7 +104,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
           maxwidth="700px"
           minwidth="320px"
           showPaws={true}
-          
+          background={background}
     >
       {/* Users in the app */}
       <div className="players-section">
@@ -146,7 +146,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
                   <p>Loading users...</p>
                 </div>
               ) : filteredUsers.length > 0 ? (
-                  filteredUsers.map((user, index) => (
+                  filteredUsers.map((user, _) => (
                       // The whole friend
                       <div 
                           key={user.username} 
@@ -186,10 +186,10 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
         </div>
 
       {/* Buttons */}
-      <div className="button-group">
+      <div className="GC-button-group">
         {/* Button for adding new friends */}
         <button
-            className={"friend-button friend-button-neutral"}
+            className={"GC-button GC-red-btn"}
             onClick={onClose}
         >
           Back to your friends

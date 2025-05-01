@@ -77,7 +77,7 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
           {/* Box with users */}
           <div className={`player-list`}>
               {requests.length > 0 ? (
-                  requests.map((user, index) => (
+                  requests.map((user, _) => (
                       // The whole friend
                       <div 
                           key={user.username} 
@@ -119,10 +119,10 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
         </div>
 
       {/* Buttons */}
-      <div className="button-group">
+      <div className="GC-button-group">
         {/* Button for adding new friends */}
         <button
-            className={"friend-button friend-button-neutral"}
+            className={"GC-button GC-red-btn"}
             onClick={onClose}
         >
           Back to your friends

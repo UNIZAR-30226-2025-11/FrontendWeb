@@ -19,18 +19,14 @@ import './userbar.css';
 const UserBar = ({}: {}) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [isFriendsListOpen, setIsFriendsListOpen] = useState(false);
   const [showCustomizeHint, setShowCustomizeHint] = useState(false);
 
   const userContext: UserContextType = useUser();
 
   const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
-    setIsLoading(true);
     const result = await handleLogoutAPI();
-    setIsLoading(false);
 
     // Use the showToast function from the context
     showToast({
@@ -60,10 +56,6 @@ const UserBar = ({}: {}) => {
   const navigateToCustomization = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent menu toggle
     navigate(routes.profilecustomization);
-  };
-
-  const closeFriendsList = () => {
-    setIsFriendsListOpen(false);
   };
 
   useEffect(() => {
