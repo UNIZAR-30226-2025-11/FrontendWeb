@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+import React from 'react';
+import { Tooltip, PieChart, Pie, Cell } from 'recharts';
 import { UserContextType, useUser } from '../../context/UserContext';
 import GlassCard from '../../common/GlassCard/GlassCard';
 import { formatRelativeTime } from '../../utils/functions';
@@ -7,7 +7,6 @@ import { formatRelativeTime } from '../../utils/functions';
 import './statistics.css';
 
 const UserStatistics: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const userContext: UserContextType = useUser();
 
   const gamesWon = userContext.user?.statistics.gamesWon || 0;
@@ -23,6 +22,8 @@ const UserStatistics: React.FC = () => {
 
   const lastFiveGames = userContext.user?.statistics.lastFiveGames || [];
 
+  console.log(lastFiveGames);
+
   // Calculate streak and best streak (dummy data - replace with actual data)
   const currentStreak = userContext.user?.statistics.currentStreak || 0;
   const bestStreak = userContext.user?.statistics.bestStreak || 0;
@@ -33,22 +34,11 @@ const UserStatistics: React.FC = () => {
     { name: 'Losses', value: gamesLost, color: '#ff6a88' }
   ];
 
-  // Get achievement status based on wins
-  const getAchievementStatus = () => {
-    if (gamesWon >= 50) return { emoji: '🏆', text: 'Champion', progress: 100 };
-    if (gamesWon >= 25) return { emoji: '🥇', text: 'Expert', progress: 50 };
-    if (gamesWon >= 10) return { emoji: '🥈', text: 'Intermediate', progress: 25 };
-    return { emoji: '🥉', text: 'Beginner', progress: 0 };
-  };
+  // Calculate total for percentage display
+  const totalGames = gamesWon + gamesLost;
+  const winPercentageFormatted = totalGames > 0 ? Math.round((gamesWon / totalGames) * 100) : 0;
+  const lossPercentageFormatted = totalGames > 0 ? Math.round((gamesLost / totalGames) * 100) : 0;
 
-  const achievement = getAchievementStatus();
-
-  useEffect(() => {
-    // Set visible after component mounts for animation
-    setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
-  }, []);
 
   return (
     <GlassCard title='Game Statistics' minwidth={500} maxwidth={800} showPaws={false} animationDelay={100} background={background}>
@@ -93,30 +83,46 @@ const UserStatistics: React.FC = () => {
       
       <div className="chart-container">
         <h3 className="section-title">Win/Loss Ratio</h3>
-        <PieChart width={200} height={200}>
+        <PieChart width={240} height={240}>
           <Pie
             data={pieData}
-            cx={100}
-            cy={100}
+            cx={120}
+            cy={120}
             innerRadius={60}
-            outerRadius={80}
+            outerRadius={85}
             paddingAngle={5}
             dataKey="value"
+            animationBegin={200}
+            animationDuration={1500}
           >
             {pieData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+              <Cell 
+                key={`cell-${index}`} 
+                fill={entry.color} 
+                stroke="rgba(0,0,0,0.2)"
+                strokeWidth={1}
+              />
             ))}
           </Pie>
-
-          <Tooltip />
-          <Legend />
+          <Tooltip 
+            formatter={(value, name) => [`${value} games`, name]}
+            contentStyle={{
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              borderRadius: '8px',
+              padding: '10px',
+              border: 'none',
+              color: '#333',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
+            }}
+          />
         </PieChart>
+        
         <div className="chart-labels">
           <div className="chart-label">
-            <span className="color-box win-color"></span> Wins
+            <span className="color-box win-color"></span> Wins ({winPercentageFormatted}%)
           </div>
           <div className="chart-label">
-            <span className="color-box loss-color"></span> Losses
+            <span className="color-box loss-color"></span> Losses ({lossPercentageFormatted}%)
           </div>
         </div>
       </div>
@@ -130,7 +136,7 @@ const UserStatistics: React.FC = () => {
             <div className="activity-icon">{game.isWinner ? '✅' : '❌'}</div>
             <div className="activity-details">
               <p className="activity-title">{game.isWinner ? 'Victory' : 'Defeat'} in lobby {game.lobbyId}</p>
-              <p className="activity-time">{formatRelativeTime(game.gameDate)}</p>
+              <p className="activity-time">{formatRelativeTime(new Date(game.gameDate))}</p>
             </div>
           </div>
         ))}
