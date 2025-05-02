@@ -1,6 +1,5 @@
-// components/ProtectedRoute.tsx
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext"; // Adjust the import path
 import { routes } from "../../utils/constants";
 

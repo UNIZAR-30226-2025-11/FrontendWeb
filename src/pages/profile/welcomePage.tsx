@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import GlassCard from '../../common/GlassCard/GlassCard';
 
 const WelcomePage = () => {
   const navigate = useNavigate();
-  const [loaded, setLoaded] = useState(false);
-
-  // This useEffect is just for the content animation
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
 
   const handleLogin = () => navigate('/login');
   const handleSignUp = () => navigate('/signup');

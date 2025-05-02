@@ -14,16 +14,13 @@ export const SignUp = () => {
   const [formTouched, setFormTouched] = useState(false);
 
   const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangePassword = async (
     username: string,
     password: string,
     password2: string) => {
 
-    setIsLoading(true);
     const result = await handleSignUpAPI(username, password, password2);
-    setIsLoading(false);
 
     // Use the showToast function from the context
     showToast({

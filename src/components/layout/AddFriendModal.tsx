@@ -146,7 +146,7 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
                   <p>Loading users...</p>
                 </div>
               ) : filteredUsers.length > 0 ? (
-                  filteredUsers.map((user, _) => (
+                  filteredUsers.map((user) => (
                       // The whole friend
                       <div 
                           key={user.username} 

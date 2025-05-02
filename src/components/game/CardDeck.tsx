@@ -18,7 +18,7 @@ import React, {
   /**
    * An elegant, compact card deck component with visual effects
    */
-  const CardDeck = forwardRef<CardDeckHandle>((props, ref) => {
+  const CardDeck = forwardRef<CardDeckHandle>((_, ref) => {
 	// Socket for extract the necessary information
 	const socket: SocketContextType = useSocket();
   
@@ -182,4 +182,6 @@ import React, {
 	);
   });
   
+  CardDeck.displayName = "CardDeck";
+
   export default CardDeck;

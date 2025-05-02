@@ -5,7 +5,7 @@ import './Timer.css';
 
 type TimerProps = {
     duration: number;
-    onTimeUp: Function;
+    onTimeUp: () => void;
     className?: string;
     size?: number;
     position?: { bottom?: number; left?: number; top?: number; right?: number; };
@@ -57,7 +57,7 @@ const Timer: React.FC<TimerProps> = ({
             return;
         }
         
-        const updateTimer = (timestamp: number) => {
+        const updateTimer = () => {
             const now = Date.now();
             const deltaTime = now - lastUpdateTimeRef.current;
             lastUpdateTimeRef.current = now;

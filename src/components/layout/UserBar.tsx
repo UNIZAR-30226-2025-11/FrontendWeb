@@ -16,7 +16,7 @@ import './userbar.css';
  * 
  * @returns The user bar component
  */
-const UserBar = ({}: {}) => {
+const UserBar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showCustomizeHint, setShowCustomizeHint] = useState(false);

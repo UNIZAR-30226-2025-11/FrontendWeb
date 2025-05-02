@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 import GlassCard from '../../common/GlassCard/GlassCard';
 
 const Container = ({ logIn }: { logIn: boolean }) => {
   const [welcome, setWelcome] = useState(!logIn);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    // Add visible class after component mounts for animation
-    const timer = setTimeout(() => {
-      setVisible(true);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <div className="login-page">

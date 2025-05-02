@@ -178,7 +178,7 @@ const LobbyUsers = () => {
                             <span></span>
                         </div>
                         <h3 className="lu-disband-title">The host has disbanded this lobby</h3>
-                        <p className="lu-disband-message">You'll be redirected to the main menu shortly...</p>
+                        <p className="lu-disband-message">You&apos;ll be redirected to the main menu shortly...</p>
                         <div className="lu-loading-indicator">
                             <div className="lu-loading-dot"></div>
                             <div className="lu-loading-dot"></div>
@@ -224,7 +224,7 @@ const LobbyUsers = () => {
                     <h3 className="lu-section-label">Players</h3>
                     <div className={`lu-player-list ${animateList ? "animate" : ""}`}>
                         {players.length > 0 ? (
-                            players.map((player, index) => (
+                            players.map((player) => (
                                 <div 
                                     key={player.name} 
                                     className={`lu-player-item ${player.isYou ? 'lu-player-self' : ''}`}

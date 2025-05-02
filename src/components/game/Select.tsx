@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { selectCard, selectNopeUsage, selectTypeOfCard, selectPlayer } from "../../services/socketService";
 import { SocketContextType, useSocket } from "../../context/SocketContext";
@@ -275,7 +275,7 @@ const Selection = () => {
               </p>
             ) : (
               <p style={{ textAlign: 'center', fontSize: '16px', color: 'rgba(255, 89, 89, 0.9)' }}>
-                You don't have any NOPE cards to block this action.
+                You don&apos;t have any NOPE cards to block this action.
               </p>
             )}
             

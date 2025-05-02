@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSocket } from '../../context/SocketContext';
 import './InvitationModal.css';
 import { IMAGES_EXTENSION, IMAGES_PATH } from '../../services/apiShop';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/constants';
 
 const InvitationModal: React.FC = () => {

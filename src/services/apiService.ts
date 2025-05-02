@@ -1,6 +1,6 @@
 import { SERVER } from "../utils/config";
 import { routes, routesRequest } from "../utils/constants";
-import { UserContextType, useUser } from "../context/UserContext";
+import { UserJSON } from "../api/entities";
 
 export interface ApiResponse {
 	type: "success" | "error" | "info" | "warning";
@@ -61,7 +61,7 @@ export const handleLogInAPI = async (
 			}
 
 	}
-	catch (error)
+	catch
 	{
 		return {
 			type: "error",
@@ -272,7 +272,7 @@ export const handleConfirmChangeAPI = async (
 };
 
 export const fetchUser = async (
-	setUser: (u: any) => void,
+	setUser: (u: UserJSON | undefined) => void,
 	setIsLoading: (b: boolean) => void
 ) => {
 
@@ -289,7 +289,7 @@ export const fetchUser = async (
 		setUser(undefined);
 	}
 	} catch (error) {
-		console.error("Failed to fetch user:");
+		console.error("Failed to fetch user: ", error);
 	} finally {
 		setIsLoading(false);
 	}

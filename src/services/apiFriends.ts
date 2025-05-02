@@ -17,7 +17,7 @@ export const fetchFriends = async (): Promise<{friends: FriendsJSON[], numReques
 
   console.log("Friends data:", data); // Debugging line
   if(data) {
-    const friends:FriendsJSON[] = data.users.map((user: any) => ({username:user.username, avatar:user.avatar, isAccepted:user.isAccepted}));
+    const friends:FriendsJSON[] = data.users.map((user: FriendsJSON) => ({username:user.username, avatar:user.avatar, isAccepted:user.isAccepted}));
     const numRequests = data.numRequests || 0; // Default to 0 if not present
     return {friends, numRequests};
   }
@@ -74,7 +74,7 @@ export const fetchFriendRequests = async (): Promise<UserAvatar[]> => {
 
   console.log("Friend requests data:", data); // Debugging line
   if(data)
-    return data.users.map((user: any) => ({username:user.username, avatar:user.avatar}));
+    return data.users.map((user: UserAvatar) => ({username:user.username, avatar:user.avatar}));
   else
     return [];
 };
@@ -111,7 +111,7 @@ export const fetchAllUsers = async (): Promise<AllUserData[]> => {
     console.log("All users data:", data); // Debugging line
 
     if(data)
-      return data.map((user: any) => ({username:user.username, avatar:user.avatar, status:user.status}));
+      return data.map((user: AllUserData) => ({username:user.username, avatar:user.avatar, status:user.status}));
     else
       return [];
   };

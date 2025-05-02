@@ -110,7 +110,7 @@ const WinLose = () => {
 
                     <div className="ws-message">
                         {winnerData.isWinner ? (
-                            <h2>Congratulations! You've won the game!</h2>
+                            <h2>Congratulations! You&apos;ve won the game!</h2>
                         ) : (
                             <h2>Better luck next time!</h2>
                         )}

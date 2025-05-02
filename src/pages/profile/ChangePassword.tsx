@@ -7,8 +7,7 @@ import { useUser } from '../../context/UserContext';
 
 import './changePassword.css';
 
-const ChangePasswordPage = (
-  {} : {}) => {
+const ChangePasswordPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     newPassword: "",
@@ -18,15 +17,12 @@ const ChangePasswordPage = (
   const [formTouched, setFormTouched] = useState(false);
 
   const { showToast } = useNotification(); // Assuming you have a toast context or similar for notifications
-  const [isLoading, setIsLoading] = useState(false);
 
   const userContext = useUser();
   const background:string = userContext.user?.userPersonalizeData.background || "default"; // Default background if not set
 
   const handleChangePassword = async (newPassword: string, repeatPassword: string) => {
-    setIsLoading(true);
     const result: ApiResponse = await handleConfirmChangeAPI(newPassword, repeatPassword);
-    setIsLoading(false);
 
     // Use the showToast function from the context
     showToast({
@@ -44,9 +40,7 @@ const ChangePasswordPage = (
   }
 
   const handleDeleteAccount = async () => {
-    setIsLoading(true);
     const result: ApiResponse = await handleDeleteAccountAPI();
-    setIsLoading(false);
 
     // Use the showToast function from the context
     showToast({

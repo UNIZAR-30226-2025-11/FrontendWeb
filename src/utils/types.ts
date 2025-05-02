@@ -6,7 +6,7 @@ export type Card = {
 export type Item = {
     name: string;
     description: string;
-    price: Number;
+    price: number;
     image: string;
 }
 

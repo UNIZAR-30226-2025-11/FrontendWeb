@@ -12,7 +12,7 @@ import LobbyUsers from "../../components/lobby/LobbyUsers";
 import WinLose from "../../components/game/WinLose";
 import Selection from "../../components/game/Select";
 import FutureCards from "../../components/game/FutureCards";
-import { CardDeckHandle, SelectionType } from "../../utils/types";
+import { CardDeckHandle } from "../../utils/types";
 import { SocketContextType, useSocket } from "../../context/SocketContext";
 import './game.css' // Main game styles
 import toast, { Toaster } from "react-hot-toast";
@@ -105,7 +105,7 @@ const Game = () => {
                         toast(
                             <div className="toast-message bomb-message">
                                 <span className="bomb-icon">💣</span>
-                                <span className="bomb-text">BOOM! You've been bombed!</span>
+                                <span className="bomb-text">BOOM! You&apos;ve been bombed!</span>
                             </div>,
                             {
                                 duration: 3000,

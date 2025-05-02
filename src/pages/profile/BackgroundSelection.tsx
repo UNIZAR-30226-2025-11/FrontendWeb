@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import GlassCard from "../../common/GlassCard/GlassCard";
-import { IMAGES_PATH, IMAGES_EXTENSION, fetchShopItems, Product, fetchOwnedProducts, updateOwnedProduct } from "../../services/apiShop";
+import { IMAGES_PATH, IMAGES_EXTENSION, fetchOwnedProducts, updateOwnedProduct } from "../../services/apiShop";
 import { useUser } from "../../context/UserContext";
 import "./BackgroundSelection.css";
 import { ProductOwned } from "../../api/entities";
@@ -64,7 +64,7 @@ const BackgroundSelection = () => {
             </div>
           ))
         ) : (
-          <p>You haven't purchased any backgrounds yet.</p>
+          <p>You haven&apos;t purchased any backgrounds yet.</p>
         )}
       </div>
     </GlassCard>

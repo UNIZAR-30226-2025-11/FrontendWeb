@@ -1,6 +1,6 @@
 import { ProductOwned } from "../api/entities";
 import { SERVER } from "../utils/config";
-import { routes, routesRequest } from "../utils/constants";
+import { routesRequest } from "../utils/constants";
 
 
 export const IMAGES_PATH: string = "../../../assets/shop";

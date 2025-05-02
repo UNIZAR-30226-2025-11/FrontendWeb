@@ -62,7 +62,7 @@ const AvatarSelection = () => {
             </div>
           ))
         ) : (
-          <p>You haven't purchased any avatars yet.</p>
+          <p>You haven&apos;t purchased any avatars yet.</p>
         )}
       </div>
     </GlassCard>

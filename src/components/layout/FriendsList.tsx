@@ -157,7 +157,7 @@ export const FriendsList = () =>
                   <p>Loading friends...</p>
                 </div>
               ) : friends.length > 0 ? (
-                  friends.map((user, _) => (
+                  friends.map((user) => (
                       // The whole friend
                       
                       <div 

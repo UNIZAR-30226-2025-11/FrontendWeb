@@ -77,7 +77,7 @@ const FriendRequestsModal: React.FC<FriendRequestsModalProps> = ({
           {/* Box with users */}
           <div className={`player-list`}>
               {requests.length > 0 ? (
-                  requests.map((user, _) => (
+                  requests.map((user) => (
                       // The whole friend
                       <div 
                           key={user.username} 

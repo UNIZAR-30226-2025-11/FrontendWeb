@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./Chat.css";
 import { useSocket } from "../../context/SocketContext";
 import { postMessage } from "../../services/socketService";
+import { MsgJSON } from "../../api/JSON";
 
 export const Chat = () => {
   const socket = useSocket();
@@ -13,7 +14,7 @@ export const Chat = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const [prevMessageCount, setPrevMessageCount] = useState(0);
-  const [messageList, setMessageList] = useState<any[]>([]);
+  const [messageList, setMessageList] = useState<MsgJSON[]>([]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && input.trim()) {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, ReactNode, useRef } from 'react';
 import './GlassCard.css';
-import { useUser } from '../../context/UserContext';
 
 interface GlassCardProps {
   children: ReactNode;
