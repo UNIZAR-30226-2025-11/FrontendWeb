@@ -12,10 +12,15 @@ import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
  * @returns The styled user component
  */
 const User = ({ player }: { player: PlayerJSON }) => {
-  const userImg = (player.active ? player.playerAvatar : "user-dead" ) + IMAGES_EXTENSION
+  // Always use the player's avatar, not "user-dead"
+  const userImg = player.playerAvatar + IMAGES_EXTENSION;
+
+  // Add dead-player class if not active
+  const containerClass = `user-container${!player.active ? ' dead-player' : ''}`;
+
   return (
     <motion.div 
-      className="user-container"
+      className={containerClass}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -29,18 +34,22 @@ const User = ({ player }: { player: PlayerJSON }) => {
               src={`${IMAGES_PATH}/avatar/${userImg}`} 
               alt={`${player.playerUsername}'s avatar`} 
             />
-            
             {/* Card count indicator */}
             <div className="user-card-count">
               <span className="card-number">{player.numCards}</span>
             </div>
           </div>
-          
           {/* Username */}
           <div className="user-name-container">
             <p className="user-name">{player.playerUsername}</p>
           </div>
         </div>
+        {/* Dead indicator badge */}
+        {!player.active && (
+          <div className="dead-indicator">
+            <span className="dead-icon">💀</span>
+          </div>
+        )}
       </div>
     </motion.div>
   );
