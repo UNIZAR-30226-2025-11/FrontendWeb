@@ -14,7 +14,7 @@ const CardHand = () => {
   const socket: SocketContextType = useSocket();
 
   const turn: boolean = socket.gameState?.playerUsername === socket.gameState?.turnUsername;
-  const lobbyID: string = socket.gameState?.lobbyId!;
+  const lobbyID: string = socket.gameState?.lobbyId ?? "";
   const cards = socket.gameState?.playerCards || [];
   
   /**

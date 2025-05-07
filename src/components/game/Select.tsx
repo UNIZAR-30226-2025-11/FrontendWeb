@@ -46,7 +46,7 @@ const Selection = () => {
   
   // Nope card usage handler
   const handleNopeUsage = (useNope: boolean) => {
-    selectNopeUsage(socket.socket, useNope, socket.gameState?.lobbyId!);
+    selectNopeUsage(socket.socket, useNope, socket.gameState?.lobbyId ?? "");
     socket.setSelectNope(undefined);
   };
 
