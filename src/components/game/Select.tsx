@@ -58,7 +58,7 @@ const Selection = () => {
   // Auto-close timer effect for each selection type
   useEffect(() => {
     // Create a timer for each selection type that's active
-    let timer: NodeJS.Timeout | null = null;
+    let timer: ReturnType<typeof setTimeout> | null = null;
     
     if (socket.selectPlayer && socket.selectPlayer.timeOut) {
       timer = setTimeout(() => {
