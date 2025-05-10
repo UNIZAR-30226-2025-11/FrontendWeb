@@ -254,7 +254,7 @@ const Selection = () => {
     // Check if the user has a NOPE card
     const hasNopeCard = socket.gameState?.playerCards.some(card => card.type === "Nope");
     const timeoutMs = socket.selectNope?.timeOut || 15000; // Default to 15 seconds if not specified
-    
+
     return (
       <div className="selection-overlay">
         <motion.div 
@@ -264,22 +264,29 @@ const Selection = () => {
           exit={{ opacity: 0, y: 20 }}
         >
           <div className="selection-header">
-            <h1>Use Your NOPE Card?</h1>
+            <h1>
+              Use Your <span className="action-highlight"> Nope </span> Card for action
+              <span className="action-highlight">
+                {socket.selectNope?.nopeAction}
+              </span>
+              ?
+            </h1>
           </div>
           
           <div className="selection-content">
             {hasNopeCard ? (
-              <p style={{ textAlign: 'center', fontSize: '16px', color: 'rgba(255, 255, 255, 0.8)' }}>
-                You have a NOPE card that can block the current action.
+              <p style={{ textAlign: 'center', fontSize: '16px', color: 'rgba(255, 255, 255, 0.85)', fontWeight: 500 }}>
+                You have a <span className="action-highlight">NOPE</span> card that can block the current action.<br />
                 Do you want to play it?
               </p>
             ) : (
-              <p style={{ textAlign: 'center', fontSize: '16px', color: 'rgba(255, 89, 89, 0.9)' }}>
-                You don&apos;t have any NOPE cards to block this action.
-              </p>
+              <div className="no-nope-warning">
+                <span role="img" aria-label="warning" style={{fontSize: 22}}>⚠️</span>
+                You don&apos;t have any <span className="action-highlight">NOPE</span> cards to block this action.
+              </div>
             )}
             
-            <div className="nope-options">
+            <div className="nope-options" style={{marginTop: hasNopeCard ? 20 : 28}}>
               <div 
                 className={`nope-option yes ${!hasNopeCard ? 'disabled' : ''}`}
                 onClick={() => {
@@ -287,6 +294,7 @@ const Selection = () => {
                     handleNopeUsage(true);
                   }
                 }}
+                style={{position: 'relative'}}
               >
                 Yes
               </div>
