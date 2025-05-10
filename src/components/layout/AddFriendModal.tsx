@@ -90,7 +90,6 @@ const AddFriendModal: React.FC<AddFriendModalProps> = ({
       
       // Actually send the request in the background
       await sendFriendRequest(username);
-      console.log(`Friend request sent to ${username}`);
       
     } catch (err) {
       console.error("Error sending friend request:", err);

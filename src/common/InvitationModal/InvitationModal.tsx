@@ -14,7 +14,6 @@ const InvitationModal: React.FC = () => {
     if (friendJoinRequest) {
       navigate(routes.game); // Redirect to game after accepting invitation
       acceptInvitation(friendJoinRequest.lobbyId);
-      console.log("Accepting invitation to lobby:", friendJoinRequest.lobbyId);
     }
   }
 
@@ -25,9 +24,7 @@ const InvitationModal: React.FC = () => {
   }
 
   const handleOkReconnect = () => {
-    console.log("Reconnect")
     if (canReconnect) {
-      console.log("Navigate")
       navigate(routes.game);
       setCanReconnect(undefined); // Reset reconnect state after navigating
     }

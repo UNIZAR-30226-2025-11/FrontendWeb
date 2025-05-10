@@ -98,11 +98,6 @@ const Game = () => {
                         explosionElement.className = 'bomb-explosion';
                         document.body.appendChild(explosionElement);
                         
-                        // Play explosion sound
-                        const explosionSound = new Audio('/sounds/explosion.mp3');
-                        explosionSound.volume = 0.5;
-                        explosionSound.play().catch(e => console.log('Sound play error:', e));
-                        
                         // Show a dramatic toast notification
                         toast(
                             <div className="toast-message bomb-message">
@@ -270,10 +265,6 @@ const Game = () => {
     // Main render logic - Decides what high-level component to show
     const renderContent = () => {
         if (socket.winner) {
-            console.log("Game ended, showing Win/Lose screen");
-            console.log("Game ended, showing Win/Lose screen");
-            console.log("Game ended, showing Win/Lose screen");
-            console.log("Game ended, showing Win/Lose screen");
             return <WinLose/>; // Show Win/Lose screen
         }
 
