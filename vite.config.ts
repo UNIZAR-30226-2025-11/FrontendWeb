@@ -9,6 +9,6 @@ export default defineConfig({
     port: Number(import.meta.env.VITE_PORT) || 5173, // your custom port
     allowedHosts: true,
     strictPort: true, // fail if the port is already in use
+    hmr: false, // Enable for hot reloading
   },
 });
-
