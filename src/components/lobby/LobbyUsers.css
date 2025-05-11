@@ -515,6 +515,27 @@
     }
 }
 
+/* Section header with counter */
+.lu-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.lu-player-counter {
+    background: rgba(255, 121, 63, 0.15);
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 121, 63, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Friends section styling */
 .lu-friends-section {
     margin: 20px 0;
@@ -753,6 +774,18 @@
     box-shadow: 0 4px 10px rgba(65, 137, 230, 0.4);
 }
 
+.lu-invite-button.lu-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255, 59, 48, 0.1);
+    border: 1px solid rgba(255, 59, 48, 0.2);
+}
+
+.lu-invite-button.lu-disabled:hover {
+    background: rgba(255, 59, 48, 0.2);
+    transform: none;
+}
+
 .lu-invite-text {
     margin-right: 2px;
 }
@@ -816,5 +849,50 @@
     .lu-status-indicator {
         width: 10px;
         height: 10px;
+    }
+}
+
+/* Capacity progress bar */
+.lu-capacity-progress {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.lu-capacity-bar {
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 154, 68, 0.6), rgba(255, 106, 136, 0.8));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.lu-capacity-bar.lu-full {
+    background: linear-gradient(to right, rgba(255, 59, 48, 0.7), rgba(255, 59, 48, 0.9));
+    animation: pulsate 1.5s infinite alternate;
+}
+
+@keyframes pulsate {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+}
+
+/* Responsive styles for player counter */
+@media (max-width: 480px) {
+    .lu-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .lu-player-counter {
+        font-size: 12px;
+        padding: 2px 8px;
+    }
+    
+    .lu-capacity-progress {
+        margin-top: 8px;
     }
 }

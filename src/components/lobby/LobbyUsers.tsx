@@ -21,7 +21,7 @@ const LobbyUsers = () => {
     const isHost = !!socket.lobbyCreate;
     const players = socket.lobbyState?.players || [];
     const disband = socket.lobbyState?.disband || false;
-
+    const maxPlayers = socket.lobbyState?.maxPlayers || 0;
 
     const [friends, setFriends] = useState<FriendSocketJSON[]>([]);
     
@@ -49,6 +49,16 @@ const LobbyUsers = () => {
 
     // Function to invite a friend to the lobby
     const inviteFriend = (username: string) => {
+        // Check if lobby is full before sending invitation
+        if (players.length >= maxPlayers) {
+            showToast({
+                message: "Cannot invite more players. Lobby is full!",
+                type: "error",
+                duration: 3000,
+            });
+            return;
+        }
+
         const msg: FrontendSendFriendRequestEnterLobbyJSON = {
             error: false,
             errorMsg: "",
@@ -79,7 +89,6 @@ const LobbyUsers = () => {
                 }, 2000);
             }
         });
-
     }
 
     // Sort friends: connected (not in game) first, then in-game, then offline
@@ -152,6 +161,9 @@ const LobbyUsers = () => {
         if (players.length === 0) {
             return "Waiting for players to join...";
         }
+        if (players.length >= maxPlayers) {
+            return "Lobby is full!";
+        }
         if (isHost) {
             return players.length > 1 
                 ? "Ready to start when you are!" 
@@ -213,7 +225,7 @@ const LobbyUsers = () => {
                         <button className="lu-copy-button" aria-label="Copy lobby ID">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
                                 <path fill="none" d="M0 0h24v24H0z"/>
-                                <path d="M7 6V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7zm2 0h8v10h2V4H9v2z" 
+                                <path d="M7 6V3a1 1 0 0 1 1-1h12a1 1 0 0 1-1 1h-3v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7zm2 0h8v10h2V4H9v2z" 
                                       fill="rgba(255,255,255,0.8)"/>
                             </svg>
                         </button>
@@ -221,7 +233,18 @@ const LobbyUsers = () => {
                 </div>
 
                 <div className="lu-players-section">
-                    <h3 className="lu-section-label">Players</h3>
+                    <div className="lu-section-header">
+                        <h3 className="lu-section-label">Players</h3>
+                        <div className="lu-player-counter" title={players.length >= maxPlayers ? "Lobby is full" : `${maxPlayers - players.length} more player${maxPlayers - players.length !== 1 ? 's' : ''} can join`}>
+                            <span>{players.length}/{maxPlayers}</span>
+                        </div>
+                    </div>
+                    <div className="lu-capacity-progress">
+                        <div 
+                            className={`lu-capacity-bar ${players.length >= maxPlayers ? 'lu-full' : ''}`} 
+                            style={{ width: `${(players.length / maxPlayers) * 100}%` }}
+                        ></div>
+                    </div>
                     <div className={`lu-player-list ${animateList ? "animate" : ""}`}>
                         {players.length > 0 ? (
                             players.map((player) => (
@@ -299,11 +322,15 @@ const LobbyUsers = () => {
                                 </div>
                                 {friend.connected && !friend.isInGame && !friend.isAlreadyInThisLobby && (
                                     <button 
-                                        className="lu-invite-button"
+                                        className={`lu-invite-button ${players.length >= maxPlayers ? 'lu-disabled' : ''}`}
                                         onClick={() => inviteFriend(friend.username)}
                                         aria-label={`Invite ${friend.username}`}
+                                        disabled={players.length >= maxPlayers}
+                                        title={players.length >= maxPlayers ? "Lobby is full" : "Send invitation"}
                                     >
-                                        <span className="lu-invite-text">Invite</span>
+                                        <span className="lu-invite-text">
+                                            {players.length >= maxPlayers ? 'Full' : 'Invite'}
+                                        </span>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
                                             <path fill="none" d="M0 0h24v24H0z"/>
                                             <path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z" 
