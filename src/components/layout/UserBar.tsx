@@ -39,7 +39,7 @@ const UserBar = () => {
       // Navigate after a short delay to allow user to see the success message
       setTimeout(() => {
         navigate(result.redirectPath!);
-        window.location.reload(); // Reload the page to ensure the user is logged out
+        // window.location.reload(); // Reload the page to ensure the user is logged out
       }, result.displayTime || 3000);
     }
   };
