@@ -22,7 +22,6 @@ const UserStatistics: React.FC = () => {
 
   const lastFiveGames = userContext.user?.statistics.lastFiveGames || [];
 
-  console.log(lastFiveGames);
 
   // Calculate streak and best streak (dummy data - replace with actual data)
   const currentStreak = userContext.user?.statistics.currentStreak || 0;

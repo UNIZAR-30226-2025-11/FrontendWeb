@@ -15,7 +15,6 @@ export const fetchFriends = async (): Promise<{friends: FriendsJSON[], numReques
 
   const data = await res.json();
 
-  console.log("Friends data:", data); // Debugging line
   if(data) {
     const friends:FriendsJSON[] = data.users.map((user: FriendsJSON) => ({username:user.username, avatar:user.avatar, isAccepted:user.isAccepted}));
     const numRequests = data.numRequests || 0; // Default to 0 if not present
@@ -72,7 +71,6 @@ export const fetchFriendRequests = async (): Promise<UserAvatar[]> => {
 
   const data = await res.json();
 
-  console.log("Friend requests data:", data); // Debugging line
   if(data)
     return data.users.map((user: UserAvatar) => ({username:user.username, avatar:user.avatar}));
   else
@@ -107,8 +105,6 @@ export const fetchAllUsers = async (): Promise<AllUserData[]> => {
     });
     
     const data = await res.json();
-
-    console.log("All users data:", data); // Debugging line
 
     if(data)
       return data.map((user: AllUserData) => ({username:user.username, avatar:user.avatar, status:user.status}));

@@ -18,7 +18,7 @@ export const Chat = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && input.trim()) {
-      postMessage(socket.socket, input, socket.gameState?.lobbyId!);
+      postMessage(socket.socket, input, socket.gameState?.lobbyId ?? "");
       setInput("");
     }
   };
@@ -191,7 +191,7 @@ export const Chat = () => {
                 className="chat-send-btn" 
                 onClick={() => {
                   if (input.trim()) {
-                    postMessage(socket.socket, input, socket.gameState?.lobbyId!);
+                    postMessage(socket.socket, input, socket.gameState?.lobbyId ?? "");
                     setInput("");
                   }
                 }}

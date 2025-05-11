@@ -53,7 +53,7 @@ import React, {
 	  playCards(
 		socket.socket, 
 		[],
-		socket.gameState?.lobbyId!,
+		socket.gameState?.lobbyId ?? "",
 		socket.setCardPlayedResult
 	  );
 	};
