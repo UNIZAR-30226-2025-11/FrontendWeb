@@ -5,13 +5,15 @@ import { CATEGORIES } from "../../utils/types";
 import GlassCard from "../../common/GlassCard/GlassCard";
 import coinIcon from "../../../assets/coins.png";
 import { ShopItem } from "../../components/shop/CardShop";
+import SortingControls from "../../components/shop/SortingControls";
 
 const Shop: React.FC = () => {
     const [shopData, setShopData] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [activeCategory, setActiveCategory] = useState<string>("All");
+    const [sortOrder, setSortOrder] = useState<string>("default");
   
-    const  userContext: UserContextType = useUser();
+    const userContext: UserContextType = useUser();
     const coins = userContext.user?.coins || 0;
     const background: string = userContext.user?.userPersonalizeData.background || 'default'; // Default background if not set
   
@@ -65,6 +67,16 @@ const Shop: React.FC = () => {
     const filteredItems = activeCategory === "All" 
       ? shopData 
       : shopData.filter(item => item.categoryUrl === activeCategory);
+      
+    const sortedItems = [...filteredItems].sort((a, b) => {
+      if (sortOrder === 'price-asc') {
+        return a.price - b.price;
+      } else if (sortOrder === 'price-desc') {
+        return b.price - a.price;
+      }
+      // Default order (no sorting)
+      return 0;
+    });
   
     const canAffordItem = (price: number) => {
       return coins >= price;
@@ -106,6 +118,14 @@ const Shop: React.FC = () => {
                 ))}
             </div>
             
+            {/* Sorting controls */}
+            {!loading && filteredItems.length > 0 && (
+              <SortingControls 
+                sortOrder={sortOrder} 
+                onSortChange={setSortOrder} 
+              />
+            )}
+            
             {/* Items */}
             {loading ? (
                 <div className="shop-loading">
@@ -118,7 +138,7 @@ const Shop: React.FC = () => {
                 </div>
             ) : (
                 <div className="shop-items">
-                {filteredItems.map((item, idx) => (
+                {sortedItems.map((item, idx) => (
                     <ShopItem 
                     key={idx} 
                     item={item} 
