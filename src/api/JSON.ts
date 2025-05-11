@@ -402,3 +402,10 @@ export type FrontendResponseFriendRequestEnterLobbyJSON = {
     accept: boolean;
     friendSendingRequest: string;
 }
+
+
+export type FrontendSurrenderJSON = {
+    error: boolean;
+    errorMsg: string;
+    lobbyId: string;
+}

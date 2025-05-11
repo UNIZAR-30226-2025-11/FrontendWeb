@@ -43,6 +43,7 @@ export interface SocketContextType {
     // New invitation handlers
     acceptInvitation: (lobbyId: string) => void;
     declineInvitation: (lobbyId: string) => void;
+    leaveGame: (lobbyId: string) => void;
 }
 
 // Create the context
@@ -174,6 +175,17 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setFriendJoinRequest(undefined);
         }
     }, [friendJoinRequest]);
+
+    const leaveGame = useCallback((lobbyId: string) => {
+        const msg: Objects.FrontendSurrenderJSON = {
+            error: false,
+            errorMsg: "",
+            lobbyId: lobbyId,
+        }
+        console.log("Surrendering from lobby: ", lobbyId);
+        // Send socket message to leave the game
+        socket.emit("surrender", msg);
+    }, [gameState]);
     
     const declineInvitation = useCallback((lobbyId: string) => {
         if (friendJoinRequest) {
@@ -302,6 +314,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setFriendJoinRequest,
             acceptInvitation,
             declineInvitation,
+            leaveGame,
         }}>
             {children}
         </SocketContext.Provider>

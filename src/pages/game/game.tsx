@@ -28,6 +28,15 @@ const Game = () => {
 
     // --- Side Effect Handlers using useEffect ---
 
+    const handleDisconnect = (lobbyId: string): void => {
+        // Show a toast notification when the user disconnects
+        toast.error("You have been disconnected from the game.");
+
+        socket.leaveGame(lobbyId); // Leave the game
+
+        // window.location.reload(); // Reload the page to reset the state
+    }
+
     // Effect for handling Lobby related errors/state changes
     useEffect(() => {
         // Only show errors if not in a game state and not already in a lobby view
@@ -150,6 +159,7 @@ const Game = () => {
 
         const players = socket.gameState.players.filter(player => player.playerUsername !== socket.gameState!.playerUsername);
         const turn: boolean = socket.gameState.turnUsername === socket.gameState.playerUsername;
+        const lobbyId: string = socket.gameState.lobbyId;
         return (
             <div className={`game-container${isDead ? ' dead-game-container' : ''}`}>
                 {/* Dead overlay/message */}
@@ -166,7 +176,9 @@ const Game = () => {
                 <div className="top-chat-section">
                     <Chat />
                 </div>
-
+                <div>
+                    <button className="game-button" onClick={() => {handleDisconnect(lobbyId)}}>Leave Game</button>
+                </div>
                 {/* All players in a single row */}
                 <div className="players-row-section"> {/* Use class from game.css */}
                     {players.map((player) => (
