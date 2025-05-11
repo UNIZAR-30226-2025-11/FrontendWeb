@@ -24,6 +24,8 @@ const Game = () => {
     const socket: SocketContextType = useSocket();
     const cardDeckRef = useRef<CardDeckHandle>(null);
 
+    const isDead = socket.gameState?.players.find(player => player.playerUsername === socket.gameState!.playerUsername)?.active === false; // Check if the current user is dead
+
     // --- Side Effect Handlers using useEffect ---
 
     // Effect for handling Lobby related errors/state changes
@@ -96,11 +98,6 @@ const Game = () => {
                         explosionElement.className = 'bomb-explosion';
                         document.body.appendChild(explosionElement);
                         
-                        // Play explosion sound
-                        const explosionSound = new Audio('/sounds/explosion.mp3');
-                        explosionSound.volume = 0.5;
-                        explosionSound.play().catch(e => console.log('Sound play error:', e));
-                        
                         // Show a dramatic toast notification
                         toast(
                             <div className="toast-message bomb-message">
@@ -154,9 +151,19 @@ const Game = () => {
         const players = socket.gameState.players.filter(player => player.playerUsername !== socket.gameState!.playerUsername);
         const turn: boolean = socket.gameState.turnUsername === socket.gameState.playerUsername;
         return (
-            <div className="game-container"> {/* Root container */}
+            <div className={`game-container${isDead ? ' dead-game-container' : ''}`}>
+                {/* Dead overlay/message */}
+                {isDead && (
+                    <div className="dead-game-overlay">
+                        <div className="dead-game-message">
+                            <span className="dead-game-icon">💀</span>
+                            <span>You are dead!</span>
+                        </div>
+                    </div>
+                )}
+                {/* ...rest of your game UI... */}
                 {/* Top right chat dropdown */}
-                <div className="top-chat-section"> {/* Use class from game.css */}
+                <div className="top-chat-section">
                     <Chat />
                 </div>
 
@@ -258,10 +265,6 @@ const Game = () => {
     // Main render logic - Decides what high-level component to show
     const renderContent = () => {
         if (socket.winner) {
-            console.log("Game ended, showing Win/Lose screen");
-            console.log("Game ended, showing Win/Lose screen");
-            console.log("Game ended, showing Win/Lose screen");
-            console.log("Game ended, showing Win/Lose screen");
             return <WinLose/>; // Show Win/Lose screen
         }
 

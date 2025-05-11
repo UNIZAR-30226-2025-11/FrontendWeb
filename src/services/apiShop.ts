@@ -100,13 +100,10 @@ export const fetchOwnedProducts = async (): Promise<ProductOwned[]> => {
   }
 
   const data = await res.json();
-  console.log("Owned products data:", data); // Debugging line
   return data.products as ProductOwned[];
 }
 
 export const updateOwnedProduct = async (productUrl: string, categoryUrl: string): Promise<void> => {
-  
-  console.log("Updating owned product:", productUrl, categoryUrl); // Debugging line
   
   const res = await fetch(SERVER + routesRequest.productsOwned, {
     method: "PUT",
