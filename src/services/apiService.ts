@@ -158,7 +158,7 @@ export const handleLogoutAPI = async (
 			type: "success",
 			message: "Logout successful!",
 			redirectPath: routes.login,
-			displayTime: 1000
+			displayTime: 3000
 		}
 	else
 		return {
