@@ -161,13 +161,19 @@ const Game = () => {
         const turn: boolean = socket.gameState.turnUsername === socket.gameState.playerUsername;
         const lobbyId: string = socket.gameState.lobbyId;
         return (
-            <div className={`game-container${isDead ? ' dead-game-container' : ''}`}>
-                {/* Dead overlay/message */}
+            <div className={`game-container${isDead ? ' dead-game-container' : ''}`}>                {/* Dead overlay/message */}
                 {isDead && (
                     <div className="dead-game-overlay">
                         <div className="dead-game-message">
                             <span className="dead-game-icon">💀</span>
                             <span>You are dead!</span>
+                            <button 
+                                className="surrender-button" 
+                                onClick={() => handleDisconnect(socket.gameState!.lobbyId)}
+                            >
+                                <span className="surrender-icon">🏳️</span>
+                                Surrender Game
+                            </button>
                         </div>
                     </div>
                 )}
