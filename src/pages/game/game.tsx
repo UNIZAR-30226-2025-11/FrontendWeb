@@ -171,15 +171,17 @@ const Game = () => {
                         </div>
                     </div>
                 )}
-                {/* ...rest of your game UI... */}
-                {/* Top right chat dropdown */}
+                {/* ...rest of your game UI... */}                {/* Top right chat dropdown */}
                 <div className="top-chat-section">
                     <Chat />
                 </div>
-                <div>
-                    <button className="game-button" onClick={() => {handleDisconnect(lobbyId)}}>Leave Game</button>
-                </div>
-                {/* All players in a single row */}                <div className="players-row-section"> {/* Use class from game.css */}
+                {/* Leave game button positioned in top left corner */}
+                <button className="leave-game-button" onClick={() => {handleDisconnect(lobbyId)}}>
+                    <span className="leave-icon">⬅️</span>
+                    Leave Game
+                </button>
+                {/* All players in a single row */}
+                <div className="players-row-section"> {/* Use class from game.css */}
                     {players.map((player) => (
                         <div
                             key={player.playerUsername}
