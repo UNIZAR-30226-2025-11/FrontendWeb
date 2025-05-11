@@ -25,13 +25,7 @@ const WinLose = () => {
     // Removed unused state: const [animationComplete, setAnimationComplete] = useState(false);
 
     const handleClick = () => {
-        socket.setWinner(undefined);
-        socket.setGameState(undefined);
-        socket.setLobbyStart(undefined);
-        socket.setLobbyCreate(undefined);
-        socket.setLobbyEnter(undefined);
-        socket.setLobbyState(undefined);
-        socket.setMessagesChat(undefined);
+        socket.setUndefined();
         navigate(routes.gamemenu);
     };
 

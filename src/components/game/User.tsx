@@ -9,14 +9,16 @@ import { IMAGES_EXTENSION, IMAGES_PATH } from "../../services/apiShop";
  * using a simplified glass styling theme
  * 
  * @param player The player data object
+ * @param isTurn Boolean indicating if it's this player's turn
+ * @param turnsLeft Optional number of turns left for this player
  * @returns The styled user component
  */
-const User = ({ player }: { player: PlayerJSON }) => {
+const User = ({ player, isTurn = false, turnsLeft = 0 }: { player: PlayerJSON, isTurn?: boolean, turnsLeft?: number }) => {
   // Always use the player's avatar, not "user-dead"
   const userImg = player.playerAvatar + IMAGES_EXTENSION;
 
-  // Add dead-player class if not active
-  const containerClass = `user-container${!player.active ? ' dead-player' : ''}`;
+  // Add dead-player class if not active and disconnected-player if disconnected
+  const containerClass = `user-container${!player.active ? ' dead-player' : ''}${player.disconnected ? ' disconnected-player' : ''}`;
 
   return (
     <motion.div 
@@ -44,10 +46,26 @@ const User = ({ player }: { player: PlayerJSON }) => {
             <p className="user-name">{player.playerUsername}</p>
           </div>
         </div>
-        {/* Dead indicator badge */}
+
+        {/* Status Indicators - Priority: Dead > Disconnected */}
+        {/* Dead indicator badge - highest priority */}
         {!player.active && (
           <div className="dead-indicator">
             <span className="dead-icon">💀</span>
+          </div>
+        )}
+
+        {/* Disconnected indicator badge - only show if active but disconnected */}
+        {player.active && player.disconnected && (
+          <div className="disconnected-indicator">
+            <span className="disconnected-icon">⚡</span>
+          </div>
+        )}
+
+        {/* Turn counter badge - if it's this player's turn and turns are provided */}
+        {isTurn && turnsLeft > 0 && (
+          <div className="turn-counter">
+            {turnsLeft}
           </div>
         )}
       </div>

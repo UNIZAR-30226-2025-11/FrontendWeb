@@ -34,7 +34,7 @@ const Game = () => {
 
         socket.leaveGame(lobbyId); // Leave the game
 
-        // window.location.reload(); // Reload the page to reset the state
+        window.location.reload(); // Reload the page to reset the state
     }
 
     // Effect for handling Lobby related errors/state changes
@@ -179,27 +179,18 @@ const Game = () => {
                 <div>
                     <button className="game-button" onClick={() => {handleDisconnect(lobbyId)}}>Leave Game</button>
                 </div>
-                {/* All players in a single row */}
-                <div className="players-row-section"> {/* Use class from game.css */}
+                {/* All players in a single row */}                <div className="players-row-section"> {/* Use class from game.css */}
                     {players.map((player) => (
                         <div
                             key={player.playerUsername}
-                            // Apply classes for player slot, active turn highlighting, and disconnected state
-                            className={`player-slot ${player.playerUsername === socket.gameState?.turnUsername ? 'active-turn' : ''} ${player.disconnected ? 'disconnected-player' : ''}`}
+                            // Apply classes for player slot and active turn highlighting
+                            className={`player-slot ${player.playerUsername === socket.gameState?.turnUsername ? 'active-turn' : ''}`}
                         >
-                            <User player={player} />
-                            {/* Display turn counter badge if it's this player's turn */}
-                            {player.playerUsername === socket.gameState?.turnUsername && (
-                                <div className="turn-counter"> {/* Use class from game.css */}
-                                    {socket.gameState?.turnsLeft}
-                                </div>
-                            )}
-                            {/* Display disconnected indicator */}
-                            {player.disconnected && (
-                                <div className="disconnected-indicator">
-                                    <span className="disconnected-icon">⚡</span>
-                                </div>
-                            )}
+                            <User 
+                                player={player}
+                                isTurn={player.playerUsername === socket.gameState?.turnUsername} 
+                                turnsLeft={player.playerUsername === socket.gameState?.turnUsername ? socket.gameState?.turnsLeft : 0}
+                            />
                         </div>
                     ))}
                 </div>

@@ -44,6 +44,7 @@ export interface SocketContextType {
     acceptInvitation: (lobbyId: string) => void;
     declineInvitation: (lobbyId: string) => void;
     leaveGame: (lobbyId: string) => void;
+    setUndefined: () => void;
 }
 
 // Create the context
@@ -202,6 +203,24 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         }
     }, [friendJoinRequest]);
 
+    const setUndefined = useCallback(() => {
+        setGameState(undefined);
+        setCardPlayedResult(undefined);
+        setWinner(undefined);
+        setSelectPlayer(undefined);
+        setSelectCardType(undefined);
+        setSelectCard(undefined);
+        setSelectNope(undefined);
+        setLobbyCreate(undefined);
+        setLobbyEnter(undefined);
+        setLobbyState(undefined);
+        setLobbyStart(undefined);
+        setLobbyStarted(undefined);
+        setActions(undefined);
+        setCanReconnect(undefined);
+        setMessagesChat(undefined);
+    }, []);
+
 
     useEffect(() => {
         // Lobby
@@ -315,6 +334,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             acceptInvitation,
             declineInvitation,
             leaveGame,
+            setUndefined
         }}>
             {children}
         </SocketContext.Provider>

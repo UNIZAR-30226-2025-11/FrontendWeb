@@ -6,7 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/constants';
 
 const InvitationModal: React.FC = () => {
-  const { friendJoinRequest, acceptInvitation, declineInvitation, canReconnect, setCanReconnect } = useSocket();
+  const { friendJoinRequest, 
+    acceptInvitation, 
+    declineInvitation, 
+    canReconnect, 
+    setCanReconnect, 
+    leaveGame,
+    setUndefined 
+  } = useSocket();
   const navigate = useNavigate();
 
 
@@ -31,7 +38,11 @@ const InvitationModal: React.FC = () => {
   }
 
   const handleNoReconnect = () => {
-    setCanReconnect(undefined); // Reset reconnect state
+    if (canReconnect) {
+      leaveGame(canReconnect.lobbyId); // Leave the game if declining reconnect
+      setCanReconnect(undefined); // Reset reconnect state
+      setUndefined();
+    }
   }
 
   // Auto-decline invitation after 10 seconds
